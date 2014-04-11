@@ -1,6 +1,8 @@
-package com.example.superwhateverjnr;
+package sw.superwhateverjnr;
 
-import com.example.superwhateverjnr.util.SystemUiHider;
+import sw.superwhateverjnr.util.SystemUiHider;
+
+import com.example.superwhateverjnr.R;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
