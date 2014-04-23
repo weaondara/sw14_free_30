@@ -12,9 +12,19 @@ import sw.superwhateverjnr.entity.Player;
 @EqualsAndHashCode
 public class Game
 {
-	Player player;
-	PointF minDisplayPoint;
+	private Player player;
+	private PointF minDisplayPoint;
 	
-	float displayWidth;
-	float displayHeight;
+	private float displayWidth;
+	private float displayHeight;
+	
+	private int textureWidth;
+	private int textureHeight;
+	
+	public Game()
+	{
+		player=null;
+		minDisplayPoint=new PointF(0,0);
+		SWEJNR.getInstance();
+	}
 }
