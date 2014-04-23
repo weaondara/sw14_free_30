@@ -13,4 +13,5 @@ public class Entity
 	private int id;
 	private EntityType type;
 	private Rectangle hitBox;
+	private double health;
 }

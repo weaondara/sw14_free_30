@@ -3,7 +3,7 @@ package sw.superwhateverjnr;
 
 import lombok.Getter;
 
-import com.example.superwhateverjnr.R;
+import sw.superwhateverjnr.R;
 
 import android.annotation.TargetApi;
 import android.app.Activity;

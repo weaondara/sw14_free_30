@@ -4,5 +4,5 @@ import sw.superwhateverjnr.util.IdAndSubId;
 
 public interface TextureLoader
 {
-	public Texture loadTexture(IdAndSubId ref);
+	public Texture loadTexture(IdAndSubId ref) throws Exception;
 }

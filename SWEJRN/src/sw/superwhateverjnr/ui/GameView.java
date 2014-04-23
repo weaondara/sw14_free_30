@@ -20,4 +20,6 @@ public class GameView extends View
 	{
 		super(context, attrs, defStyleAttr);
 	}
+	
+	
 }
