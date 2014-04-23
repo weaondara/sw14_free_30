@@ -28,7 +28,7 @@ public class BlockFactory
 		Preconditions.checkElementIndex(y, w.getHeight());
 		
 		Material mat=Material.fromID(id);
-		Preconditions.checkNotNull(mat);
+		Preconditions.checkNotNull(mat, "invalid id");
 		
 		Constructor<? extends Block> ctor=mat.getBlockClazz().getDeclaredConstructor(Location.class, Material.class);
 		ctor.setAccessible(true);
