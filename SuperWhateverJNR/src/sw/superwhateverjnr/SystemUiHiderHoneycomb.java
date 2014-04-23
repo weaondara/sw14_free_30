@@ -1,4 +1,4 @@
-package sw.superwhateverjnr.util;
+package sw.superwhateverjnr;
 
 import android.annotation.TargetApi;
 import android.app.Activity;

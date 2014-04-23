@@ -1,4 +1,4 @@
-package sw.superwhateverjnr.util;
+package sw.superwhateverjnr;
 
 import android.app.Activity;
 import android.os.Build;

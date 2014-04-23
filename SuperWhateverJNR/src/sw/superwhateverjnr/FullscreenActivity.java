@@ -1,6 +1,5 @@
 package sw.superwhateverjnr;
 
-import sw.superwhateverjnr.util.SystemUiHider;
 
 import com.example.superwhateverjnr.R;
 
