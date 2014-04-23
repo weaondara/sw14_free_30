@@ -1,6 +1,7 @@
 package sw.superwhateverjnr.world;
 
 import sw.superwhateverjnr.block.Block;
+import sw.superwhateverjnr.block.BlockFactory;
 
 public class DummyWorldLoader extends WorldLoader
 {
@@ -13,13 +14,15 @@ public class DummyWorldLoader extends WorldLoader
 		Block[][] data=new Block[width][height];
 		World world=createWorld("dummy", width, height, spawn, data);
 		
+		BlockFactory bf=BlockFactory.getInstance();
 		for(int x=0;x<width;x++)
 		{
 			for(int y=0;y<height;y++)
 			{
-				if(y<10)
+				if(y<10 || x==0 || x+1==width)
 				{
-					//Block b=new Block();
+					Block b=bf.create(1, x, y, world);
+					data[x][y]=b;
 				}
 			}
 		}
