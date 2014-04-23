@@ -8,7 +8,8 @@ public class SWEJNR extends Application
 	@Getter
 	private static SWEJNR instance;
 	@Override
-    public void onCreate() {
+    public void onCreate() 
+	{
         super.onCreate();
         instance = this;
     }
