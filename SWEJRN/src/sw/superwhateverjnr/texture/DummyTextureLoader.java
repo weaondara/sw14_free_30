@@ -16,14 +16,10 @@ public class DummyTextureLoader implements TextureLoader
 	{
 		Preconditions.checkNotNull(ref);
 		
-		String file;
+		String file="dummy/textures/error.png";
 		if(ref.equals(new IdAndSubId(1, -1)))
 		{
 			file="dummy/textures/blocks/stone.png";
-		}
-		else
-		{
-			file="dummy/textures/error.png";
 		}
 		
 		InputStream is=SWEJNR.getInstance().getResources().getAssets().open(file);
