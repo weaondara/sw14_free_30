@@ -36,6 +36,10 @@ public class TextureMap
 		if(tex==null && ref.getSubid()>-1)
 		{
 			tex=map.get(new IdAndSubId(ref.getId(),-1));
+			if(tex==null)
+			{
+				tex=map.get(errorid);
+			}
 		}
 		return tex;
 	}
