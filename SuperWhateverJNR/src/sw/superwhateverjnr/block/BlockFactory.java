@@ -30,18 +30,7 @@ public class BlockFactory
 		Material mat=Material.fromID(id);
 		Preconditions.checkNotNull(mat);
 		
-		Class<? extends Block> blockclass;
-		switch(mat)
-		{
-			case AIR:
-			case STONE:
-				blockclass=StandardBlock.class;
-				break;
-			default:
-				throw new IllegalArgumentException();
-		}
-		
-		Constructor<? extends Block> ctor=blockclass.getDeclaredConstructor(Location.class, Material.class);
+		Constructor<? extends Block> ctor=mat.getBlockClazz().getDeclaredConstructor(Location.class, Material.class);
 		ctor.setAccessible(true);
 		Block block=ctor.newInstance(new Location(x, y), mat);
 		return block;

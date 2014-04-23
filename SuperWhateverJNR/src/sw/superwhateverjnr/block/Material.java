@@ -7,11 +7,13 @@ import lombok.Getter;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public enum Material
 {
-	AIR(0),
-	STONE(1);
+	AIR(0, StandardBlock.class),
+	STONE(1, StandardBlock.class);
 	
 	@Getter
 	private int id;
+	@Getter
+	private Class<? extends Block> blockClazz;
 
 	public static Material fromID(int id)
 	{
