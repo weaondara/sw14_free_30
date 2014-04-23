@@ -1,6 +1,8 @@
 package sw.superwhateverjnr;
 
 
+import lombok.Getter;
+
 import com.example.superwhateverjnr.R;
 
 import android.annotation.TargetApi;
@@ -45,6 +47,9 @@ public class FullscreenActivity extends Activity {
      * The instance of the {@link SystemUiHider} for this activity.
      */
     private SystemUiHider mSystemUiHider;
+    
+    @Getter
+    private static FullscreenActivity instance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,6 +118,9 @@ public class FullscreenActivity extends Activity {
         // operations to prevent the jarring behavior of controls going away
         // while interacting with the UI.
         findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
+        
+        //our own stuff
+        instance=this;
     }
 
     @Override
