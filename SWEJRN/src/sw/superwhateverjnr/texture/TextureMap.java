@@ -7,8 +7,9 @@ import sw.superwhateverjnr.util.IdAndSubId;
 
 public class TextureMap
 {
+	public final static IdAndSubId errorid=new IdAndSubId(-1,-1);
+	
 	private final static Map<IdAndSubId,Texture> map=new HashMap<>();
-	private final static IdAndSubId errorid=new IdAndSubId(-1,-1);
 	private static boolean loadingError=false;
 	public static boolean loadTexture(IdAndSubId ref, TextureLoader loader)
 	{
