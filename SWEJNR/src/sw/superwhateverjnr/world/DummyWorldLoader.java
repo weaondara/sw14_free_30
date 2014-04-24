@@ -24,6 +24,11 @@ public class DummyWorldLoader extends WorldLoader
 					Block b=bf.create(1, x, y, world);
 					data[x][y]=b;
 				}
+				else
+				{
+					Block b=bf.create(0, x, y, world);
+					data[x][y]=b;
+				}
 			}
 		}
 		
