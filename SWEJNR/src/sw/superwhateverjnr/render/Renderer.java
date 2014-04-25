@@ -1,5 +1,8 @@
 package sw.superwhateverjnr.render;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import sw.superwhateverjnr.Game;
 import sw.superwhateverjnr.SWEJNR;
 import sw.superwhateverjnr.block.Block;
@@ -16,52 +19,25 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
+import android.graphics.PointF;
 import android.graphics.Rect;
 
 public class Renderer
 {
 	private World world;
 	private Game game;
-	private Bitmap bitmap;
-	private Canvas canvas;
+
 	private Paint paint;
-	
+
 	public Renderer(World world)
 	{
 		super();
 		this.world = world;
 		game=Game.getInstance();
 		
-		Bitmap.Config conf = Bitmap.Config.ARGB_8888;
-		bitmap = Bitmap.createBitmap(game.getDisplayWidth(), game.getDisplayHeight(), conf); 
-		
-		canvas = new Canvas(bitmap);
 		paint = new Paint();
 	}
 
-	public Bitmap nextFrame()
-	{
-		prepare();
-		
-		drawBackground(canvas);
-		
-		drawWorld(canvas);
-		
-		if(SWEJNR.DEBUG)
-		{
-			drawWorldGrid(canvas);
-		}
-		
-		drawEntities(canvas);
-		
-		drawPlayer(canvas);
-		
-		drawInfo(canvas);
-		
-		drawControls(canvas);
-		
-		return bitmap;
-	}
 	public void nextFrame(Canvas canvas)
 	{
 		prepare();
@@ -206,65 +182,28 @@ public class Renderer
 	}
 	private void drawControls(Canvas canvas)
 	{
-		Settings set=game.getSettings();
-		
-		float radiusinner=set.getControlCircleRadiusInner();
-		float radiusouter=set.getControlCircleRadiusOuter();
-		
-		float margin=set.getControlMargin();
-		
-		int ci=(set.getControlCircleOpacityInner()<<24)|set.getControlCircleColorInner();
-		int co=(set.getControlCircleOpacityOuter()<<24)|set.getControlCircleColorOuter();
-		int ca=(set.getControlArrowOpacity()<<24)|set.getControlArrowColor();
-		
-		float centertop=game.getDisplayHeight()-margin-radiusouter;
-		float clx=margin+radiusouter;
-		float crx=2*margin+3*radiusouter;
-		float cjx=game.getDisplayWidth()-(margin+radiusouter);
-		
-		paint.setColor(co);
-		canvas.drawCircle(clx, centertop, radiusouter, paint);
-		canvas.drawCircle(crx, centertop, radiusouter, paint);
-		canvas.drawCircle(cjx, centertop, radiusouter, paint);
-		
-		paint.setColor(ci);
-		canvas.drawCircle(clx, centertop, radiusinner, paint);
-		canvas.drawCircle(crx, centertop, radiusinner, paint);
-		canvas.drawCircle(cjx, centertop, radiusinner, paint);
-		
-		float size=set.getControlArrowSize();
-		float alx=clx-4*size;
-		float arx=crx-4*size;
-		float ajx=cjx-4*size;
-		float ay=centertop-4*size;
-		
-		paint.setColor(ca);
-		paint.setStyle(Style.FILL);
-		
-		Path path=new Path();
-		
-		makeLeftArrow(path,size,alx,ay);
-		canvas.drawPath(path, paint);
-		
-		makeRightArrow(path,size,arx,ay);
-		canvas.drawPath(path, paint);
-		
-		makeUpArrow(path,size,ajx,ay);
-		canvas.drawPath(path, paint);
+		drawControls0(canvas, true);
+	}
+	private void drawControls0(Canvas canvas, boolean retry)
+	{
+		for(String key:cachedControlKeys)
+		{
+			PointF point=cachedControlsPostions.get(key);
+			if(point==null)
+			{
+				redrawControls();
+				if(retry)
+				{
+					drawControls0(canvas, false);
+				}
+				return;
+			}
+			
+			Bitmap bm=cachedControlsBitmaps.get(key);
+			canvas.drawBitmap(bm, point.x, point.y, null);
+		}
 	}
 	private void makeLeftArrow(Path path, float size, float xoffset, float yoffset)
-	{
-		path.rewind();
-		path.moveTo(xoffset+0*size, yoffset+5*size);
-		path.lineTo(xoffset+5*size, yoffset+5*size);
-		path.lineTo(xoffset+5*size, yoffset+7*size);
-		path.lineTo(xoffset+8*size, yoffset+4*size);
-		path.lineTo(xoffset+5*size, yoffset+1*size);
-		path.lineTo(xoffset+5*size, yoffset+3*size);
-		path.lineTo(xoffset+0*size, yoffset+3*size);
-		path.lineTo(xoffset+0*size, yoffset+6*size);
-	}
-	private void makeRightArrow(Path path, float size, float xoffset, float yoffset)
 	{
 		path.rewind();
 		path.moveTo(xoffset+8*size, yoffset+5*size);
@@ -275,6 +214,18 @@ public class Renderer
 		path.lineTo(xoffset+3*size, yoffset+3*size);
 		path.lineTo(xoffset+8*size, yoffset+3*size);
 		path.lineTo(xoffset+8*size, yoffset+6*size);
+	}
+	private void makeRightArrow(Path path, float size, float xoffset, float yoffset)
+	{
+		path.rewind();
+		path.moveTo(xoffset+0*size, yoffset+5*size);
+		path.lineTo(xoffset+5*size, yoffset+5*size);
+		path.lineTo(xoffset+5*size, yoffset+7*size);
+		path.lineTo(xoffset+8*size, yoffset+4*size);
+		path.lineTo(xoffset+5*size, yoffset+1*size);
+		path.lineTo(xoffset+5*size, yoffset+3*size);
+		path.lineTo(xoffset+0*size, yoffset+3*size);
+		path.lineTo(xoffset+0*size, yoffset+6*size);
 	}
 	private void makeUpArrow(Path path, float size, float xoffset, float yoffset)
 	{
@@ -288,6 +239,7 @@ public class Renderer
 		path.lineTo(xoffset+3*size, yoffset+8*size);
 		path.lineTo(xoffset+6*size, yoffset+8*size);
 	}
+	@SuppressWarnings("unused")
 	private void makeDownArrow(Path path, float size, float xoffset, float yoffset)
 	{
 		path.rewind();
@@ -299,5 +251,69 @@ public class Renderer
 		path.lineTo(xoffset+3*size, yoffset+5*size);
 		path.lineTo(xoffset+3*size, yoffset+0*size);
 		path.lineTo(xoffset+6*size, yoffset+0*size);
+	}
+
+	
+	private String[] cachedControlKeys=new String[]{"left", "right", "jump"};
+	private Map<String,PointF> cachedControlsPostions=new HashMap<>();
+	private Map<String,Bitmap> cachedControlsBitmaps=new HashMap<>();
+	private void redrawControls()
+	{
+		Settings set=game.getSettings();
+		
+		float radiusinner=set.getControlCircleRadiusInner();
+		float radiusouter=set.getControlCircleRadiusOuter();
+		
+		float margin=set.getControlMargin();
+		
+		int ci=(set.getControlCircleOpacityInner()<<24)|set.getControlCircleColorInner();
+		int co=(set.getControlCircleOpacityOuter()<<24)|set.getControlCircleColorOuter();
+		int ca=(set.getControlArrowOpacity()<<24)|set.getControlArrowColor();
+		
+		float arrowsize=set.getControlArrowSize();
+		
+		for(String key:cachedControlKeys)
+		{
+			PointF point=cachedControlsPostions.get(key);
+			if(point==null)
+			{
+				Bitmap.Config conf = Bitmap.Config.ARGB_8888;
+				Bitmap bm = Bitmap.createBitmap((int) Math.ceil(2*radiusouter), (int) Math.ceil(2*radiusouter), conf); 
+				cachedControlsBitmaps.put(key, bm);
+				
+				Canvas canvas = new Canvas(bm);
+				
+				paint.setColor(co);
+				canvas.drawCircle(radiusouter, radiusouter, radiusouter, paint);
+				
+				paint.setColor(ci);
+				canvas.drawCircle(radiusouter, radiusouter, radiusinner, paint);
+				
+				float axy=radiusouter-4*arrowsize;
+				
+				paint.setColor(ca);
+				paint.setStyle(Style.FILL);
+				
+				Path path=new Path();
+				
+				if(key.equalsIgnoreCase("left"))
+				{
+					cachedControlsPostions.put(key, new PointF(margin,game.getDisplayHeight()-(margin+2*radiusouter)));
+					makeLeftArrow(path,arrowsize,axy,axy);
+				}
+				else if(key.equalsIgnoreCase("right"))
+				{
+					cachedControlsPostions.put(key, new PointF(2*margin+2*radiusouter,game.getDisplayHeight()-(margin+2*radiusouter)));
+					makeRightArrow(path,arrowsize,axy,axy);
+				}
+				else if(key.equalsIgnoreCase("jump"))
+				{
+					cachedControlsPostions.put(key, new PointF(game.getDisplayWidth()-(margin+2*radiusouter),game.getDisplayHeight()-(margin+2*radiusouter)));
+					makeUpArrow(path,arrowsize,axy,axy);
+				}
+				
+				canvas.drawPath(path, paint);
+			}
+		}
 	}
 }
