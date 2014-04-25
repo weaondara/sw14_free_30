@@ -12,6 +12,8 @@ import sw.superwhateverjnr.world.World;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Paint.Align;
+import android.graphics.Rect;
 
 public class Renderer
 {
@@ -205,6 +207,17 @@ public class Renderer
 	}
 	private void drawInfo()
 	{
+		int fontsize=30;
+		int fontcolor=0xFF00FF00;
 		
+		paint.setColor(fontcolor);
+		paint.setTextAlign(Align.LEFT);
+		paint.setTextSize(fontsize);
+		
+		Rect r=new Rect();
+		paint.getTextBounds("b", 0, 1, r);
+		int textheight=r.height();
+		
+		canvas.drawText("FPS: "+Game.getInstance().getGameView().getFps(), 10, 10+textheight, paint);
 	}
 }
