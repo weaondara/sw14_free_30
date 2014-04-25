@@ -11,7 +11,7 @@ import lombok.ToString;
 @AllArgsConstructor(suppressConstructorProperties=true)
 @ToString
 @EqualsAndHashCode
-public class Location
+public class Location implements Cloneable
 {
 	private double x, y;
 	public int getBlockX()
@@ -21,5 +21,9 @@ public class Location
 	public int getBlockY()
 	{
 		return (int) y;
+	}
+	public Location clone()
+	{
+		return new Location(x, y);
 	}
 }
