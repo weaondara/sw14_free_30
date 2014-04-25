@@ -36,33 +36,19 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		setup();
 	}
 
-//	private int i=0;
 	public void nextFrame(Bitmap nextFrame)
 	{
-//		i++;
-		//System.out.println("new frame!");	
 		this.nextFrame=nextFrame;
-		
-//		FileOutputStream out;
-//		try {
-//			File f=new File(Environment.getExternalStorageDirectory().toString(),"/frames/frame"+i+".png");
-//			f.getParentFile().mkdirs();
-//			f.createNewFile();
-//			
-//			out = new FileOutputStream(f.getAbsolutePath());
-//			nextFrame.compress(Bitmap.CompressFormat.PNG, 90, out);
-//			out.close();
-//		} catch (Exception e) {
-//		    e.printStackTrace();
-//		}
 		
 		if(allowdraw)
 		{
 			Canvas c=getHolder().lockCanvas();
-//			System.out.println("c==null:"+(c==null));
-			synchronized (getHolder()) 
+			if(c!=null)
 			{
-				this.draw(c);
+				synchronized (getHolder()) 
+				{
+					this.draw(c);
+				}
 			}
 			this.getHolder().unlockCanvasAndPost(c);
 		}
@@ -75,7 +61,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		{
 			return;
 		}
-//		System.out.println("drawing frame");
 		paint.setStyle(Style.FILL);
 		c.drawBitmap(nextFrame, 0, 0, null);
 		nextFrame=null;
