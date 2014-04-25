@@ -5,7 +5,7 @@ import java.util.Map;
 
 import sw.superwhateverjnr.util.Rectangle;
 
-public class EntityHitBoxMap
+public class EntityInfoMap
 {
 	private final static Map<EntityType, Rectangle> map;
 	static
