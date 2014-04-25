@@ -12,7 +12,9 @@ import sw.superwhateverjnr.world.World;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.Paint.Align;
+import android.graphics.Paint.Style;
 import android.graphics.Rect;
 
 public class Renderer
@@ -54,6 +56,8 @@ public class Renderer
 		drawPlayer();
 		
 		drawInfo();
+		
+		drawControls();
 		
 		return bitmap;
 	}
@@ -180,7 +184,7 @@ public class Renderer
 				}
 				
 				float top=topoffset+(y2-1-y)*game.getTextureHeight();
-				canvas.drawBitmap(tex.getImage(), left, top, paint);
+				canvas.drawBitmap(tex.getImage(), left, top, null);
 			}
 		}
 	}
@@ -219,5 +223,111 @@ public class Renderer
 		int textheight=r.height();
 		
 		canvas.drawText("FPS: "+Game.getInstance().getGameView().getFps(), 10, 10+textheight, paint);
+	}
+	private void drawControls()
+	{
+		int opacitycircle=0x37;
+		int opacityarrow=0x7F;
+		
+		int colorinner=0xFFFFFF;
+		int colorouter=0x275FFF;
+		int colorarrow=0x275FFF;
+		
+		int radiusinner=(int) ((float)game.getDisplayWidth()/25);
+		int radiusouter=(int) ((float)game.getDisplayWidth()/20);
+		
+		int margin=(int) ((float)game.getDisplayWidth()/60);
+		
+		
+		
+		int alphac=opacitycircle<<24;
+		int ci=alphac|colorinner;
+		int co=alphac|colorouter;
+		
+		int alphaa=opacityarrow<<24;
+		int ca=alphaa|colorarrow;
+		
+		float centertop=game.getDisplayHeight()-margin-radiusouter;
+		float clx=margin+radiusouter;
+		float crx=2*margin+3*radiusouter;
+		float cjx=game.getDisplayWidth()-(margin+radiusouter);
+		
+		paint.setColor(co);
+		canvas.drawCircle(clx, centertop, radiusouter, paint);
+		canvas.drawCircle(crx, centertop, radiusouter, paint);
+		canvas.drawCircle(cjx, centertop, radiusouter, paint);
+		
+		paint.setColor(ci);
+		canvas.drawCircle(clx, centertop, radiusinner, paint);
+		canvas.drawCircle(crx, centertop, radiusinner, paint);
+		canvas.drawCircle(cjx, centertop, radiusinner, paint);
+		
+		float size=7.5F;
+		float alx=clx-4*size;
+		float arx=crx-4*size;
+		float ajx=cjx-4*size;
+		float ay=centertop-4*size;
+		
+		paint.setColor(ca);
+		paint.setStyle(Style.FILL);
+		
+		Path path=new Path();
+		
+		makeLeftArrow(path,size,alx,ay);
+		canvas.drawPath(path, paint);
+		
+		makeRightArrow(path,size,arx,ay);
+		canvas.drawPath(path, paint);
+		
+		makeUpArrow(path,size,ajx,ay);
+		canvas.drawPath(path, paint);
+	}
+	private void makeLeftArrow(Path path, float size, float xoffset, float yoffset)
+	{
+		path.rewind();
+		path.moveTo(xoffset+0*size, yoffset+5*size);
+		path.lineTo(xoffset+5*size, yoffset+5*size);
+		path.lineTo(xoffset+5*size, yoffset+7*size);
+		path.lineTo(xoffset+8*size, yoffset+4*size);
+		path.lineTo(xoffset+5*size, yoffset+1*size);
+		path.lineTo(xoffset+5*size, yoffset+3*size);
+		path.lineTo(xoffset+0*size, yoffset+3*size);
+		path.lineTo(xoffset+0*size, yoffset+6*size);
+	}
+	private void makeRightArrow(Path path, float size, float xoffset, float yoffset)
+	{
+		path.rewind();
+		path.moveTo(xoffset+8*size, yoffset+5*size);
+		path.lineTo(xoffset+3*size, yoffset+5*size);
+		path.lineTo(xoffset+3*size, yoffset+7*size);
+		path.lineTo(xoffset+0*size, yoffset+4*size);
+		path.lineTo(xoffset+3*size, yoffset+1*size);
+		path.lineTo(xoffset+3*size, yoffset+3*size);
+		path.lineTo(xoffset+8*size, yoffset+3*size);
+		path.lineTo(xoffset+8*size, yoffset+6*size);
+	}
+	private void makeUpArrow(Path path, float size, float xoffset, float yoffset)
+	{
+		path.rewind();
+		path.moveTo(xoffset+5*size, yoffset+8*size);
+		path.lineTo(xoffset+5*size, yoffset+3*size);
+		path.lineTo(xoffset+7*size, yoffset+3*size);
+		path.lineTo(xoffset+4*size, yoffset+0*size);
+		path.lineTo(xoffset+1*size, yoffset+3*size);
+		path.lineTo(xoffset+3*size, yoffset+3*size);
+		path.lineTo(xoffset+3*size, yoffset+8*size);
+		path.lineTo(xoffset+6*size, yoffset+8*size);
+	}
+	private void makeDownArrow(Path path, float size, float xoffset, float yoffset)
+	{
+		path.rewind();
+		path.moveTo(xoffset+5*size, yoffset+0*size);
+		path.lineTo(xoffset+5*size, yoffset+5*size);
+		path.lineTo(xoffset+7*size, yoffset+5*size);
+		path.lineTo(xoffset+4*size, yoffset+8*size);
+		path.lineTo(xoffset+1*size, yoffset+5*size);
+		path.lineTo(xoffset+3*size, yoffset+5*size);
+		path.lineTo(xoffset+3*size, yoffset+0*size);
+		path.lineTo(xoffset+6*size, yoffset+0*size);
 	}
 }
