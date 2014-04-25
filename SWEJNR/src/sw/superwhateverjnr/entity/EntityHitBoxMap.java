@@ -13,7 +13,7 @@ public class EntityHitBoxMap
 		map=new HashMap<>();
 		map.put(EntityType.PLAYER, new Rectangle(0, 0, 0.5, 1.75));
 	}
-	public static Rectangle getRectangle(EntityType type)
+	public static Rectangle getHitBox(EntityType type)
 	{
 		return map.get(type);
 	}
