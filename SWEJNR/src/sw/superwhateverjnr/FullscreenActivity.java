@@ -2,8 +2,6 @@ package sw.superwhateverjnr;
 
 import lombok.Getter;
 
-import sw.superwhateverjnr.R;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Build;
