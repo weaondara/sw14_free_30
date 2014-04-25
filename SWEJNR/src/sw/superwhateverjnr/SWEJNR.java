@@ -5,6 +5,8 @@ import android.app.Application;
 
 public class SWEJNR extends Application
 {
+	public final static boolean DEBUG = true;
+	
 	@Getter
 	private static SWEJNR instance;
 	@Override
