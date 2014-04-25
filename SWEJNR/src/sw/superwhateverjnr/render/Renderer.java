@@ -11,8 +11,6 @@ import sw.superwhateverjnr.world.World;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Paint.Style;
-import android.graphics.PointF;
 
 public class Renderer
 {
@@ -54,7 +52,7 @@ public class Renderer
 	
 	private void drawBackground()
 	{
-		canvas.drawColor(0xFF4444FF);
+		canvas.drawColor(0xFF275FFF);
 	}
 	private void drawWorld()
 	{
