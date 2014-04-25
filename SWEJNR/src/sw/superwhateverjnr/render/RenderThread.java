@@ -2,7 +2,6 @@ package sw.superwhateverjnr.render;
 
 import lombok.Getter;
 import lombok.Setter;
-import android.graphics.Bitmap;
 import sw.superwhateverjnr.Game;
 import sw.superwhateverjnr.world.World;
 
@@ -11,6 +10,7 @@ public class RenderThread extends Thread
 	@Getter
 	@Setter
 	private boolean running;
+	@Getter
 	private Renderer renderer;
 	
 	public RenderThread(World world)
@@ -33,14 +33,7 @@ public class RenderThread extends Thread
 				continue;
 			}
 			
-			printFrame();
+			Game.getInstance().getGameView().drawNextFrame();
 		}
-	}
-
-
-	private void printFrame()
-	{
-		Bitmap bm=renderer.nextFrame();
-		Game.getInstance().getGameView().nextFrame(bm);
 	}
 }

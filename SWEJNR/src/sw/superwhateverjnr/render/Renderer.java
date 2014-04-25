@@ -43,24 +43,45 @@ public class Renderer
 	{
 		prepare();
 		
-		drawBackground();
+		drawBackground(canvas);
 		
-		drawWorld();
+		drawWorld(canvas);
 		
 		if(SWEJNR.DEBUG)
 		{
-			drawWorldGrid();
+			drawWorldGrid(canvas);
 		}
 		
-		drawEntities();
+		drawEntities(canvas);
 		
-		drawPlayer();
+		drawPlayer(canvas);
 		
-		drawInfo();
+		drawInfo(canvas);
 		
-		drawControls();
+		drawControls(canvas);
 		
 		return bitmap;
+	}
+	public void nextFrame(Canvas canvas)
+	{
+		prepare();
+		
+		drawBackground(canvas);
+		
+		drawWorld(canvas);
+		
+		if(SWEJNR.DEBUG)
+		{
+			drawWorldGrid(canvas);
+		}
+		
+		drawEntities(canvas);
+		
+		drawPlayer(canvas);
+		
+		drawInfo(canvas);
+		
+		drawControls(canvas);
 	}
 	
 	private Location min;
@@ -117,11 +138,11 @@ public class Renderer
 		}
 	}
 	
-	private void drawBackground()
+	private void drawBackground(Canvas canvas)
 	{
-		canvas.drawColor(((game.getSettings().getBackgroudColor()<<8)>>8)|0xFF);
+		canvas.drawColor((game.getSettings().getBackgroudColor() & 0x00FFFFF) | 0xFF000000);
 	}
-	private void drawWorld()
+	private void drawWorld(Canvas canvas)
 	{
 		for(int x=xstart;x<xend;x++)
 		{
@@ -147,7 +168,7 @@ public class Renderer
 			}
 		}
 	}
-	private void drawWorldGrid()
+	private void drawWorldGrid(Canvas canvas)
 	{
 		paint.setColor(0xFFFF0000);
 		paint.setStrokeWidth(0);
@@ -160,15 +181,15 @@ public class Renderer
 			canvas.drawLine(0, topoffset+y*game.getTextureHeight(), game.getDisplayWidth(), topoffset+y*game.getTextureHeight(), paint);
 		}
 	}
-	private void drawEntities()
+	private void drawEntities(Canvas canvas)
 	{
 		
 	}
-	private void drawPlayer()
+	private void drawPlayer(Canvas canvas)
 	{
 		
 	}
-	private void drawInfo()
+	private void drawInfo(Canvas canvas)
 	{
 		int fontsize=30;
 		int fontcolor=0xFF00FF00;
@@ -183,10 +204,9 @@ public class Renderer
 		
 		canvas.drawText("FPS: "+Game.getInstance().getGameView().getFps(), 10, 10+textheight, paint);
 	}
-	private void drawControls()
+	private void drawControls(Canvas canvas)
 	{
 		Settings set=game.getSettings();
-		
 		
 		float radiusinner=set.getControlCircleRadiusInner();
 		float radiusouter=set.getControlCircleRadiusOuter();
