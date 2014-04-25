@@ -32,6 +32,7 @@ public class Game
 	private int textureWidth;
 	private int textureHeight;
 	
+	@Getter
 	private GameView gameView;
 	
 	
@@ -67,8 +68,6 @@ public class Game
 		
 		gameView=new GameView(SWEJNR.getInstance());
 		FullscreenActivity.getInstance().setContentView(gameView);
-		
-		System.out.println("game init finished");
 	}
 
 	private void setupTextures()
