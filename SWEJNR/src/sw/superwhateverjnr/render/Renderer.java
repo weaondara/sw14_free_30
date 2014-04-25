@@ -4,6 +4,7 @@ import sw.superwhateverjnr.Game;
 import sw.superwhateverjnr.SWEJNR;
 import sw.superwhateverjnr.block.Block;
 import sw.superwhateverjnr.block.Material;
+import sw.superwhateverjnr.settings.Settings;
 import sw.superwhateverjnr.texture.Texture;
 import sw.superwhateverjnr.texture.TextureMap;
 import sw.superwhateverjnr.util.IdAndSubId;
@@ -226,26 +227,17 @@ public class Renderer
 	}
 	private void drawControls()
 	{
-		int opacitycircle=0x37;
-		int opacityarrow=0x7F;
-		
-		int colorinner=0xFFFFFF;
-		int colorouter=0x275FFF;
-		int colorarrow=0x275FFF;
-		
-		int radiusinner=(int) ((float)game.getDisplayWidth()/25);
-		int radiusouter=(int) ((float)game.getDisplayWidth()/20);
-		
-		int margin=(int) ((float)game.getDisplayWidth()/60);
+		Settings set=game.getSettings();
 		
 		
+		float radiusinner=set.getControlCircleRadiusInner();
+		float radiusouter=set.getControlCircleRadiusOuter();
 		
-		int alphac=opacitycircle<<24;
-		int ci=alphac|colorinner;
-		int co=alphac|colorouter;
+		float margin=set.getControlMargin();
 		
-		int alphaa=opacityarrow<<24;
-		int ca=alphaa|colorarrow;
+		int ci=(set.getControlCircleOpacityInner()<<24)|set.getControlCircleColorInner();
+		int co=(set.getControlCircleOpacityOuter()<<24)|set.getControlCircleColorOuter();
+		int ca=(set.getControlArrowOpacity()<<24)|set.getControlArrowColor();
 		
 		float centertop=game.getDisplayHeight()-margin-radiusouter;
 		float clx=margin+radiusouter;
@@ -262,7 +254,7 @@ public class Renderer
 		canvas.drawCircle(crx, centertop, radiusinner, paint);
 		canvas.drawCircle(cjx, centertop, radiusinner, paint);
 		
-		float size=7.5F;
+		float size=set.getControlArrowSize();
 		float alx=clx-4*size;
 		float arx=crx-4*size;
 		float ajx=cjx-4*size;
