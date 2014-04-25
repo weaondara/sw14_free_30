@@ -1,18 +1,17 @@
 package sw.superwhateverjnr;
 
-import android.graphics.PointF;
 import android.util.DisplayMetrics;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 import sw.superwhateverjnr.entity.Player;
-import sw.superwhateverjnr.render.RenderThread;
 import sw.superwhateverjnr.texture.DummyTextureLoader;
 import sw.superwhateverjnr.texture.TextureLoader;
 import sw.superwhateverjnr.texture.TextureMap;
 import sw.superwhateverjnr.ui.GameView;
 import sw.superwhateverjnr.util.IdAndSubId;
 import sw.superwhateverjnr.world.DummyWorldLoader;
+import sw.superwhateverjnr.world.Location;
 import sw.superwhateverjnr.world.World;
 import sw.superwhateverjnr.world.WorldLoader;
 
@@ -25,7 +24,7 @@ public class Game
 	private static Game instance;
 	
 	private Player player;
-	private PointF minDisplayPoint;
+	private Location minDisplayPoint;
 	
 	private int displayWidth;
 	private int displayHeight;
@@ -46,7 +45,7 @@ public class Game
 		instance=this;
 		
 		player=null;
-		minDisplayPoint=new PointF(0,0);
+		minDisplayPoint=new Location(0, 0);
 		
 		DisplayMetrics metrics = SWEJNR.getInstance().getResources().getDisplayMetrics();
 		displayWidth=metrics.widthPixels;

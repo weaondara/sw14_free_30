@@ -1,8 +1,5 @@
 package sw.superwhateverjnr.ui;
 
-import java.io.File;
-import java.io.FileOutputStream;
-
 import sw.superwhateverjnr.Game;
 import sw.superwhateverjnr.render.RenderThread;
 
@@ -11,9 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
-import android.os.Environment;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -41,10 +36,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		setup();
 	}
 
-	private int i=0;
+//	private int i=0;
 	public void nextFrame(Bitmap nextFrame)
 	{
-		i++;
+//		i++;
 		//System.out.println("new frame!");	
 		this.nextFrame=nextFrame;
 		
@@ -80,7 +75,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		{
 			return;
 		}
-		System.out.println("drawing frame");
+//		System.out.println("drawing frame");
 		paint.setStyle(Style.FILL);
 		c.drawBitmap(nextFrame, 0, 0, null);
 		nextFrame=null;
@@ -92,13 +87,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) 
 	{
-		Log.d("bla", "surfaceCreated");
+		rt.setRunning(true);
 		allowdraw=true;
 	}
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) 
 	{
-		Log.d("bla", "surfaceDestroyed");
+		rt.setRunning(false);
 		allowdraw=false;
 	}
 
