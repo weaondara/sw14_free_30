@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 import sw.superwhateverjnr.entity.Player;
+import sw.superwhateverjnr.settings.Settings;
 import sw.superwhateverjnr.texture.DummyTextureLoader;
 import sw.superwhateverjnr.texture.TextureLoader;
 import sw.superwhateverjnr.texture.TextureMap;
@@ -41,6 +42,9 @@ public class Game
 	
 	private World world;
 	
+	@Getter
+	private Settings settings;
+	
 	public Game()
 	{
 		instance=this;
@@ -54,6 +58,9 @@ public class Game
 		
 		textureWidth=64;
 		textureHeight=64;
+		
+		settings=new Settings();
+		loadSettings();
 		
 		worldLoader=new DummyWorldLoader();
 		try
@@ -73,5 +80,10 @@ public class Game
 	private void setupTextures()
 	{
 		TextureMap.loadTexture(new IdAndSubId(1, -1), textureLoader);
+	}
+	
+	private void loadSettings()
+	{
+		
 	}
 }
