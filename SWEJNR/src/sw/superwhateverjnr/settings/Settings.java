@@ -18,6 +18,8 @@ public class Settings
 	
 	private float controlMargin=-1;
 	
+	private int backgroudColor=-1;
+	
 
 	public float getControlCircleRadiusOuter()
 	{
@@ -45,7 +47,7 @@ public class Settings
 	}
 	public int getControlCircleColorOuter()
 	{
-		if(controlCircleColorOuter<0)
+		if(controlCircleColorOuter==-1)
 		{
 			return 0x275FFF;
 		}
@@ -53,7 +55,7 @@ public class Settings
 	}
 	public int getControlCircleColorInner()
 	{
-		if(controlCircleColorInner<0)
+		if(controlCircleColorInner==-1)
 		{
 			return 0xFFFFFF;
 		}
@@ -61,7 +63,7 @@ public class Settings
 	}
 	public int getControlArrowColor()
 	{
-		if(controlArrowColor<0)
+		if(controlArrowColor==-1)
 		{
 			return 0x275FFF;
 		}
@@ -99,7 +101,15 @@ public class Settings
 		}
 		return controlMargin;
 	}
-
+	public int getBackgroudColor()
+	{
+		if(backgroudColor==-1)
+		{
+			return 0x275FFF;
+		}
+		return backgroudColor;
+	}
+	
 	
 	
 	public void setControlCircleRadiusOuter(float controlCircleRadiusOuter)
@@ -141,5 +151,9 @@ public class Settings
 	public void setControlMargin(float controlMargin)
 	{
 		this.controlMargin = controlMargin;
+	}
+	public void setBackgroudColor(int backgroudColor)
+	{
+		this.backgroudColor = backgroudColor;
 	}
 }

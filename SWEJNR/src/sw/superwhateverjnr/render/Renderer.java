@@ -119,7 +119,7 @@ public class Renderer
 	
 	private void drawBackground()
 	{
-		canvas.drawColor(0xFF275FFF);
+		canvas.drawColor(((game.getSettings().getBackgroudColor()<<8)>>8)|0xFF);
 	}
 	private void drawWorld()
 	{
