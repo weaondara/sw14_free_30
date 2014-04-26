@@ -69,7 +69,6 @@ public class Scheduler
 			Field f=Task.class.getDeclaredField("runnable");
 			f.setAccessible(true);
 			f.set(t, EMPTY);
-			System.out.println("set to empty");
 		}
 		else if(t.getState()==State.Running)
 		{
