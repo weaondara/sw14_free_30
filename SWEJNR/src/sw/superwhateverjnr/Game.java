@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 import sw.superwhateverjnr.entity.Player;
+import sw.superwhateverjnr.scheduling.Scheduler;
 import sw.superwhateverjnr.settings.Settings;
 import sw.superwhateverjnr.texture.DummyTextureLoader;
 import sw.superwhateverjnr.texture.TextureLoader;
@@ -46,6 +47,9 @@ public class Game
 	@Getter
 	private Settings settings;
 	
+	@Getter
+	private Scheduler scheduler;
+	
 	public Game()
 	{
 		instance=this;
@@ -62,6 +66,8 @@ public class Game
 		
 		settings=new Settings();
 		loadSettings();
+		
+		scheduler=new Scheduler();
 		
 		worldLoader=new DummyWorldLoader();
 		try
