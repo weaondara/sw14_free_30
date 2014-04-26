@@ -8,8 +8,10 @@ import sw.superwhateverjnr.render.Renderer;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback 
 {
@@ -18,9 +20,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 	private RenderThread rt;
 	private Renderer renderer;
 	
-	private int frames=0;
 	@Getter
 	private int fps=0;
+	private int frames=0;
 	private long fpsmeasurelast=0;
 	
 	public GameView(Context context)
@@ -37,6 +39,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 	{
 		super(context, attrs, defStyleAttr);
 		setup();
+	}
+	private void setup()
+	{
+		getHolder().addCallback(this);
+		setFocusable(true);
+		rt=new RenderThread(Game.getInstance().getWorld());
+		renderer=rt.getRenderer();
+		rt.start();
 	}
 
 	public void drawNextFrame()
@@ -64,12 +74,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		}
 		
 	}
-	
 	@Override
 	public void draw(Canvas c)
 	{
 		renderer.nextFrame(c);
 	}
+
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) 
 	{
@@ -88,12 +98,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		allowdraw=false;
 	}
 
-	private void setup()
+	public void onTouch(View v, MotionEvent event)
 	{
-		getHolder().addCallback(this);
-		setFocusable(true);
-		rt=new RenderThread(Game.getInstance().getWorld());
-		renderer=rt.getRenderer();
-		rt.start();
+		if(v!=this)
+		{
+			return;
+		}
+		
+		Game.getInstance().handleGameTouchEvent(event);
 	}
 }

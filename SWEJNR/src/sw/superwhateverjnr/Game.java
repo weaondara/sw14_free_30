@@ -1,6 +1,7 @@
 package sw.superwhateverjnr;
 
 import android.util.DisplayMetrics;
+import android.view.MotionEvent;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
@@ -49,7 +50,7 @@ public class Game
 	{
 		instance=this;
 		
-		player=null;
+		player=new Player(null);
 		minDisplayPoint=new Location(0, 0);
 		
 		DisplayMetrics metrics = SWEJNR.getInstance().getResources().getDisplayMetrics();
@@ -73,6 +74,8 @@ public class Game
 		textureLoader=new DummyTextureLoader();
 		setupTextures();
 		
+		player.teleport(world.getSpawnLocation());
+		
 		gameView=new GameView(SWEJNR.getInstance());
 		FullscreenActivity.getInstance().setContentView(gameView);
 	}
@@ -84,6 +87,17 @@ public class Game
 	
 	private void loadSettings()
 	{
+		
+	}
+
+	public void handleGameTouchEvent(MotionEvent event)
+	{
+		
+		
+	}
+	public void handlePlayerMoveEvent(Location from, Location to)
+	{
+		
 		
 	}
 }
