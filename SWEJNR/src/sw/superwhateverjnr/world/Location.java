@@ -26,4 +26,8 @@ public class Location implements Cloneable
 	{
 		return new Location(x, y);
 	}
+	public Location add(double x, double y)
+	{
+		return new Location(this.x+x, this.y+y);
+	}
 }
