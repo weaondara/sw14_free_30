@@ -13,7 +13,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 
-public class GameView extends SurfaceView implements SurfaceHolder.Callback 
+public class GameView extends SurfaceView implements SurfaceHolder.Callback, View.OnTouchListener
 {
 	private boolean allowdraw;
 	
@@ -46,6 +46,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		setFocusable(true);
 		rt=new RenderThread(Game.getInstance().getWorld());
 		renderer=rt.getRenderer();
+		this.setOnTouchListener(this);
 		rt.start();
 	}
 
@@ -53,7 +54,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 	{
 		if(allowdraw)
 		{
-			Canvas c=getHolder().lockCanvas();
+			Canvas c=null;
+			try
+			{
+				c=getHolder().lockCanvas();
+			}
+			catch(Exception e){}
 			if(c!=null)
 			{
 				synchronized (getHolder()) 
@@ -61,7 +67,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 					this.draw(c);
 				}
 			}
-			this.getHolder().unlockCanvasAndPost(c);
+			try
+			{
+				this.getHolder().unlockCanvasAndPost(c);
+			}
+			catch(Exception e){}
+			
 			
 			long now=System.currentTimeMillis();
 			if(now-fpsmeasurelast>=1000)
@@ -98,13 +109,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback
 		allowdraw=false;
 	}
 
-	public void onTouch(View v, MotionEvent event)
+	
+	public boolean onTouch(View v, MotionEvent event)
 	{
 		if(v!=this)
 		{
-			return;
+			return false;
 		}
 		
 		Game.getInstance().handleGameTouchEvent(event);
+		return true;
 	}
 }
