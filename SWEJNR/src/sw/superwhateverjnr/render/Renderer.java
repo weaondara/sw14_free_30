@@ -175,11 +175,13 @@ public class Renderer
 		
 		if(SWEJNR.DEBUG)
 		{
-			paint.setStyle(Style.STROKE);
-			paint.setColor(0xFF000000);
-			
-			float x=(float) (leftoffset+(x1+l.getX()+0.5)*game.getTextureWidth());
+			float x=(float) (leftoffset+(l.getX()-x1+0.5)*game.getTextureWidth());
 			float y=(float) (topoffset+(y2-l.getY())*game.getTextureHeight());
+			
+			paint.setStyle(Style.STROKE);
+			
+			
+			paint.setColor(0xFFFFFF00);
 			
 			float playerwidh=(float) (Math.abs(p.getRenderBox().getMin().getX()-p.getRenderBox().getMax().getX())*game.getTextureWidth());
 	
@@ -192,11 +194,7 @@ public class Renderer
 			
 			
 		
-			paint.setStyle(Style.STROKE);
 			paint.setColor(0xFF00FF00);
-			
-			x=(float) (leftoffset+(x1+l.getX()+0.5)*game.getTextureWidth());
-			y=(float) (topoffset+(y2-l.getY())*game.getTextureHeight());
 			
 			playerwidh=(float) (Math.abs(p.getHitBox().getMin().getX()-p.getHitBox().getMax().getX())*game.getTextureWidth());
 
