@@ -1,15 +1,14 @@
 package sw.superwhateverjnr;
 
 import android.graphics.PointF;
+import android.graphics.RectF;
 import android.support.v4.view.MotionEventCompat;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.MotionEvent;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 import sw.superwhateverjnr.block.Block;
-import sw.superwhateverjnr.block.Material;
 import sw.superwhateverjnr.entity.Player;
 import sw.superwhateverjnr.scheduling.Scheduler;
 import sw.superwhateverjnr.settings.Settings;
@@ -19,6 +18,7 @@ import sw.superwhateverjnr.texture.TextureMap;
 import sw.superwhateverjnr.ui.GameView;
 import sw.superwhateverjnr.util.Arithmetics;
 import sw.superwhateverjnr.util.IdAndSubId;
+import sw.superwhateverjnr.util.Rectangle;
 import sw.superwhateverjnr.world.DummyWorldLoader;
 import sw.superwhateverjnr.world.Location;
 import sw.superwhateverjnr.world.World;
@@ -107,7 +107,7 @@ public class Game
 	
 	private void registerSchedulerTasks()
 	{
-		Runnable r10ms=new Runnable()
+		final Runnable r10ms=new Runnable()
 		{
 			@Override
 			public void run()
@@ -115,7 +115,7 @@ public class Game
 				tickPlayer();
 			}
 		};
-		scheduler.registerRepeatingTask(r10ms, 10, 100);
+		scheduler.registerRepeatingTask(r10ms, 1, 10);
 	}
 
 	
@@ -145,7 +145,6 @@ public class Game
 			distance=(float) Math.sqrt(dx*dx+dy*dy);
 			if(distance<=radius)
 			{
-				System.out.println("is left; dist: "+distance+"; radius: "+radius);
 				left=true;
 			}
 			
@@ -155,7 +154,6 @@ public class Game
 			distance=(float) Math.sqrt(dx*dx+dy*dy);
 			if(distance<=radius)
 			{
-				System.out.println("is right; dist: "+distance+"; radius: "+radius);
 				right=true;
 			}
 			
@@ -165,7 +163,6 @@ public class Game
 			distance=(float) Math.sqrt(dx*dx+dy*dy);
 			if(distance<=radius)
 			{
-				System.out.println("is jump; dist: "+distance+"; radius: "+radius);
 				jump=true;
 			}
 		}
@@ -177,39 +174,89 @@ public class Game
 	
 	private void tickPlayer()
 	{
-		System.out.println("ticking player");
-		
 		Location l=player.getLocation();
 		if(l==null || world==null)
 		{
-			System.out.println("returning");
 			return;
 		}
 		Block b=world.getBlockAt(l);
+		Rectangle bounds=player.getHitBox();
+		
 		if(player.isJumping() && 
 		   player.isOnGround())
 		{
 			//do jump
+			player.jump();
 		}
-		else if(player.isMovingleft()==player.isMovingright())
+		else if(player.isMovingleft() && !player.isMovingright())
 		{
-			//decelerate
-		}
-		else if(player.isMovingleft())
-		{
+			float moveway=0.075F;
 			
-		}
-		else if(player.isMovingright())
-		{
+			float playerwidth=(float) (Math.abs(bounds.getMin().getX()-bounds.getMax().getX()));
+			float left=(float) (l.getX()-moveway+playerwidth/2);
+			if(world.getBlockAt((int)left, (int)l.getY()).getType().isSolid())
+			{
+				moveway=(float) (l.getX()-Math.ceil(left)+playerwidth/2);
+			}
 			
+			double newx=l.getX()-moveway;
+			
+			l.setX(newx);
+		}
+		else if(player.isMovingright() && !player.isMovingleft())
+		{
+			float moveway=0.15F;
+			
+			float playerwidth=(float) (Math.abs(bounds.getMin().getX()-bounds.getMax().getX()));
+			float right=(float) (l.getX()+moveway+playerwidth/2*3);
+			if(world.getBlockAt((int)right, (int)l.getY()).getType().isSolid())
+			{
+				moveway=(float) (Math.floor(right)-l.getX()-playerwidth/2*3);
+			}
+			
+			double newx=l.getX()+moveway;
+			
+			l.setX(newx);
 		}
 		else
 		{
-			throw new RuntimeException("something went wrong");
+			//decelerate
+			player.getVelocity().setX(0);
 		}
 		
-		System.out.println("left: "+player.isMovingleft());
-		System.out.println("right: "+player.isMovingright());
-		System.out.println("jump: "+player.isJumping());
+		updateView();
+	}
+	
+	private void updateView()
+	{
+		Rectangle viewRect=new Rectangle(
+				displayWidth*0.4/textureWidth,
+				displayHeight*0.4/textureHeight,
+				displayWidth*0.6/textureWidth,
+				displayHeight*0.6/textureHeight
+				);
+		
+		Location l=player.getLocation();
+		
+		if(l.getX()<minDisplayPoint.getX()+viewRect.getMin().getX())
+		{
+			float x=(float) (l.getX()-viewRect.getMin().getX());
+			if(x<0)
+			{
+				x=0;
+			}
+			minDisplayPoint.setX(x);
+		}
+		if(l.getX()>minDisplayPoint.getX()+viewRect.getMax().getX())
+		{
+			float x=(float) (l.getX()-viewRect.getMax().getX());
+			if(x<0)
+			{
+				x=0;
+			}
+			System.out.println("minx was "+minDisplayPoint.getX());
+			minDisplayPoint.setX(x);
+			System.out.println("minx is "+minDisplayPoint.getX());
+		}
 	}
 }
