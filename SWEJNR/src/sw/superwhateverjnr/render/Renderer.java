@@ -7,6 +7,7 @@ import sw.superwhateverjnr.Game;
 import sw.superwhateverjnr.SWEJNR;
 import sw.superwhateverjnr.block.Block;
 import sw.superwhateverjnr.block.Material;
+import sw.superwhateverjnr.entity.Player;
 import sw.superwhateverjnr.settings.Settings;
 import sw.superwhateverjnr.texture.Texture;
 import sw.superwhateverjnr.texture.TextureMap;
@@ -150,11 +151,13 @@ public class Renderer
 		paint.setStrokeWidth(0);
 		for(int x=xstart;x<xend+1;x++)
 		{
-			canvas.drawLine(leftoffset+x*game.getTextureWidth(), 0, leftoffset+x*game.getTextureWidth(), game.getDisplayHeight(), paint);
+			float px=leftoffset+(x-x1)*game.getTextureWidth();
+			canvas.drawLine(px, 0, px, game.getDisplayHeight(), paint);
 		}
 		for(int y=ystart;y<yend+1;y++)
 		{
-			canvas.drawLine(0, topoffset+y*game.getTextureHeight(), game.getDisplayWidth(), topoffset+y*game.getTextureHeight(), paint);
+			float py=topoffset+y*game.getTextureHeight();
+			canvas.drawLine(0, py, game.getDisplayWidth(), py, paint);
 		}
 	}
 	private void drawEntities(Canvas canvas)
@@ -163,7 +166,47 @@ public class Renderer
 	}
 	private void drawPlayer(Canvas canvas)
 	{
+		Player p=game.getPlayer();
+		Location l=p.getLocation();
+		if(l==null)
+		{
+			return;
+		}
 		
+		if(SWEJNR.DEBUG)
+		{
+			paint.setStyle(Style.STROKE);
+			paint.setColor(0xFF000000);
+			
+			float x=(float) (leftoffset+(x1+l.getX()+0.5)*game.getTextureWidth());
+			float y=(float) (topoffset+(y2-l.getY())*game.getTextureHeight());
+			
+			float playerwidh=(float) (Math.abs(p.getRenderBox().getMin().getX()-p.getRenderBox().getMax().getX())*game.getTextureWidth());
+	
+			float left=x-playerwidh/2;
+			float right=x+playerwidh/2;
+			float bottom=y;
+			float top=(float) (y-p.getRenderBox().getMax().getY()*game.getTextureHeight());
+			
+			canvas.drawRect(left, top, right, bottom, paint);
+			
+			
+		
+			paint.setStyle(Style.STROKE);
+			paint.setColor(0xFF00FF00);
+			
+			x=(float) (leftoffset+(x1+l.getX()+0.5)*game.getTextureWidth());
+			y=(float) (topoffset+(y2-l.getY())*game.getTextureHeight());
+			
+			playerwidh=(float) (Math.abs(p.getHitBox().getMin().getX()-p.getHitBox().getMax().getX())*game.getTextureWidth());
+
+			left=x-playerwidh/2;
+			right=x+playerwidh/2;
+			bottom=y;
+			top=(float) (y-p.getHitBox().getMax().getY()*game.getTextureHeight());
+			
+			canvas.drawRect(left, top, right, bottom, paint);
+		}
 	}
 	private void drawInfo(Canvas canvas)
 	{
@@ -272,6 +315,8 @@ public class Renderer
 		
 		float arrowsize=set.getControlArrowSize();
 		
+		paint.setStyle(Style.FILL);
+		
 		for(String key:cachedControlKeys)
 		{
 			PointF point=cachedControlsPostions.get(key);
@@ -292,7 +337,6 @@ public class Renderer
 				float axy=radiusouter-4*arrowsize;
 				
 				paint.setColor(ca);
-				paint.setStyle(Style.FILL);
 				
 				Path path=new Path();
 				
