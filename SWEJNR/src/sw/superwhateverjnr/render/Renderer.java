@@ -156,7 +156,7 @@ public class Renderer
 		}
 		for(int y=ystart;y<yend+1;y++)
 		{
-			float py=topoffset+y*game.getTextureHeight();
+			float py=topoffset+(y2-1-y)*game.getTextureHeight();
 			canvas.drawLine(0, py, game.getDisplayWidth(), py, paint);
 		}
 	}
