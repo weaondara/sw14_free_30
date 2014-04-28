@@ -20,6 +20,7 @@ public class Task extends TimerTask
 	private long delay;
 	private long period;
 	private State state;
+	private boolean recurring;
 	
 	public Task(int id, Runnable runnable, long delay, long period)
 	{
@@ -29,6 +30,7 @@ public class Task extends TimerTask
 		this.delay = delay;
 		this.period = period;
 		state=State.None;
+		recurring=(period>=0);
 	}
 	
 	public void registered()
@@ -54,7 +56,14 @@ public class Task extends TimerTask
 		runnable.run();
 		state=State.Executed;
 		
-		finished(id);
+		if(!recurring)
+		{
+			finished(id);
+		}
+		else
+		{
+			state=State.Pending;
+		}
 	}
 	
 	public enum State
