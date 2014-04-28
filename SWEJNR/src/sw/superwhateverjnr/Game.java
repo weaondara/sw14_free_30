@@ -61,7 +61,7 @@ public class Game
 		instance=this;
 		
 		player=new Player(null);
-		minDisplayPoint=new Location(0, 0);
+		minDisplayPoint=new Location(0, 9);
 		
 		DisplayMetrics metrics = SWEJNR.getInstance().getResources().getDisplayMetrics();
 		displayWidth=metrics.widthPixels;
@@ -250,13 +250,31 @@ public class Game
 		if(l.getX()>minDisplayPoint.getX()+viewRect.getMax().getX())
 		{
 			float x=(float) (l.getX()-viewRect.getMax().getX());
-			if(x<0)
+			if(x>world.getWidth()-displayWidth/textureWidth)
 			{
-				x=0;
+				x=world.getWidth()-displayWidth/textureWidth;
 			}
-			System.out.println("minx was "+minDisplayPoint.getX());
 			minDisplayPoint.setX(x);
-			System.out.println("minx is "+minDisplayPoint.getX());
+		}
+		
+		
+		if(l.getY()<minDisplayPoint.getY()+viewRect.getMin().getY())
+		{
+			float y=(float) (l.getY()-viewRect.getMin().getY());
+			if(y<0)
+			{
+				y=0;
+			}
+			minDisplayPoint.setY(y);
+		}
+		if(l.getY()>minDisplayPoint.getY()+viewRect.getMax().getY())
+		{
+			float y=(float) (l.getY()-viewRect.getMax().getY());
+			if(y>world.getHeight()-displayHeight/textureHeight)
+			{
+				y=world.getHeight()-displayHeight/textureHeight;
+			}
+			minDisplayPoint.setY(y);
 		}
 	}
 }
