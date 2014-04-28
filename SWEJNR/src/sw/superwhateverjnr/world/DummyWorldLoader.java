@@ -10,7 +10,7 @@ public class DummyWorldLoader extends WorldLoader
 	{
 		int width=100;
 		int height=40;
-		Location spawn=new Location(10, 2);
+		Location spawn=new Location(2, 10);
 		Block[][] data=new Block[width][height];
 		World world=createWorld("dummy", width, height, spawn, data);
 		
