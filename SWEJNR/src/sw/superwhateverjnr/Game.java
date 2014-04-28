@@ -205,7 +205,7 @@ public class Game
 		}
 		else if(player.isMovingright() && !player.isMovingleft())
 		{
-			float moveway=0.15F;
+			float moveway=0.075F;
 			
 			float playerwidth=(float) (Math.abs(bounds.getMin().getX()-bounds.getMax().getX()));
 			float right=(float) (l.getX()+moveway+playerwidth/2*3);
