@@ -319,7 +319,7 @@ public class Game
 		}
 		
 		//block check
-		Location l5=new Location(l.getX()+playerwidth/2,y);
+		Location l5=new Location(l.getX()+playerwidth/2-0.0000001,y);
 		Location l6=new Location(l.getX()-playerwidth/2,y);
 		Block b5=world.getBlockAt(l5);
 		Block b6=world.getBlockAt(l6);
@@ -332,7 +332,7 @@ public class Game
 			}
 		}
 		
-		Location l7=new Location(l.getX()+playerwidth/2,y+bounds.getMax().getY());
+		Location l7=new Location(l.getX()+playerwidth/2-0.0000001,y+bounds.getMax().getY());
 		Location l8=new Location(l.getX()-playerwidth/2,y+bounds.getMax().getY());
 		Block b7=world.getBlockAt(l7);
 		Block b8=world.getBlockAt(l8);
