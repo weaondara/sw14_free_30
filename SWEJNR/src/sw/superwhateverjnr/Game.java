@@ -347,33 +347,6 @@ public class Game
 		l.setY(y);
 		
 		updateView();
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 	}
 	
 	private void updateView()
