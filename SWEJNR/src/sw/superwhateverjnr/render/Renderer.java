@@ -175,7 +175,7 @@ public class Renderer
 		
 		if(SWEJNR.DEBUG)
 		{
-			float x=(float) (leftoffset+(l.getX()-x1+0.5)*game.getTextureWidth());
+			float x=(float) (leftoffset+(l.getX()-x1)*game.getTextureWidth());
 			float y=(float) (topoffset+(y2-l.getY())*game.getTextureHeight());
 			
 			paint.setStyle(Style.STROKE);
