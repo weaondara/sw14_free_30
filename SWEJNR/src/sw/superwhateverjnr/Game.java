@@ -33,6 +33,7 @@ public class Game
 	private static Game instance;
 	
 	private Player player;
+	
 	private Location minDisplayPoint;
 	
 	private int displayWidth;
@@ -41,19 +42,12 @@ public class Game
 	private int textureWidth;
 	private int textureHeight;
 	
-	@Getter
 	private GameView gameView;
-	
-	
 	private WorldLoader worldLoader;
-	private TextureLoader textureLoader;
-	
 	private World world;
 	
-	@Getter
+	private TextureLoader textureLoader;
 	private Settings settings;
-	
-	@Getter
 	private Scheduler scheduler;
 	
 	public Game()
