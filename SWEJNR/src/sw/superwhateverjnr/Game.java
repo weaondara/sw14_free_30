@@ -1,7 +1,6 @@
 package sw.superwhateverjnr;
 
 import android.graphics.PointF;
-import android.graphics.RectF;
 import android.support.v4.view.MotionEventCompat;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
@@ -182,7 +181,6 @@ public class Game
 		{
 			return;
 		}
-		Block b=world.getBlockAt(l);
 		Rectangle bounds=player.getHitBox();
 		long now=System.currentTimeMillis();
 		long time=now-player.getLastMoveTime();
