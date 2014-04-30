@@ -8,7 +8,7 @@ public class PackedWorldLoader extends WorldLoader
 	{
 		//InputStream is=SWEJNR.getInstance().getResources().getAssets().open(file); //file is string; relative to project/assets
 		
-		//use sw.superwhateverjnr.io.FileReader for fiel reading
+		//use sw.superwhateverjnr.io.FileReader for file reading
 		
 		
 		
@@ -26,6 +26,7 @@ public class PackedWorldLoader extends WorldLoader
 		 *     int count extradata 
 		 *     loop
 		 *         int type extradata
+		 *         string dataname
 		 *         data extradata
 		 *     end loop
 		 * end loop
