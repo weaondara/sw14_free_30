@@ -10,13 +10,23 @@ import sw.superwhateverjnr.world.World;
 @Getter
 public class Player extends Entity
 {
-	private double moveArmswingDegrees;
-	private double standArmswingDegrees;
+	private int moveArmswingDegrees;
+	private int standArmswingDegrees;
+	
+	@Getter @Setter
+	private int armMoveConstant = 10;
+	
+	private int armIdleDegree = 90;
+	private int armMaxDegreeDelta = 45;
+	
+	@Getter @Setter
+	private String armMovementDirection;
+	
 	public Player(Location location)
 	{
 		super(EntityType.PLAYER, location);
-		moveArmswingDegrees=0;
-		standArmswingDegrees=0;
+		moveArmswingDegrees=armIdleDegree;
+		standArmswingDegrees=armIdleDegree;
 	}
 	
 	@Setter
@@ -25,6 +35,32 @@ public class Player extends Entity
 	private boolean movingleft;
 	@Setter
 	private boolean jumping;
+	
+	private void swingArms()
+	{
+		if(this.getArmMovementDirection() == "right")
+		{
+			this.moveArmswingDegrees += armMoveConstant;
+			this.standArmswingDegrees -= armMoveConstant;
+		}
+		
+		if(this.getArmMovementDirection() == "left")
+		{
+			this.moveArmswingDegrees -= armMoveConstant;
+			this.standArmswingDegrees += armMoveConstant;
+		}
+		
+		if(this.moveArmswingDegrees > armIdleDegree + armMaxDegreeDelta)
+		{
+			this.setArmMovementDirection("left");
+		}
+		
+		if(this.moveArmswingDegrees < armIdleDegree - armMaxDegreeDelta)
+		{
+			this.setArmMovementDirection("right");
+		}
+			
+	}
 	
 	public boolean isOnGround()
 	{
