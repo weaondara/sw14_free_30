@@ -15,14 +15,27 @@ public class PackedWorldLoader extends WorldLoader
 		/* World format
 		 * -------------------------------
 		 * string name
-		 * int width
-		 * int height
 		 * double spawnx
 		 * double spawny
+		 * int width
+		 * int height
 		 * 
 		 * loop
 		 *     int blockid
 		 *     byte subid
+		 *     int count extradata 
+		 *     loop
+		 *         int type extradata
+		 *         string dataname
+		 *         data extradata
+		 *     end loop
+		 * end loop
+		 * 
+		 * int entitycount
+		 * loop
+		 * 	   int entityid
+		 *     double posx
+		 *     double poy
 		 *     int count extradata 
 		 *     loop
 		 *         int type extradata
