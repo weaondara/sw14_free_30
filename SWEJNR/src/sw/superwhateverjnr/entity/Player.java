@@ -38,13 +38,13 @@ public class Player extends Entity
 	
 	private void swingArms()
 	{
-		if(this.getArmMovementDirection() == "right")
+		if(this.getArmMovementDirection().equals("right"))
 		{
 			this.moveArmswingDegrees += armMoveConstant;
 			this.standArmswingDegrees -= armMoveConstant;
 		}
 		
-		if(this.getArmMovementDirection() == "left")
+		if(this.getArmMovementDirection().equals("left"))
 		{
 			this.moveArmswingDegrees -= armMoveConstant;
 			this.standArmswingDegrees += armMoveConstant;
