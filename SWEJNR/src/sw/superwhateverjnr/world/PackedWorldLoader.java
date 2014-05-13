@@ -18,7 +18,7 @@ public class PackedWorldLoader extends WorldLoader
 	@Override
 	public World loadWorld(String name) throws Exception
 	{
-		String path = "world/" + name;
+		String path = "world/" + name + ".world";
 		InputStream is=SWEJNR.getInstance().getResources().getAssets().open(path);
 		
 		FileReader fr = new FileReader(is);
