@@ -1,6 +1,7 @@
 package sw.superwhateverjnr.block;
 
 import java.lang.reflect.Constructor;
+import java.util.HashMap;
 
 import sw.superwhateverjnr.world.Location;
 import sw.superwhateverjnr.world.World;
@@ -21,7 +22,7 @@ public class BlockFactory
 		instance=new BlockFactory();
 	}
 	
-	public Block create(int id, int x, int y, World w) throws Exception
+	public Block create(int id, byte subid, int x, int y, World w, HashMap<String,Object> extradata) throws Exception
 	{
 		Preconditions.checkElementIndex(id, 256);
 		Preconditions.checkElementIndex(x, w.getWidth());
@@ -30,9 +31,9 @@ public class BlockFactory
 		Material mat=Material.fromID(id);
 		Preconditions.checkNotNull(mat, "invalid id");
 		
-		Constructor<? extends Block> ctor=mat.getBlockClazz().getDeclaredConstructor(Location.class, Material.class);
+		Constructor<? extends Block> ctor=mat.getBlockClazz().getDeclaredConstructor(Location.class, Material.class, byte.class, HashMap.class);
 		ctor.setAccessible(true);
-		Block block=ctor.newInstance(new Location(x, y), mat);
+		Block block=ctor.newInstance(new Location(x, y), mat, subid, extradata);
 		return block;
 	}
 }

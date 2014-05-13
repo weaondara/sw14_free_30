@@ -21,12 +21,12 @@ public class DummyWorldLoader extends WorldLoader
 			{
 				if(y<10 || x==0 || x+1==width)
 				{
-					Block b=bf.create(1, x, y, world);
+					Block b=bf.create(1, (byte)0, x, y, world, null);
 					data[x][y]=b;
 				}
 				else
 				{
-					Block b=bf.create(0, x, y, world);
+					Block b=bf.create(0, (byte)0, x, y, world, null);
 					data[x][y]=b;
 				}
 			}

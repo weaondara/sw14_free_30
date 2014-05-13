@@ -7,12 +7,13 @@ import java.util.HashMap;
 
 import sw.superwhateverjnr.SWEJNR;
 import sw.superwhateverjnr.block.Block;
+import sw.superwhateverjnr.block.BlockFactory;
 import sw.superwhateverjnr.io.FileReader;
 
 public class PackedWorldLoader extends WorldLoader
 {
 
-	Boolean notfurtherimplemented = true;
+	boolean notfurtherimplemented = true;
 	
 	@Override
 	public World loadWorld(String name) throws Exception
@@ -23,45 +24,44 @@ public class PackedWorldLoader extends WorldLoader
 		FileReader fr = new FileReader(is);
 		
 		String wname = fr.readString();
-		int wwidth = fr.readInt();
-		int wheight = fr.readInt();
-		double cheight = fr.readDouble();
-		double cwidth = fr.readDouble();
-		Location cloc = new Location(cheight, cwidth);
-		Block blocks[][] = new Block[wwidth][wheight];
-		
-		Constructor<Block> bc = Block.class.getDeclaredConstructor(Location.class, int.class, Byte.class, HashMap.class);
-		bc.setAccessible(true);
-
-		if(notfurtherimplemented)
-		{
-			return null;
-		}
-		
-		for(int x = 0; x < wwidth; x++)
-		{
-			for(int y = 0; y <wheight; y++)
-			{
-				Location bloc = new Location(x,y);
-				int bid = fr.readInt();
-				Byte bsub = fr.readByte();
-				int edatac = fr.readInt();
-				HashMap edatam = new HashMap<String,Object>();
-				for(int d = 0; d < edatac; d++)
-				{
-					int edatat = fr.readInt();
-					String edatas = fr.readString();
-					//value edatav = fr.readExtraData();
-					//extradata edata = new ExtraData(edatat, edatas, edatav);
-				}
-				Block b = bc.newInstance(bloc, bid, bsub, edatam);
-			}
-		}
-		
+		int width = fr.readInt();
+		int height = fr.readInt();
+		double spawnx = fr.readDouble();
+		double spawny = fr.readDouble();
+		Location spawn = new Location(spawnx, spawny);
+		Block blocks[][] = new Block[width][height];
 		
 		Constructor<World> c = World.class.getDeclaredConstructor(String.class, int.class, int.class, Location.class, Block[][].class);
 		c.setAccessible(true);
-		World w = c.newInstance(wname, wwidth, wheight, cloc, blocks);
+		World w = c.newInstance(wname, width, height, spawn, blocks);
+
+		if(notfurtherimplemented)
+		{
+			return w;
+		}
+		
+		for(int x = 0; x < width; x++)
+		{
+			for(int y = 0; y <height; y++)
+			{
+				int id = fr.readInt();
+				Byte subid = fr.readByte();
+				int datacount = fr.readInt();
+				HashMap<String,Object> data = new HashMap<>();
+				for(int d = 0; d < datacount; d++)
+				{
+					int datatype = fr.readInt();
+					String datakey = fr.readString();
+					//value datavalue = fr.readExtraData();
+					//extradata edata = new ExtraData(edatat, edatas, edatav);
+				}
+				Block b = BlockFactory.getInstance().create(id, subid, x, y, w, data);
+				blocks[x][y]=b;
+			}
+		}
+		
+		//entities
+		
 		return w;
 		
 		//file is string; relative to project/assets
