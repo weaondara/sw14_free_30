@@ -10,17 +10,16 @@ import sw.superwhateverjnr.world.World;
 @Getter
 public class Player extends Entity
 {
+	private static int armIdleDegree = 90;
+	private static int armMaxDegreeDelta = 45;
+	private static int armMoveConstant = 10;
+	
+	
 	private int moveArmswingDegrees;
 	private int standArmswingDegrees;
 	
-	@Getter @Setter
-	private int armMoveConstant = 10;
-	
-	private int armIdleDegree = 90;
-	private int armMaxDegreeDelta = 45;
-	
-	@Getter @Setter
-	private String armMovementDirection;
+	@Setter
+	private boolean armMovingRight;
 	
 	public Player(Location location)
 	{
@@ -36,28 +35,27 @@ public class Player extends Entity
 	@Setter
 	private boolean jumping;
 	
-	private void swingArms()
+	public void swingArms()
 	{
-		if(this.getArmMovementDirection().equals("right"))
+		if(armMovingRight)
 		{
-			this.moveArmswingDegrees += armMoveConstant;
-			this.standArmswingDegrees -= armMoveConstant;
+			moveArmswingDegrees += armMoveConstant;
+			standArmswingDegrees -= armMoveConstant;
+		}
+		else
+		{
+			moveArmswingDegrees -= armMoveConstant;
+			standArmswingDegrees += armMoveConstant;
 		}
 		
-		if(this.getArmMovementDirection().equals("left"))
+		if(moveArmswingDegrees > armIdleDegree + armMaxDegreeDelta)
 		{
-			this.moveArmswingDegrees -= armMoveConstant;
-			this.standArmswingDegrees += armMoveConstant;
+			armMovingRight = false;
 		}
 		
-		if(this.moveArmswingDegrees > armIdleDegree + armMaxDegreeDelta)
+		else if(this.moveArmswingDegrees < armIdleDegree - armMaxDegreeDelta)
 		{
-			this.setArmMovementDirection("left");
-		}
-		
-		if(this.moveArmswingDegrees < armIdleDegree - armMaxDegreeDelta)
-		{
-			this.setArmMovementDirection("right");
+			armMovingRight = true;
 		}
 			
 	}
