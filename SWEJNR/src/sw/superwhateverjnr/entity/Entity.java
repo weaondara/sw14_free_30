@@ -60,4 +60,9 @@ public abstract class Entity
 		location=l;
 		//TODO update rendering; not sure if we need it
 	}
+	
+	public void tick()
+	{
+		
+	}
 }
