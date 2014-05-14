@@ -2,6 +2,7 @@ package sw.superwhateverjnr.block;
 
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
+import java.util.Map;
 
 import sw.superwhateverjnr.world.Location;
 import sw.superwhateverjnr.world.World;
@@ -31,7 +32,7 @@ public class BlockFactory
 		Material mat=Material.fromID(id);
 		Preconditions.checkNotNull(mat, "invalid id");
 		
-		Constructor<? extends Block> ctor=mat.getBlockClazz().getDeclaredConstructor(Location.class, Material.class, byte.class, HashMap.class);
+		Constructor<? extends Block> ctor=mat.getBlockClazz().getDeclaredConstructor(Location.class, Material.class, byte.class, Map.class);
 		ctor.setAccessible(true);
 		Block block=ctor.newInstance(new Location(x, y), mat, subid, extradata);
 		return block;
