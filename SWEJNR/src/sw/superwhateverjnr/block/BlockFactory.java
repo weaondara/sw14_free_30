@@ -23,7 +23,7 @@ public class BlockFactory
 		instance=new BlockFactory();
 	}
 	
-	public Block create(int id, byte subid, int x, int y, World w, HashMap<String,Object> extradata) throws Exception
+	public Block create(int id, byte subid, int x, int y, World w, Map<String,Object> extradata) throws Exception
 	{
 		Preconditions.checkElementIndex(id, 256);
 		Preconditions.checkElementIndex(x, w.getWidth());
