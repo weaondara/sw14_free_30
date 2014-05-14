@@ -24,7 +24,7 @@ public class Player extends Entity
 	
 	public Player(Location location)
 	{
-		super(EntityType.PLAYER, location);
+		super(EntityType.PLAYER, location, null);
 		moveArmswingDegrees=armIdleDegree;
 		standArmswingDegrees=armIdleDegree;
 	}

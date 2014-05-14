@@ -2,10 +2,12 @@ package sw.superwhateverjnr.world;
 
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Map;
 
 import sw.superwhateverjnr.SWEJNR;
 import sw.superwhateverjnr.block.Block;
 import sw.superwhateverjnr.block.BlockFactory;
+import sw.superwhateverjnr.entity.EntityFactory;
 import sw.superwhateverjnr.io.FileReader;
 
 public class PackedWorldLoader extends WorldLoader
@@ -35,13 +37,14 @@ public class PackedWorldLoader extends WorldLoader
 				int id = fr.readInt();
 				Byte subid = fr.readByte();
 				int datacount = fr.readInt();
-				HashMap<String,Object> data = new HashMap<>();
+				Map<String,Object> data = new HashMap<>();
 				for(int d = 0; d < datacount; d++)
 				{
 					int datatype = fr.readInt();
 					String datakey = fr.readString();
-					//value datavalue = fr.readExtraData();
-					//extradata edata = new ExtraData(edatat, edatas, edatav);
+					Object datavalue = readExtraDataEntry(datatype, fr);
+					
+					data.put(datakey, datavalue);
 				}
 				Block b = BlockFactory.getInstance().create(id, subid, x, y, w, data);
 				blocks[x][y]=b;
@@ -49,6 +52,26 @@ public class PackedWorldLoader extends WorldLoader
 		}
 		
 		//entities
+		int entitycount=fr.readInt();
+		for(int i = 0;i < entitycount; i++)
+		{
+			int id = fr.readInt();
+			int type = fr.readInt();
+			double x = fr.readDouble();
+			double y = fr.readDouble();
+			int datacount = fr.readInt();
+			Map<String,Object> data = new HashMap<>();
+			for(int d = 0; d < datacount; d++)
+			{
+				int datatype = fr.readInt();
+				String datakey = fr.readString();
+				Object datavalue = readExtraDataEntry(datatype, fr);
+				
+				data.put(datakey, datavalue);
+			}
+			
+			EntityFactory.getInstance().create(type, id, x, y, w, data);
+		}
 		
 		return w;
 		
@@ -91,6 +114,15 @@ public class PackedWorldLoader extends WorldLoader
 		 * end loop
 		 * */
 		
+	}
+	
+	private Object readExtraDataEntry(int type, FileReader fr)
+	{
+		return null;
+//		switch(type)
+//		{
+//			
+//		}
 	}
 
 }

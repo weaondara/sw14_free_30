@@ -1,5 +1,8 @@
 package sw.superwhateverjnr.entity;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.google.common.base.Preconditions;
 
 import lombok.EqualsAndHashCode;
@@ -27,6 +30,7 @@ public abstract class Entity
 	protected int id;
 	protected EntityType type;
 	protected Location location;
+	protected Map<String, Object> extraData;
 	protected Rectangle hitBox;
 	protected Rectangle renderBox;
 	@Setter
@@ -38,15 +42,20 @@ public abstract class Entity
 	@Setter
 	protected long lastMoveTime;
 	
-	public Entity(EntityType type, Location location)
+	public Entity(EntityType type, Location location, Map<String, Object> extraData)
 	{
-		id=getNewId();
+		this(getNewId(), type, location, extraData);
+	}
+	public Entity(int id, EntityType type, Location location, Map<String, Object> extraData)
+	{
+		this.id = id;
 		this.type = type;
 		this.location = location;
-		hitBox=EntityInfoMap.getHitBox(type);
-		renderBox=EntityInfoMap.getRenderBox(type);
-		health=EntityInfoMap.getMaxHealth(type);
-		velocity=new Vector(0, 0);
+		this.extraData = extraData;
+		hitBox = EntityInfoMap.getHitBox(type);
+		renderBox = EntityInfoMap.getRenderBox(type);
+		health = EntityInfoMap.getMaxHealth(type);
+		velocity = new Vector(0, 0);
 	}
 	public void jump()
 	{
@@ -59,6 +68,11 @@ public abstract class Entity
 		Preconditions.checkElementIndex(l.getBlockY(), Game.getInstance().getWorld().getHeight());
 		location=l;
 		//TODO update rendering; not sure if we need it
+	}
+	
+	public Map<String,Object> getExtraData()
+	{
+		return extraData==null ? new HashMap<String,Object>() : extraData;
 	}
 	
 	public void tick()
