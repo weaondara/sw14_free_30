@@ -32,7 +32,7 @@ public class PackedWorldLoader extends WorldLoader
 		
 		for(int x = 0; x < width; x++)
 		{
-			for(int y = 0; y <height; y++)
+			for(int y = 0; y < height; y++)
 			{
 				int id = fr.readInt();
 				Byte subid = fr.readByte();
