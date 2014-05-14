@@ -1,8 +1,6 @@
 package sw.superwhateverjnr.world;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Constructor;
 import java.util.HashMap;
 
 import sw.superwhateverjnr.SWEJNR;
