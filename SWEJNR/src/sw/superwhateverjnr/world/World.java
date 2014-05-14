@@ -2,6 +2,7 @@ package sw.superwhateverjnr.world;
 
 import com.google.common.base.Preconditions;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -9,7 +10,7 @@ import lombok.ToString;
 import sw.superwhateverjnr.block.Block;
 
 @Getter
-@AllArgsConstructor(suppressConstructorProperties=true)
+@AllArgsConstructor(suppressConstructorProperties=true, access = AccessLevel.PRIVATE)
 @ToString
 @EqualsAndHashCode
 public class World
