@@ -8,7 +8,19 @@ import lombok.Getter;
 public enum Material
 {
 	AIR(0, StandardBlock.class),
-	STONE(1, StandardBlock.class);
+	STONE(1, StandardBlock.class),
+	GRASS(2, StandardBlock.class),
+	DIRT(3, StandardBlock.class),
+	COBBLESTONE(4, StandardBlock.class),
+	WOOD_LOG(5, StandardBlock.class),
+	SAPLING(6, StandardBlock.class),
+	BEDROCK(7, StandardBlock.class),
+	WATER_FlOWING(8, LiquidBlock.class),
+	WATER_STANDING(9, LiquidBlock.class),
+	LAVA_FlOWING(10, LiquidBlock.class),
+	LAVA_STANDING(11, LiquidBlock.class),
+	SAND(12, StandardBlock.class),
+	GRAVEL(13, StandardBlock.class);
 	
 	@Getter
 	private int id;
@@ -32,6 +44,27 @@ public enum Material
 		switch(this)
 		{
 			case STONE:
+			case GRASS:
+			case DIRT:
+			case COBBLESTONE:
+			case WOOD_LOG:
+			case SAPLING:
+			case BEDROCK:
+			case SAND:
+			case GRAVEL:
+				return true;
+			default:
+				return false;
+		}
+	}
+	public boolean isLiquid()
+	{
+		switch(this)
+		{
+			case WATER_FlOWING:
+			case WATER_STANDING:
+			case LAVA_FlOWING:
+			case LAVA_STANDING:
 				return true;
 			default:
 				return false;
