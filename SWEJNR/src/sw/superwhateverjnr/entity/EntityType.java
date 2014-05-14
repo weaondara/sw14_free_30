@@ -7,7 +7,12 @@ import lombok.Getter;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public enum EntityType
 {
-	PLAYER(0);
+	PLAYER(0),
+	CREEPER(50),
+	SKELETON(51),
+	SPIDER(52),
+	ZOMBIE(54),
+	DROPPED_ITEM(1);
 	
 	@Getter
 	private int id;
@@ -22,5 +27,19 @@ public enum EntityType
 			}
 		}
 		return null;
+	}
+	
+	public boolean isHostile()
+	{
+		switch(this)
+		{
+			case CREEPER:
+			case SKELETON:
+			case SPIDER:
+			case ZOMBIE:
+				return true;
+			default:
+				return false;
+		}
 	}
 }
