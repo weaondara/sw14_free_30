@@ -1,7 +1,6 @@
 package sw.superwhateverjnr.entity;
 
 import java.lang.reflect.Constructor;
-import java.util.HashMap;
 import java.util.Map;
 
 import sw.superwhateverjnr.world.Location;
