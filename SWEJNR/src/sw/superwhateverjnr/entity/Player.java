@@ -5,7 +5,6 @@ import lombok.Setter;
 import sw.superwhateverjnr.Game;
 import sw.superwhateverjnr.block.Block;
 import sw.superwhateverjnr.util.Rectangle;
-import sw.superwhateverjnr.util.Vector;
 import sw.superwhateverjnr.world.Location;
 import sw.superwhateverjnr.world.World;
 
