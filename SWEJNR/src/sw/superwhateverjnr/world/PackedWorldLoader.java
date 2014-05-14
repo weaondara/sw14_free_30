@@ -12,9 +12,6 @@ import sw.superwhateverjnr.io.FileReader;
 
 public class PackedWorldLoader extends WorldLoader
 {
-
-	boolean notfurtherimplemented = true;
-	
 	@Override
 	public World loadWorld(String name) throws Exception
 	{
@@ -31,14 +28,7 @@ public class PackedWorldLoader extends WorldLoader
 		Location spawn = new Location(spawnx, spawny);
 		Block blocks[][] = new Block[width][height];
 		
-		Constructor<World> c = World.class.getDeclaredConstructor(String.class, int.class, int.class, Location.class, Block[][].class);
-		c.setAccessible(true);
-		World w = c.newInstance(wname, width, height, spawn, blocks);
-
-		if(notfurtherimplemented)
-		{
-			return w;
-		}
+		World w = new World(wname, width, height, spawn, blocks);
 		
 		for(int x = 0; x < width; x++)
 		{

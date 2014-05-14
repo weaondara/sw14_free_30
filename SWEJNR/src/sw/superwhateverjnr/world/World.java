@@ -10,7 +10,7 @@ import lombok.AccessLevel;
 import sw.superwhateverjnr.block.Block;
 
 @Getter
-@AllArgsConstructor(suppressConstructorProperties=true, access = AccessLevel.PRIVATE)
+@AllArgsConstructor(suppressConstructorProperties=true)
 @ToString
 @EqualsAndHashCode
 public class World
