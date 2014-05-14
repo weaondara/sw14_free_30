@@ -75,7 +75,7 @@ public class Game
 		{
 			world=worldLoader.loadWorld("bla");
 		}
-		catch(Exception e) {}
+		catch(Exception e) {e.printStackTrace();}
 		
 		
 		textureLoader=new DummyTextureLoader();
@@ -106,7 +106,7 @@ public class Game
 			@Override
 			public void run()
 			{
-				tickPlayer();
+				player.tick();
 			}
 		};
 		scheduler.registerRepeatingTask(r10ms, 1, 10);
@@ -167,181 +167,181 @@ public class Game
 		player.setJumping(jump);
 	}
 	
-	private void tickPlayer()
-	{
-		Location l=player.getLocation();
-		Vector v=player.getVelocity();
-		if(l==null || world==null)
-		{
-			return;
-		}
-		Rectangle bounds=player.getHitBox();
-		long now=System.currentTimeMillis();
-		long time=now-player.getLastMoveTime();
-		
-		if(player.isJumping() && player.isOnGround())
-		{
-			v.setY(7);
-
-			player.setLastJumpTime(now);
-		}
-		else if(!player.isOnGround())
-		{
-			if(time<now)
-			{
-				double ya=0.002;
-				
-				double vy=v.getY();
-				
-				vy-=ya*time*time;
-				
-				v.setY(vy);
-			}
-		}
-		
-		
-		double xmaxmove=4.5;
-		double xminmove=1.5;
-		double xa=0.00015;
-		
-		
-		double vx=v.getX();
-		if(player.isMovingleft() && !player.isMovingright())
-		{
-			if(vx>-xminmove)
-			{
-				vx=-xminmove;
-			}
-			else
-			{
-				vx*=(1+xa*time*time*(xmaxmove+vx));
-			}
-		}
-		else if(player.isMovingright() && !player.isMovingleft())
-		{
-			if(vx<xminmove)
-			{
-				vx=xminmove;
-			}
-			else
-			{
-				vx*=(1+xa*time*time*(xmaxmove-vx));
-			}
-		}
-		else //x decelerate
-		{
-			double d=xa*time*time*(Math.abs(vx)+xminmove);
-			d*=3;
-			if(d>1)
-			{
-				d=1;
-			}
-			else if(d<0)
-			{
-				d=0;
-			}
-			
-			vx*=(1-d);
-		}
-
-		player.getVelocity().setX(vx);
-		player.setLastMoveTime(now);
-
-		
-		
-		
-		
-		float multiplier=0.01F;
-		float playerwidth=(float) (Math.abs(bounds.getMin().getX()-bounds.getMax().getX()));
-		
-		//world check
-		double x=l.getX();
-		x+=v.getX()*multiplier;
-		if(x<0)
-		{
-			x=0;
-			v.setX(0);
-		}
-		if(x>=world.getWidth())
-		{
-			x=world.getWidth()-0.0000001;
-			v.setX(0);
-		}
-		
-		//block check
-		Location l1=new Location(x-playerwidth/2,l.getY());
-		Location l2=new Location(x-playerwidth/2,l.getY()+1);
-		Block b1=world.getBlockAt(l1);
-		Block b2=world.getBlockAt(l2);
-		if(b1.getType().isSolid() || b2.getType().isSolid())
-		{
-			if(v.getX()<0)
-			{
-				x=Math.ceil(x-playerwidth/2)+playerwidth/2;
-				v.setX(0);
-			}
-		}
-		
-		Location l3=new Location(x+playerwidth/2,l.getY());
-		Location l4=new Location(x+playerwidth/2,l.getY()+1);
-		Block b3=world.getBlockAt(l3);
-		Block b4=world.getBlockAt(l4);
-		if(b3.getType().isSolid() || b4.getType().isSolid())
-		{
-			if(v.getX()>0)
-			{
-				x=Math.floor(x+playerwidth/2)-playerwidth/2;
-				v.setX(0);
-			}
-		}
-		l.setX(x);
-		
-		//world check
-		double y=l.getY();
-		y+=v.getY()*multiplier;
-		if(y<0)
-		{
-			y=0;
-			v.setY(0);
-		}
-		if(y>=world.getHeight())
-		{
-			y=world.getHeight()-0.0000001;
-			v.setY(0);
-		}
-		
-		//block check
-		Location l5=new Location(l.getX()+playerwidth/2-0.0000001,y);
-		Location l6=new Location(l.getX()-playerwidth/2,y);
-		Block b5=world.getBlockAt(l5);
-		Block b6=world.getBlockAt(l6);
-		if(b5.getType().isSolid() || b6.getType().isSolid())
-		{
-			if(v.getY()<0)
-			{
-				y=Math.ceil(y);
-				v.setY(0);
-			}
-		}
-		
-		Location l7=new Location(l.getX()+playerwidth/2-0.0000001,y+bounds.getMax().getY());
-		Location l8=new Location(l.getX()-playerwidth/2,y+bounds.getMax().getY());
-		Block b7=world.getBlockAt(l7);
-		Block b8=world.getBlockAt(l8);
-		if(b7.getType().isSolid() || b8.getType().isSolid())
-		{
-			if(v.getY()>0)
-			{
-				y=Math.floor(y+bounds.getMax().getY())-bounds.getMax().getY();
-				v.setY(0);
-			}
-		}
-		l.setY(y);
-		
-		updateView();
-	}
+//	private void tickPlayer()
+//	{
+//		Location l=player.getLocation();
+//		Vector v=player.getVelocity();
+//		if(l==null || world==null)
+//		{
+//			return;
+//		}
+//		Rectangle bounds=player.getHitBox();
+//		long now=System.currentTimeMillis();
+//		long time=now-player.getLastMoveTime();
+//		
+//		if(player.isJumping() && player.isOnGround())
+//		{
+//			v.setY(7);
+//
+//			player.setLastJumpTime(now);
+//		}
+//		else if(!player.isOnGround())
+//		{
+//			if(time<now)
+//			{
+//				double ya=0.002;
+//				
+//				double vy=v.getY();
+//				
+//				vy-=ya*time*time;
+//				
+//				v.setY(vy);
+//			}
+//		}
+//		
+//		
+//		double xmaxmove=4.5;
+//		double xminmove=1.5;
+//		double xa=0.00015;
+//		
+//		
+//		double vx=v.getX();
+//		if(player.isMovingleft() && !player.isMovingright())
+//		{
+//			if(vx>-xminmove)
+//			{
+//				vx=-xminmove;
+//			}
+//			else
+//			{
+//				vx*=(1+xa*time*time*(xmaxmove+vx));
+//			}
+//		}
+//		else if(player.isMovingright() && !player.isMovingleft())
+//		{
+//			if(vx<xminmove)
+//			{
+//				vx=xminmove;
+//			}
+//			else
+//			{
+//				vx*=(1+xa*time*time*(xmaxmove-vx));
+//			}
+//		}
+//		else //x decelerate
+//		{
+//			double d=xa*time*time*(Math.abs(vx)+xminmove);
+//			d*=3;
+//			if(d>1)
+//			{
+//				d=1;
+//			}
+//			else if(d<0)
+//			{
+//				d=0;
+//			}
+//			
+//			vx*=(1-d);
+//		}
+//
+//		player.getVelocity().setX(vx);
+//		player.setLastMoveTime(now);
+//
+//		
+//		
+//		
+//		
+//		float multiplier=0.01F;
+//		float playerwidth=(float) (Math.abs(bounds.getMin().getX()-bounds.getMax().getX()));
+//		
+//		//world check
+//		double x=l.getX();
+//		x+=v.getX()*multiplier;
+//		if(x<0)
+//		{
+//			x=0;
+//			v.setX(0);
+//		}
+//		if(x>=world.getWidth())
+//		{
+//			x=world.getWidth()-0.0000001;
+//			v.setX(0);
+//		}
+//		
+//		//block check
+//		Location l1=new Location(x-playerwidth/2,l.getY());
+//		Location l2=new Location(x-playerwidth/2,l.getY()+1);
+//		Block b1=world.getBlockAt(l1);
+//		Block b2=world.getBlockAt(l2);
+//		if(b1.getType().isSolid() || b2.getType().isSolid())
+//		{
+//			if(v.getX()<0)
+//			{
+//				x=Math.ceil(x-playerwidth/2)+playerwidth/2;
+//				v.setX(0);
+//			}
+//		}
+//		
+//		Location l3=new Location(x+playerwidth/2,l.getY());
+//		Location l4=new Location(x+playerwidth/2,l.getY()+1);
+//		Block b3=world.getBlockAt(l3);
+//		Block b4=world.getBlockAt(l4);
+//		if(b3.getType().isSolid() || b4.getType().isSolid())
+//		{
+//			if(v.getX()>0)
+//			{
+//				x=Math.floor(x+playerwidth/2)-playerwidth/2;
+//				v.setX(0);
+//			}
+//		}
+//		l.setX(x);
+//		
+//		//world check
+//		double y=l.getY();
+//		y+=v.getY()*multiplier;
+//		if(y<0)
+//		{
+//			y=0;
+//			v.setY(0);
+//		}
+//		if(y>=world.getHeight())
+//		{
+//			y=world.getHeight()-0.0000001;
+//			v.setY(0);
+//		}
+//		
+//		//block check
+//		Location l5=new Location(l.getX()+playerwidth/2-0.0000001,y);
+//		Location l6=new Location(l.getX()-playerwidth/2,y);
+//		Block b5=world.getBlockAt(l5);
+//		Block b6=world.getBlockAt(l6);
+//		if(b5.getType().isSolid() || b6.getType().isSolid())
+//		{
+//			if(v.getY()<0)
+//			{
+//				y=Math.ceil(y);
+//				v.setY(0);
+//			}
+//		}
+//		
+//		Location l7=new Location(l.getX()+playerwidth/2-0.0000001,y+bounds.getMax().getY());
+//		Location l8=new Location(l.getX()-playerwidth/2,y+bounds.getMax().getY());
+//		Block b7=world.getBlockAt(l7);
+//		Block b8=world.getBlockAt(l8);
+//		if(b7.getType().isSolid() || b8.getType().isSolid())
+//		{
+//			if(v.getY()>0)
+//			{
+//				y=Math.floor(y+bounds.getMax().getY())-bounds.getMax().getY();
+//				v.setY(0);
+//			}
+//		}
+//		l.setY(y);
+//		
+//		updateView();
+//	}
 	
-	private void updateView()
+	public void updateView()
 	{
 		Rectangle viewRect=new Rectangle(
 				displayWidth*0.3/textureWidth,
