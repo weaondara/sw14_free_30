@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import sw.superwhateverjnr.Game;
 import sw.superwhateverjnr.block.Block;
+import sw.superwhateverjnr.util.Rectangle;
+import sw.superwhateverjnr.util.Vector;
 import sw.superwhateverjnr.world.Location;
 import sw.superwhateverjnr.world.World;
 
@@ -35,7 +37,14 @@ public class Player extends Entity
 	@Setter
 	private boolean jumping;
 	
-	public void swingArms()
+	@Override
+	public void tick()
+	{
+		tickMove();
+		swingArms();
+	}
+	
+	private void swingArms()
 	{
 		if(armMovingRight)
 		{
@@ -59,6 +68,177 @@ public class Player extends Entity
 		}
 			
 	}
+	private void tickMove()
+	{
+		if(location==null || world()==null)
+		{
+			return;
+		}
+		Rectangle bounds=getHitBox();
+		long now=System.currentTimeMillis();
+		long time=now-getLastMoveTime();
+		
+		if(isJumping() && isOnGround())
+		{
+			velocity.setY(7);
+
+			setLastJumpTime(now);
+		}
+		else if(!isOnGround())
+		{
+			if(time<now)
+			{
+				double ya=0.002;
+				
+				double vy=velocity.getY();
+				
+				vy-=ya*time*time;
+				
+				velocity.setY(vy);
+			}
+		}
+		
+		
+		double xmaxmove=4.5;
+		double xminmove=1.5;
+		double xa=0.00015;
+		
+		
+		double vx=velocity.getX();
+		if(isMovingleft() && !isMovingright())
+		{
+			if(vx>-xminmove)
+			{
+				vx=-xminmove;
+			}
+			else
+			{
+				vx*=(1+xa*time*time*(xmaxmove+vx));
+			}
+		}
+		else if(isMovingright() && !isMovingleft())
+		{
+			if(vx<xminmove)
+			{
+				vx=xminmove;
+			}
+			else
+			{
+				vx*=(1+xa*time*time*(xmaxmove-vx));
+			}
+		}
+		else //x decelerate
+		{
+			double d=xa*time*time*(Math.abs(vx)+xminmove);
+			d*=3;
+			if(d>1)
+			{
+				d=1;
+			}
+			else if(d<0)
+			{
+				d=0;
+			}
+			
+			vx*=(1-d);
+		}
+
+		getVelocity().setX(vx);
+		setLastMoveTime(now);
+
+		
+		
+		
+		
+		float multiplier=0.01F;
+		float playerwidth=(float) (Math.abs(bounds.getMin().getX()-bounds.getMax().getX()));
+		
+		//world check
+		double x=location.getX();
+		x+=velocity.getX()*multiplier;
+		if(x<0)
+		{
+			x=0;
+			velocity.setX(0);
+		}
+		if(x>=world().getWidth())
+		{
+			x=world().getWidth()-0.0000001;
+			velocity.setX(0);
+		}
+		
+		//block check
+		Location l1=new Location(x-playerwidth/2,location.getY());
+		Location l2=new Location(x-playerwidth/2,location.getY()+1);
+		Block b1=world().getBlockAt(l1);
+		Block b2=world().getBlockAt(l2);
+		if(b1.getType().isSolid() || b2.getType().isSolid())
+		{
+			if(velocity.getX()<0)
+			{
+				x=Math.ceil(x-playerwidth/2)+playerwidth/2;
+				velocity.setX(0);
+			}
+		}
+		
+		Location l3=new Location(x+playerwidth/2,location.getY());
+		Location l4=new Location(x+playerwidth/2,location.getY()+1);
+		Block b3=world().getBlockAt(l3);
+		Block b4=world().getBlockAt(l4);
+		if(b3.getType().isSolid() || b4.getType().isSolid())
+		{
+			if(velocity.getX()>0)
+			{
+				x=Math.floor(x+playerwidth/2)-playerwidth/2;
+				velocity.setX(0);
+			}
+		}
+		location.setX(x);
+		
+		//world check
+		double y=location.getY();
+		y+=velocity.getY()*multiplier;
+		if(y<0)
+		{
+			y=0;
+			velocity.setY(0);
+		}
+		if(y>=world().getHeight())
+		{
+			y=world().getHeight()-0.0000001;
+			velocity.setY(0);
+		}
+		
+		//block check
+		Location l5=new Location(location.getX()+playerwidth/2-0.0000001,y);
+		Location l6=new Location(location.getX()-playerwidth/2,y);
+		Block b5=world().getBlockAt(l5);
+		Block b6=world().getBlockAt(l6);
+		if(b5.getType().isSolid() || b6.getType().isSolid())
+		{
+			if(velocity.getY()<0)
+			{
+				y=Math.ceil(y);
+				velocity.setY(0);
+			}
+		}
+		
+		Location l7=new Location(location.getX()+playerwidth/2-0.0000001,y+bounds.getMax().getY());
+		Location l8=new Location(location.getX()-playerwidth/2,y+bounds.getMax().getY());
+		Block b7=world().getBlockAt(l7);
+		Block b8=world().getBlockAt(l8);
+		if(b7.getType().isSolid() || b8.getType().isSolid())
+		{
+			if(velocity.getY()>0)
+			{
+				y=Math.floor(y+bounds.getMax().getY())-bounds.getMax().getY();
+				velocity.setY(0);
+			}
+		}
+		location.setY(y);
+		
+		Game.getInstance().updateView();
+	}
 	
 	public boolean isOnGround()
 	{
@@ -74,5 +254,9 @@ public class Player extends Entity
 		}
 		
 		return location.getBlockY()==location.getY();
+	}
+	private World world()
+	{
+		return Game.getInstance().getWorld();
 	}
 }
