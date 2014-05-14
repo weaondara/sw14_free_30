@@ -26,7 +26,7 @@ public class PackedWorldLoader extends WorldLoader
 		Location spawn = new Location(spawnx, spawny);
 		Block blocks[][] = new Block[width][height];
 		
-		World w = new World(wname, width, height, spawn, blocks);
+		World w = createWorld(wname, width, height, spawn, blocks);
 		
 		for(int x = 0; x < width; x++)
 		{
