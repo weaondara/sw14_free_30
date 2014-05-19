@@ -11,10 +11,13 @@ import sw.superwhateverjnr.world.World;
 @Getter
 public class Player extends Entity
 {
-	private static int armIdleDegree = 90;
-	private static int armMaxDegreeDelta = 45;
+	private final static int armIdleDegree = 90;
+	private final static int armMaxDegreeDelta = 45;
 	private static int armMoveConstant = 10;
 	
+	private final static double runningMin = 1.5;
+	private final static double runningMax = 4.5;
+	private final static double jumpPower = 7.0;
 	
 	private int moveArmswingDegrees;
 	private int standArmswingDegrees;
@@ -79,7 +82,7 @@ public class Player extends Entity
 		
 		if(isJumping() && isOnGround())
 		{
-			velocity.setY(7);
+			velocity.setY(jumpPower);
 
 			setLastJumpTime(now);
 		}
@@ -87,48 +90,43 @@ public class Player extends Entity
 		{
 			if(time<now)
 			{
-				double ya=0.002;
 				
 				double vy=velocity.getY();
 				
-				vy-=ya*time*time;
+				vy-= gravity*time*time;
 				
 				velocity.setY(vy);
 			}
 		}
 		
-		
-		double xmaxmove=4.5;
-		double xminmove=1.5;
 		double xa=0.00015;
-		
-		
+			
 		double vx=velocity.getX();
 		if(isMovingleft() && !isMovingright())
 		{
-			if(vx>-xminmove)
+			if(vx>-runningMin)
 			{
-				vx=-xminmove;
+				vx=-runningMin;
 			}
 			else
 			{
-				vx*=(1+xa*time*time*(xmaxmove+vx));
+				vx*=(1+xa*time*time*(runningMax+vx));
 			}
 		}
 		else if(isMovingright() && !isMovingleft())
 		{
-			if(vx<xminmove)
+			if(vx<runningMin)
 			{
-				vx=xminmove;
+				vx=runningMin;
 			}
 			else
 			{
-				vx*=(1+xa*time*time*(xmaxmove-vx));
+				vx*=(1+xa*time*time*(runningMax-vx));
 			}
 		}
 		else //x decelerate
 		{
-			double d=xa*time*time*(Math.abs(vx)+xminmove);
+			double d=xa*time*time*(Math.abs(vx)+runningMin);
 			d*=3;
 			if(d>1)
 			{

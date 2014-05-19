@@ -20,6 +20,7 @@ import sw.superwhateverjnr.world.Location;
 @EqualsAndHashCode
 public abstract class Entity
 {
+	protected static final double gravity = 0.002;
 	private static int ENTITY_ID = 0;
 	@Synchronized
 	public static int getNewId()
