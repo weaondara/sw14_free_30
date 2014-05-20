@@ -127,6 +127,36 @@ public abstract class Entity
 		tickGravity();
 	}
 	
+	public double getJumpMaxWidth()
+	{
+		double maxwidth = 0.0;
+		double maxheight = 0.0;
+		double v_y = getJumpPower();
+		double dt = 0.01;
+		double t_max = 0.0;
+		while (v_y > 0)
+		{
+			maxheight += v_y * dt;
+			v_y -= gravity * 10 * dt;
+			t_max += dt;
+		}
+		maxwidth = getRunningMax() * t_max / 100.0 * 2;
+		return maxwidth;
+	}
+	
+	public double getJumpMaxHeight()
+	{
+		double maxheight = 0.0;
+		double v_y = getJumpPower();
+		double dt = 0.01;
+		while (v_y > 0)
+		{
+			maxheight += v_y * dt;
+			v_y -= gravity * 10 * dt;
+		}
+		return maxheight;
+	}
+	
 	protected void tickGravity()
 	{
 		if(location==null || world()==null)
