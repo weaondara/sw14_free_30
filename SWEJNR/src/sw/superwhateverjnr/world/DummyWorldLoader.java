@@ -77,7 +77,7 @@ public class DummyWorldLoader extends WorldLoader
 		data[26][12]=bf.create(1, (byte)0, 26, 12, world, null);
 
 		data[29][12]=bf.create(1, (byte)0, 29, 12, world, null);
-		data[30][12]=bf.create(1, (byte)0, 30, 12, world, null);w
+		data[30][12]=bf.create(1, (byte)0, 30, 12, world, null);
 		data[31][12]=bf.create(1, (byte)0, 31, 12, world, null);
 		data[32][12]=bf.create(1, (byte)0, 32, 12, world, null);
 
