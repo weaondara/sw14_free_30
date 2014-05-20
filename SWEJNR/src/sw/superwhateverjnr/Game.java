@@ -71,7 +71,7 @@ public class Game
 		worldLoader=new DummyWorldLoader();
 		try
 		{
-			world=worldLoader.loadWorld("bla");
+			world=worldLoader.loadWorld("physicstest");
 		}
 		catch(Exception e) {e.printStackTrace();}
 		
