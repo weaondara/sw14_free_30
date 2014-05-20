@@ -130,13 +130,11 @@ public abstract class Entity
 	public double getJumpMaxWidth()
 	{
 		double maxwidth = 0.0;
-		double maxheight = 0.0;
 		double v_y = getJumpPower();
 		double dt = 0.01;
 		double t_max = 0.0;
 		while (v_y > 0)
 		{
-			maxheight += v_y * dt;
 			v_y -= gravity * 10 * dt;
 			t_max += dt;
 		}
@@ -168,7 +166,7 @@ public abstract class Entity
 		
 		if(!isOnGround())
 		{
-			if(time<now)
+			if(time > 0)
 			{
 				double vy=velocity.getY();
 				
