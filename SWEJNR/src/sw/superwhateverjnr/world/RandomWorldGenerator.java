@@ -28,11 +28,11 @@ public class RandomWorldGenerator extends WorldLoader
 			blocks[offset][i] = bf.create(1, (byte)0, 0, i, w, null);
 		}
 	}
-	private void Step(Block blocks[][], World w, int offset, int width, int toHeight) throws Exception
+	private void step(Block blocks[][], World w, int offset, int width, int toHeight) throws Exception
 	{
 		//TODO
 	}
-	private void Gap(Block blocks[][], World w, int offset, int width, int toHeight) throws Exception
+	private void gap(Block blocks[][], World w, int offset, int width, int toHeight) throws Exception
 	{
 		//TODO
 	}
@@ -41,17 +41,42 @@ public class RandomWorldGenerator extends WorldLoader
 	{
 		Block blocks[][] = new Block[width][height];
 		
-		int spawnheight = height/2;
-		if (spawnheight > 10)
+		int spawnHeight = height/2;
+		if (spawnHeight > 10)
 		{
-			spawnheight = 0;
+			spawnHeight = 0;
 		}
 		
-		Location spawn = new Location(0.5, spawnheight);
+		Location spawn = new Location(0.5, spawnHeight);
 		
 		World w=createWorld(name, width, height, spawn, blocks);
 		
-		pillar(blocks, w, 0, spawnheight);		
+		pillar(blocks, w, 0, spawnHeight);
+		
+		int nextHeight = spawnHeight;
+		
+		for (int fillWidth = 1; fillWidth < width;)
+		{
+			int nextConstruct = randomizer.nextInt(2);
+			switch(nextConstruct)
+			{
+			case 0:
+			{
+				nextHeight = randomizer.nextInt(nextHeight);
+				pillar(blocks, w, fillWidth, nextHeight);
+				fillWidth++;
+			}
+			case 1:
+			{
+				//Gaps
+			}
+			case 2:
+			{
+				//Steps
+			}
+			}
+		}
+		
 		
 		for(int x = 0; x < width; x++)
 		{
