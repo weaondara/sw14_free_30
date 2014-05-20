@@ -152,7 +152,7 @@ public abstract class Entity
 			maxheight += v_y * dt;
 			v_y -= gravity * 10 * dt;
 		}
-		return maxheight;
+		return maxheight * 0.01;
 	}
 	
 	protected void tickGravity()
