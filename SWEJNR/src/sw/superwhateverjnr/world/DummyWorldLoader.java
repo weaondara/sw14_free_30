@@ -20,7 +20,7 @@ public class DummyWorldLoader extends WorldLoader
 	
 	private World loadPhysicsTest() throws Exception
 	{
-		int width=100;
+		int width=39;
 		int height=40;
 		Location spawn=new Location(1, 10);
 		Block[][] data=new Block[width][height];
