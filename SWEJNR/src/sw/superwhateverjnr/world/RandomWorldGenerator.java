@@ -1,6 +1,5 @@
 package sw.superwhateverjnr.world;
 
-import java.lang.reflect.Constructor;
 import java.util.Random;
 
 import sw.superwhateverjnr.block.Block;
@@ -22,7 +21,7 @@ public class RandomWorldGenerator extends WorldLoader
 	private Random randomizer = new Random();
 	BlockFactory bf=BlockFactory.getInstance();
 	
-	private void Pillar(Block blocks[][], World w, int offset, int height) throws Exception
+	private void pillar(Block blocks[][], World w, int offset, int height) throws Exception
 	{
 		for(int i = 0; i < height; i++)
 		{
@@ -40,8 +39,6 @@ public class RandomWorldGenerator extends WorldLoader
 	
 	private World newWorld(int width, int height, String name) throws Exception
 	{
-		Constructor<World> ctor=World.class.getDeclaredConstructor(String.class, int.class, int.class, Location.class, Block[][].class);
-		ctor.setAccessible(true);
 		Block blocks[][] = new Block[width][height];
 		
 		int spawnheight = height/2;
@@ -50,15 +47,15 @@ public class RandomWorldGenerator extends WorldLoader
 			spawnheight = 0;
 		}
 		
-		Location spawn = new Location(1.5, spawnheight);
+		Location spawn = new Location(0.5, spawnheight);
 		
-		World w=ctor.newInstance(name, width, height, spawn, blocks);
+		World w=createWorld(name, width, height, spawn, blocks);
 		
-		Pillar(blocks, w, 0, spawnheight);		
+		pillar(blocks, w, 0, spawnheight);		
 		
-		for(int x = 0; x < width+1; x++)
+		for(int x = 0; x < width; x++)
 		{
-			for(int y = 0; y < height+1; y++)
+			for(int y = 0; y < height; y++)
 			{
 				if(blocks[x][y] == null)
 				{

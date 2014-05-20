@@ -19,6 +19,7 @@ import sw.superwhateverjnr.util.IdAndSubId;
 import sw.superwhateverjnr.util.Rectangle;
 import sw.superwhateverjnr.world.DummyWorldLoader;
 import sw.superwhateverjnr.world.Location;
+import sw.superwhateverjnr.world.RandomWorldGenerator;
 import sw.superwhateverjnr.world.World;
 import sw.superwhateverjnr.world.WorldLoader;
 
@@ -68,7 +69,7 @@ public class Game
 		scheduler=new Scheduler();
 		registerSchedulerTasks();
 		
-		worldLoader=new DummyWorldLoader();
+		worldLoader=new RandomWorldGenerator();
 		try
 		{
 			world=worldLoader.loadWorld("jumptest");
