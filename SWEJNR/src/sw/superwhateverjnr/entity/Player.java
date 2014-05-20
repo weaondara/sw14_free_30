@@ -17,6 +17,7 @@ public class Player extends Entity
 	
 	private final static double runningMin = 1.5;
 	private final static double runningMax = 4.5;
+	private final static double runPower = 0.00015;
 	private final static double jumpPower = 7.0;
 	
 	private int moveArmswingDegrees;
@@ -99,8 +100,6 @@ public class Player extends Entity
 			}
 		}
 		
-		double xa=0.00015;
-			
 		double vx=velocity.getX();
 		if(isMovingleft() && !isMovingright())
 		{
@@ -110,7 +109,7 @@ public class Player extends Entity
 			}
 			else
 			{
-				vx*=(1+xa*time*time*(runningMax+vx));
+				vx*=(1+runPower*time*time*(runningMax+vx));
 			}
 		}
 		else if(isMovingright() && !isMovingleft())
@@ -121,12 +120,12 @@ public class Player extends Entity
 			}
 			else
 			{
-				vx*=(1+xa*time*time*(runningMax-vx));
+				vx*=(1+runPower*time*time*(runningMax-vx));
 			}
 		}
 		else //x decelerate
 		{
-			double d=xa*time*time*(Math.abs(vx)+runningMin);
+			double d=runPower*time*time*(Math.abs(vx)+runningMin);
 			d*=3;
 			if(d>1)
 			{
