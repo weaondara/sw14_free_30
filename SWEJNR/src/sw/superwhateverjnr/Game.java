@@ -169,7 +169,11 @@ public class Game
 		
 		player.setMovingleft(left);
 		player.setMovingright(right);
-		player.setJumping(jump);
+		if(jump)
+		{
+			player.jump();
+		}
+//		player.setJumping(jump);
 	}
 	
 	public void updateView()
