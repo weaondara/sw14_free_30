@@ -71,7 +71,7 @@ public class Game
 		worldLoader=new DummyWorldLoader();
 		try
 		{
-			world=worldLoader.loadWorld("physicstest");
+			world=worldLoader.loadWorld("jumptest");
 		}
 		catch(Exception e) {e.printStackTrace();}
 		
@@ -173,7 +173,6 @@ public class Game
 		{
 			player.jump();
 		}
-//		player.setJumping(jump);
 	}
 	
 	public void updateView()
@@ -182,7 +181,7 @@ public class Game
 				displayWidth*0.3/textureWidth,
 				displayHeight*0.35/textureHeight,
 				displayWidth*0.5/textureWidth,
-				displayHeight*0.65/textureHeight
+				displayHeight*0.55/textureHeight
 				);
 		
 		Location l=player.getLocation();
@@ -196,7 +195,7 @@ public class Game
 			}
 			minDisplayPoint.setX(x);
 		}
-		if(l.getX()>minDisplayPoint.getX()+viewRect.getMax().getX())
+		else if(l.getX()>minDisplayPoint.getX()+viewRect.getMax().getX())
 		{
 			float x=(float) (l.getX()-viewRect.getMax().getX());
 			if(x>world.getWidth()-displayWidth/textureWidth)
@@ -206,22 +205,21 @@ public class Game
 			minDisplayPoint.setX(x);
 		}
 		
-		
 		if(l.getY()<minDisplayPoint.getY()+viewRect.getMin().getY())
 		{
-			float y=(float) (l.getY()-viewRect.getMin().getY());
+			float y=(float) (l.getY()-(viewRect.getMin().getY()));
 			if(y<0)
 			{
 				y=0;
 			}
 			minDisplayPoint.setY(y);
 		}
-		if(l.getY()>minDisplayPoint.getY()+viewRect.getMax().getY())
+		else if(l.getY()>minDisplayPoint.getY()+viewRect.getMax().getY())
 		{
-			float y=(float) (l.getY()-viewRect.getMax().getY());
-			if(y>world.getHeight()-displayHeight/textureHeight)
+			float y=(float) (l.getY()-(viewRect.getMax().getY()));
+			if(y>world.getHeight())
 			{
-				y=world.getHeight()-displayHeight/textureHeight;
+				y=world.getHeight();
 			}
 			minDisplayPoint.setY(y);
 		}
