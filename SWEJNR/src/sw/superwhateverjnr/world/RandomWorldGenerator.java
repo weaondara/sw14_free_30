@@ -19,24 +19,25 @@ public class RandomWorldGenerator extends WorldLoader
 	private int minWidth = 40;
 	
 	private Random randomizer = new Random();
-	BlockFactory bf=BlockFactory.getInstance();
+	private BlockFactory bf=BlockFactory.getInstance();
 	
-	private void pillar(Block blocks[][], World w, int offset, int height) throws Exception
+	public World loadWorld(String name) throws Exception
 	{
-		for(int i = 0; i <= height; i++)
+		int width = 0, height = 0;
+		while(width < minWidth)
 		{
-			blocks[offset][i] = bf.create(1, (byte)0, offset, i, w, null);
+			width = randomizer.nextInt(maxWidth);
 		}
+		while(height < minHeight)
+		{
+			height = randomizer.nextInt(maxHeight);
+		}
+		
+		World w = newWorld(width, height, name);
+		
+		return w;
 	}
-	private void step(Block blocks[][], World w, int offset, int width, int toHeight) throws Exception
-	{
-		//TODO
-	}
-	private void gap(Block blocks[][], World w, int offset, int width, int toHeight) throws Exception
-	{
-		//TODO
-	}
-	
+
 	private World newWorld(int width, int height, String name) throws Exception
 	{
 		Block blocks[][] = new Block[width][height];
@@ -61,29 +62,26 @@ public class RandomWorldGenerator extends WorldLoader
 			int nextConstruct = randomizer.nextInt(2);
 			switch(nextConstruct)
 			{
-			case 0:
-			{
-				nextHeight = randomizer.nextInt(thisHeight+2);//Assuming Jump Height 2.
-				while (nextHeight < thisHeight - 3)
-				{
-					nextHeight = randomizer.nextInt(thisHeight+2);
-				}
-				if(nextHeight > maxHeight - 2)
-				{
-					nextHeight = maxHeight - 2;
-				}
-				pillar(blocks, w, fillWidth, nextHeight);
-				thisHeight = nextHeight;
-				fillWidth++;
-			}
-			case 1:
-			{
-				//Gaps
-			}
-			case 2:
-			{
-				//Steps
-			}
+				case 0:
+					nextHeight = randomizer.nextInt(thisHeight+2);//Assuming Jump Height 2.
+					while (nextHeight < thisHeight - 3)
+					{
+						nextHeight = randomizer.nextInt(thisHeight+2);
+					}
+					if(nextHeight > maxHeight - 2)
+					{
+						nextHeight = maxHeight - 2;
+					}
+					pillar(blocks, w, fillWidth, nextHeight);
+					thisHeight = nextHeight;
+					fillWidth++;
+					break;
+				case 1:
+					//Gaps
+					break;
+				case 2:
+					//Steps
+					break;
 			}
 		}
 		
@@ -102,20 +100,20 @@ public class RandomWorldGenerator extends WorldLoader
 		return w;
 	}
 	
-	public World loadWorld(String name) throws Exception
+	private void pillar(Block blocks[][], World w, int offset, int height) throws Exception
 	{
-		int width = 0, height = 0;
-		while(width < minWidth)
+		for(int i = 0; i <= height; i++)
 		{
-			width = randomizer.nextInt(maxWidth);
+			blocks[offset][i] = bf.create(1, (byte)0, offset, i, w, null);
 		}
-		while(height < minHeight)
-		{
-			height = randomizer.nextInt(maxHeight);
-		}
-		
-		World w = newWorld(width, height, name);
-		
-		return w;
 	}
+	private void step(Block blocks[][], World w, int offset, int width, int toHeight) throws Exception
+	{
+		//TODO
+	}
+	private void gap(Block blocks[][], World w, int offset, int width, int toHeight) throws Exception
+	{
+		//TODO
+	}
+	
 }
