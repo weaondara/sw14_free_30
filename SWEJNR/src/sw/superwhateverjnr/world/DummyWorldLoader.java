@@ -26,7 +26,7 @@ public class DummyWorldLoader extends WorldLoader
 	{
 		int width=39;
 		int height=40;
-		Location spawn=new Location(1, 10);
+		Location spawn=new Location(1.5, 10);
 		Block[][] data=new Block[width][height];
 		World world=createWorld("physicstest", width, height, spawn, data);
 		
@@ -104,7 +104,7 @@ public class DummyWorldLoader extends WorldLoader
 	{
 		int width=10;
 		int height=40;
-		Location spawn=new Location(1, 10);
+		Location spawn=new Location(1.5, 10);
 		Block[][] data=new Block[width][height];
 		World world=createWorld("jumpTest", width, height, spawn, data);
 		
