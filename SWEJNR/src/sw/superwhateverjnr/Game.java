@@ -89,8 +89,6 @@ public class Game
 		gameView=new GameView(SWEJNR.getInstance());
 		FullscreenActivity.getInstance().setContentView(gameView);
 
-		registerSchedulerTasks();
-		
 		gameRunning=true;
 	}
 
