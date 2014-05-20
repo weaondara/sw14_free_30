@@ -209,13 +209,18 @@ public abstract class Entity
 		{
 			return false;
 		}
-		Block b=w.getBlockAt(location.add(0, -1));
-		if(!b.getType().isSolid())
+		
+		Location left=location.add(-hitBox.getMax().getX()/2, -1);
+		Location right=location.add(hitBox.getMax().getX()/2, -1);
+		Block bleft=w.getBlockAt(left);
+		Block bright=w.getBlockAt(right);
+		if(!bleft.getType().isSolid() && !bright.getType().isSolid())
 		{
 			return false;
 		}
 		
-		return location.getBlockY()==location.getY();
+		return left.getBlockY()==left.getY() ||
+				right.getBlockY()==right.getY();
 	}
 	protected World world()
 	{
