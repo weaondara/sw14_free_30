@@ -152,7 +152,7 @@ public class Game
 			{
 				while(!gameRunning)
 				{
-					Thread.sleep(1);
+					return;
 				}
 				try
 				{
