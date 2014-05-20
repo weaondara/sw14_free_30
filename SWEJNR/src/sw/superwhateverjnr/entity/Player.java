@@ -6,7 +6,6 @@ import sw.superwhateverjnr.Game;
 import sw.superwhateverjnr.block.Block;
 import sw.superwhateverjnr.util.Rectangle;
 import sw.superwhateverjnr.world.Location;
-import sw.superwhateverjnr.world.World;
 
 @Getter
 public class Player extends Entity
@@ -17,8 +16,24 @@ public class Player extends Entity
 	
 	private final static double runningMin = 1.5;
 	private final static double runningMax = 4.5;
-	private final static double runPower = 0.00015;
-	private final static double jumpPower = 7.0;
+	private final static double runPower = 0.0015;
+	private final static double jumpPower = 9.0;
+	
+	@Override
+	public double getRunningMax()
+	{
+		return runningMax;
+	}
+	@Override
+	public double getRunPower()
+	{
+		return runPower;
+	}
+	@Override
+	public double getJumpPower()
+	{
+		return jumpPower;
+	}
 	
 	private int moveArmswingDegrees;
 	private int standArmswingDegrees;
@@ -33,18 +48,14 @@ public class Player extends Entity
 		standArmswingDegrees=armIdleDegree;
 	}
 	
-	@Setter
-	private boolean movingright;
-	@Setter
-	private boolean movingleft;
-	@Setter
-	private boolean jumping;
-	
 	@Override
 	public void tick()
 	{
+		super.tick();
 		tickMove();
 		swingArms();
+		
+		Game.getInstance().updateView();
 	}
 	
 	private void swingArms()
@@ -81,25 +92,6 @@ public class Player extends Entity
 		long now=System.currentTimeMillis();
 		long time=now-getLastMoveTime();
 		
-		if(isJumping() && isOnGround())
-		{
-			velocity.setY(jumpPower);
-
-			setLastJumpTime(now);
-		}
-		else if(!isOnGround())
-		{
-			if(time<now)
-			{
-				
-				double vy=velocity.getY();
-				
-				vy-= gravity*time*time;
-				
-				velocity.setY(vy);
-			}
-		}
-		
 		double vx=velocity.getX();
 		if(isMovingleft() && !isMovingright())
 		{
@@ -109,7 +101,7 @@ public class Player extends Entity
 			}
 			else
 			{
-				vx*=(1+runPower*time*time*(runningMax+vx));
+				vx*=(1+runPower*time*(runningMax+vx));
 			}
 		}
 		else if(isMovingright() && !isMovingleft())
@@ -120,12 +112,12 @@ public class Player extends Entity
 			}
 			else
 			{
-				vx*=(1+runPower*time*time*(runningMax-vx));
+				vx*=(1+runPower*time*(runningMax-vx));
 			}
 		}
 		else //x decelerate
 		{
-			double d=runPower*time*time*(Math.abs(vx)+runningMin);
+			double d=runPower*time*(Math.abs(vx)+runningMin);
 			d*=3;
 			if(d>1)
 			{
@@ -190,69 +182,5 @@ public class Player extends Entity
 			}
 		}
 		location.setX(x);
-		
-		//world check
-		double y=location.getY();
-		y+=velocity.getY()*multiplier;
-		if(y<0)
-		{
-			y=0;
-			velocity.setY(0);
-		}
-		if(y>=world().getHeight())
-		{
-			y=world().getHeight()-0.0000001;
-			velocity.setY(0);
-		}
-		
-		//block check
-		Location l5=new Location(location.getX()+playerwidth/2-0.0000001,y);
-		Location l6=new Location(location.getX()-playerwidth/2,y);
-		Block b5=world().getBlockAt(l5);
-		Block b6=world().getBlockAt(l6);
-		if(b5.getType().isSolid() || b6.getType().isSolid())
-		{
-			if(velocity.getY()<0)
-			{
-				y=Math.ceil(y);
-				velocity.setY(0);
-			}
-		}
-		
-		Location l7=new Location(location.getX()+playerwidth/2-0.0000001,y+bounds.getMax().getY());
-		Location l8=new Location(location.getX()-playerwidth/2,y+bounds.getMax().getY());
-		Block b7=world().getBlockAt(l7);
-		Block b8=world().getBlockAt(l8);
-		if(b7.getType().isSolid() || b8.getType().isSolid())
-		{
-			if(velocity.getY()>0)
-			{
-				y=Math.floor(y+bounds.getMax().getY())-bounds.getMax().getY();
-				velocity.setY(0);
-			}
-		}
-		location.setY(y);
-		
-		Game.getInstance().updateView();
-	}
-	
-	public boolean isOnGround()
-	{
-		World w=Game.getInstance().getWorld();
-		if(w==null)
-		{
-			return false;
-		}
-		Block b=w.getBlockAt(location.add(0, -1));
-		if(!b.getType().isSolid())
-		{
-			return false;
-		}
-		
-		return location.getBlockY()==location.getY();
-	}
-	private World world()
-	{
-		return Game.getInstance().getWorld();
 	}
 }
