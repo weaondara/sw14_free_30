@@ -23,7 +23,7 @@ public class RandomWorldGenerator extends WorldLoader
 	
 	private void pillar(Block blocks[][], World w, int offset, int height) throws Exception
 	{
-		for(int i = 0; i < height; i++)
+		for(int i = 0; i <= height; i++)
 		{
 			blocks[offset][i] = bf.create(1, (byte)0, offset, i, w, null);
 		}
@@ -47,13 +47,14 @@ public class RandomWorldGenerator extends WorldLoader
 			spawnHeight = 0;
 		}
 		
-		Location spawn = new Location(0.5, spawnHeight);
+		Location spawn = new Location(0.5, spawnHeight+1);
 		
 		World w=createWorld(name, width, height, spawn, blocks);
 		
 		pillar(blocks, w, 0, spawnHeight);
 		
-		int nextHeight = spawnHeight;
+		int thisHeight = spawnHeight;
+		int nextHeight;
 		
 		for (int fillWidth = 1; fillWidth < width;)
 		{
@@ -62,8 +63,17 @@ public class RandomWorldGenerator extends WorldLoader
 			{
 			case 0:
 			{
-				nextHeight = randomizer.nextInt(nextHeight+2);//Assuming Jump Height 2.
+				nextHeight = randomizer.nextInt(thisHeight+2);//Assuming Jump Height 2.
+				while (nextHeight < thisHeight - 3)
+				{
+					nextHeight = randomizer.nextInt(thisHeight+2);
+				}
+				if(nextHeight > maxHeight - 2)
+				{
+					nextHeight = maxHeight - 2;
+				}
 				pillar(blocks, w, fillWidth, nextHeight);
+				thisHeight = nextHeight;
 				fillWidth++;
 			}
 			case 1:
