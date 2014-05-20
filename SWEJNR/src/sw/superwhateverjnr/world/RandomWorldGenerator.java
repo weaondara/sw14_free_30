@@ -67,7 +67,7 @@ public class RandomWorldGenerator extends WorldLoader
 			}
 		}
 		
-		return null;
+		return w;
 	}
 	
 	public World loadWorld(String name) throws Exception
@@ -82,8 +82,8 @@ public class RandomWorldGenerator extends WorldLoader
 			height = randomizer.nextInt(maxHeight);
 		}
 		
-		newWorld(width, height, name);
+		World w = newWorld(width, height, name);
 		
-		return null;
+		return w;
 	}
 }
