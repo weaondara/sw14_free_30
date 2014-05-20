@@ -6,6 +6,7 @@ import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.SneakyThrows;
 import lombok.ToString;
 import sw.superwhateverjnr.entity.Player;
 import sw.superwhateverjnr.scheduling.Scheduler;
@@ -49,6 +50,8 @@ public class Game
 	private Settings settings;
 	private Scheduler scheduler;
 	
+	private boolean gameRunning = false;
+	
 	public Game()
 	{
 		instance=this;
@@ -84,6 +87,10 @@ public class Game
 		
 		gameView=new GameView(SWEJNR.getInstance());
 		FullscreenActivity.getInstance().setContentView(gameView);
+
+		registerSchedulerTasks();
+		
+		gameRunning=true;
 	}
 
 	
@@ -102,9 +109,14 @@ public class Game
 	{
 		final Runnable r10ms=new Runnable()
 		{
+			@SneakyThrows
 			@Override
 			public void run()
 			{
+				while(!gameRunning)
+				{
+					Thread.sleep(1);
+				}
 				try
 				{
 					player.tick();
