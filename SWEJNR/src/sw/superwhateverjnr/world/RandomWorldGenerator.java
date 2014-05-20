@@ -25,7 +25,7 @@ public class RandomWorldGenerator extends WorldLoader
 	{
 		for(int i = 0; i < height; i++)
 		{
-			blocks[offset][i] = bf.create(1, (byte)0, 0, i, w, null);
+			blocks[offset][i] = bf.create(1, (byte)0, offset, i, w, null);
 		}
 	}
 	private void step(Block blocks[][], World w, int offset, int width, int toHeight) throws Exception
