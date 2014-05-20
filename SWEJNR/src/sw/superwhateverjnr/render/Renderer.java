@@ -101,7 +101,7 @@ public class Renderer
 		}
 		
 		
-		if(min.getY()<0)
+		if(min.getY()>0)
 		{
 			topoffset=(float) ((min.getY()%1)*game.getTextureHeight());
 		}
