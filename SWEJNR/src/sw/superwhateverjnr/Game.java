@@ -104,7 +104,14 @@ public class Game
 			@Override
 			public void run()
 			{
-				player.tick();
+				try
+				{
+					player.tick();
+				}
+				catch(Exception e)
+				{
+					e.printStackTrace();
+				}
 			}
 		};
 		scheduler.registerRepeatingTask(r10ms, 1, 10);
