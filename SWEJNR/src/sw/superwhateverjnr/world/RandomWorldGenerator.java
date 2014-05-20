@@ -62,7 +62,7 @@ public class RandomWorldGenerator extends WorldLoader
 			{
 			case 0:
 			{
-				nextHeight = randomizer.nextInt(nextHeight);
+				nextHeight = randomizer.nextInt(nextHeight+2);//Assuming Jump Height 2.
 				pillar(blocks, w, fillWidth, nextHeight);
 				fillWidth++;
 			}
