@@ -12,6 +12,10 @@ public class DummyWorldLoader extends WorldLoader
 		{
 			return loadPhysicsTest();
 		}
+		else if (name.equalsIgnoreCase("jumptest"))
+		{
+			return loadJumpTest();
+		}
 		else
 		{
 			return loadDummy();
@@ -96,6 +100,39 @@ public class DummyWorldLoader extends WorldLoader
 		
 		return world;
 	}
+	private World loadJumpTest() throws Exception
+	{
+		int width=10;
+		int height=40;
+		Location spawn=new Location(1, 10);
+		Block[][] data=new Block[width][height];
+		World world=createWorld("jumpTest", width, height, spawn, data);
+		
+		BlockFactory bf=BlockFactory.getInstance();
+		for(int x=0;x<width;x++)
+		{
+			for(int y=0;y<height;y++)
+			{
+				if(y<10 || x==0 || x+1==width)
+				{
+					Block b=bf.create(1, (byte)0, x, y, world, null);
+					data[x][y]=b;
+				}
+				else
+				{
+					Block b=bf.create(0, (byte)0, x, y, world, null);
+					data[x][y]=b;
+				}
+			}
+			data[1][10] = bf.create(1, (byte)0, 1, 10, world, null);
+			data[3][12] = bf.create(1, (byte)0, 3, 12, world, null);
+			data[6][14] = bf.create(1, (byte)0, 6, 14, world, null);
+			data[3][16] = bf.create(1, (byte)0, 3, 16, world, null);
+		}
+		
+		return world;
+	}
+	
 	private World loadDummy() throws Exception
 	{
 		int width=100;
