@@ -129,30 +129,30 @@ public abstract class Entity
 	
 	public double getJumpWidth(double height)
 	{
-		double maxwidth = 0.0;
-		double maxheight = 0.0;
+		double momentwidth = 0.0;
+		double momentheight = 0.0;
 		double v_y = getJumpPower();
 		double dt = 0.01;
 		double t_max = 0.0;
 		while (v_y > 0)
 		{
-			maxheight += v_y * dt;
+			momentheight += v_y * dt;
 			v_y -= gravity * 10 * dt;
 			t_max += dt;
 		}
-		maxwidth = getRunningMax() * t_max * 0.01;
-		if (maxheight * 0.01 < height)
+		momentwidth = getRunningMax() * t_max * 0.01;
+		if (momentheight * 0.01 < height)
 		{
-			return maxwidth;
+			return momentwidth;
 		}
-		while (maxheight * 0.01 > height)
+		while (momentheight * 0.01 > height)
 		{
-			maxheight += v_y * dt;
+			momentheight += v_y * dt;
 			v_y -= gravity * 10 * dt;
 			t_max += dt;
 		}
-		maxwidth = getRunningMax() * t_max * 0.01;
-		return maxwidth;
+		momentwidth = getRunningMax() * t_max * 0.01;
+		return momentwidth;
 	}
 	public double getJumpHeight(double width)
 	{
