@@ -12,7 +12,7 @@ public class SWEJNR extends Application
 	@Override
     public void onCreate() 
 	{
-        super.onCreate();
         instance = this;
+        super.onCreate();
     }
 }
