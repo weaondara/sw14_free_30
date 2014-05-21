@@ -31,7 +31,7 @@ public class MainMenu
 		
 		Button randomGameButton = new Button(instance);
 		randomGameButton.setText("SWERWG");
-		randomGameButton.setOnClickListener(new OnClickListener(){@Override public void onClick(View v){randomGame();}});
+		randomGameButton.setOnClickListener(new OnClickListener(){@Override public void onClick(View v){startRandom();}});
 		l.addView(randomGameButton);
 		
 		/*
