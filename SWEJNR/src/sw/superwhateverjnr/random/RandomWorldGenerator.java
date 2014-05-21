@@ -1,45 +1,51 @@
-package sw.superwhateverjnr.world;
+package sw.superwhateverjnr.random;
 
 import java.util.Random;
 
-import sw.superwhateverjnr.block.Block;
-import sw.superwhateverjnr.block.BlockFactory;
 import lombok.Getter;
 import lombok.Setter;
 
-public class RandomWorldGenerator extends WorldLoader
+import sw.superwhateverjnr.block.Block;
+import sw.superwhateverjnr.block.BlockFactory;
+import sw.superwhateverjnr.world.Location;
+import sw.superwhateverjnr.world.World;
+import sw.superwhateverjnr.world.WorldLoader;
+
+public class RandomWorldGenerator
 {
 	@Getter @Setter
-	private int maxHeight = 40;
+	private int maxHeight;
 	@Getter @Setter
-	private int maxWidth = 100;
+	private int maxWidth;
 	@Getter @Setter
-	private int minHeight = 10;
+	private int minHeight;
 	@Getter @Setter
-	private int minWidth = 40;
+	private int minWidth;
 	
-	private Random randomizer = new Random();
-	private BlockFactory bf=BlockFactory.getInstance();
+	private Random randomizer;
+	private BlockFactory bf;
 	
-	public World loadWorld(String name) throws Exception
+	public RandomWorldGenerator(int minx, int maxx, int miny, int maxy)
 	{
+		minWidth = minx;
+		maxWidth = maxx;
+		minHeight = miny;
+		maxHeight = maxy;
+		randomizer = new Random();
+		bf = BlockFactory.getInstance();
+	}
+	
+	public World newWorld(String name) throws Exception
+	{
+		long seed = (long) name.hashCode();
+		randomizer.setSeed(seed);
+		
 		int width = 0, height = 0;
-		while(width < minWidth)
+		while (width < minWidth && height < minHeight)
 		{
 			width = randomizer.nextInt(maxWidth);
-		}
-		while(height < minHeight)
-		{
 			height = randomizer.nextInt(maxHeight);
 		}
-		
-		World w = newWorld(width, height, name);
-		
-		return w;
-	}
-
-	private World newWorld(int width, int height, String name) throws Exception
-	{
 		Block blocks[][] = new Block[width][height];
 		
 		int spawnHeight = height/2;
@@ -50,7 +56,7 @@ public class RandomWorldGenerator extends WorldLoader
 		
 		Location spawn = new Location(0.5, spawnHeight+1);
 		
-		World w=createWorld(name, width, height, spawn, blocks);
+		World w = WorldLoader.createWorld(name, width, height, spawn, blocks);
 		
 		pillar(blocks, w, 0, spawnHeight);
 		
@@ -115,5 +121,4 @@ public class RandomWorldGenerator extends WorldLoader
 	{
 		//TODO
 	}
-	
 }

@@ -22,7 +22,7 @@ import sw.superwhateverjnr.util.IdAndSubId;
 import sw.superwhateverjnr.util.Rectangle;
 import sw.superwhateverjnr.world.DummyWorldLoader;
 import sw.superwhateverjnr.world.Location;
-import sw.superwhateverjnr.world.RandomWorldGenerator;
+import sw.superwhateverjnr.world.RandomWorldLoader;
 import sw.superwhateverjnr.world.World;
 import sw.superwhateverjnr.world.WorldLoader;
 
