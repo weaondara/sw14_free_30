@@ -44,7 +44,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Vie
 	{
 		getHolder().addCallback(this);
 		setFocusable(true);
-		rt=new RenderThread(Game.getInstance().getWorld());
+		rt=new RenderThread();
 		renderer=rt.getRenderer();
 		this.setOnTouchListener(this);
 		rt.start();

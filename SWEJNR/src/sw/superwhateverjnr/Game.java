@@ -4,6 +4,7 @@ import android.graphics.PointF;
 import android.support.v4.view.MotionEventCompat;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
+import android.view.View;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.SneakyThrows;
@@ -43,7 +44,10 @@ public class Game
 	private int textureWidth;
 	private int textureHeight;
 	
+	private View oldview;
 	private GameView gameView;
+	
+	
 	private WorldLoader worldLoader;
 	private World world;
 	
@@ -53,11 +57,13 @@ public class Game
 	
 	private boolean gameRunning = false;
 	
+	private boolean enabled = false;
+	private String worldname;
+	
 	public Game()
 	{
 		instance=this;
 		
-		player=new Player(null);
 		minDisplayPoint=new Location(0, 9);
 		
 		DisplayMetrics metrics = SWEJNR.getInstance().getResources().getDisplayMetrics();
@@ -67,32 +73,60 @@ public class Game
 		textureWidth=64;
 		textureHeight=64;
 		
+		player=new Player(null);
 		settings=new Settings();
-		loadSettings();
-		
 		scheduler=new Scheduler();
-		registerSchedulerTasks();
-		
-		worldLoader=new RandomWorldGenerator();
-		try
-		{
-			world=worldLoader.loadWorld("jumptest");
-		}
-		catch(Exception e) {e.printStackTrace();}
-		
-		
+		worldLoader=new DummyWorldLoader();
 		textureLoader=new PackedTextureLoader();
-		setupTextures();
-		
-		player.teleport(world.getSpawnLocation());
 		
 		gameView=new GameView(SWEJNR.getInstance());
-		FullscreenActivity.getInstance().setContentView(gameView);
-
-		gameRunning=true;
+		
+//		init();
+//		loadWorld("bla");
+//		enable();
 	}
 
+	public void init()
+	{
+		loadSettings();
+		setupTextures();
+		registerSchedulerTasks();
+	}
 	
+	public void enable()
+	{
+		if(enabled)
+		{
+			return;
+		}
+		
+		oldview=FullscreenActivity.getInstance().findViewById(android.R.id.content);
+		FullscreenActivity.getInstance().setContentView(gameView);
+		gameRunning=true;
+		
+		enabled=true;
+	}
+	public void disable()
+	{
+		if(!enabled)
+		{
+			return;
+		}
+		gameRunning=false;
+		
+		enabled=false;
+	}
+	
+	public void loadWorld(String name)
+	{
+		try
+		{
+			world=worldLoader.loadWorld(name);
+			worldname=name;
+			player.teleport(world.getSpawnLocation());
+		}
+		catch(Exception e) {e.printStackTrace();}
+	}
 
 	private void setupTextures()
 	{

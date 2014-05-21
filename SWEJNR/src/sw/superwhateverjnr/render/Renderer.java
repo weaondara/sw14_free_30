@@ -30,10 +30,9 @@ public class Renderer
 
 	private Paint paint;
 
-	public Renderer(World world)
+	public Renderer()
 	{
 		super();
-		this.world = world;
 		game=Game.getInstance();
 		
 		paint = new Paint();
@@ -41,6 +40,12 @@ public class Renderer
 
 	public void nextFrame(Canvas canvas)
 	{
+		world=Game.getInstance().getWorld();
+		if(world==null)
+		{
+			return;
+		}
+		
 		prepare();
 		
 		drawBackground(canvas);

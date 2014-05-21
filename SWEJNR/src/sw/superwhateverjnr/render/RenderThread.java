@@ -3,7 +3,6 @@ package sw.superwhateverjnr.render;
 import lombok.Getter;
 import lombok.Setter;
 import sw.superwhateverjnr.Game;
-import sw.superwhateverjnr.world.World;
 
 public class RenderThread extends Thread
 {
@@ -13,9 +12,9 @@ public class RenderThread extends Thread
 	@Getter
 	private Renderer renderer;
 	
-	public RenderThread(World world)
+	public RenderThread()
 	{
-		renderer=new Renderer(world);
+		renderer=new Renderer();
 		running=false;
 	}
 	
@@ -23,7 +22,7 @@ public class RenderThread extends Thread
 	{
 		while(true)
 		{
-			if(!running)
+			if(!running || Game.getInstance().getWorld()==null)
 			{
 				try
 				{
