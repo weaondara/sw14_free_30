@@ -140,7 +140,7 @@ public abstract class Entity
 			v_y -= gravity * 10 * dt;
 			t_max += dt;
 		}
-		maxwidth = getRunningMax() * t_max / 100.0;
+		maxwidth = getRunningMax() * t_max * 0.01;
 		if (maxheight * 0.01 < height)
 		{
 			return maxwidth;
@@ -151,8 +151,33 @@ public abstract class Entity
 			v_y -= gravity * 10 * dt;
 			t_max += dt;
 		}
-		maxwidth = getRunningMax() * t_max / 100.0;
+		maxwidth = getRunningMax() * t_max * 0.01;
 		return maxwidth;
+	}
+	public double getJumpHeight(double width)
+	{
+		double maxheight = 0.0;
+		double maxwidth = 0.0;
+		double v_y = getJumpPower();
+		double v_y_max = getJumpPower();
+		double dt = 0.01;
+		double t_max = 0.0;
+		if (width < 0)
+		{
+			width*=-1;
+		}
+		while (v_y > -3*v_y_max)
+		{
+			maxheight += v_y * dt;
+			v_y -= gravity * 10 * dt;
+			t_max += dt;
+			maxwidth = getRunningMax() * t_max * 0.01;
+			if (maxwidth >= width)
+			{
+				break;
+			}
+		}
+		return maxheight * 0.01;
 	}
 	public double getJumpMaxHeight()
 	{
