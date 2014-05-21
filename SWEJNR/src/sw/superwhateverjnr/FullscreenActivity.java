@@ -28,6 +28,6 @@ public class FullscreenActivity extends Activity
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
         
-        new Game();
+        new MainMenu();
     }
 }
