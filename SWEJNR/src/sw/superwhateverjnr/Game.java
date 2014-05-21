@@ -7,6 +7,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.SneakyThrows;
 import lombok.ToString;
 import sw.superwhateverjnr.entity.Player;
@@ -47,7 +48,7 @@ public class Game
 	private View oldview;
 	private GameView gameView;
 	
-	
+	@Setter
 	private WorldLoader worldLoader;
 	private World world;
 	

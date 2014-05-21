@@ -4,16 +4,11 @@ import java.util.Random;
 
 import sw.superwhateverjnr.random.RandomWorldGenerator;
 
-import sw.superwhateverjnr.block.Block;
-import sw.superwhateverjnr.block.BlockFactory;
-import lombok.Getter;
-import lombok.Setter;
-
 public class RandomWorldLoader extends WorldLoader
 {
 	private RandomWorldGenerator rwg;
 	
-	RandomWorldLoader()
+	public RandomWorldLoader()
 	{
 		Random r = new Random();
 		int maxx = r.nextInt();

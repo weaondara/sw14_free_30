@@ -1,11 +1,14 @@
 package sw.superwhateverjnr;
 
+import sw.superwhateverjnr.world.DummyWorldLoader;
+import sw.superwhateverjnr.world.RandomWorldLoader;
 import android.annotation.SuppressLint;
 //import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import java.util.Random;
 
 public class MainMenu
 {
@@ -16,20 +19,20 @@ public class MainMenu
 		LinearLayout l = new LinearLayout(instance);
 		l.setLayoutDirection(LinearLayout.HORIZONTAL);
 		
-		Button newGame = new Button(instance);
-		newGame.setText("New Game");
-		newGame.setOnClickListener(new OnClickListener(){@Override public void onClick(View v){Game g = new Game(); /*g.newWorld(0)*/}});
-		l.addView(newGame);
+		Button newGameButton = new Button(instance);
+		newGameButton.setText("New Game");
+		newGameButton.setOnClickListener(new OnClickListener(){@Override public void onClick(View v){newGame();}});
+		l.addView(newGameButton);
 		
-		Button continueGame = new Button(instance);
-		continueGame.setText("Continue");
-		continueGame.setOnClickListener(new OnClickListener(){@Override public void onClick(View v){Game g = new Game(); /*g.loadWorld()*/}});
-		l.addView(continueGame);
+		Button continueGameButton = new Button(instance);
+		continueGameButton.setText("Continue");
+		continueGameButton.setOnClickListener(new OnClickListener(){@Override public void onClick(View v){continueGame();}});
+		l.addView(continueGameButton);
 		
-		Button randomGame = new Button(instance);
-		randomGame.setText("SWERWG");
-		randomGame.setOnClickListener(new OnClickListener(){@Override public void onClick(View v){Game g = new Game(); /*g.randomWorld()*/}});
-		l.addView(randomGame);
+		Button randomGameButton = new Button(instance);
+		randomGameButton.setText("SWERWG");
+		randomGameButton.setOnClickListener(new OnClickListener(){@Override public void onClick(View v){randomGame();}});
+		l.addView(randomGameButton);
 		
 		/*
 		 Button credits = new Button(instance);
@@ -39,5 +42,33 @@ public class MainMenu
 		 */
 		
 		instance.setContentView(l);
+	}
+	
+	void newGame()
+	{
+		Game g = new Game();
+		g.init();
+		g.setWorldLoader(new DummyWorldLoader());
+		g.loadWorld("bla");
+		g.enable();
+	}
+	
+	void continueGame()
+	{
+		Game g = new Game();
+		g.init();
+		g.setWorldLoader(new DummyWorldLoader());
+		g.loadWorld("physicstest");
+		g.enable();
+	}
+	
+	void startRandom()
+	{
+		Random r = new Random();
+		Game g = new Game();
+		g.init();
+		g.setWorldLoader(new RandomWorldLoader());
+		g.loadWorld(String.valueOf(r.nextInt()));
+		g.enable();
 	}
 }
