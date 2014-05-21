@@ -9,7 +9,7 @@ import android.widget.LinearLayout;
 
 public class MainMenu
 {
-	protected void onCreate(Activity instance)
+	MainMenu(Activity instance)
 	{
 		LinearLayout l = new LinearLayout(instance);
 		l.setLayoutDirection(LinearLayout.HORIZONTAL);
