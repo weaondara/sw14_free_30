@@ -11,8 +11,8 @@ public class RandomWorldLoader extends WorldLoader
 	public RandomWorldLoader()
 	{
 		Random r = new Random();
-		hlimit = getHlimit();
-		wlimit = getWlimit();
+		int hlimit = getHlimit();
+		int wlimit = getWlimit();
 		int maxx = r.nextInt(hlimit);
 		int maxy = r.nextInt(wlimit);
 		int minx = r.nextInt(maxx);
