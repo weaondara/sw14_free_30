@@ -11,17 +11,10 @@ public class RandomWorldLoader extends WorldLoader
 	public RandomWorldLoader()
 	{
 		Random r = new Random();
-		int maxx = r.nextInt();
-		int maxy = r.nextInt();
-		int limit = getLimit();
-		if (maxx > limit)
-		{
-			maxx = limit;
-		}
-		if (maxy > limit)
-		{
-			maxy = limit;
-		}
+		hlimit = getHlimit();
+		wlimit = getWlimit();
+		int maxx = r.nextInt(hlimit);
+		int maxy = r.nextInt(wlimit);
 		int minx = r.nextInt(maxx);
 		int miny= r.nextInt(maxy);
 		rwg = new RandomWorldGenerator(minx, maxx, miny, maxy);
