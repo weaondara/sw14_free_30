@@ -89,7 +89,7 @@ public class RandomWorldGenerator
 		int thisHeight = spawnHeight;
 		int nextHeight;
 		int jw;
-		
+		int mwidth = width - 1;
 		for (int fillWidth = 1; fillWidth < width;)
 		{
 			Structure nextConstruct = Structure.fromId(randomizer.nextInt(Structure.values().length));
@@ -111,9 +111,9 @@ public class RandomWorldGenerator
 					break;
 				case GAP:
 					jw = randomizer.nextInt((int) ref.getJumpWidth((double) thisHeight));
-					if(jw > width-fillWidth)
+					if(jw > mwidth-fillWidth)
 					{
-						jw = width-fillWidth;
+						jw = mwidth-fillWidth;
 					}
 					nextHeight = thisHeight + (int) ref.getJumpHeight((double) jw);
 					if(nextHeight > maxHeight-1)
@@ -125,9 +125,9 @@ public class RandomWorldGenerator
 					break;
 				case STEP:
 					jw = randomizer.nextInt((int) ref.getJumpWidth((double) thisHeight));
-					if(jw > width-fillWidth)
+					if(jw > mwidth-fillWidth)
 					{
-						jw = width-fillWidth;
+						jw = mwidth-fillWidth;
 					}
 					nextHeight = thisHeight + (int) ref.getJumpHeight((double) jw);
 					if (nextHeight > thisHeight)
