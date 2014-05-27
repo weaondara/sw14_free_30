@@ -3,6 +3,7 @@ package sw.superwhateverjnr.random;
 import java.util.Map;
 import java.util.Random;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import sw.superwhateverjnr.block.Block;
@@ -16,6 +17,29 @@ import sw.superwhateverjnr.world.WorldLoader;
 
 public class RandomWorldGenerator
 {
+	@AllArgsConstructor(suppressConstructorProperties=true)
+	private enum Structure 
+	{
+		PILLAR(0),
+		GAP(1),
+		STEP(2);
+		
+		@Getter
+		private int id;
+		
+		public static Structure fromId(int id)
+		{
+			for(Structure struct:values())
+			{
+				if(struct.id==id)
+				{
+					return struct;
+				}
+			}
+			return null;
+		}
+	}
+	
 	@Getter @Setter
 	private int maxHeight;
 	@Getter @Setter
@@ -41,7 +65,7 @@ public class RandomWorldGenerator
 	public World newWorld(String name) throws Exception
 	{
 		long seed = (long) name.hashCode();
-		randomizer.setSeed(seed);
+		randomizer.setSeed(seed);int
 		
 		int width = 0, height = 0;
 		while (width < minWidth && height < minHeight)
@@ -70,10 +94,10 @@ public class RandomWorldGenerator
 		
 		for (int fillWidth = 1; fillWidth < width;)
 		{
-			int nextConstruct = randomizer.nextInt(2);
+			Structure nextConstruct = Structure.fromId(randomizer.nextInt(Structure.values().length));
 			switch(nextConstruct)
 			{
-				case 0: //Pillar
+				case PILLAR:
 					nextHeight = randomizer.nextInt(thisHeight+2);//Assuming Jump Height 2.
 					while (nextHeight < thisHeight - 3)
 					{
@@ -87,12 +111,12 @@ public class RandomWorldGenerator
 					thisHeight = nextHeight;
 					fillWidth++;
 					break;
-				case 1: //Gaps
+				case GAP:
 					jw = randomizer.nextInt((int) ref.getJumpWidth((double) thisHeight));
 					nextHeight = thisHeight + (int) ref.getJumpHeight((double) jw);
 					gap(blocks, w, fillWidth, jw, nextHeight, Material.AIR);
 					break;
-				case 2: //Steps
+				case STEP:
 					jw = randomizer.nextInt((int) ref.getJumpWidth((double) thisHeight));
 					nextHeight = thisHeight + (int) ref.getJumpHeight((double) jw);
 					if (nextHeight > thisHeight)
