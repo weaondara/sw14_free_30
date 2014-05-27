@@ -15,6 +15,12 @@ public class Creeper extends Entity
 	}
 
 	@Override
+	protected void die()
+	{
+		
+	}
+	
+	@Override
 	public void tick()
 	{
 		super.tick();

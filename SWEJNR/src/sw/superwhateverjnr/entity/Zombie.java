@@ -15,6 +15,12 @@ public class Zombie extends Entity
 	}
 
 	@Override
+	protected void die()
+	{
+		
+	}
+	
+	@Override
 	public void tick()
 	{
 		super.tick();

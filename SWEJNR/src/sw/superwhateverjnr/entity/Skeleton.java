@@ -13,6 +13,12 @@ public class Skeleton extends Entity
 	{
 		super(EntityType.SKELETON, location, null);
 	}
+	
+	@Override
+	protected void die()
+	{
+		
+	}
 
 	@Override
 	public void tick()

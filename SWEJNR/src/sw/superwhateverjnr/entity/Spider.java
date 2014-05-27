@@ -15,6 +15,12 @@ public class Spider extends Entity
 	}
 
 	@Override
+	protected void die()
+	{
+		
+	}
+	
+	@Override
 	public void tick()
 	{
 		super.tick();

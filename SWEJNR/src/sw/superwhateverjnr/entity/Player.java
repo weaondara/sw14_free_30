@@ -58,6 +58,12 @@ public class Player extends Entity
 		Game.getInstance().updateView();
 	}
 	
+	@Override
+	protected void die()
+	{
+		
+	}
+	
 	private void swingArms()
 	{
 		if(armMovingRight)
