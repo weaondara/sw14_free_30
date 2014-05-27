@@ -268,7 +268,7 @@ public class Game
 				);
 		
 		Location l=player.getLocation();
-		
+		System.out.println(l);
 		if(l.getX()<minDisplayPoint.getX()+viewRect.getMin().getX())
 		{
 			float x=(float) (l.getX()-viewRect.getMin().getX());
@@ -300,10 +300,10 @@ public class Game
 		else if(l.getY()>minDisplayPoint.getY()+viewRect.getMax().getY())
 		{
 			float y=(float) (l.getY()-(viewRect.getMax().getY()));
-			if(y>world.getHeight())
-			{
-				y=world.getHeight();
-			}
+//			if(y>world.getHeight())
+//			{
+//				y=world.getHeight();
+//			}
 			minDisplayPoint.setY(y);
 		}
 	}
