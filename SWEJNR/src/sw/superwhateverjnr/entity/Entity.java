@@ -103,11 +103,15 @@ public abstract class Entity
 	}
 	public void jump()
 	{
-		if(isOnGround())
+		try
 		{
-			velocity.setY(getJumpPower());
-			lastJumpTime=System.currentTimeMillis();
+			if(isOnGround())
+			{
+				velocity.setY(getJumpPower());
+				lastJumpTime=System.currentTimeMillis();
+			}
 		}
+		catch(Exception e) {}
 	}
 	public void teleport(Location l)
 	{
