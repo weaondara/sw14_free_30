@@ -113,7 +113,7 @@ public class RandomWorldGenerator
 					break;
 				case GAP:
 					jw = randomizer.nextInt((int) ref.getJumpWidth((double) thisHeight));
-					if(jw < width-fillWidth)
+					if(jw > width-fillWidth)
 					{
 						jw = width-fillWidth;
 					}
@@ -123,7 +123,7 @@ public class RandomWorldGenerator
 					break;
 				case STEP:
 					jw = randomizer.nextInt((int) ref.getJumpWidth((double) thisHeight));
-					if(jw < width-fillWidth)
+					if(jw > width-fillWidth)
 					{
 						jw = width-fillWidth;
 					}
