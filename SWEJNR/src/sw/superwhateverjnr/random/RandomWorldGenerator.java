@@ -94,7 +94,7 @@ public class RandomWorldGenerator
 		
 		for (int fillWidth = 1; fillWidth < width;)
 		{
-			Structure nextConstruct = Structure.fromId(randomizer.nextInt(Structure.values().length));
+			Structure nextConstruct = Structure.fromId(randomizer.nextInt(Structure.values().length+1));
 			switch(nextConstruct)
 			{
 				case PILLAR:
@@ -130,16 +130,17 @@ public class RandomWorldGenerator
 					nextHeight = thisHeight + (int) ref.getJumpHeight((double) jw);
 					if (nextHeight > thisHeight)
 					{
-						boolean doubled = false;
-						if(nextHeight > thisHeight+2)
-						{
-							doubled = randomizer.nextBoolean();
-						}
-						if(doubled)
-						{
-							//TODO
-						}
-						else
+						
+//						boolean doubled = false;
+//						if(nextHeight > thisHeight+2)
+//						{
+//							doubled = randomizer.nextBoolean();
+//						}
+//						if(doubled)
+//						{
+//							//TODO
+//						}
+//						else
 						{
 							step(blocks, w, fillWidth, jw, nextHeight, false);
 							fillWidth += jw;
@@ -147,16 +148,16 @@ public class RandomWorldGenerator
 					}
 					if(nextHeight < thisHeight)
 					{
-						boolean tripled = false;
-						if(nextHeight < thisHeight+2)
-						{
-							tripled = randomizer.nextBoolean();
-						}
-						if(tripled)
-						{
-							//TODO
-						}
-						else
+//						boolean tripled = false;
+//						if(nextHeight < thisHeight+2)
+//						{
+//							tripled = randomizer.nextBoolean();
+//						}
+//						if(tripled)
+//						{
+//							//TODO
+//						}
+//						else
 						{
 							step(blocks, w, fillWidth, jw, nextHeight, false);
 							fillWidth += jw;
