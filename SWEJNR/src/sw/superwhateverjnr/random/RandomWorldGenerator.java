@@ -94,7 +94,7 @@ public class RandomWorldGenerator
 		
 		for (int fillWidth = 1; fillWidth < width;)
 		{
-			Structure nextConstruct = Structure.fromId(randomizer.nextInt(Structure.values().length+1));
+			Structure nextConstruct = Structure.fromId(randomizer.nextInt(Structure.values().length));
 			switch(nextConstruct)
 			{
 				case PILLAR:
