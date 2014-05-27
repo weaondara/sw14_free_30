@@ -268,7 +268,7 @@ public class Game
 				);
 		
 		Location l=player.getLocation();
-		System.out.println(l);
+//		System.out.println(l);
 		if(l.getX()<minDisplayPoint.getX()+viewRect.getMin().getX())
 		{
 			float x=(float) (l.getX()-viewRect.getMin().getX());
