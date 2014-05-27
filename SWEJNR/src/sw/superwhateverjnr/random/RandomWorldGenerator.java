@@ -116,6 +116,10 @@ public class RandomWorldGenerator
 						jw = width-fillWidth;
 					}
 					nextHeight = thisHeight + (int) ref.getJumpHeight((double) jw);
+					if(nextHeight > maxHeight-1)
+					{
+						nextHeight = maxHeight-1;
+					}
 					gap(blocks, w, fillWidth, jw, nextHeight, Material.AIR);
 					fillWidth += jw;
 					break;
@@ -128,9 +132,9 @@ public class RandomWorldGenerator
 					nextHeight = thisHeight + (int) ref.getJumpHeight((double) jw);
 					if (nextHeight > thisHeight)
 					{
-						if(nextHeight > maxHeight)
+						if(nextHeight > maxHeight-1)
 						{
-							nextHeight = maxHeight;
+							nextHeight = maxHeight-1;
 						}						
 						step(blocks, w, fillWidth, jw, nextHeight, false);
 						fillWidth += jw;
