@@ -201,7 +201,13 @@ public abstract class Entity
 		long now=System.currentTimeMillis();
 		long time=now-getLastMoveTime();
 		
-		if(!isOnGround())
+		boolean onground=false;
+		try
+		{
+			onground=isOnGround();
+		}
+		catch(Exception e){}
+		if(!onground)
 		{
 			if(time > 0)
 			{
@@ -226,18 +232,25 @@ public abstract class Entity
 			y=0;
 			velocity.setY(0);
 		}
-		if(y>=world().getHeight())
-		{
-			y=world().getHeight()-0.0000001;
-			velocity.setY(0);
-		}
+//		if(y>=world().getHeight())
+//		{
+//			y=world().getHeight()-0.0000001;
+//			velocity.setY(0);
+//		}
 		
 		//block check
 		Location l5=new Location(location.getX()+entitywidth/2-0.0000001,y);
 		Location l6=new Location(location.getX()-entitywidth/2,y);
-		Block b5=world().getBlockAt(l5);
-		Block b6=world().getBlockAt(l6);
-		if(b5.getType().isSolid() || b6.getType().isSolid())
+		Block b5=null;
+		Block b6=null;
+		
+		try
+		{
+			b5=world().getBlockAt(l5);
+			b6=world().getBlockAt(l6);
+		}
+		catch(Exception e){}
+		if(b5!=null && b6!=null &&(b5.getType().isSolid() || b6.getType().isSolid()))
 		{
 			if(velocity.getY()<0)
 			{
@@ -246,11 +259,18 @@ public abstract class Entity
 			}
 		}
 		
+		
 		Location l7=new Location(location.getX()+entitywidth/2-0.0000001,y+bounds.getMax().getY());
 		Location l8=new Location(location.getX()-entitywidth/2,y+bounds.getMax().getY());
-		Block b7=world().getBlockAt(l7);
-		Block b8=world().getBlockAt(l8);
-		if(b7.getType().isSolid() || b8.getType().isSolid())
+		Block b7=null;
+		Block b8=null;
+		try
+		{
+			b7=world().getBlockAt(l7);
+			b8=world().getBlockAt(l8);
+		}
+		catch(Exception e){}
+		if(b7!=null && b8!=null &&(b7.getType().isSolid() || b8.getType().isSolid()))
 		{
 			if(velocity.getY()>0)
 			{
@@ -269,7 +289,7 @@ public abstract class Entity
 	
 	public boolean isOnGround()
 	{
-		World w=Game.getInstance().getWorld();
+		World w=world();
 		if(w==null)
 		{
 			return false;
