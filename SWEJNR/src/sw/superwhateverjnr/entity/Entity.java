@@ -192,6 +192,8 @@ public abstract class Entity
 		return maxheight * 0.01;
 	}
 	
+	protected abstract void die();
+	
 	protected void tickGravity()
 	{
 		if(location==null || world()==null)
@@ -227,9 +229,10 @@ public abstract class Entity
 		//world check
 		double y=location.getY();
 		y+=velocity.getY()*multiplier;
-		if(y<0)
+		if(y<-5)
 		{
-			y=0;
+			y = -5;
+			// die();
 			velocity.setY(0);
 		}
 //		if(y>=world().getHeight())
