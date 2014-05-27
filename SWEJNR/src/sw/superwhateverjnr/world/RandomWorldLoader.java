@@ -27,11 +27,16 @@ public class RandomWorldLoader extends WorldLoader
 	
 	public World loadWorld(String name) throws Exception
 	{
-		World w = rwg.newWorld(name);
-		if(w == null)
+		World w = null;
+		try
 		{
-			w = new DummyWorldLoader().loadWorld("dummy");
+			w = rwg.newWorld(name);
 		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			w = new DummyWorldLoader().loadWorld("dummy");
+		}		
 		
 		return w;
 	}
