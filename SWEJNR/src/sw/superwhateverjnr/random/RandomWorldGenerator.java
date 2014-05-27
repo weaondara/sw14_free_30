@@ -65,7 +65,7 @@ public class RandomWorldGenerator
 	public World newWorld(String name) throws Exception
 	{
 		long seed = (long) name.hashCode();
-		randomizer.setSeed(seed);int
+		randomizer.setSeed(seed);
 		
 		int width = 0, height = 0;
 		while (width < minWidth && height < minHeight)
@@ -185,7 +185,7 @@ public class RandomWorldGenerator
 	{
 		for(int i = 0; i <= height; i++)
 		{
-			blocks[offset][i] = bf.create(m.getID(), m.getBlockClazz().getSubID(), offset, i, w, null);
+			blocks[offset][i] = bf.create(m.getId(), (byte)0, offset, i, w, null);
 		}
 	}
 	
