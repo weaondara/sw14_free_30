@@ -1,12 +1,15 @@
 package sw.superwhateverjnr.random;
 
+import java.util.Map;
 import java.util.Random;
 
 import lombok.Getter;
 import lombok.Setter;
-
 import sw.superwhateverjnr.block.Block;
 import sw.superwhateverjnr.block.BlockFactory;
+import sw.superwhateverjnr.block.Material;
+import sw.superwhateverjnr.entity.EntityType;
+import sw.superwhateverjnr.entity.Player;
 import sw.superwhateverjnr.world.Location;
 import sw.superwhateverjnr.world.World;
 import sw.superwhateverjnr.world.WorldLoader;
@@ -57,18 +60,20 @@ public class RandomWorldGenerator
 		Location spawn = new Location(0.5, spawnHeight+1);
 		
 		World w = WorldLoader.createWorld(name, width, height, spawn, blocks);
+		Player ref = new Player(null);
 		
 		pillar(blocks, w, 0, spawnHeight);
 		
 		int thisHeight = spawnHeight;
 		int nextHeight;
+		int jw;
 		
 		for (int fillWidth = 1; fillWidth < width;)
 		{
 			int nextConstruct = randomizer.nextInt(2);
 			switch(nextConstruct)
 			{
-				case 0:
+				case 0: //Pillar
 					nextHeight = randomizer.nextInt(thisHeight+2);//Assuming Jump Height 2.
 					while (nextHeight < thisHeight - 3)
 					{
@@ -82,11 +87,49 @@ public class RandomWorldGenerator
 					thisHeight = nextHeight;
 					fillWidth++;
 					break;
-				case 1:
-					//Gaps
+				case 1: //Gaps
+					jw = randomizer.nextInt((int) ref.getJumpWidth((double) thisHeight));
+					nextHeight = thisHeight + (int) ref.getJumpHeight((double) jw);
+					gap(blocks, w, fillWidth, jw, nextHeight, Material.AIR);
 					break;
-				case 2:
-					//Steps
+				case 2: //Steps
+					jw = randomizer.nextInt((int) ref.getJumpWidth((double) thisHeight));
+					nextHeight = thisHeight + (int) ref.getJumpHeight((double) jw);
+					if (nextHeight > thisHeight)
+					{
+						boolean doubled = false;
+						if(nextHeight > thisHeight+2)
+						{
+							doubled = randomizer.nextBoolean();
+						}
+						if(doubled)
+						{
+							//TODO
+						}
+						else
+						{
+							step(blocks, w, fillWidth, jw, nextHeight, false);
+							fillWidth += jw;
+						}
+					}
+					if(nextHeight < thisHeight)
+					{
+						boolean tripled = false;
+						if(nextHeight < thisHeight+2)
+						{
+							tripled = randomizer.nextBoolean();
+						}
+						if(tripled)
+						{
+							//TODO
+						}
+						else
+						{
+							step(blocks, w, fillWidth, jw, nextHeight, false);
+							fillWidth += jw;
+						}
+					}
+					
 					break;
 			}
 		}
@@ -113,12 +156,34 @@ public class RandomWorldGenerator
 			blocks[offset][i] = bf.create(1, (byte)0, offset, i, w, null);
 		}
 	}
-	private void step(Block blocks[][], World w, int offset, int width, int toHeight) throws Exception
+	
+	private void pillar(Block blocks[][], World w, int offset, int height, Material m) throws Exception
 	{
-		//TODO
+		for(int i = 0; i <= height; i++)
+		{
+			blocks[offset][i] = bf.create(m.getID(), m.getBlockClazz().getSubID(), offset, i, w, null);
+		}
 	}
-	private void gap(Block blocks[][], World w, int offset, int width, int toHeight) throws Exception
+	
+	private void gap(Block blocks[][], World w, int offset, int width, int toHeight, Material filling) throws Exception
 	{
-		//TODO
+		for (int i = 0; i <= toHeight; i++)
+		{
+			pillar(blocks, w, offset+width, toHeight, filling);
+		}
+		pillar(blocks, w, offset+width, toHeight);
+	}
+	
+	private void step(Block blocks[][], World w, int offset, int width, int toHeight, boolean left) throws Exception
+	{
+		if(left)
+		{
+			offset -= width;
+		}
+		else
+		{
+			offset += width;
+		}
+		blocks[offset][toHeight] = bf.create(1, (byte)0, offset, toHeight, w, null);	
 	}
 }
