@@ -1,6 +1,5 @@
 package sw.superwhateverjnr.random;
 
-import java.util.Map;
 import java.util.Random;
 
 import lombok.AllArgsConstructor;
@@ -9,7 +8,6 @@ import lombok.Setter;
 import sw.superwhateverjnr.block.Block;
 import sw.superwhateverjnr.block.BlockFactory;
 import sw.superwhateverjnr.block.Material;
-import sw.superwhateverjnr.entity.EntityType;
 import sw.superwhateverjnr.entity.Player;
 import sw.superwhateverjnr.world.Location;
 import sw.superwhateverjnr.world.World;
@@ -130,40 +128,18 @@ public class RandomWorldGenerator
 					nextHeight = thisHeight + (int) ref.getJumpHeight((double) jw);
 					if (nextHeight > thisHeight)
 					{
-						
-//						boolean doubled = false;
-//						if(nextHeight > thisHeight+2)
-//						{
-//							doubled = randomizer.nextBoolean();
-//						}
-//						if(doubled)
-//						{
-//							//TODO
-//						}
-//						else
+						if(nextHeight > maxHeight)
 						{
-							step(blocks, w, fillWidth, jw, nextHeight, false);
-							fillWidth += jw;
-						}
+							nextHeight = maxHeight;
+						}						
+						step(blocks, w, fillWidth, jw, nextHeight, false);
+						fillWidth += jw;
 					}
 					if(nextHeight < thisHeight)
 					{
-//						boolean tripled = false;
-//						if(nextHeight < thisHeight+2)
-//						{
-//							tripled = randomizer.nextBoolean();
-//						}
-//						if(tripled)
-//						{
-//							//TODO
-//						}
-//						else
-						{
-							step(blocks, w, fillWidth, jw, nextHeight, false);
-							fillWidth += jw;
-						}
+						step(blocks, w, fillWidth, jw, nextHeight, false);
+						fillWidth += jw;
 					}
-					
 					break;
 			}
 		}
