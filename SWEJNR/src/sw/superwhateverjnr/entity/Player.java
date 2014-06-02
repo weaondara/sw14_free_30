@@ -82,6 +82,7 @@ public class Player extends Entity
 			{
 				armAngle -= armMoveConstantMoving;
 			}
+			legAngle = -armAngle;
 			
 			if(armAngle > armMaxDegreeDeltaMoving)
 			{
@@ -91,17 +92,6 @@ public class Player extends Entity
 			{
 				armMovingRight = true;
 			}
-			
-			//legs
-			if(armMovingRight)
-			{
-				legAngle -= armMoveConstantMoving;
-			}
-			else
-			{
-				legAngle += armMoveConstantMoving;
-			}
-			
 		}
 		else
 		{
@@ -111,10 +101,12 @@ public class Player extends Entity
 				if(Math.abs(armAngle)>armMaxDegreeDeltaStanding)
 				{
 					armAngle += armMoveConstantMoving;
+					legAngle = -armAngle;
 				}
 				else
 				{
 					armAngle += armMoveConstantStanding;
+					legAngle=0;
 				}
 			}
 			else
@@ -127,6 +119,7 @@ public class Player extends Entity
 				{
 					armAngle -= armMoveConstantStanding;
 				}
+				legAngle=0;
 			}
 			
 			if(armAngle > armMaxDegreeDeltaStanding)
@@ -136,16 +129,6 @@ public class Player extends Entity
 			else if(armAngle < -armMaxDegreeDeltaStanding)
 			{
 				armMovingRight = true;
-			}
-			
-			//legs
-			if(armMovingRight)
-			{
-				legAngle -= armMoveConstantMoving;
-			}
-			else
-			{
-				legAngle += armMoveConstantMoving;
 			}
 		}
 	}
