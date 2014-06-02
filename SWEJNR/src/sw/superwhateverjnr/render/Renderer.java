@@ -1,12 +1,14 @@
 package sw.superwhateverjnr.render;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import sw.superwhateverjnr.Game;
 import sw.superwhateverjnr.SWEJNR;
 import sw.superwhateverjnr.block.Block;
 import sw.superwhateverjnr.block.Material;
+import sw.superwhateverjnr.entity.Entity;
 import sw.superwhateverjnr.entity.Player;
 import sw.superwhateverjnr.settings.Settings;
 import sw.superwhateverjnr.texture.Texture;
@@ -16,6 +18,7 @@ import sw.superwhateverjnr.world.Location;
 import sw.superwhateverjnr.world.World;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Paint.Align;
@@ -167,10 +170,31 @@ public class Renderer
 	}
 	private void drawEntities(Canvas canvas)
 	{
-		
+		List<Entity> l = game.getWorld().getEntities();
+		for(int i = 0; i < l.size(); i++)
+		{
+			Entity e = l.get(i);
+			
+		}
 	}
 	private void drawPlayer(Canvas canvas)
 	{
+		float headwidth=8;
+		float headheight=8;
+		float bodywidth=4;
+		float bodyheight=12;
+		float armwidth=4;
+		float armheight=12;
+		float legwidth=4;
+		float legheight=12;
+		
+		float maxwidth=8;
+		float maxheight=32;
+		
+		float blocksize=16;
+
+		blocksize*=2/1.75;
+		
 		Player p=game.getPlayer();
 		Location l=p.getLocation();
 		if(l==null)
@@ -178,22 +202,139 @@ public class Renderer
 			return;
 		}
 		
+		paint.setStyle(Style.FILL);
+		paint.setColor(0xFF000000);
+
+		float x=(float) (leftoffset+(l.getX()-x1)*game.getTextureWidth());
+		float y=(float) (topoffset+(y2-l.getY())*game.getTextureHeight());
+
+		float playerwidh=(float) (Math.abs(p.getHitBox().getMin().getX()-p.getHitBox().getMax().getX())*game.getTextureWidth());
+		float playerheight=(float) (Math.abs(p.getHitBox().getMin().getY()-p.getHitBox().getMax().getY())*game.getTextureWidth());
+		
+		float ytop=y-playerheight;
+		
+		Matrix matrix = new Matrix();
+		
+		
+		//head
+		float left=x-game.getTextureWidth()*(headwidth/blocksize)/2;
+		float right=x+game.getTextureWidth()*(headwidth/blocksize)/2;
+		float bottom=ytop+(headheight/blocksize)*game.getTextureHeight();
+		float top=ytop;
+		canvas.drawRect(left, top, right, bottom, paint);
+
+		//body height
+		left=x-game.getTextureWidth()*(bodywidth/blocksize)/2;
+		right=x+game.getTextureWidth()*(bodywidth/blocksize)/2;
+		top=bottom;
+		bottom+=(bodyheight/blocksize)*game.getTextureHeight();
+		
+		//arm
+		float angle=p.getArmAngle();
+		System.out.println(angle);
+		if(p.isLookingRight())
+		{
+			//leftarm
+			matrix.setRotate(angle, (right-left)/2, (right-left)/2);
+			matrix.postTranslate(left, top);
+			Bitmap bitmap=Bitmap.createBitmap((int)(right-left), (int)(bottom-top), Bitmap.Config.ARGB_8888);
+			new Canvas(bitmap).drawColor(0xFF000000);
+			canvas.drawBitmap(bitmap, matrix, paint);
+		}
+		else
+		{
+			//rightarm
+			matrix.setRotate(-angle, (right-left)/2, (right-left)/2);
+			matrix.postTranslate(left, top);
+			Bitmap bitmap=Bitmap.createBitmap((int)(right-left), (int)(bottom-top), Bitmap.Config.ARGB_8888);
+			new Canvas(bitmap).drawColor(0xFF000000);
+			canvas.drawBitmap(bitmap, matrix, paint);
+		}
+		
+		//body
+		canvas.drawRect(left, top, right, bottom, paint);
+		
+		//arm
+		if(!p.isLookingRight())
+		{
+			//leftarm
+			matrix.setRotate(angle, (right-left)/2, (right-left)/2);
+			matrix.postTranslate(left, top);
+			Bitmap bitmap=Bitmap.createBitmap((int)(right-left), (int)(bottom-top), Bitmap.Config.ARGB_8888);
+			new Canvas(bitmap).drawColor(0xFF000000);
+			canvas.drawBitmap(bitmap, matrix, paint);
+		}
+		else
+		{
+			//rightarm
+			matrix.setRotate(-angle, (right-left)/2, (right-left)/2);
+			matrix.postTranslate(left, top);
+			Bitmap bitmap=Bitmap.createBitmap((int)(right-left), (int)(bottom-top), Bitmap.Config.ARGB_8888);
+			new Canvas(bitmap).drawColor(0xFF000000);
+			canvas.drawBitmap(bitmap, matrix, paint);
+		}
+		
+		//leg height
+		left=x-game.getTextureWidth()*(legwidth/blocksize)/2;
+		right=x+game.getTextureWidth()*(legwidth/blocksize)/2;
+		top=bottom;
+		bottom+=(legheight/blocksize)*game.getTextureHeight();
+		
+		//legs
+		angle=p.getLegAngle();
+		if(p.isLookingRight())
+		{
+			//leftleg
+//			System.out.println(p.getMoveArmswingDegrees());
+			matrix.setRotate(-angle, (right-left)/2, 0);
+			matrix.postTranslate(left, top);
+			Bitmap bitmap=Bitmap.createBitmap((int)(right-left), (int)(bottom-top), Bitmap.Config.ARGB_8888);
+			new Canvas(bitmap).drawColor(0xFF000000);
+			canvas.drawBitmap(bitmap, matrix, paint);
+			
+			//rightleg
+			matrix.setRotate(angle, (right-left)/2, 0);
+			matrix.postTranslate(left, top);
+			bitmap=Bitmap.createBitmap((int)(right-left), (int)(bottom-top), Bitmap.Config.ARGB_8888);
+			new Canvas(bitmap).drawColor(0xFF000000);
+			canvas.drawBitmap(bitmap, matrix, paint);
+		}
+		else
+		{
+			//rightleg
+			matrix.setRotate(angle, (right-left)/2, 0);
+			matrix.postTranslate(left, top);
+			Bitmap bitmap=Bitmap.createBitmap((int)(right-left), (int)(bottom-top), Bitmap.Config.ARGB_8888);
+			new Canvas(bitmap).drawColor(0xFF000000);
+			canvas.drawBitmap(bitmap, matrix, paint);
+			
+			//leftleg
+			matrix.setRotate(-angle, (right-left)/2, 0);
+			matrix.postTranslate(left, top);
+			bitmap=Bitmap.createBitmap((int)(right-left), (int)(bottom-top), Bitmap.Config.ARGB_8888);
+			new Canvas(bitmap).drawColor(0xFF000000);
+			canvas.drawBitmap(bitmap, matrix, paint);
+		}
+	
+		
+		
+		//render & hitbox
 		if(SWEJNR.DEBUG)
 		{
-			float x=(float) (leftoffset+(l.getX()-x1)*game.getTextureWidth());
-			float y=(float) (topoffset+(y2-l.getY())*game.getTextureHeight());
+			x=(float) (leftoffset+(l.getX()-x1)*game.getTextureWidth());
+			y=(float) (topoffset+(y2-l.getY())*game.getTextureHeight());
 			
 			paint.setStyle(Style.STROKE);
 			
 			
 			paint.setColor(0xFFFFFF00);
 			
-			float playerwidh=(float) (Math.abs(p.getRenderBox().getMin().getX()-p.getRenderBox().getMax().getX())*game.getTextureWidth());
+			playerwidh=(float) (Math.abs(p.getRenderBox().getMin().getX()-p.getRenderBox().getMax().getX())*game.getTextureWidth());
 	
-			float left=x-playerwidh/2;
-			float right=x+playerwidh/2;
-			float bottom=y;
-			float top=(float) (y-p.getRenderBox().getMax().getY()*game.getTextureHeight());
+			left=x-playerwidh/2;
+			right=x+playerwidh/2;
+			bottom=y;
+			top=(float) (y-p.getRenderBox().getMax().getY()*game.getTextureHeight());
 			
 			canvas.drawRect(left, top, right, bottom, paint);
 			
