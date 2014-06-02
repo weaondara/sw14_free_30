@@ -10,9 +10,10 @@ import sw.superwhateverjnr.world.Location;
 @Getter
 public class Player extends Entity
 {
-	private final static int armIdleDegree = 90;
-	private final static int armMaxDegreeDelta = 45;
-	private static int armMoveConstant = 10;
+	private final static float armMaxDegreeDeltaMoving = 60;
+	private final static float armMaxDegreeDeltaStanding = 12;
+	private static float armMoveConstantMoving = 4;
+	private static float armMoveConstantStanding = 0.15F;
 	
 	private final static double runningMin = 1.5;
 	private final static double runningMax = 4.5;
@@ -35,8 +36,10 @@ public class Player extends Entity
 		return jumpPower;
 	}
 	
-	private int moveArmswingDegrees;
-	private int standArmswingDegrees;
+//	private float moveArmswingDegrees;
+//	private float standArmswingDegrees;
+	private float armAngle;
+	private float legAngle;
 	
 	@Setter
 	private boolean armMovingRight;
@@ -44,8 +47,10 @@ public class Player extends Entity
 	public Player(Location location)
 	{
 		super(EntityType.PLAYER, location, null);
-		moveArmswingDegrees=armIdleDegree;
-		standArmswingDegrees=armIdleDegree;
+//		moveArmswingDegrees=0;
+//		standArmswingDegrees=0;
+		armAngle=0;
+		legAngle=0;
 	}
 	
 	@Override
@@ -66,27 +71,83 @@ public class Player extends Entity
 	
 	private void swingArms()
 	{
-		if(armMovingRight)
+		if(isMoving())
 		{
-			moveArmswingDegrees += armMoveConstant;
-			standArmswingDegrees -= armMoveConstant;
+			//arms
+			if(armMovingRight)
+			{
+				armAngle += armMoveConstantMoving;
+			}
+			else
+			{
+				armAngle -= armMoveConstantMoving;
+			}
+			
+			if(armAngle > armMaxDegreeDeltaMoving)
+			{
+				armMovingRight = false;
+			}
+			else if(armAngle < -armMaxDegreeDeltaMoving)
+			{
+				armMovingRight = true;
+			}
+			
+			//legs
+			if(armMovingRight)
+			{
+				legAngle -= armMoveConstantMoving;
+			}
+			else
+			{
+				legAngle += armMoveConstantMoving;
+			}
+			
 		}
 		else
 		{
-			moveArmswingDegrees -= armMoveConstant;
-			standArmswingDegrees += armMoveConstant;
-		}
-		
-		if(moveArmswingDegrees > armIdleDegree + armMaxDegreeDelta)
-		{
-			armMovingRight = false;
-		}
-		
-		else if(this.moveArmswingDegrees < armIdleDegree - armMaxDegreeDelta)
-		{
-			armMovingRight = true;
-		}
+			//arms
+			if(armMovingRight)
+			{
+				if(Math.abs(armAngle)>armMaxDegreeDeltaStanding)
+				{
+					armAngle += armMoveConstantMoving;
+				}
+				else
+				{
+					armAngle += armMoveConstantStanding;
+				}
+			}
+			else
+			{
+				if(Math.abs(armAngle)>armMaxDegreeDeltaStanding)
+				{
+					armAngle -= armMoveConstantMoving;
+				}
+				else
+				{
+					armAngle -= armMoveConstantStanding;
+				}
+			}
 			
+			if(armAngle > armMaxDegreeDeltaStanding)
+			{
+				armMovingRight = false;
+			}
+			else if(armAngle < -armMaxDegreeDeltaStanding)
+			{
+				armMovingRight = true;
+			}
+			
+			//legs
+			if(armMovingRight)
+			{
+				legAngle -= armMoveConstantMoving;
+			}
+			else
+			{
+				legAngle += armMoveConstantMoving;
+			}
+		}
 	}
 	private void tickMove()
 	{
