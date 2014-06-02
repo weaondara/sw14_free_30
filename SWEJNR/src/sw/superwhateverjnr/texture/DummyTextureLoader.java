@@ -37,6 +37,22 @@ public class DummyTextureLoader implements TextureLoader
 	@Override
 	public EntityTexture loadTexture(EntityType ref) throws Exception
 	{
-		return null;
+		Preconditions.checkNotNull(ref);
+		
+		String file="dummy/textures/error.png";
+		if(ref.equals(EntityType.PLAYER))
+		{
+			file="dummy/textures/entity/player.png";
+		}
+		
+		InputStream is=SWEJNR.getInstance().getResources().getAssets().open(file);
+		Bitmap bm=BitmapFactory.decodeStream(is);
+		if(bm==null)
+		{
+			return null;
+		}
+		
+		EntityTexture tex=new EntityTexture(ref, bm.getWidth(),bm.getHeight(), bm);
+		return tex;
 	}
 }
