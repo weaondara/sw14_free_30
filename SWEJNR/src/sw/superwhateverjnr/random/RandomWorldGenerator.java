@@ -1,5 +1,7 @@
 package sw.superwhateverjnr.random;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import lombok.AllArgsConstructor;
@@ -8,6 +10,7 @@ import lombok.Setter;
 import sw.superwhateverjnr.block.Block;
 import sw.superwhateverjnr.block.BlockFactory;
 import sw.superwhateverjnr.block.Material;
+import sw.superwhateverjnr.entity.Entity;
 import sw.superwhateverjnr.entity.Player;
 import sw.superwhateverjnr.world.Location;
 import sw.superwhateverjnr.world.World;
@@ -72,6 +75,7 @@ public class RandomWorldGenerator
 			height = randomizer.nextInt(maxHeight);
 		}
 		Block blocks[][] = new Block[width][height];
+		List<Entity> entities = new ArrayList<>();
 		
 		int spawnHeight = height/2;
 		if (spawnHeight > 10)
@@ -81,7 +85,7 @@ public class RandomWorldGenerator
 		
 		Location spawn = new Location(0.5, spawnHeight+1);
 		
-		World w = WorldLoader.createWorld(name, width, height, spawn, blocks);
+		World w = WorldLoader.createWorld(name, width, height, spawn, blocks, entities);
 		Player ref = new Player(null);
 		
 		pillar(blocks, w, 0, spawnHeight);

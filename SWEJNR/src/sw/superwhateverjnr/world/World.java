@@ -1,5 +1,7 @@
 package sw.superwhateverjnr.world;
 
+import java.util.List;
+
 import com.google.common.base.Preconditions;
 
 import lombok.AccessLevel;
@@ -8,6 +10,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 import sw.superwhateverjnr.block.Block;
+import sw.superwhateverjnr.entity.Entity;
 
 @Getter
 @AllArgsConstructor(suppressConstructorProperties=true, access = AccessLevel.PRIVATE)
@@ -19,6 +22,7 @@ public class World
 	private int width, height;
 	private Location spawnLocation;
 	private Block[][] data;
+	private List<Entity> entities;
 	
 	public Block getBlockAt(Location loc)
 	{

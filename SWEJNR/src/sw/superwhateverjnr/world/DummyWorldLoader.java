@@ -1,7 +1,11 @@
 package sw.superwhateverjnr.world;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import sw.superwhateverjnr.block.Block;
 import sw.superwhateverjnr.block.BlockFactory;
+import sw.superwhateverjnr.entity.Entity;
 
 public class DummyWorldLoader extends WorldLoader
 {
@@ -28,7 +32,8 @@ public class DummyWorldLoader extends WorldLoader
 		int height=40;
 		Location spawn=new Location(1.5, 10);
 		Block[][] data=new Block[width][height];
-		World world=createWorld("physicstest", width, height, spawn, data);
+		List<Entity> entities = new ArrayList<>();
+		World world=createWorld("physicstest", width, height, spawn, data, entities);
 		
 		BlockFactory bf=BlockFactory.getInstance();
 		for(int x=0;x<width;x++)
@@ -106,7 +111,8 @@ public class DummyWorldLoader extends WorldLoader
 		int height=40;
 		Location spawn=new Location(1.5, 11);
 		Block[][] data=new Block[width][height];
-		World world=createWorld("jumpTest", width, height, spawn, data);
+		List<Entity> entities = new ArrayList<>();
+		World world=createWorld("jumpTest", width, height, spawn, data, entities);
 		
 		BlockFactory bf=BlockFactory.getInstance();
 		for(int x=0;x<width;x++)
@@ -139,7 +145,8 @@ public class DummyWorldLoader extends WorldLoader
 		int height=40;
 		Location spawn=new Location(2, 10);
 		Block[][] data=new Block[width][height];
-		World world=createWorld("dummy", width, height, spawn, data);
+		List<Entity> entities = new ArrayList<>();
+		World world=createWorld("dummy", width, height, spawn, data, entities);
 		
 		BlockFactory bf=BlockFactory.getInstance();
 		for(int x=0;x<width;x++)
