@@ -317,6 +317,16 @@ public abstract class Entity
 		return left.getBlockY()==left.getY() ||
 				right.getBlockY()==right.getY();
 	}
+	public boolean isMoving()
+	{
+		return Math.abs(velocity.getX())>0.2;
+	}
+	public boolean isMovingExact()
+	{
+		return Math.abs(velocity.getX())>0;
+	}
+	
+	
 	protected World world()
 	{
 		return Game.getInstance().getWorld();
