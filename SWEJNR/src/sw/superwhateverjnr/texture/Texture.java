@@ -1,6 +1,5 @@
 package sw.superwhateverjnr.texture;
 
-import sw.superwhateverjnr.util.IdAndSubId;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,9 +12,9 @@ import android.graphics.Bitmap;
 @ToString
 public class Texture
 {
-	private Object reference;
-	private int width, height;
-	private Bitmap image;
+	protected Object reference;
+	protected int width, height;
+	protected Bitmap image;
 	@Override
 	public boolean equals(Object obj)
 	{
