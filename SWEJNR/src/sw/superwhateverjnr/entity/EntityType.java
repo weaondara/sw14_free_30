@@ -8,11 +8,13 @@ import lombok.Getter;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public enum EntityType
 {
+	UNKNOWN(-1, null),
+	
 	PLAYER(0, Player.class),
-	CREEPER(50, null),
-	SKELETON(51, null),
-	SPIDER(52, null),
-	ZOMBIE(54, null),
+	CREEPER(50, Creeper.class),
+	SKELETON(51, Skeleton.class),
+	SPIDER(52, Spider.class),
+	ZOMBIE(54, Zombie.class),
 	DROPPED_ITEM(1, null);
 	
 	private int id;
