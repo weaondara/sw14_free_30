@@ -85,6 +85,8 @@ public abstract class Entity
 	protected boolean movingleft;
 	@Setter
 	protected boolean jumping;
+	@Setter
+	protected boolean lookingRight;
 	
 	public Entity(EntityType type, Location location, Map<String, Object> extraData)
 	{
@@ -100,6 +102,7 @@ public abstract class Entity
 		renderBox = EntityInfoMap.getRenderBox(type);
 		health = EntityInfoMap.getMaxHealth(type);
 		velocity = new Vector(0, 0);
+		lookingRight = true;
 	}
 	public void jump()
 	{

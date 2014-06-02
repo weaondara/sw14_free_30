@@ -141,7 +141,14 @@ public class Player extends Entity
 		setLastMoveTime(now);
 
 		
-		
+		if(vx>0)
+		{
+			lookingRight=true;
+		}
+		else if(vx<0)
+		{
+			lookingRight=false;
+		}
 		
 		
 		float multiplier=0.01F;
