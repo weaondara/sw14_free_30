@@ -7,12 +7,13 @@ import com.google.common.base.Preconditions;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import sw.superwhateverjnr.SWEJNR;
+import sw.superwhateverjnr.entity.EntityType;
 import sw.superwhateverjnr.util.IdAndSubId;
 
 public class DummyTextureLoader implements TextureLoader
 {
 	@Override
-	public Texture loadTexture(IdAndSubId ref) throws Exception
+	public BlockTexture loadTexture(IdAndSubId ref) throws Exception
 	{
 		Preconditions.checkNotNull(ref);
 		
@@ -29,7 +30,13 @@ public class DummyTextureLoader implements TextureLoader
 			return null;
 		}
 		
-		Texture tex=new Texture(ref, bm.getWidth(),bm.getHeight(), bm);
+		BlockTexture tex=new BlockTexture(ref, bm.getWidth(),bm.getHeight(), bm);
 		return tex;
+	}
+
+	@Override
+	public EntityTexture loadTexture(EntityType ref) throws Exception
+	{
+		return null;
 	}
 }

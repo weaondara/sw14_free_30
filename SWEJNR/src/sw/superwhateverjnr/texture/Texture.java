@@ -13,7 +13,7 @@ import android.graphics.Bitmap;
 @ToString
 public class Texture
 {
-	private IdAndSubId idAndSubId;
+	private Object reference;
 	private int width, height;
 	private Bitmap image;
 	@Override
@@ -32,9 +32,9 @@ public class Texture
 		if (height != other.height)
 			return false;
 		
-		if (idAndSubId == null || other.idAndSubId == null)
+		if (reference == null || other.reference == null)
 			return false;
-		else if (!idAndSubId.equals(other.idAndSubId))
+		else if (!reference.equals(other.reference))
 			return false;
 		
 		if (image == null || other.image == null)
@@ -68,7 +68,7 @@ public class Texture
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + height;
-		result = prime * result + ((idAndSubId == null) ? 0 : idAndSubId.hashCode());
+		result = prime * result + ((reference == null) ? 0 : reference.hashCode());
 		result = prime * result + ((image == null) ? 0 : image.hashCode());
 		result = prime * result + width;
 		return result;

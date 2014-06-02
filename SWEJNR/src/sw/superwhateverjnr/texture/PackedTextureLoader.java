@@ -11,6 +11,7 @@ import android.graphics.BitmapFactory;
 import com.google.common.base.Preconditions;
 
 import sw.superwhateverjnr.SWEJNR;
+import sw.superwhateverjnr.entity.EntityType;
 import sw.superwhateverjnr.util.IdAndSubId;
 
 public class PackedTextureLoader implements TextureLoader
@@ -57,7 +58,7 @@ public class PackedTextureLoader implements TextureLoader
 		idpathmap.put(new IdAndSubId(18, 5),"textures/blocks/leaves5.png");
 	}
 	@Override
-	public Texture loadTexture(IdAndSubId ref) throws IOException
+	public BlockTexture loadTexture(IdAndSubId ref) throws IOException
 	{
 		Preconditions.checkNotNull(ref);
 		
@@ -75,7 +76,13 @@ public class PackedTextureLoader implements TextureLoader
 			return null;
 		}
 		
-		Texture tex=new Texture(ref, bm.getWidth(),bm.getHeight(), bm);
+		BlockTexture tex=new BlockTexture(ref, bm.getWidth(),bm.getHeight(), bm);
 		return tex;
+	}
+	@Override
+	public EntityTexture loadTexture(EntityType ref) throws Exception
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
