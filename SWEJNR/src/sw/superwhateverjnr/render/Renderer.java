@@ -51,13 +51,14 @@ public class Renderer
 		
 		prepare();
 		
+		
+		drawBackground(canvas);
+		drawWorld(canvas);
+		
 		if(SWEJNR.DEBUG)
 		{
 			drawWorldGrid(canvas);
 		}
-		
-		drawBackground(canvas);
-		drawWorld(canvas);
 		
 		drawEntities(canvas);
 		drawPlayer(canvas);
@@ -73,7 +74,7 @@ public class Renderer
 	private int xstart;
 	private int xend;
 	
-	private int y1
+	private int y1;
 	private int y2;	
 	private int ystart;
 	private int yend;
