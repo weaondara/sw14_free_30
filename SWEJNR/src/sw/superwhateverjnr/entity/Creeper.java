@@ -98,7 +98,7 @@ public class Creeper extends Entity
 	
 	protected void stopIfLava()
 	{
-		// stop instantly!!!
+		//stop instantly!!!
 	}
 	
 	protected void swimIfWater()
