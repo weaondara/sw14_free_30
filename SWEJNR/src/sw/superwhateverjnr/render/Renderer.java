@@ -181,6 +181,7 @@ public class Renderer
 		{
 			Entity e = list.get(i);
 			Location l = e.getLocation();
+			System.out.println(l);
 			
 			//render & hitbox
 			if(SWEJNR.DEBUG)
@@ -271,7 +272,6 @@ public class Renderer
 		
 		//arm
 		float angle=p.getArmAngle();
-		System.out.println(angle);
 		if(p.isLookingRight())
 		{
 			//left arm
