@@ -8,6 +8,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import sw.superwhateverjnr.block.Block;
 import sw.superwhateverjnr.entity.Entity;
@@ -18,6 +19,7 @@ import sw.superwhateverjnr.entity.Entity;
 @EqualsAndHashCode
 public class World
 {
+	@Setter
 	private String name;
 	private int width, height;
 	private Location spawnLocation;
