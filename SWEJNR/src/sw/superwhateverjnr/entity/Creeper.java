@@ -35,6 +35,7 @@ public class Creeper extends Entity
 	{
 		super.tick();
 		trigger();
+		tickMove();
 		// randomJump();
 	}
 	
@@ -150,36 +151,38 @@ public class Creeper extends Entity
 		//block check
 		try
 		{
-		Location l1=new Location(x-playerwidth/2,location.getY());
-		Location l2=new Location(x-playerwidth/2,location.getY()+1);
-		Block b1=world().getBlockAt(l1);
-		Block b2=world().getBlockAt(l2);
-		if(b1.getType().isSolid() || b2.getType().isSolid())
-		{
-			if(velocity.getX()<0)
+			Location l1=new Location(x-playerwidth/2,location.getY());
+			Location l2=new Location(x-playerwidth/2,location.getY()+1);
+			Block b1=world().getBlockAt(l1);
+			Block b2=world().getBlockAt(l2);
+			if(b1.getType().isSolid() || b2.getType().isSolid())
 			{
-				x=Math.ceil(x-playerwidth/2)+playerwidth/2;
-				velocity.setX(0);
+				if(velocity.getX()<0)
+				{
+					x=Math.ceil(x-playerwidth/2)+playerwidth/2;
+					velocity.setX(0);
+				}
 			}
 		}
-		}catch(Exception e){}
+		catch(Exception e){}
 		
 		try
 		{
-		Location l3=new Location(x+playerwidth/2,location.getY());
-		Location l4=new Location(x+playerwidth/2,location.getY()+1);
-		Block b3=world().getBlockAt(l3);
-		Block b4=world().getBlockAt(l4);
-		if(b3.getType().isSolid() || b4.getType().isSolid())
-		{
-			if(velocity.getX()>0)
+			Location l3=new Location(x+playerwidth/2,location.getY());
+			Location l4=new Location(x+playerwidth/2,location.getY()+1);
+			Block b3=world().getBlockAt(l3);
+			Block b4=world().getBlockAt(l4);
+			if(b3.getType().isSolid() || b4.getType().isSolid())
 			{
-				x=Math.floor(x+playerwidth/2)-playerwidth/2;
-				velocity.setX(0);
+				if(velocity.getX()>0)
+				{
+					x=Math.floor(x+playerwidth/2)-playerwidth/2;
+					velocity.setX(0);
+				}
 			}
 		}
-	}catch(Exception e){}
-		
+		catch(Exception e){}
+			
 		location.setX(x);
 	}
 }
