@@ -115,6 +115,7 @@ public class Game
 			return;
 		}
 		gameRunning=false;
+		FullscreenActivity.getInstance().setContentView(oldview);
 		
 		enabled=false;
 	}
