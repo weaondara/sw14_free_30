@@ -36,7 +36,7 @@ public class Creeper extends Entity
 		super.tick();
 		trigger();
 		tickMove();
-		// randomJump();
+		randomJump();
 	}
 	
 	protected void trigger()
@@ -63,15 +63,15 @@ public class Creeper extends Entity
 			setMovingleft(false);
 		}
 	}
-	/*
+	
 	protected void randomJump()
 	{
 		if (isindistance)
 		{
-			//do some cranky stuff
+			//if ()
 		}
 	}
-	*/
+	
 	private void tickMove()
 	{
 		if(location==null || world()==null)
