@@ -181,7 +181,6 @@ public class Renderer
 		{
 			Entity e = list.get(i);
 			Location l = e.getLocation();
-			System.out.println(l);
 			
 			//render & hitbox
 			if(SWEJNR.DEBUG)
