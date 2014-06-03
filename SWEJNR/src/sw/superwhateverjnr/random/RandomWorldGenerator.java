@@ -52,6 +52,7 @@ public class RandomWorldGenerator
 	
 	private Random randomizer;
 	private BlockFactory bf;
+	private RandomMaterialGetter rmg;
 	
 	public RandomWorldGenerator(int minx, int maxx, int miny, int maxy)
 	{
@@ -60,13 +61,14 @@ public class RandomWorldGenerator
 		minHeight = miny;
 		maxHeight = maxy;
 		randomizer = new Random();
+		rmg = new RandomMaterialGetter(randomizer.nextLong())
 		bf = BlockFactory.getInstance();
 	}
 	
-	public World newWorld(String name) throws Exception
+	public World newWorld(long seed) throws Exception
 	{
-		long seed = (long) name.hashCode();
 		randomizer.setSeed(seed);
+		rmg.setSeed(seed);
 		
 		int width = 0, height = 0;
 		while (width < minWidth && height < minHeight)
@@ -167,20 +169,47 @@ public class RandomWorldGenerator
 		return w;
 	}
 	
+	public World newWorld(String name) throws Exception
+	{
+		long seed = (long) name.hashCode();
+		return newWorld(seed);
+	}
+	
 	private void pillar(Block blocks[][], World w, int offset, int height) throws Exception
 	{
-		for(int i = 0; i <= height; i++)
+		Material top= rmg.nextMaterial();
+		Material subtop = rmg.getSubtop(top);
+		Material ground = rmg.getGround(top);
+		int i;
+		while(i <=height-4)
 		{
-			blocks[offset][i] = bf.create(1, (byte)0, offset, i, w, null);
+			blocks[offset][i] = bf.create(ground, (byte)0, offset, i, w, null);
+			i++
 		}
+		
+		while(i <= height-1)
+		{
+			blocks[offset][i] = bf.create(subtop, (byte)0, offset, i, w, null);
+			i++;
+		}
+		blocks[offset][i] = bf.create(1, (byte)0, offset, i, w, null);
 	}
 	
 	private void pillar(Block blocks[][], World w, int offset, int height, Material m) throws Exception
 	{
-		for(int i = 0; i <= height; i++)
+		int i;
+		while(i <=height-4)
 		{
-			blocks[offset][i] = bf.create(m.getId(), (byte)0, offset, i, w, null);
+			blocks[offset][i] = bf.create(ground, (byte)0, offset, i, w, null);
+			i++
 		}
+		
+		while(i <= height-1)
+		{
+			blocks[offset][i] = bf.create(subtop, (byte)0, offset, i, w, null);
+			i++;
+		}
+		blocks[offset][i] = bf.create(1, (byte)0, offset, i, w, null);
 	}
 	
 	private void gap(Block blocks[][], World w, int offset, int width, int toHeight, Material filling) throws Exception
