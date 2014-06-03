@@ -144,13 +144,12 @@ public class RandomWorldGenerator
 							nextHeight = maxHeight-1;
 						}						
 						step(blocks, w, fillWidth, jw, nextHeight, false);
-						fillWidth += jw;
 					}
 					if(nextHeight < thisHeight)
 					{
 						step(blocks, w, fillWidth, jw, nextHeight, false);
-						fillWidth += jw;
 					}
+					fillWidth += jw;
 					break;
 			}
 		}
@@ -237,6 +236,7 @@ public class RandomWorldGenerator
 	
 	private void step(Block blocks[][], World w, int offset, int width, int toHeight, boolean left) throws Exception
 	{
+		Material m = Material.DIRT; //Magic!
 		if(left)
 		{
 			offset -= width;
@@ -245,6 +245,6 @@ public class RandomWorldGenerator
 		{
 			offset += width;
 		}
-		blocks[offset][toHeight] = bf.create(1, (byte)0, offset, toHeight, w, null);	
+		blocks[offset][toHeight] = bf.create(m.getId(), (byte)0, offset, toHeight, w, null);	
 	}
 }
