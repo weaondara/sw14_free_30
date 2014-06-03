@@ -105,11 +105,11 @@ public class Creeper extends Entity
 	{
 		if (isindistance)
 		{
-			//swim to catch player
+			// swim to catch player
 		}
 		else
 		{
-			//swim away from player
+			// swim away from player
 		}
 	}
 	

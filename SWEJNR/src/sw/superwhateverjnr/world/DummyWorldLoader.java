@@ -205,7 +205,7 @@ public class DummyWorldLoader extends WorldLoader
 		
 		EntityFactory ef=EntityFactory.getInstance();
 		entities.add(ef.create(50, EntityType.CREEPER.getId(), 25, 11, world, null));
-		//
+		
 		return world;
 	}
 }
