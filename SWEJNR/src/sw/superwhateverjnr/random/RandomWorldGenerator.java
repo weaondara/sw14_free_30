@@ -188,21 +188,7 @@ public class RandomWorldGenerator
 	private void pillar(Block blocks[][], World w, int offset, int height) throws Exception
 	{
 		Material top= rmg.nextMaterial();
-		Material subtop = rmg.getSubtop(top);
-		Material ground = rmg.getGround(top);
-		int i=0;
-		while(i <=height-4)
-		{
-			blocks[offset][i] = bf.create(ground.getId(), (byte)0, offset, i, w, null);
-			i++;
-		}
-		
-		while(i <= height-1)
-		{
-			blocks[offset][i] = bf.create(subtop.getId(), (byte)0, offset, i, w, null);
-			i++;
-		}
-		blocks[offset][i] = bf.create(top.getId(), (byte)0, offset, i, w, null);
+		pillar(blocks, w, offset, height, top);
 	}
 	
 	private void pillar(Block blocks[][], World w, int offset, int height, Material top) throws Exception
