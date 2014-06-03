@@ -37,20 +37,28 @@ public class Creeper extends Entity
 		trigger();
 		tickMove();
 		randomJump();
+		randomWalk();
+		jumpIfWall();
+		stopIfLava();
+		swimIfWater();
 	}
 	
 	protected void trigger()
-	{
-		double distance = Math.sqrt(Math.pow(player.getLocation().getX() - getLocation().getX(), 2.0) + Math.pow(player.getLocation().getY() - getLocation().getY(), 2.0));
+	{	
+		double centerxplayer = player.getLocation().getX();// + player border width / 2
+		double centerxmonster = getLocation().getX();// + monster border width / 2
+		double centeryplayer = player.getLocation().getY();// - player border height / 2
+		double centerymonster = getLocation().getY();// - monster border height / 2
+		double distance = Math.sqrt(Math.pow(centerxplayer - centerxmonster, 2.0) + Math.pow(centeryplayer - centerymonster, 2.0));
 		if (distance < radius)
 		{
 			isindistance = true;
-			if (player.getLocation().getX() > getLocation().getX())
+			if (centerxplayer > centerxmonster)
 			{
 				setMovingright(true);
 				setMovingleft(false);
 			}
-			else if (player.getLocation().getX() < getLocation().getX())
+			else
 			{
 				setMovingright(false);
 				setMovingleft(true);
@@ -68,7 +76,40 @@ public class Creeper extends Entity
 	{
 		if (isindistance)
 		{
-			//if ()
+			// jump randomized, if player detected
+		}
+	}
+	
+	protected void randomWalk()
+	{
+		if (!isindistance)
+		{
+			// walk randomized, if player not detected
+		}
+	}
+	
+	protected void jumpIfWall()
+	{
+		if (isindistance)
+		{
+			// follow player anyway, but jump!!
+		}
+	}
+	
+	protected void stopIfLava()
+	{
+		// stop instantly!!!
+	}
+	
+	protected void swimIfWater()
+	{
+		if (isindistance)
+		{
+			//swim to catch player
+		}
+		else
+		{
+			//swim away from player
 		}
 	}
 	

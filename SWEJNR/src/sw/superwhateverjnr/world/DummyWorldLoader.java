@@ -201,6 +201,7 @@ public class DummyWorldLoader extends WorldLoader
 				}
 			}
 		}
+		Block b=bf.create(1, (byte)0, 10, 11, world, null);
 		
 		EntityFactory ef=EntityFactory.getInstance();
 		entities.add(ef.create(50, EntityType.CREEPER.getId(), 25, 11, world, null));
