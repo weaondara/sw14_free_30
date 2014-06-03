@@ -6,6 +6,8 @@ import java.util.List;
 import sw.superwhateverjnr.block.Block;
 import sw.superwhateverjnr.block.BlockFactory;
 import sw.superwhateverjnr.entity.Entity;
+import sw.superwhateverjnr.entity.EntityFactory;
+import sw.superwhateverjnr.entity.EntityType;
 
 public class DummyWorldLoader extends WorldLoader
 {
@@ -19,6 +21,10 @@ public class DummyWorldLoader extends WorldLoader
 		else if (name.equalsIgnoreCase("jumptest"))
 		{
 			return loadJumpTest();
+		}
+		else if (name.equalsIgnoreCase("entitytest"))
+		{
+			return loadEntityTest();
 		}
 		else
 		{
@@ -165,6 +171,39 @@ public class DummyWorldLoader extends WorldLoader
 				}
 			}
 		}
+		
+		return world;
+	}
+	
+	private World loadEntityTest() throws Exception
+	{
+		int width=100;
+		int height=40;
+		Location spawn=new Location(2, 10);
+		Block[][] data=new Block[width][height];
+		List<Entity> entities = new ArrayList<>();
+		World world=createWorld("entitytest", width, height, spawn, data, entities);
+		
+		BlockFactory bf=BlockFactory.getInstance();
+		for(int x=0;x<width;x++)
+		{
+			for(int y=0;y<height;y++)
+			{
+				if(y<10 || x==0 || x+1==width)
+				{
+					Block b=bf.create(1, (byte)0, x, y, world, null);
+					data[x][y]=b;
+				}
+				else
+				{
+					Block b=bf.create(0, (byte)0, x, y, world, null);
+					data[x][y]=b;
+				}
+			}
+		}
+		
+		EntityFactory ef=EntityFactory.getInstance();
+		entities.add(ef.create(50, EntityType.CREEPER.getId(), 25, 11, world, null));
 		
 		return world;
 	}
