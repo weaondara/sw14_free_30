@@ -1,5 +1,7 @@
 package sw.superwhateverjnr.entity;
 
+import java.util.Map;
+
 import sw.superwhateverjnr.Game;
 import sw.superwhateverjnr.block.Block;
 import sw.superwhateverjnr.util.Rectangle;
@@ -16,9 +18,9 @@ public class Creeper extends Entity
 	private final static double jumpPower = 7.0;
 	private final static double radius = 6.0;
 	
-	public Creeper(Location location)
+	public Creeper(int id, EntityType type, Location location, Map<String, Object> extraData)
 	{
-		super(EntityType.CREEPER, location, null);
+		super(EntityType.CREEPER, location, extraData);
 		player=Game.getInstance().getPlayer();
 	}
 

@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
 import lombok.ToString;
+import sw.superwhateverjnr.entity.Entity;
 import sw.superwhateverjnr.entity.Player;
 import sw.superwhateverjnr.scheduling.Scheduler;
 import sw.superwhateverjnr.settings.Settings;
@@ -190,6 +191,11 @@ public class Game
 				try
 				{
 					player.tick();
+					for(int i=0;i<world.getEntities().size();i++)
+					{
+						Entity e=world.getEntities().get(i);
+						e.tick();
+					}
 				}
 				catch(Exception e)
 				{
@@ -268,6 +274,10 @@ public class Game
 				);
 		
 		Location l=player.getLocation();
+		if(l==null)
+		{
+			return;
+		}
 //		System.out.println(l);
 		if(l.getX()<minDisplayPoint.getX()+viewRect.getMin().getX())
 		{
