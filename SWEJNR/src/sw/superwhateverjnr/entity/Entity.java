@@ -120,7 +120,7 @@ public abstract class Entity
 	{
 		Preconditions.checkElementIndex(l.getBlockX(), Game.getInstance().getWorld().getWidth());
 		Preconditions.checkElementIndex(l.getBlockY(), Game.getInstance().getWorld().getHeight());
-		location=l;
+		location=l.clone();
 		//TODO update rendering; not sure if we need it
 	}
 	
