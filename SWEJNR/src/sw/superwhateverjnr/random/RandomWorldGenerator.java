@@ -61,7 +61,7 @@ public class RandomWorldGenerator
 		minHeight = miny;
 		maxHeight = maxy;
 		randomizer = new Random();
-		rmg = new RandomMaterialGetter(randomizer.nextLong())
+		rmg = new RandomMaterialGetter(randomizer.nextLong());
 		bf = BlockFactory.getInstance();
 	}
 	
