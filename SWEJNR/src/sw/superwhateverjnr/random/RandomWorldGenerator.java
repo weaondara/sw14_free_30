@@ -117,7 +117,11 @@ public class RandomWorldGenerator
 					fillWidth++;
 					break;
 				case GAP:
-					jw = randomizer.nextInt((int) ref.getJumpWidth((double) thisHeight));
+					jw = 0;
+					while(!(jw > 0))
+					{
+						jw = randomizer.nextInt((int) ref.getJumpWidth((double) thisHeight));
+					}
 					if(jw > mwidth-fillWidth)
 					{
 						jw = mwidth-fillWidth;
@@ -128,7 +132,7 @@ public class RandomWorldGenerator
 						nextHeight = maxHeight-1;
 					}
 					gap(blocks, w, fillWidth, jw, nextHeight, Material.AIR);
-					fillWidth += jw;
+					fillWidth += jw + 1;
 					break;
 				case STEP:
 					jw = randomizer.nextInt((int) ref.getJumpWidth((double) thisHeight));
@@ -142,7 +146,7 @@ public class RandomWorldGenerator
 						nextHeight = maxHeight-1;
 					}
 					step(blocks, w, fillWidth, jw, nextHeight, false);
-					fillWidth += jw;
+					fillWidth += jw + 1;
 					break;
 			}
 		}
@@ -207,11 +211,11 @@ public class RandomWorldGenerator
 	private void gap(Block blocks[][], World w, int offset, int width, int toHeight, Material filling) throws Exception
 	{
 		//Dammmit Yukari!
-		for (int i = 0; i <= width; i++)
+		for (int i = 0; i < width; i++)
 		{
 			pillar(blocks, w, offset+i, toHeight, filling);
 		}
-		pillar(blocks, w, offset+width-1, toHeight);
+		pillar(blocks, w, offset+width, toHeight);
 	}
 	
 	private void step(Block blocks[][], World w, int offset, int width, int toHeight, boolean left) throws Exception
