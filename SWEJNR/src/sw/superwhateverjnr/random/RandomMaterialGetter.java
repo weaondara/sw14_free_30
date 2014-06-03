@@ -35,7 +35,7 @@ public class RandomMaterialGetter
 	
 	static Material getSubtop(Material m)
 	{
-		if(m == Material.GRASS)
+		if(m.getId() == Material.GRASS.getId())
 		{
 			return Material.DIRT;
 		}
