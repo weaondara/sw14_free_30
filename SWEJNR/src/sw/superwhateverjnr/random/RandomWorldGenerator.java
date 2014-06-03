@@ -206,11 +206,12 @@ public class RandomWorldGenerator
 	
 	private void gap(Block blocks[][], World w, int offset, int width, int toHeight, Material filling) throws Exception
 	{
-		for (int i = 0; i <= toHeight; i++)
+		//Dammmit Yukari!
+		for (int i = 0; i <= width; i++)
 		{
-			pillar(blocks, w, offset+width, toHeight, filling);
+			pillar(blocks, w, offset+i, toHeight, filling);
 		}
-		pillar(blocks, w, offset+width, toHeight);
+		pillar(blocks, w, offset+width-1, toHeight);
 	}
 	
 	private void step(Block blocks[][], World w, int offset, int width, int toHeight, boolean left) throws Exception
