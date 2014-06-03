@@ -51,46 +51,49 @@ public class Renderer
 		
 		prepare();
 		
-		drawBackground(canvas);
-		
-		drawWorld(canvas);
-		
 		if(SWEJNR.DEBUG)
 		{
 			drawWorldGrid(canvas);
 		}
 		
-		drawEntities(canvas);
+		drawBackground(canvas);
+		drawWorld(canvas);
 		
+		drawEntities(canvas);
 		drawPlayer(canvas);
 		
 		drawInfo(canvas);
-		
 		drawControls(canvas);
 	}
 	
 	private Location min;
+	
 	private int x1;
-	private int y1;
 	private int x2;
-	private int y2;
 	private int xstart;
-	private int ystart;
 	private int xend;
+	
+	private int y1
+	private int y2;	
+	private int ystart;
 	private int yend;
+	
 	private float leftoffset;
 	private float topoffset;
 	
 	private void prepare()
 	{
 		min=game.getMinDisplayPoint();
+		
 		x1=(int) Math.floor(min.getX());
 		y1=(int) Math.floor(min.getY());
+		
 		x2=(int) (x1+Math.ceil((double)game.getDisplayWidth()/game.getTextureWidth()))+(min.getX()%1==0?0:1);
 		y2=(int) (y1+Math.ceil((double)game.getDisplayHeight()/game.getTextureHeight()))+(min.getY()%1==0?0:1);
 		
 		xstart=x1<0?0:x1;
 		ystart=y1<0?0:y1;
+		
 		xend=x2>world.getWidth()?world.getWidth():x2;
 		yend=y2>world.getHeight()?world.getHeight():y2;
 		
@@ -127,6 +130,7 @@ public class Renderer
 	{
 		canvas.drawColor((game.getSettings().getBackgroudColor() & 0x00FFFFF) | 0xFF000000);
 	}
+	
 	private void drawWorld(Canvas canvas)
 	{
 		for(int x=xstart;x<xend;x++)
@@ -144,8 +148,8 @@ public class Renderer
 				Texture tex=TextureMap.getTexture(ref);
 				if(tex==null)
 				{
-					System.out.println("fatal render");
-					continue; //fatal error
+					System.out.println("Fatal Rendering Error: Texture not found!");
+					continue;
 				}
 				
 				float top=topoffset+(y2-1-y)*game.getTextureHeight();
@@ -157,6 +161,7 @@ public class Renderer
 	{
 		paint.setColor(0xFFFF0000);
 		paint.setStrokeWidth(0);
+		
 		for(int x=xstart;x<xend+1;x++)
 		{
 			float px=leftoffset+(x-x1)*game.getTextureWidth();
@@ -181,10 +186,13 @@ public class Renderer
 	{
 		float headwidth=8;
 		float headheight=8;
+		
 		float bodywidth=4;
 		float bodyheight=12;
+		
 		float armwidth=4;
 		float armheight=12;
+		
 		float legwidth=4;
 		float legheight=12;
 		
@@ -234,16 +242,16 @@ public class Renderer
 		System.out.println(angle);
 		if(p.isLookingRight())
 		{
-			//leftarm
+			//left arm
 			matrix.setRotate(angle, (right-left)/2, (right-left)/2);
-			matrix.postTranslate(left, top);
+			matrix.postTranslate(left, top);			
 			Bitmap bitmap=Bitmap.createBitmap((int)(right-left), (int)(bottom-top), Bitmap.Config.ARGB_8888);
 			new Canvas(bitmap).drawColor(0xFF000000);
 			canvas.drawBitmap(bitmap, matrix, paint);
 		}
 		else
 		{
-			//rightarm
+			//right arm
 			matrix.setRotate(-angle, (right-left)/2, (right-left)/2);
 			matrix.postTranslate(left, top);
 			Bitmap bitmap=Bitmap.createBitmap((int)(right-left), (int)(bottom-top), Bitmap.Config.ARGB_8888);
@@ -257,7 +265,7 @@ public class Renderer
 		//arm
 		if(!p.isLookingRight())
 		{
-			//leftarm
+			//left arm
 			matrix.setRotate(angle, (right-left)/2, (right-left)/2);
 			matrix.postTranslate(left, top);
 			Bitmap bitmap=Bitmap.createBitmap((int)(right-left), (int)(bottom-top), Bitmap.Config.ARGB_8888);
@@ -266,7 +274,7 @@ public class Renderer
 		}
 		else
 		{
-			//rightarm
+			//right arm
 			matrix.setRotate(-angle, (right-left)/2, (right-left)/2);
 			matrix.postTranslate(left, top);
 			Bitmap bitmap=Bitmap.createBitmap((int)(right-left), (int)(bottom-top), Bitmap.Config.ARGB_8888);
@@ -284,15 +292,14 @@ public class Renderer
 		angle=p.getLegAngle();
 		if(p.isLookingRight())
 		{
-			//leftleg
-//			System.out.println(p.getMoveArmswingDegrees());
+			//left leg
 			matrix.setRotate(-angle, (right-left)/2, 0);
 			matrix.postTranslate(left, top);
 			Bitmap bitmap=Bitmap.createBitmap((int)(right-left), (int)(bottom-top), Bitmap.Config.ARGB_8888);
 			new Canvas(bitmap).drawColor(0xFF000000);
 			canvas.drawBitmap(bitmap, matrix, paint);
 			
-			//rightleg
+			//right leg
 			matrix.setRotate(angle, (right-left)/2, 0);
 			matrix.postTranslate(left, top);
 			bitmap=Bitmap.createBitmap((int)(right-left), (int)(bottom-top), Bitmap.Config.ARGB_8888);
@@ -301,14 +308,14 @@ public class Renderer
 		}
 		else
 		{
-			//rightleg
+			//right leg
 			matrix.setRotate(angle, (right-left)/2, 0);
 			matrix.postTranslate(left, top);
 			Bitmap bitmap=Bitmap.createBitmap((int)(right-left), (int)(bottom-top), Bitmap.Config.ARGB_8888);
 			new Canvas(bitmap).drawColor(0xFF000000);
 			canvas.drawBitmap(bitmap, matrix, paint);
 			
-			//leftleg
+			//left leg
 			matrix.setRotate(-angle, (right-left)/2, 0);
 			matrix.postTranslate(left, top);
 			bitmap=Bitmap.createBitmap((int)(right-left), (int)(bottom-top), Bitmap.Config.ARGB_8888);
@@ -325,8 +332,6 @@ public class Renderer
 			y=(float) (topoffset+(y2-l.getY())*game.getTextureHeight());
 			
 			paint.setStyle(Style.STROKE);
-			
-			
 			paint.setColor(0xFFFFFF00);
 			
 			playerwidh=(float) (Math.abs(p.getRenderBox().getMin().getX()-p.getRenderBox().getMax().getX())*game.getTextureWidth());
@@ -337,7 +342,6 @@ public class Renderer
 			top=(float) (y-p.getRenderBox().getMax().getY()*game.getTextureHeight());
 			
 			canvas.drawRect(left, top, right, bottom, paint);
-			
 			
 		
 			paint.setColor(0xFF00FF00);
@@ -458,7 +462,7 @@ public class Renderer
 		int ca=(set.getControlArrowOpacity()<<24)|set.getControlArrowColor();
 		
 		float arrowsize=set.getControlArrowSize();
-		
+
 		paint.setStyle(Style.FILL);
 		
 		for(String key:cachedControlKeys)

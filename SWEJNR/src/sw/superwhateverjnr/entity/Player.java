@@ -36,8 +36,6 @@ public class Player extends Entity
 		return jumpPower;
 	}
 	
-//	private float moveArmswingDegrees;
-//	private float standArmswingDegrees;
 	private float armAngle;
 	private float legAngle;
 	
@@ -47,8 +45,6 @@ public class Player extends Entity
 	public Player(Location location)
 	{
 		super(EntityType.PLAYER, location, null);
-//		moveArmswingDegrees=0;
-//		standArmswingDegrees=0;
 		armAngle=0;
 		legAngle=0;
 	}
