@@ -10,13 +10,18 @@ import sw.superwhateverjnr.world.Location;
 public class Creeper extends Entity
 {
 	private static Player player;
+	
 	private static boolean isindistance = false;
+	private static boolean isgoingright = false;
+	private static boolean isgoinghorizontal = false;
+	private static boolean isgoingup = false;
+	private static boolean isgoingvertical = false;
 	
 	private final static double runningMin = 0.75;
 	private final static double runningMax = 2.25;
 	private final static double runPower = 0.0015;
 	private final static double jumpPower = 7.0;
-	private final static double radius = 8.0;
+	private final static double radius = 5.0;
 	
 	public Creeper(int id, EntityType type, Location location, Map<String, Object> extraData)
 	{
@@ -36,8 +41,8 @@ public class Creeper extends Entity
 		super.tick();
 		trigger();
 		tickMove();
-		randomJump();
-		randomWalk();
+		randomJump(true);
+		randomWalk(true);
 		jumpIfWall();
 		stopIfLava();
 		swimIfWater();
@@ -57,11 +62,34 @@ public class Creeper extends Entity
 			{
 				setMovingright(true);
 				setMovingleft(false);
+				isgoingright = true;
+				isgoinghorizontal = false;
 			}
-			else
+			else if (centerxplayer < centerxmonster)
 			{
 				setMovingright(false);
 				setMovingleft(true);
+				isgoingright = false;
+				isgoinghorizontal = false;
+			}
+			else
+			{
+				isgoinghorizontal = false;
+			}
+			
+			if (centeryplayer > centerymonster)
+			{
+				isgoingup = true;
+				isgoingvertical = true;
+			}
+			else if (centeryplayer < centerymonster)
+			{
+				isgoingup = false;
+				isgoingvertical = true;
+			}
+			else
+			{
+				isgoingvertical = false;
 			}
 		}
 		else
@@ -72,17 +100,17 @@ public class Creeper extends Entity
 		}
 	}
 	
-	protected void randomJump()
+	protected void randomJump(boolean dorandomjump)
 	{
-		if (isindistance)
+		if (isindistance && dorandomjump)
 		{
 			// jump randomized, if player detected
 		}
 	}
 	
-	protected void randomWalk()
+	protected void randomWalk(boolean dorandomwalk)
 	{
-		if (!isindistance)
+		if (!isindistance && dorandomwalk)
 		{
 			// walk randomized, if player not detected
 		}
@@ -90,10 +118,7 @@ public class Creeper extends Entity
 	
 	protected void jumpIfWall()
 	{
-		if (isindistance)
-		{
-			// follow player anyway, but jump!!
-		}
+		// follow player anyway, but jump!!
 	}
 	
 	protected void stopIfLava()
