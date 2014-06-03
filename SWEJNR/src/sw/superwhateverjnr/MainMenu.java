@@ -49,7 +49,7 @@ public class MainMenu
 		Game g = new Game();
 		g.init();
 		g.setWorldLoader(new DummyWorldLoader());
-		g.loadWorld("bla");
+		g.loadWorld("entitytest");
 		g.enable();
 	}
 	
