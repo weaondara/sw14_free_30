@@ -98,10 +98,18 @@ public abstract class Entity
 		this.type = type;
 		this.location = location;
 		this.extraData = extraData;
+		
 		hitBox = EntityInfoMap.getHitBox(type);
 		renderBox = EntityInfoMap.getRenderBox(type);
 		health = EntityInfoMap.getMaxHealth(type);
+		
 		velocity = new Vector(0, 0);
+		
+		lastJumpTime=-1;
+		lastMoveTime=-1;
+		
+		jumping=false;
+		
 		lookingRight = true;
 	}
 	public void jump()
@@ -120,7 +128,7 @@ public abstract class Entity
 	{
 		Preconditions.checkElementIndex(l.getBlockX(), Game.getInstance().getWorld().getWidth());
 		Preconditions.checkElementIndex(l.getBlockY(), Game.getInstance().getWorld().getHeight());
-		location=l;
+		location=l.clone();
 		//TODO update rendering; not sure if we need it
 	}
 	
@@ -208,7 +216,7 @@ public abstract class Entity
 			return;
 		}
 		long now=System.currentTimeMillis();
-		long time=now-getLastMoveTime();
+		long time = getLastMoveTime() == -1 ? 0 : now - getLastMoveTime();
 		
 		boolean onground=false;
 		try
