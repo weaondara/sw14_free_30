@@ -12,11 +12,11 @@ public class Creeper extends Entity
 	private static Player player;
 	private static boolean isindistance = false;
 	
-	private final static double runningMin = 1.5;
-	private final static double runningMax = 4.5;
+	private final static double runningMin = 0.75;
+	private final static double runningMax = 2.25;
 	private final static double runPower = 0.0015;
 	private final static double jumpPower = 7.0;
-	private final static double radius = 6.0;
+	private final static double radius = 10.0;
 	
 	public Creeper(int id, EntityType type, Location location, Map<String, Object> extraData)
 	{
