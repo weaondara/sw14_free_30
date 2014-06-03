@@ -16,7 +16,7 @@ public class Creeper extends Entity
 	private final static double runningMax = 2.25;
 	private final static double runPower = 0.0015;
 	private final static double jumpPower = 7.0;
-	private final static double radius = 10.0;
+	private final static double radius = 8.0;
 	
 	public Creeper(int id, EntityType type, Location location, Map<String, Object> extraData)
 	{
@@ -55,15 +55,12 @@ public class Creeper extends Entity
 				setMovingright(false);
 				setMovingleft(true);
 			}
-			else
-			{
-				setMovingright(false);
-				setMovingleft(false);
-			}
 		}
 		else
 		{
 			isindistance = false;
+			setMovingright(false);
+			setMovingleft(false);
 		}
 	}
 	/*
