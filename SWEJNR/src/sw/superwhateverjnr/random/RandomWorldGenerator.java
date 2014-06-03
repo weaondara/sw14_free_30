@@ -69,7 +69,7 @@ public class RandomWorldGenerator
 	{
 		randomizer.setSeed(seed);
 		rmg.setSeed(seed);
-		String name="bla";
+		String name=String.valueOf(seed);
 		
 		int width = 0, height = 0;
 		while (width < minWidth && height < minHeight)
@@ -172,8 +172,18 @@ public class RandomWorldGenerator
 	
 	public World newWorld(String name) throws Exception
 	{
-		long seed = (long) name.hashCode();
-		return newWorld(seed);
+		long seed;
+		try
+		{
+			seed = Long.parseLong(name);
+		}
+		catch(Exception e)
+		{
+			seed = (long) name.hashCode();
+		}
+		World w = newWorld(seed);
+		w.setName(name);
+		return w;
 	}
 	
 	private void pillar(Block blocks[][], World w, int offset, int height) throws Exception
@@ -213,7 +223,7 @@ public class RandomWorldGenerator
 			blocks[offset][i] = bf.create(subtop.getId(), (byte)0, offset, i, w, null);
 			i++;
 		}
-		blocks[offset][i] = bf.create(1, (byte)0, offset, i, w, null);
+		blocks[offset][i] = bf.create(top.getId(), (byte)0, offset, i, w, null);
 	}
 	
 	private void gap(Block blocks[][], World w, int offset, int width, int toHeight, Material filling) throws Exception
