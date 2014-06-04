@@ -1,6 +1,7 @@
 package sw.superwhateverjnr.entity;
 
 import java.util.Map;
+import java.util.Random;
 
 import sw.superwhateverjnr.Game;
 import sw.superwhateverjnr.block.Block;
@@ -23,6 +24,12 @@ public class Creeper extends Entity
 	private final static double jumpPower = 7.0;
 	private final static double radius = 5.0;
 	
+	private static double[] randomtimewalk = {0.0, 0.0};
+	private static double[] randomtimejump = {0.0, 0.0};
+	private static boolean israndomgoing = false;
+	private static boolean israndomgoingright = false;
+	private Random random = new Random();
+	
 	public Creeper(int id, EntityType type, Location location, Map<String, Object> extraData)
 	{
 		super(EntityType.CREEPER, location, extraData);
@@ -41,19 +48,19 @@ public class Creeper extends Entity
 		super.tick();
 		trigger();
 		tickMove();
-		randomJump(true);
+		randomJump(false);
 		randomWalk(true);
 		jumpIfWall();
 		stopIfLava();
-		swimIfWater();
+		//swimIfWater();
 	}
 	
 	protected void trigger()
 	{	
-		double centerxplayer = player.getLocation().getX();// + player border width / 2
-		double centerxmonster = getLocation().getX();// + monster border width / 2
-		double centeryplayer = player.getLocation().getY();// - player border height / 2
-		double centerymonster = getLocation().getY();// - monster border height / 2
+		double centerxplayer = player.getLocation().getX();
+		double centerxmonster = getLocation().getX();
+		double centeryplayer = player.getLocation().getY();
+		double centerymonster = getLocation().getY();
 		double distance = Math.sqrt(Math.pow(centerxplayer - centerxmonster, 2.0) + Math.pow(centeryplayer - centerymonster, 2.0));
 		if (distance < radius)
 		{
@@ -110,9 +117,37 @@ public class Creeper extends Entity
 	
 	protected void randomWalk(boolean dorandomwalk)
 	{
+		long now = System.currentTimeMillis();
 		if (!isindistance && dorandomwalk)
 		{
-			// walk randomized, if player not detected
+			if (randomtimewalk[0] < randomtimewalk[1])
+			{
+				if (israndomgoing)
+				{
+					if (israndomgoingright)
+					{
+						setMovingright(true);
+						setMovingleft(false);
+					}
+					else
+					{
+						setMovingright(false);
+						setMovingleft(true);
+					}
+				}
+				else
+				{
+					setMovingright(false);
+					setMovingleft(false);
+				}
+			}
+			else
+			{
+				randomtimewalk[0] = 0.0;
+				randomtimewalk[1] = roundNumber(random.nextDouble() * 3 + 1.0, 3);
+				israndomgoing = !israndomgoing;
+			}
+			randomtimewalk[0] += now - getLastMoveTime();// dt of Game
 		}
 	}
 	
@@ -126,7 +161,7 @@ public class Creeper extends Entity
 		//stop instantly!!!
 	}
 	
-	protected void swimIfWater()
+	/*protected void swimIfWater()
 	{
 		if (isindistance)
 		{
@@ -136,7 +171,7 @@ public class Creeper extends Entity
 		{
 			//swim away from player
 		}
-	}
+	}*/
 	
 	private void tickMove()
 	{
@@ -247,5 +282,10 @@ public class Creeper extends Entity
 		catch(Exception e){}
 			
 		location.setX(x);
+	}
+	
+	double roundNumber(double number, int digits)
+	{
+		return (double)((int)(number * (double)Math.pow(10.0, (double)digits))) / (double)Math.pow(10.0, (double)digits);
 	}
 }
