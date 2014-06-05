@@ -10,6 +10,8 @@ import sw.superwhateverjnr.world.Location;
 
 public class Creeper extends Entity
 {
+	private final static int MAXCOUNTERWALK = 3; 
+	
 	private static Player player;
 	private static Game game;
 	
@@ -187,6 +189,28 @@ public class Creeper extends Entity
 				randomtimewalk[1] = roundNumber(random.nextDouble() * 3 + 1.0, 3);
 				israndomgoingright = random.nextBoolean();
 				israndomgoing = !israndomgoing;
+				if (israndomgoing && israndomgoingright)
+				{
+					counterright++;
+					counterleft = 0;
+				}
+				else if (israndomgoing && !israndomgoingright)
+				{
+					counterright = 0;
+					counterleft++;
+				}
+				if (counterright > MAXCOUNTERWALK)
+				{
+					counterright = 0;
+					counterleft = 1;
+					israndomgoingright = false;
+				}
+				if (counterleft > MAXCOUNTERWALK)
+				{
+					counterright = 1;
+					counterleft = 0;
+					israndomgoingright = true;
+				}
 			}
 			long now=System.currentTimeMillis();
 			randomtimewalk[0] += (double)(now - getLastMoveTime()) / 1000.0;
