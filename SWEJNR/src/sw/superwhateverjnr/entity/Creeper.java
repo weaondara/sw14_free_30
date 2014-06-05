@@ -186,7 +186,7 @@ public class Creeper extends Entity
 				setMovingright(false);
 				setMovingleft(false);
 				randomtimewalk[0] = 0.0;
-				randomtimewalk[1] = roundNumber(random.nextDouble() * 3 + 1.0, 3);
+				randomtimewalk[1] = roundNumber(random.nextDouble() * 1 + 0.5, 3);
 				israndomgoingright = random.nextBoolean();
 				israndomgoing = !israndomgoing;
 				if (israndomgoing && israndomgoingright)
@@ -214,6 +214,12 @@ public class Creeper extends Entity
 			}
 			long now=System.currentTimeMillis();
 			randomtimewalk[0] += (double)(now - getLastMoveTime()) / 1000.0;
+			// Test output!
+			System.out.print("counter right = "+counterright+" "+
+					 "counter left = "+counterleft+" "+
+					 "is random going = "+israndomgoing+" "+
+					 "is random going right = "+israndomgoingright+" "+
+					 "random time walk 1 = "+randomtimewalk[1]+"\n");
 		}
 		else
 		{
