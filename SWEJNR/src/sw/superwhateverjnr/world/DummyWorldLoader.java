@@ -183,7 +183,7 @@ public class DummyWorldLoader extends WorldLoader
 		Block[][] data=new Block[width][height];
 		List<Entity> entities = new ArrayList<>();
 		World world=createWorld("entitytest", width, height, spawn, data, entities);
-		world.setBgmfile("dummy/test.wav")
+		world.setBgmfile("dummy/test.wav");
 		
 		BlockFactory bf=BlockFactory.getInstance();
 		for(int x=0;x<width;x++)
