@@ -1,10 +1,13 @@
 package sw.superwhateverjnr;
 
+import java.io.IOException;
+
 import android.graphics.PointF;
 import android.support.v4.view.MotionEventCompat;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
+import android.media.MediaPlayer;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -52,6 +55,7 @@ public class Game
 	@Setter
 	private WorldLoader worldLoader;
 	private World world;
+	private MediaPlayer mp;
 	
 	private TextureLoader textureLoader;
 	private Settings settings;
@@ -105,6 +109,20 @@ public class Game
 		oldview=FullscreenActivity.getInstance().findViewById(android.R.id.content);
 		FullscreenActivity.getInstance().setContentView(gameView);
 		gameRunning=true;
+		try
+		{
+			mp.setDataSource(world.getBgmfile());
+			mp.setLooping(true);
+			mp.prepare();
+			mp.start();
+		}
+		catch(IOException e)
+		{
+			if(world.getBgmfile() != null)
+			{
+				e.printStackTrace();
+			}
+		}
 		
 		enabled=true;
 	}
