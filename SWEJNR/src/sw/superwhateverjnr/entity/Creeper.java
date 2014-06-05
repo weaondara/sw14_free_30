@@ -141,6 +141,7 @@ public class Creeper extends Entity
 				israndomjumpcompleted = false;
 				randomtimejump[0] = 0.0;
 				randomtimejump[1] = roundNumber(random.nextDouble() * 3 + 2.0, 3);
+				System.out.print("RANDOMJUMP: "+"israndomjump = "+israndomjump+" "+"israndomjumpcompleted = "+israndomjumpcompleted+" "+"randomtimejump_1 = "+randomtimejump[1]+"\n");
 			}
 			long now=System.currentTimeMillis();
 			randomtimejump[0] += (double)(now - getLastMoveTime()) / 1000.0;
@@ -207,15 +208,11 @@ public class Creeper extends Entity
 					counterleft = 0;
 					israndomgoingright = true;
 				}
+				// Test output!
+				System.out.print("RANDOMWALK: counterright = "+counterright+" "+"counterleft = "+counterleft+" "+"israndomgoing = "+israndomgoing+" "+"israndomgoingright = "+israndomgoingright+" "+"randomtimewalk_1 = "+randomtimewalk[1]+"\n");
 			}
 			long now=System.currentTimeMillis();
 			randomtimewalk[0] += (double)(now - getLastMoveTime()) / 1000.0;
-			// Test output!
-			System.out.print("counter right = "+counterright+" "+
-					 "counter left = "+counterleft+" "+
-					 "is random going = "+israndomgoing+" "+
-					 "is random going right = "+israndomgoingright+" "+
-					 "random time walk 1 = "+randomtimewalk[1]+"\n");
 		}
 		else
 		{
@@ -225,7 +222,7 @@ public class Creeper extends Entity
 	
 	protected void jumpIfWall()
 	{
-		// follow player anyway, but jump!!
+		//system
 	}
 	
 	protected void stopIfLava()
