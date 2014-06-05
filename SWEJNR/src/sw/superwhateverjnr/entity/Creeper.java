@@ -126,25 +126,21 @@ public class Creeper extends Entity
 		if (isindistance && dorandomjump)
 		{
 			// not completed
-			if  (randomtimejump[0] < randomtimejump[1])
+			if (isOnGround() && israndomjump)
 			{
-				if (isOnGround() && israndomjump && !israndomjumpcompleted)
-				{
-					jump();
-					israndomjump = false;
-				}
-				else if (isOnGround() && !israndomjump)
-				{
-					israndomjumpcompleted = true;
-				}
+				jump();
+				israndomjump = false;
 			}
-			else
+			else if (isOnGround() && !israndomjump)
+			{
+				israndomjumpcompleted = true;
+			}
+			if  ((randomtimejump[0] > randomtimejump[1]) && israndomjumpcompleted)
 			{
 				israndomjump = true;
 				israndomjumpcompleted = false;
 				randomtimejump[0] = 0.0;
-				randomtimewalk[1] = roundNumber(random.nextDouble() * 5 + 3.0, 3);
-				israndomjump = false;
+				randomtimejump[1] = roundNumber(random.nextDouble() * 3 + 2.0, 3);
 			}
 			long now=System.currentTimeMillis();
 			randomtimejump[0] += (double)(now - getLastMoveTime()) / 1000.0;
