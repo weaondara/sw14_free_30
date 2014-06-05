@@ -1,6 +1,7 @@
 package sw.superwhateverjnr.entity;
 
 import java.util.Map;
+import java.util.Random;
 
 import sw.superwhateverjnr.Game;
 import sw.superwhateverjnr.block.Block;
@@ -9,13 +10,17 @@ import sw.superwhateverjnr.world.Location;
 
 public class Creeper extends Entity
 {
+	private final static int MAXCOUNTERWALK = 3; 
+	
 	private static Player player;
+	private static Game game;
 	
 	private static boolean isindistance = false;
 	private static boolean isgoingright = false;
 	private static boolean isgoinghorizontal = false;
 	private static boolean isgoingup = false;
 	private static boolean isgoingvertical = false;
+	private static boolean islavainfront = false;
 	
 	private final static double runningMin = 0.75;
 	private final static double runningMax = 2.25;
@@ -23,10 +28,23 @@ public class Creeper extends Entity
 	private final static double jumpPower = 7.0;
 	private final static double radius = 5.0;
 	
+	private static double[] randomtimewalk = {0.0, 0.0};
+	private static int counterright = 0; // e.g. counterright is 3, the next time the entitiy "must" go left!!!
+	private static int counterleft = 0; // and set counterright = 0 and then countleft++
+	private static boolean israndomgoing = false;
+	private static boolean israndomgoingright = false;
+	
+	private static double[] randomtimejump = {0.0, 0.0};
+	private static boolean israndomjump = false;
+	private static boolean israndomjumpcompleted = false;
+
+	private Random random = new Random();
+	
 	public Creeper(int id, EntityType type, Location location, Map<String, Object> extraData)
 	{
 		super(EntityType.CREEPER, location, extraData);
 		player=Game.getInstance().getPlayer();
+		game=Game.getInstance();
 	}
 
 	@Override
@@ -40,20 +58,20 @@ public class Creeper extends Entity
 	{
 		super.tick();
 		trigger();
-		tickMove();
 		randomJump(true);
 		randomWalk(true);
 		jumpIfWall();
 		stopIfLava();
-		swimIfWater();
+		//swimIfWater();
+		tickMove();
 	}
 	
 	protected void trigger()
 	{	
-		double centerxplayer = player.getLocation().getX();// + player border width / 2
-		double centerxmonster = getLocation().getX();// + monster border width / 2
-		double centeryplayer = player.getLocation().getY();// - player border height / 2
-		double centerymonster = getLocation().getY();// - monster border height / 2
+		double centerxplayer = player.getLocation().getX();
+		double centerxmonster = getLocation().getX();
+		double centeryplayer = player.getLocation().getY();
+		double centerymonster = getLocation().getY();
 		double distance = Math.sqrt(Math.pow(centerxplayer - centerxmonster, 2.0) + Math.pow(centeryplayer - centerymonster, 2.0));
 		if (distance < radius)
 		{
@@ -95,8 +113,11 @@ public class Creeper extends Entity
 		else
 		{
 			isindistance = false;
-			setMovingright(false);
-			setMovingleft(false);
+			if (!israndomgoing)
+			{
+				setMovingright(false);
+				setMovingleft(false);
+			}
 		}
 	}
 	
@@ -104,7 +125,31 @@ public class Creeper extends Entity
 	{
 		if (isindistance && dorandomjump)
 		{
-			// jump randomized, if player detected
+			// not completed
+			if (isOnGround() && israndomjump)
+			{
+				jump();
+				israndomjump = false;
+			}
+			else if (isOnGround() && !israndomjump)
+			{
+				israndomjumpcompleted = true;
+			}
+			if  ((randomtimejump[0] > randomtimejump[1]) && israndomjumpcompleted)
+			{
+				israndomjump = true;
+				israndomjumpcompleted = false;
+				randomtimejump[0] = 0.0;
+				randomtimejump[1] = roundNumber(random.nextDouble() * 3 + 2.0, 3);
+				System.out.print("RANDOMJUMP: "+"israndomjump = "+israndomjump+" "+"israndomjumpcompleted = "+israndomjumpcompleted+" "+"randomtimejump_1 = "+randomtimejump[1]+"\n");
+			}
+			long now=System.currentTimeMillis();
+			randomtimejump[0] += (double)(now - getLastMoveTime()) / 1000.0;
+		}
+		else
+		{
+			israndomjump = false;
+			israndomjumpcompleted = false;
 		}
 	}
 	
@@ -112,13 +157,72 @@ public class Creeper extends Entity
 	{
 		if (!isindistance && dorandomwalk)
 		{
-			// walk randomized, if player not detected
+			if (randomtimewalk[0] < randomtimewalk[1])
+			{
+				if (israndomgoing)
+				{
+					if (israndomgoingright)
+					{
+						setMovingright(true);
+						setMovingleft(false);
+					}
+					else
+					{
+						setMovingright(false);
+						setMovingleft(true);
+					}
+				}
+				else
+				{
+					setMovingright(false);
+					setMovingleft(false);
+				}
+			}
+			else
+			{
+				setMovingright(false);
+				setMovingleft(false);
+				randomtimewalk[0] = 0.0;
+				randomtimewalk[1] = roundNumber(random.nextDouble() * 1 + 0.5, 3);
+				israndomgoingright = random.nextBoolean();
+				israndomgoing = !israndomgoing;
+				if (israndomgoing && israndomgoingright)
+				{
+					counterright++;
+					counterleft = 0;
+				}
+				else if (israndomgoing && !israndomgoingright)
+				{
+					counterright = 0;
+					counterleft++;
+				}
+				if (counterright > MAXCOUNTERWALK)
+				{
+					counterright = 0;
+					counterleft = 1;
+					israndomgoingright = false;
+				}
+				if (counterleft > MAXCOUNTERWALK)
+				{
+					counterright = 1;
+					counterleft = 0;
+					israndomgoingright = true;
+				}
+				// Test output!
+				System.out.print("RANDOMWALK: counterright = "+counterright+" "+"counterleft = "+counterleft+" "+"israndomgoing = "+israndomgoing+" "+"israndomgoingright = "+israndomgoingright+" "+"randomtimewalk_1 = "+randomtimewalk[1]+"\n");
+			}
+			long now=System.currentTimeMillis();
+			randomtimewalk[0] += (double)(now - getLastMoveTime()) / 1000.0;
+		}
+		else
+		{
+			israndomgoing = false;
 		}
 	}
 	
 	protected void jumpIfWall()
 	{
-		// follow player anyway, but jump!!
+		//system
 	}
 	
 	protected void stopIfLava()
@@ -126,7 +230,7 @@ public class Creeper extends Entity
 		//stop instantly!!!
 	}
 	
-	protected void swimIfWater()
+	/*protected void swimIfWater()
 	{
 		if (isindistance)
 		{
@@ -136,7 +240,7 @@ public class Creeper extends Entity
 		{
 			//swim away from player
 		}
-	}
+	}*/
 	
 	private void tickMove()
 	{
@@ -247,5 +351,10 @@ public class Creeper extends Entity
 		catch(Exception e){}
 			
 		location.setX(x);
+	}
+	
+	double roundNumber(double number, int digits)
+	{
+		return (double)((int)(number * (double)Math.pow(10.0, (double)digits))) / (double)Math.pow(10.0, (double)digits);
 	}
 }
