@@ -11,12 +11,14 @@ import sw.superwhateverjnr.world.Location;
 public class Creeper extends Entity
 {
 	private static Player player;
+	private static Game game;
 	
 	private static boolean isindistance = false;
 	private static boolean isgoingright = false;
 	private static boolean isgoinghorizontal = false;
 	private static boolean isgoingup = false;
 	private static boolean isgoingvertical = false;
+	private static boolean islavainfront = false;
 	
 	private final static double runningMin = 0.75;
 	private final static double runningMax = 2.25;
@@ -25,15 +27,22 @@ public class Creeper extends Entity
 	private final static double radius = 5.0;
 	
 	private static double[] randomtimewalk = {0.0, 0.0};
-	private static double[] randomtimejump = {0.0, 0.0};
+	private static int counterright = 0; // e.g. counterright is 3, the next time the entitiy "must" go left!!!
+	private static int counterleft = 0; // and set counterright = 0 and then countleft++
 	private static boolean israndomgoing = false;
 	private static boolean israndomgoingright = false;
+	
+	private static double[] randomtimejump = {0.0, 0.0};
+	private static boolean israndomjump = false;
+	private static boolean israndomjumpcompleted = false;
+
 	private Random random = new Random();
 	
 	public Creeper(int id, EntityType type, Location location, Map<String, Object> extraData)
 	{
 		super(EntityType.CREEPER, location, extraData);
 		player=Game.getInstance().getPlayer();
+		game=Game.getInstance();
 	}
 
 	@Override
@@ -47,12 +56,12 @@ public class Creeper extends Entity
 	{
 		super.tick();
 		trigger();
-		tickMove();
-		randomJump(false);
+		randomJump(true);
 		randomWalk(true);
 		jumpIfWall();
 		stopIfLava();
 		//swimIfWater();
+		tickMove();
 	}
 	
 	protected void trigger()
@@ -102,8 +111,11 @@ public class Creeper extends Entity
 		else
 		{
 			isindistance = false;
-			setMovingright(false);
-			setMovingleft(false);
+			if (!israndomgoing)
+			{
+				setMovingright(false);
+				setMovingleft(false);
+			}
 		}
 	}
 	
@@ -111,13 +123,39 @@ public class Creeper extends Entity
 	{
 		if (isindistance && dorandomjump)
 		{
-			// jump randomized, if player detected
+			// not completed
+			if  (randomtimejump[0] < randomtimejump[1])
+			{
+				if (isOnGround() && israndomjump && !israndomjumpcompleted)
+				{
+					jump();
+					israndomjump = false;
+				}
+				else if (isOnGround() && !israndomjump)
+				{
+					israndomjumpcompleted = true;
+				}
+			}
+			else
+			{
+				israndomjump = true;
+				israndomjumpcompleted = false;
+				randomtimejump[0] = 0.0;
+				randomtimewalk[1] = roundNumber(random.nextDouble() * 5 + 3.0, 3);
+				israndomjump = false;
+			}
+			long now=System.currentTimeMillis();
+			randomtimejump[0] += (double)(now - getLastMoveTime()) / 1000.0;
+		}
+		else
+		{
+			israndomjump = false;
+			israndomjumpcompleted = false;
 		}
 	}
 	
 	protected void randomWalk(boolean dorandomwalk)
 	{
-		long now = System.currentTimeMillis();
 		if (!isindistance && dorandomwalk)
 		{
 			if (randomtimewalk[0] < randomtimewalk[1])
@@ -143,11 +181,19 @@ public class Creeper extends Entity
 			}
 			else
 			{
+				setMovingright(false);
+				setMovingleft(false);
 				randomtimewalk[0] = 0.0;
 				randomtimewalk[1] = roundNumber(random.nextDouble() * 3 + 1.0, 3);
+				israndomgoingright = random.nextBoolean();
 				israndomgoing = !israndomgoing;
 			}
-			randomtimewalk[0] += now - getLastMoveTime();// dt of Game
+			long now=System.currentTimeMillis();
+			randomtimewalk[0] += (double)(now - getLastMoveTime()) / 1000.0;
+		}
+		else
+		{
+			israndomgoing = false;
 		}
 	}
 	
