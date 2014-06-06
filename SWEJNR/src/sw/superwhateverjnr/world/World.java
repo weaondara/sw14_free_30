@@ -25,6 +25,8 @@ public class World
 	private Location spawnLocation;
 	private Block[][] data;
 	private List<Entity> entities;
+	@Setter
+	private String bgmfile;
 	
 	public Block getBlockAt(Location loc)
 	{
