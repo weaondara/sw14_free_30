@@ -55,7 +55,7 @@ public class Game
 	@Setter
 	private WorldLoader worldLoader;
 	private World world;
-	private MediaPlayer mp;
+	//private MediaPlayer mp;
 	
 	private TextureLoader textureLoader;
 	private Settings settings;
@@ -109,6 +109,7 @@ public class Game
 		oldview=FullscreenActivity.getInstance().findViewById(android.R.id.content);
 		FullscreenActivity.getInstance().setContentView(gameView);
 		gameRunning=true;
+		/*
 		try
 		{
 			mp.setDataSource(world.getBgmfile());
@@ -123,7 +124,7 @@ public class Game
 				e.printStackTrace();
 			}
 		}
-		
+		*/
 		enabled=true;
 	}
 	public void disable()
