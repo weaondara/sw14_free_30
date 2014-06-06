@@ -203,12 +203,16 @@ public class DummyWorldLoader extends WorldLoader
 			}
 		}
 		// hardcoded
-		{Block b=bf.create(1, (byte)0, 10, 10, world, null);
-		data[10][10] = b;}
-		{Block b=bf.create(1, (byte)0, 14, 10, world, null);
-		data[14][10] = b;}
-		{Block b=bf.create(1, (byte)0, 20, 10, world, null);
-		data[40][10] = b;}
+		Block b;
+		b=bf.create(1, (byte)0, 10, 10, world, null);
+		data[10][10] = b;
+		
+		b=bf.create(1, (byte)0, 14, 10, world, null);
+		data[14][10] = b;
+		
+		b=bf.create(1, (byte)0, 20, 10, world, null);
+		data[40][10] = b;
+		
 		
 		EntityFactory ef=EntityFactory.getInstance();
 		entities.add(ef.create(50, EntityType.CREEPER.getId(), 16, 11, world, null));

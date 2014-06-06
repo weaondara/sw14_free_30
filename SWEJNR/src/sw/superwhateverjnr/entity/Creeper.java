@@ -3,11 +3,14 @@ package sw.superwhateverjnr.entity;
 import java.util.Map;
 import java.util.Random;
 
+import lombok.SneakyThrows;
 import sw.superwhateverjnr.Game;
 import sw.superwhateverjnr.block.Block;
+import sw.superwhateverjnr.block.BlockFactory;
 import sw.superwhateverjnr.block.Material;
 import sw.superwhateverjnr.util.Rectangle;
 import sw.superwhateverjnr.world.Location;
+import sw.superwhateverjnr.world.World;
 
 public class Creeper extends Entity
 {
@@ -15,6 +18,7 @@ public class Creeper extends Entity
 	
 	private static Player player;
 	private static Game game;
+	private static World world;
 	
 	private static boolean isindistance = false;
 	private static boolean isgoingright = false;
@@ -38,6 +42,8 @@ public class Creeper extends Entity
 	private static double[] randomtimejump = {0.0, 0.0};
 	private static boolean israndomjump = false;
 	private static boolean israndomjumpcompleted = false;
+	
+	private static boolean triggerexplosion = false;
 
 	private static boolean[] ischanged = {false,false,false,false,false,false};
 
@@ -48,6 +54,7 @@ public class Creeper extends Entity
 		super(EntityType.CREEPER, location, extraData);
 		player=Game.getInstance().getPlayer();
 		game=Game.getInstance();
+		
 	}
 
 	@Override
@@ -68,9 +75,15 @@ public class Creeper extends Entity
 		//swimIfWater();
 		tickMove();
 	}
-	
+	@SneakyThrows
 	protected void trigger()
 	{	
+		if (!triggerexplosion)
+		{
+			world=game.getWorld();
+			//world.createExplosion(new Location(11,10), 3, 1);
+			triggerexplosion = !triggerexplosion;
+		}
 		double centerxplayer = player.getLocation().getX();
 		double centerxmonster = getLocation().getX();
 		double centeryplayer = player.getLocation().getY();
@@ -253,20 +266,20 @@ public class Creeper extends Entity
 			{
 				ischanged[0] = (isgoingright || israndomgoingright);
 				ischanged[1] = (materialxp1 != materialx0);
-				ischanged[2] = ((double)(monsterblockx - (int)monsterblockx)) > (1 - addx);
+				ischanged[2] = ((double)(monsterblockx - (int)monsterblockx)) > (-addx);
 				ischanged[3] = (!isgoingright || !israndomgoingright);
 				ischanged[4] = (materialxm1 != materialx0);
 				ischanged[5] = ((double)(monsterblockx - (int)monsterblockx) < addx);
-				System.out.println( "right = "+ischanged[0]+"  "+
-									"materialpx1 = "+ischanged[1]+"  "+
-									"1 - addx = "+ischanged[2]+"  "+
-									"!right = "+ischanged[3]+"  "+
-									"materialmx1 = "+ischanged[4]+"  "+
-									"addx = "+ischanged[5]);
+				System.out.println( "right "+"= "+ischanged[0]+"  "+
+									"materialpx1= "+ischanged[1]+"  "+
+									"1-addx= "+ischanged[2]+"  "+
+									"!right="+ischanged[3]+"  "+
+									"materialmx1="+ischanged[4]+"  "+
+									"addx="+ischanged[5]);
 			}
 			
-			if (((isgoingright || israndomgoingright) && (materialxp1 != materialx0) && ((double)(monsterblockx - (int)monsterblockx) > (-addx))) ||
-				((!isgoingright || !israndomgoingright) && (materialxm1 != materialx0) && ((double)(monsterblockx - (int)monsterblockx) < addx)))
+			if (((isgoingright || israndomgoingright) && (materialxp1 != materialx0) && ((double)(monsterblockx - (int)monsterblockx) > (-addx)) && !player.isOnGround()) ||
+				((!isgoingright || !israndomgoingright) && (materialxm1 != materialx0) && ((double)(monsterblockx - (int)monsterblockx) < addx)) && !player.isOnGround())
 			{
 				jump();
 			}
