@@ -38,7 +38,7 @@ public class DummyWorldLoader extends WorldLoader
 		int height=40;
 		Location spawn=new Location(1.5, 10);
 		Block[][] data=new Block[width][height];
-		List<Entity> entities = new ArrayList<>();
+		List<Entity> entities = new ArrayList<Entity>();
 		World world=createWorld("physicstest", width, height, spawn, data, entities);
 		
 		BlockFactory bf=BlockFactory.getInstance();
@@ -117,7 +117,7 @@ public class DummyWorldLoader extends WorldLoader
 		int height=40;
 		Location spawn=new Location(1.5, 11);
 		Block[][] data=new Block[width][height];
-		List<Entity> entities = new ArrayList<>();
+		List<Entity> entities = new ArrayList<Entity>();
 		World world=createWorld("jumpTest", width, height, spawn, data, entities);
 		
 		BlockFactory bf=BlockFactory.getInstance();
@@ -151,7 +151,7 @@ public class DummyWorldLoader extends WorldLoader
 		int height=40;
 		Location spawn=new Location(2, 10);
 		Block[][] data=new Block[width][height];
-		List<Entity> entities = new ArrayList<>();
+		List<Entity> entities = new ArrayList<Entity>();
 		World world=createWorld("dummy", width, height, spawn, data, entities);
 		
 		BlockFactory bf=BlockFactory.getInstance();
@@ -181,7 +181,7 @@ public class DummyWorldLoader extends WorldLoader
 		int height=40;
 		Location spawn=new Location(2, 10);
 		Block[][] data=new Block[width][height];
-		List<Entity> entities = new ArrayList<>();
+		List<Entity> entities = new ArrayList<Entity>();
 		World world=createWorld("entitytest", width, height, spawn, data, entities);
 		//world.setBgmfile("dummy/test.wav");
 		

@@ -12,9 +12,9 @@ public class EntityInfoMap
 	private final static Map<EntityType, Double> healthMap;
 	static
 	{
-		hitBoxes=new HashMap<>();
-		renderBoxes=new HashMap<>();
-		healthMap=new HashMap<>();
+		hitBoxes=new HashMap<EntityType, Rectangle>();
+		renderBoxes=new HashMap<EntityType, Rectangle>();
+		healthMap=new HashMap<EntityType, Double>();
 		
 		hitBoxes.put(EntityType.PLAYER, new Rectangle(0, 0, 0.5, 1.75));
 		hitBoxes.put(EntityType.CREEPER, new Rectangle(0, 0, 0.5, 1.75));

@@ -10,8 +10,8 @@ public class TextureMap
 {
 	public final static IdAndSubId errorid=new IdAndSubId(-1,-1);
 	
-	private final static Map<IdAndSubId,Texture> blocks=new HashMap<>();
-	private final static Map<EntityType,Texture> entities=new HashMap<>();
+	private final static Map<IdAndSubId,Texture> blocks=new HashMap<IdAndSubId,Texture>();
+	private final static Map<EntityType,Texture> entities=new HashMap<EntityType, Texture>();
 	private static boolean loadingErrorBlock=false;
 	private static boolean loadingErrorEntity=false;
 	public static boolean loadTexture(IdAndSubId ref, TextureLoader loader)

@@ -19,7 +19,7 @@ public class PackedTextureLoader implements TextureLoader
 	private static Map<IdAndSubId, String> idpathmap;
 	static
 	{
-		idpathmap=new HashMap<>();
+		idpathmap=new HashMap<IdAndSubId, String>();
 		idpathmap.put(new IdAndSubId(1, -1),"textures/blocks/stone.png");
 		idpathmap.put(new IdAndSubId(2, -1),"textures/blocks/grass.png");
 		idpathmap.put(new IdAndSubId(3, -1),"textures/blocks/dirt.png");

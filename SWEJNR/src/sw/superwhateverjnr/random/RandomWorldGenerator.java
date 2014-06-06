@@ -78,7 +78,7 @@ public class RandomWorldGenerator
 			height = randomizer.nextInt(maxHeight);
 		}
 		Block blocks[][] = new Block[width][height];
-		List<Entity> entities = new ArrayList<>();
+		List<Entity> entities = new ArrayList<Entity>();
 		
 		int spawnHeight = height/2;
 		if (spawnHeight > 10)

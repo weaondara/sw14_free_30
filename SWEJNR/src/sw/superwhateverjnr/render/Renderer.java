@@ -477,8 +477,8 @@ public class Renderer
 
 	
 	private String[] cachedControlKeys=new String[]{"left", "right", "jump"};
-	private Map<String,PointF> cachedControlsPostions=new HashMap<>();
-	private Map<String,Bitmap> cachedControlsBitmaps=new HashMap<>();
+	private Map<String,PointF> cachedControlsPostions=new HashMap<String, PointF>();
+	private Map<String,Bitmap> cachedControlsBitmaps=new HashMap<String, Bitmap>();
 	private void redrawControls()
 	{
 		Settings set=game.getSettings();

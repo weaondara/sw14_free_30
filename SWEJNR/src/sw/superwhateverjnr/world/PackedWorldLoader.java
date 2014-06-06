@@ -30,7 +30,7 @@ public class PackedWorldLoader extends WorldLoader
 		double spawny = fr.readDouble();
 		Location spawn = new Location(spawnx, spawny);
 		Block blocks[][] = new Block[width][height];
-		List<Entity> entities = new ArrayList<>();
+		List<Entity> entities = new ArrayList<Entity>();
 		
 		World w = createWorld(wname, width, height, spawn, blocks, entities);
 		
@@ -41,7 +41,7 @@ public class PackedWorldLoader extends WorldLoader
 				int id = fr.readInt();
 				Byte subid = fr.readByte();
 				int datacount = fr.readInt();
-				Map<String,Object> data = new HashMap<>();
+				Map<String,Object> data = new HashMap<String,Object>();
 				for(int d = 0; d < datacount; d++)
 				{
 					int datatype = fr.readInt();
@@ -64,7 +64,7 @@ public class PackedWorldLoader extends WorldLoader
 			double x = fr.readDouble();
 			double y = fr.readDouble();
 			int datacount = fr.readInt();
-			Map<String,Object> data = new HashMap<>();
+			Map<String,Object> data = new HashMap<String,Object>();
 			for(int d = 0; d < datacount; d++)
 			{
 				int datatype = fr.readInt();

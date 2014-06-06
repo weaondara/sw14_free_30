@@ -29,7 +29,7 @@ public class Scheduler
 	{
 		timer=new Timer();
 		id=0;
-		tasks=new ConcurrentHashMap<>();
+		tasks=new ConcurrentHashMap<Integer, Task>();
 		
 		Field f=Task.class.getDeclaredField("scheduler");
 		f.setAccessible(true);
