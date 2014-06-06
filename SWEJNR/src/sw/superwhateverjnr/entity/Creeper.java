@@ -5,6 +5,7 @@ import java.util.Random;
 
 import sw.superwhateverjnr.Game;
 import sw.superwhateverjnr.block.Block;
+import sw.superwhateverjnr.block.Material;
 import sw.superwhateverjnr.util.Rectangle;
 import sw.superwhateverjnr.world.Location;
 
@@ -58,7 +59,7 @@ public class Creeper extends Entity
 	{
 		super.tick();
 		trigger();
-		randomJump(true);
+		randomJump(false);
 		randomWalk(true);
 		jumpIfWall();
 		stopIfLava();
@@ -73,6 +74,7 @@ public class Creeper extends Entity
 		double centeryplayer = player.getLocation().getY();
 		double centerymonster = getLocation().getY();
 		double distance = Math.sqrt(Math.pow(centerxplayer - centerxmonster, 2.0) + Math.pow(centeryplayer - centerymonster, 2.0));
+		//double distance = Math.sqrt(Math.pow(Math.abs(centerxplayer) - Math.abs(centerxmonster), 2.0) + Math.pow(Math.abs(centeryplayer) - Math.abs(centerymonster), 2.0));
 		if (distance < radius)
 		{
 			isindistance = true;
@@ -81,14 +83,14 @@ public class Creeper extends Entity
 				setMovingright(true);
 				setMovingleft(false);
 				isgoingright = true;
-				isgoinghorizontal = false;
+				isgoinghorizontal = true;
 			}
 			else if (centerxplayer < centerxmonster)
 			{
 				setMovingright(false);
 				setMovingleft(true);
 				isgoingright = false;
-				isgoinghorizontal = false;
+				isgoinghorizontal = true;
 			}
 			else
 			{
@@ -113,11 +115,13 @@ public class Creeper extends Entity
 		else
 		{
 			isindistance = false;
+			/*
 			if (!israndomgoing)
 			{
 				setMovingright(false);
 				setMovingleft(false);
 			}
+			*/
 		}
 	}
 	
@@ -183,7 +187,7 @@ public class Creeper extends Entity
 				setMovingright(false);
 				setMovingleft(false);
 				randomtimewalk[0] = 0.0;
-				randomtimewalk[1] = roundNumber(random.nextDouble() * 1 + 0.5, 3);
+				randomtimewalk[1] = roundNumber(random.nextDouble() * 2 + 1.5, 3);
 				israndomgoingright = random.nextBoolean();
 				israndomgoing = !israndomgoing;
 				if (israndomgoing && israndomgoingright)
@@ -222,7 +226,28 @@ public class Creeper extends Entity
 	
 	protected void jumpIfWall()
 	{
-		//system
+		if (isgoinghorizontal || israndomgoing)
+		{
+			double monsterblockx = (double)location.getBlockX();
+			double monsterblocky = (double)location.getBlockY();
+			double addx = 0.2;
+			double addy = 0.0;
+			
+			Material materialx0 = game.getWorld().getBlockAt(new Location(monsterblockx, monsterblocky + addy)).getType();
+			Material materialxp1 = game.getWorld().getBlockAt(new Location(monsterblockx + 1.0, monsterblocky + addy)).getType();
+			Material materialxm1 = game.getWorld().getBlockAt(new Location(monsterblockx - 1.0, monsterblocky + addy)).getType();
+			/*
+			if (isOnGround())
+			{
+				System.out.print("blockxm1 = "+blockxm1+"   "+"blockx0 = "+blockx0+"   "+"blockxp1 = "+blockxp1+"\n");
+			}
+			*/
+			if ((isgoingright || israndomgoingright) && (materialxp1 != materialx0) && (double)(monsterblockx - (int)monsterblockx) > addx ||
+				(!isgoingright || !israndomgoingright) && (materialxm1 != materialx0) && (double)(monsterblockx - (int)monsterblockx) < addx)
+			{
+				jump();
+			}
+		}
 	}
 	
 	protected void stopIfLava()
