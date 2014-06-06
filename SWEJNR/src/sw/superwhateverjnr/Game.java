@@ -112,7 +112,9 @@ public class Game
 		/*
 		try
 		{
-			mp.setDataSource(world.getBgmfile());
+                        AssetFileDescriptor as = SWEJNR.getInstance().getAssets().openFd("music/"+world.getBgmfile) 
+                        mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
+			mp.setDataSource(as.getFileDescriptor(), as.getStartOffset(), as.getLength());
 			mp.setLooping(true);
 			mp.prepare();
 			mp.start();
