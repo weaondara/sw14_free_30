@@ -39,6 +39,8 @@ public class Creeper extends Entity
 	private static boolean israndomjump = false;
 	private static boolean israndomjumpcompleted = false;
 
+	private static boolean[] ischanged = {false,false,false,false,false,false};
+
 	private Random random = new Random();
 	
 	public Creeper(int id, EntityType type, Location location, Map<String, Object> extraData)
@@ -145,7 +147,7 @@ public class Creeper extends Entity
 				israndomjumpcompleted = false;
 				randomtimejump[0] = 0.0;
 				randomtimejump[1] = roundNumber(random.nextDouble() * 3 + 2.0, 3);
-				System.out.print("RANDOMJUMP: "+"israndomjump = "+israndomjump+" "+"israndomjumpcompleted = "+israndomjumpcompleted+" "+"randomtimejump_1 = "+randomtimejump[1]+"\n");
+				//System.out.print("RANDOMJUMP: "+"israndomjump = "+israndomjump+" "+"israndomjumpcompleted = "+israndomjumpcompleted+" "+"randomtimejump_1 = "+randomtimejump[1]+"\n");
 			}
 			long now=System.currentTimeMillis();
 			randomtimejump[0] += (double)(now - getLastMoveTime()) / 1000.0;
@@ -213,7 +215,7 @@ public class Creeper extends Entity
 					israndomgoingright = true;
 				}
 				// Test output!
-				System.out.print("RANDOMWALK: counterright = "+counterright+" "+"counterleft = "+counterleft+" "+"israndomgoing = "+israndomgoing+" "+"israndomgoingright = "+israndomgoingright+" "+"randomtimewalk_1 = "+randomtimewalk[1]+"\n");
+				//System.out.print("RANDOMWALK: counterright = "+counterright+" "+"counterleft = "+counterleft+" "+"israndomgoing = "+israndomgoing+" "+"israndomgoingright = "+israndomgoingright+" "+"randomtimewalk_1 = "+randomtimewalk[1]+"\n");
 			}
 			long now=System.currentTimeMillis();
 			randomtimewalk[0] += (double)(now - getLastMoveTime()) / 1000.0;
@@ -242,8 +244,29 @@ public class Creeper extends Entity
 				System.out.print("blockxm1 = "+blockxm1+"   "+"blockx0 = "+blockx0+"   "+"blockxp1 = "+blockxp1+"\n");
 			}
 			*/
-			if ((isgoingright || israndomgoingright) && (materialxp1 != materialx0) && (double)(monsterblockx - (int)monsterblockx) > addx ||
-				(!isgoingright || !israndomgoingright) && (materialxm1 != materialx0) && (double)(monsterblockx - (int)monsterblockx) < addx)
+			if ((ischanged[0] != (isgoingright || israndomgoingright)) ||
+				(ischanged[1] != (materialxp1 != materialx0)) ||
+				(ischanged[2] != ((double)(monsterblockx - (int)monsterblockx)) > (-addx)) ||
+				(ischanged[3] != (!isgoingright || !israndomgoingright)) ||
+				(ischanged[4] != (materialxm1 != materialx0)) ||
+				(ischanged[5] != ((double)(monsterblockx - (int)monsterblockx) < addx)))
+			{
+				ischanged[0] = (isgoingright || israndomgoingright);
+				ischanged[1] = (materialxp1 != materialx0);
+				ischanged[2] = ((double)(monsterblockx - (int)monsterblockx)) > (1 - addx);
+				ischanged[3] = (!isgoingright || !israndomgoingright);
+				ischanged[4] = (materialxm1 != materialx0);
+				ischanged[5] = ((double)(monsterblockx - (int)monsterblockx) < addx);
+				System.out.println( "right = "+ischanged[0]+"  "+
+									"materialpx1 = "+ischanged[1]+"  "+
+									"1 - addx = "+ischanged[2]+"  "+
+									"!right = "+ischanged[3]+"  "+
+									"materialmx1 = "+ischanged[4]+"  "+
+									"addx = "+ischanged[5]);
+			}
+			
+			if (((isgoingright || israndomgoingright) && (materialxp1 != materialx0) && ((double)(monsterblockx - (int)monsterblockx) > (-addx))) ||
+				((!isgoingright || !israndomgoingright) && (materialxm1 != materialx0) && ((double)(monsterblockx - (int)monsterblockx) < addx)))
 			{
 				jump();
 			}
