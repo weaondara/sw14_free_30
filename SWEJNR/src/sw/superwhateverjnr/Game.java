@@ -1,13 +1,14 @@
 package sw.superwhateverjnr;
 
-import java.io.IOException;
-
+import android.content.res.AssetFileDescriptor;
 import android.graphics.PointF;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.support.v4.view.MotionEventCompat;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
-import android.media.MediaPlayer;
+import java.io.IOException;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -55,7 +56,7 @@ public class Game
 	@Setter
 	private WorldLoader worldLoader;
 	private World world;
-	//private MediaPlayer mp;
+	private MediaPlayer mp;
 	
 	private TextureLoader textureLoader;
 	private Settings settings;
@@ -109,24 +110,26 @@ public class Game
 		oldview=FullscreenActivity.getInstance().findViewById(android.R.id.content);
 		FullscreenActivity.getInstance().setContentView(gameView);
 		gameRunning=true;
-		/*
-		try
-		{
-                        AssetFileDescriptor as = SWEJNR.getInstance().getAssets().openFd("music/"+world.getBgmfile) 
+		
+                mp = new MediaPlayer();
+                
+                try
+                {
+                        AssetFileDescriptor as = SWEJNR.getInstance().getAssets().openFd("music/"+world.getBgmfile());
                         mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
-			mp.setDataSource(as.getFileDescriptor(), as.getStartOffset(), as.getLength());
-			mp.setLooping(true);
-			mp.prepare();
-			mp.start();
-		}
-		catch(IOException e)
-		{
-			if(world.getBgmfile() != null)
-			{
-				e.printStackTrace();
-			}
-		}
-		*/
+                        mp.setDataSource(as.getFileDescriptor(), as.getStartOffset(), as.getLength());
+                        mp.setLooping(true);
+                        mp.prepare();
+                        mp.start(); 
+                }
+                catch(IOException e)
+                {
+                        if(world.getBgmfile()!=null)
+                        {
+                                e.printStackTrace();
+                        }
+                }
+		
 		enabled=true;
 	}
 	public void disable()
