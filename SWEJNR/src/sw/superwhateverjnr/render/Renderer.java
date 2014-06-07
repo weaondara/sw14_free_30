@@ -9,10 +9,12 @@ import sw.superwhateverjnr.SWEJNR;
 import sw.superwhateverjnr.block.Block;
 import sw.superwhateverjnr.block.Material;
 import sw.superwhateverjnr.entity.Entity;
+import sw.superwhateverjnr.entity.EntityType;
 import sw.superwhateverjnr.entity.Player;
 import sw.superwhateverjnr.settings.Settings;
 import sw.superwhateverjnr.texture.Texture;
 import sw.superwhateverjnr.texture.TextureMap;
+import sw.superwhateverjnr.texture.entity.PlayerTexture;
 import sw.superwhateverjnr.util.IdAndSubId;
 import sw.superwhateverjnr.world.Location;
 import sw.superwhateverjnr.world.World;
@@ -255,12 +257,15 @@ public class Renderer
 		
 		Matrix matrix = new Matrix();
 		
+		PlayerTexture pt=(PlayerTexture) TextureMap.getTexture(EntityType.PLAYER);
+		System.out.println(pt);
 		
 		//head
 		float left=x-game.getTextureWidth()*(headwidth/blocksize)/2;
 		float right=x+game.getTextureWidth()*(headwidth/blocksize)/2;
 		float bottom=ytop+(headheight/blocksize)*game.getTextureHeight();
 		float top=ytop;
+//		canvas.drawBitmap(pt.getHeadRight(), left, top, paint);
 		canvas.drawRect(left, top, right, bottom, paint);
 
 		//body height
