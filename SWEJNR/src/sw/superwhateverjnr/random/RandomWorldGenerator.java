@@ -3,10 +3,10 @@ package sw.superwhateverjnr.random;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import sw.superwhateverjnr.SWEJNR;
 import sw.superwhateverjnr.block.Block;
 import sw.superwhateverjnr.block.BlockFactory;
 import sw.superwhateverjnr.block.Material;
@@ -89,6 +89,11 @@ public class RandomWorldGenerator
 		Location spawn = new Location(0.5, spawnHeight+1);
 		
 		World w = WorldLoader.createWorld(name, width, height, spawn, blocks, entities);
+                String[] music = SWEJNR.getInstance().getAssets().list("music");
+                if(music.length != 0)
+                {
+                  w.setBgmfile(music[randomizer.nextInt(music.length)]);
+                }
 		Player ref = new Player(null);
 		
 		pillar(blocks, w, 0, spawnHeight);
