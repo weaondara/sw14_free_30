@@ -82,6 +82,8 @@ public class Creeper extends Entity
 		{
 			world=game.getWorld();
 			//world.createExplosion(new Location(11,10), 3, 1);
+			BlockFactory bf = BlockFactory.getInstance();
+			game.getWorld().setBlockAt(9, 10, bf.create(Material.AIR.getId(), (byte)0, 3, 3, game.getWorld(), null));
 			triggerexplosion = !triggerexplosion;
 		}
 		double centerxplayer = player.getLocation().getX();
@@ -278,8 +280,8 @@ public class Creeper extends Entity
 									"addx="+ischanged[5]);
 			}
 			
-			if (((isgoingright || israndomgoingright) && (materialxp1 != materialx0) && ((double)(monsterblockx - (int)monsterblockx) > (-addx)) && !player.isOnGround()) ||
-				((!isgoingright || !israndomgoingright) && (materialxm1 != materialx0) && ((double)(monsterblockx - (int)monsterblockx) < addx)) && !player.isOnGround())
+			if ((((isgoingright && !player.isOnGround()) || israndomgoingright) && (materialxp1 != materialx0) && ((double)(monsterblockx - (int)monsterblockx) > (-addx))) ||
+				(((!isgoingright && !player.isOnGround()) || !israndomgoingright) && (materialxm1 != materialx0) && ((double)(monsterblockx - (int)monsterblockx) < addx)))
 			{
 				jump();
 			}
