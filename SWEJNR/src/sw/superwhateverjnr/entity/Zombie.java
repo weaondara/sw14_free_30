@@ -1,5 +1,7 @@
 package sw.superwhateverjnr.entity;
 
+import java.util.Map;
+
 import sw.superwhateverjnr.block.Block;
 import sw.superwhateverjnr.util.Rectangle;
 import sw.superwhateverjnr.world.Location;
@@ -15,9 +17,9 @@ public class Zombie extends Entity
 	private final static double jumpPower = 7.0;
 	private final static double radius = 6.0;
 	
-	public Zombie(Location location)
+	public Zombie(int id, EntityType type, Location location, Map<String, Object> extraData)
 	{
-		super(EntityType.ZOMBIE, location, null);
+		super(EntityType.ZOMBIE, location, extraData);
 	}
 
 	@Override
@@ -36,30 +38,7 @@ public class Zombie extends Entity
 	
 	protected void trigger()
 	{
-		double distance = Math.sqrt(Math.pow(player.getLocation().getX() - getLocation().getX(), 2.0) + Math.pow(player.getLocation().getY() - getLocation().getY(), 2.0));
-		if (distance < radius)
-		{
-			isindistance = true;
-			if (player.getLocation().getX() > getLocation().getX())
-			{
-				setMovingright(true);
-				setMovingleft(false);
-			}
-			else if (player.getLocation().getX() < getLocation().getX())
-			{
-				setMovingright(false);
-				setMovingleft(true);
-			}
-			else
-			{
-				setMovingright(false);
-				setMovingleft(false);
-			}
-		}
-		else
-		{
-			isindistance = false;
-		}
+		
 	}
 	/*
 	protected void randomJump()

@@ -227,6 +227,8 @@ public class DummyWorldLoader extends WorldLoader
 		
 		EntityFactory ef=EntityFactory.getInstance();
 		entities.add(ef.create(50, EntityType.CREEPER.getId(), 20, 10, world, null));
+		entities.add(ef.create(51, EntityType.ZOMBIE.getId(), 5, 10, world, null));
+		entities.add(ef.create(52, EntityType.SKELETON.getId(), 8, 10, world, null));
 		//
 		return world;
 	}
