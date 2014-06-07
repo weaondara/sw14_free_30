@@ -5,6 +5,7 @@ import java.util.List;
 
 import sw.superwhateverjnr.block.Block;
 import sw.superwhateverjnr.block.BlockFactory;
+import sw.superwhateverjnr.block.Material;
 import sw.superwhateverjnr.entity.Entity;
 import sw.superwhateverjnr.entity.EntityFactory;
 import sw.superwhateverjnr.entity.EntityType;
@@ -203,19 +204,29 @@ public class DummyWorldLoader extends WorldLoader
 			}
 		}
 		// hardcoded
-		Block b;
-		b=bf.create(1, (byte)0, 10, 10, world, null);
-		data[10][10] = b;
+		int x = 0;
+		int y = 0;
+		x = 10; y = 10; data[x][y] = bf.create(1, (byte)0, x, y, world, null);
+		x = 11; y = 10; data[x][y] = bf.create(1, (byte)0, x, y, world, null);
+		x = 12; y = 10; data[x][y] = bf.create(1, (byte)0, x, y, world, null);
+		x = 11; y = 11; data[x][y] = bf.create(1, (byte)0, x, y, world, null);
+		x = 12; y = 11; data[x][y] = bf.create(1, (byte)0, x, y, world, null);
+		x = 12; y = 12; data[x][y] = bf.create(1, (byte)0, x, y, world, null);
 		
-		b=bf.create(1, (byte)0, 14, 10, world, null);
-		data[14][10] = b;
-		
-		b=bf.create(1, (byte)0, 20, 10, world, null);
-		data[40][10] = b;
+		x = 14; y = 10; data[x][y] = bf.create(1, (byte)0, x, y, world, null);
+		x = 15; y = 10; data[x][y] = bf.create(1, (byte)0, x, y, world, null);
+		x = 16; y = 10; data[x][y] = bf.create(1, (byte)0, x, y, world, null);
+		x = 17; y = 10; data[x][y] = bf.create(1, (byte)0, x, y, world, null);
+		x = 14; y = 11; data[x][y] = bf.create(1, (byte)0, x, y, world, null);
+		x = 15; y = 11; data[x][y] = bf.create(1, (byte)0, x, y, world, null);
+		x = 16; y = 11; data[x][y] = bf.create(1, (byte)0, x, y, world, null);
+		x = 14; y = 12; data[x][y] = bf.create(1, (byte)0, x, y, world, null);
+		x = 15; y = 12; data[x][y] = bf.create(1, (byte)0, x, y, world, null);
+		x = 14; y = 13; data[x][y] = bf.create(1, (byte)0, x, y, world, null);
 		
 		
 		EntityFactory ef=EntityFactory.getInstance();
-		entities.add(ef.create(50, EntityType.CREEPER.getId(), 16, 11, world, null));
+		entities.add(ef.create(50, EntityType.CREEPER.getId(), 20, 10, world, null));
 		//
 		return world;
 	}
