@@ -75,7 +75,7 @@ public class RandomWorldGenerator
 		String name=String.valueOf(seed);
 		
 		int width = 0, height = 0;
-		while (width < minWidth && height < minHeight)
+		while (width < minWidth || height < minHeight)
 		{
 			width = randomizer.nextInt(maxWidth);
 			height = randomizer.nextInt(maxHeight);
