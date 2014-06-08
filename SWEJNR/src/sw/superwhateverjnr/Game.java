@@ -15,6 +15,7 @@ import lombok.Setter;
 import lombok.SneakyThrows;
 import lombok.ToString;
 import sw.superwhateverjnr.entity.Entity;
+import sw.superwhateverjnr.entity.EntityType;
 import sw.superwhateverjnr.entity.Player;
 import sw.superwhateverjnr.scheduling.Scheduler;
 import sw.superwhateverjnr.settings.Settings;
@@ -111,24 +112,24 @@ public class Game
 		FullscreenActivity.getInstance().setContentView(gameView);
 		gameRunning=true;
 		
-                mp = new MediaPlayer();
-                
-                try
-                {
-                        AssetFileDescriptor as = SWEJNR.getInstance().getAssets().openFd("music/"+world.getBgmfile());
-                        mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
-                        mp.setDataSource(as.getFileDescriptor(), as.getStartOffset(), as.getLength());
-                        mp.setLooping(true);
-                        mp.prepare();
-                        mp.start(); 
-                }
-                catch(IOException e)
-                {
-                        if(world.getBgmfile()!=null)
-                        {
-                                e.printStackTrace();
-                        }
-                }
+        mp = new MediaPlayer();
+        
+        try
+        {
+            AssetFileDescriptor as = SWEJNR.getInstance().getAssets().openFd("music/"+world.getBgmfile());
+            mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            mp.setDataSource(as.getFileDescriptor(), as.getStartOffset(), as.getLength());
+            mp.setLooping(true);
+            mp.prepare();
+            mp.start(); 
+        }
+        catch(IOException e)
+        {
+            if(world.getBgmfile()!=null)
+            {
+                e.printStackTrace();
+            }
+        }
 		
 		enabled=true;
 	}
@@ -194,6 +195,8 @@ public class Game
 		TextureMap.loadTexture(new IdAndSubId(18, 3),textureLoader);
 		TextureMap.loadTexture(new IdAndSubId(18, 4),textureLoader);
 		TextureMap.loadTexture(new IdAndSubId(18, 5),textureLoader);
+		
+		TextureMap.loadTexture(EntityType.PLAYER,textureLoader);
 	}
 	
 	private void loadSettings()
