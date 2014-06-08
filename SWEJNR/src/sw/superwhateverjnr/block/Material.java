@@ -70,4 +70,45 @@ public enum Material
 				return false;
 		}
 	}
+        public boolean onSurface()
+        {
+                switch(this)
+                {
+                        case GRASS:
+                        case SAND:
+                        case GRAVEL:
+                              return true;
+                        default:
+                                return false;
+                }
+        }
+        public Material getSubtop()
+	{
+		switch(this)
+                {
+                        case GRASS:
+                                return DIRT;
+                        default:
+                                return this;
+                }
+	}
+	
+	public Material getGround()
+	{
+		switch(this)
+                {
+                        default:
+                                return STONE;
+                }
+	}
+        public boolean deepUnderground()
+        {
+                switch(this)
+                {
+                        case BEDROCK:
+                                return true;
+                        default:
+                                return false;
+                }
+        }
 }
