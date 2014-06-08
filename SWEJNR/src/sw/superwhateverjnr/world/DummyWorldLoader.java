@@ -224,6 +224,11 @@ public class DummyWorldLoader extends WorldLoader
 		x = 15; y = 12; data[x][y] = bf.create(1, (byte)0, x, y, world, null);
 		x = 14; y = 13; data[x][y] = bf.create(1, (byte)0, x, y, world, null);
 		
+		x = 21; y = 10; data[x][y] = bf.create(1, (byte)0, x, y, world, null);
+		x = 22; y = 11; data[x][y] = bf.create(1, (byte)0, x, y, world, null);
+		x = 23; y = 12; data[x][y] = bf.create(1, (byte)0, x, y, world, null);
+		x = 24; y = 13; data[x][y] = bf.create(1, (byte)0, x, y, world, null);
+		
 		
 		EntityFactory ef=EntityFactory.getInstance();
 		entities.add(ef.create(50, EntityType.CREEPER.getId(), 20, 10, world, null));
