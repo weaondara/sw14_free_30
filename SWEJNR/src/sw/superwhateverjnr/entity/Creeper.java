@@ -308,8 +308,8 @@ public class Creeper extends Entity
 			
 			if ((distance > 0.2) &&
 				 (
-			       ((( isgoingright && !player.isOnGround() && isgoinghorizontal) ||  israndomgoingright && israndomgoing) && (materialxp1 != materialx0) && (materialxp1yp1 == materialx0)) ||
-				   (((!isgoingright && !player.isOnGround() && isgoinghorizontal) || !israndomgoingright && israndomgoing) && (materialxm1 != materialx0) && (materialxm1yp1 == materialx0))
+			       ((( isgoingright && (!player.isOnGround() || !istoohighright) && isgoinghorizontal) ||  israndomgoingright && israndomgoing) && (materialxp1 != materialx0) && (materialxp1yp1 == materialx0)) ||
+				   (((!isgoingright && (!player.isOnGround() || !istoohighleft) && isgoinghorizontal) || !israndomgoingright && israndomgoing) && (materialxm1 != materialx0) && (materialxm1yp1 == materialx0))
 			     )
 			   )
 			{
