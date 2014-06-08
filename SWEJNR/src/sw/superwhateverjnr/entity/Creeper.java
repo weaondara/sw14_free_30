@@ -70,11 +70,11 @@ public class Creeper extends Entity
 	public void tick()
 	{
 		super.tick();
-		trigger();
 		stopIfLava();
 		stopIfTooHigh();
 		//swimIfWater();
 		randomJump(false);
+		trigger();
 		randomWalk(true);
 		jumpIfWall();
 		tickMove();
@@ -306,10 +306,10 @@ public class Creeper extends Entity
 				//System.out.println("right "+"= "+ischanged[0]+"  "+"materialpx1= "+ischanged[1]+"  "+"1-addx= "+ischanged[2]+"  "+"!right="+ischanged[3]+"  "+"materialmx1="+ischanged[4]+"  "+"addx="+ischanged[5]);
 			}
 			
-			if ((isgoinghorizontal || israndomgoing) && (distance > 0.2) &&
+			if ((distance > 0.2) &&
 				 (
-			       ((( isgoingright && !player.isOnGround()) ||  israndomgoingright) && (materialxp1 != materialx0) && (materialxp1yp1 == materialx0)) ||
-				   (((!isgoingright && !player.isOnGround()) || !israndomgoingright) && (materialxm1 != materialx0) && (materialxm1yp1 == materialx0))
+			       ((( isgoingright && !player.isOnGround() && isgoinghorizontal) ||  israndomgoingright && israndomgoing) && (materialxp1 != materialx0) && (materialxp1yp1 == materialx0)) ||
+				   (((!isgoingright && !player.isOnGround() && isgoinghorizontal) || !israndomgoingright && israndomgoing) && (materialxm1 != materialx0) && (materialxm1yp1 == materialx0))
 			     )
 			   )
 			{
