@@ -57,22 +57,6 @@ public class PlayerTexture extends EntityTexture
 	{
 		super(EntityType.PLAYER, width, height, image);
 		
-		
-		
-		FileOutputStream out = null;
-		try {
-	       out = new FileOutputStream(Environment.getExternalStorageDirectory().toString()+"/steve.png");
-	       image.compress(Bitmap.CompressFormat.PNG, 90, out);
-		} catch (Exception e) {
-		    e.printStackTrace();
-		} finally {
-	       try{
-	           out.close();
-	       } catch(Throwable ignore) {}
-		}
-		
-		
-		
 		try
 		{
 			piecify();
