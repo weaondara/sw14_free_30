@@ -22,27 +22,55 @@ import sw.superwhateverjnr.world.World;
 @EqualsAndHashCode
 public abstract class Entity
 {
+	//-------------------------- entity id ------------------------------
+	
+	private static int ENTITY_ID = 0;
+	@Synchronized
+	public static int getNewId()
+	{
+		return ENTITY_ID++;
+	}
+	
 	//-------------------------- animation ------------------------------
-	private final static float armMaxDegreeDeltaMoving = 60;
-	private final static float armMaxDegreeDeltaStanding = 12;
-	private final static float armMoveConstantMoving = 4;
-	private final static float armMoveConstantStanding = 0.15F;
-	public float getArmMaxDegreeDeltaMoving()
+	protected static final double radiant = 2 * Math.PI / 180;
+	protected static double angleRotationMoving=2.5;
+	protected static double angleRotationStanding=0.5;
+
+	protected static double maxArmAngleMoving=60;
+	protected static double maxArmAngleStanding=12;
+	
+	protected static double maxLegAngleMoving=60;
+	protected static double maxLegAngleStanding=0;
+	
+	
+	public double getAngleRotationMoving()
 	{
-		return armMaxDegreeDeltaMoving;
+		return angleRotationMoving;
 	}
-	public float getArmMaxDegreeDeltaStanding()
+	public double getAngleRotationStanding()
 	{
-		return armMaxDegreeDeltaStanding;
+		return angleRotationStanding;
 	}
-	public float getArmMoveConstantMoving()
+	public double getMaxArmAngleMoving()
 	{
-		return armMoveConstantMoving;
+		return maxArmAngleMoving;
 	}
-	public float getArmMoveConstantStanding()
+	public double getMaxArmAngleStanding()
 	{
-		return armMoveConstantStanding;
+		return maxArmAngleStanding;
 	}
+	public double getMaxLegAngleMoving()
+	{
+		return maxLegAngleMoving;
+	}
+	public double getMaxLegAngleStanding()
+	{
+		return maxLegAngleStanding;
+	}
+	
+	protected double angle;
+	private boolean movedlasttick = false;
+
 	
 	//-------------------------- movement ------------------------------
 	
@@ -68,15 +96,6 @@ public abstract class Entity
 	public double getJumpPower()
 	{
 		return jumpPower;
-	}
-	
-	//-------------------------- entity id ------------------------------
-	
-	private static int ENTITY_ID = 0;
-	@Synchronized
-	public static int getNewId()
-	{
-		return ENTITY_ID++;
 	}
 	
 	
@@ -113,9 +132,9 @@ public abstract class Entity
 	protected boolean lookingRight;
 	
 	//-------------------------- animation ------------------------------
-	private float armAngle;
-	private float legAngle;
-	private boolean armMovingRight;
+	protected float armAngle;
+	protected float legAngle;
+	protected boolean armMovingRight;
 	
 	//--------------------------  ------------------------------
 	
@@ -335,68 +354,43 @@ public abstract class Entity
 		}
 		location.setY(y);
 	}
+
 	protected void tickAnimation()
 	{
-		if(isMoving())
-		{
-			//arms
-			if(armMovingRight)
-			{
-				armAngle += getArmMoveConstantMoving();
-			}
-			else
-			{
-				armAngle -= getArmMoveConstantMoving();
-			}
-			legAngle = -armAngle;
+		double aangle;
+		double langle;
+		
+		if((isMoving() && movedlasttick) || 
+		   (!isMoving() && (getMaxArmAngleStanding() > 0 && Math.abs(armAngle) > getMaxArmAngleStanding() || 
+						    getMaxLegAngleStanding() > 0 && Math.abs(legAngle) > getMaxLegAngleStanding())))
+		{ 			
+			angle+=getAngleRotationMoving()*radiant;
+			angle%=360;
 			
-			if(armAngle > getArmMaxDegreeDeltaMoving())
-			{
-				armMovingRight = false;
-			}
-			else if(armAngle < -getArmMaxDegreeDeltaMoving())
-			{
-				armMovingRight = true;
-			}
+			aangle=Math.sin(angle)*getMaxArmAngleMoving();
+			langle=Math.sin(angle)*getMaxLegAngleMoving();
+		}
+		else if(isMoving() && !movedlasttick)
+		{ 
+			movedlasttick=true;
+			angle=0;
+			
+			tickAnimation();
+			return;
 		}
 		else
 		{
-			//arms
-			if(armMovingRight)
-			{
-				if(Math.abs(armAngle)>getArmMaxDegreeDeltaStanding())
-				{
-					armAngle += getArmMoveConstantMoving();
-					legAngle = -armAngle;
-				}
-				else
-				{
-					armAngle += getArmMoveConstantStanding();
-					legAngle=0;
-				}
-			}
-			else
-			{
-				if(Math.abs(armAngle)>getArmMaxDegreeDeltaStanding())
-				{
-					armAngle -= getArmMoveConstantMoving();
-				}
-				else
-				{
-					armAngle -= getArmMoveConstantStanding();
-				}
-				legAngle=0;
-			}
+			movedlasttick=false;
 			
-			if(armAngle > getArmMaxDegreeDeltaStanding())
-			{
-				armMovingRight = false;
-			}
-			else if(armAngle < -getArmMaxDegreeDeltaStanding())
-			{
-				armMovingRight = true;
-			}
+			angle+=getAngleRotationStanding()*radiant;
+			angle%=360;
+			
+			aangle=Math.sin(angle)*getMaxArmAngleStanding();
+			langle=Math.sin(angle)*getMaxLegAngleStanding();
 		}
+		
+		armAngle=(float) aangle;
+		legAngle=(float) langle;
 	}
 	
 	
@@ -438,6 +432,5 @@ public abstract class Entity
 	{
 		return Game.getInstance().getWorld();
 	}
-	
 	
 }

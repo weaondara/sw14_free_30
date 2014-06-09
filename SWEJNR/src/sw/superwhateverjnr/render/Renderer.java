@@ -393,7 +393,7 @@ public class Renderer
 		else
 		{
 			//right arm
-			matrix.setRotate(-90-angle, (right-left)/2, (right-left)/2);
+			matrix.setRotate(90-angle, (right-left)/2, (right-left)/2);
 			matrix.postTranslate(left, top);
 			canvas.drawBitmap(pt.getRightArmLeft(), matrix, paint);
 		}
@@ -414,7 +414,7 @@ public class Renderer
 		else
 		{
 			//left arm
-			matrix.setRotate(-90+angle, (right-left)/2, (right-left)/2);
+			matrix.setRotate(90+angle, (right-left)/2, (right-left)/2);
 			matrix.postTranslate(left, top);
 			canvas.drawBitmap(pt.getLeftArmLeft(), matrix, paint);
 		}
@@ -521,7 +521,7 @@ public class Renderer
 		else
 		{
 			//right arm
-			matrix.setRotate(-90-angle, (right-left)/2, (right-left)/2);
+			matrix.setRotate(90-angle, (right-left)/2, (right-left)/2);
 			matrix.postTranslate(left, top);
 			canvas.drawBitmap(pt.getRightArmLeft(), matrix, paint);
 		}
@@ -554,7 +554,7 @@ public class Renderer
 		else
 		{
 			//left arm
-			matrix.setRotate(-90+angle, (right-left)/2, (right-left)/2);
+			matrix.setRotate(90+angle, (right-left)/2, (right-left)/2);
 			matrix.postTranslate(left, top);
 			canvas.drawBitmap(pt.getLeftArmLeft(), matrix, paint);
 		}
