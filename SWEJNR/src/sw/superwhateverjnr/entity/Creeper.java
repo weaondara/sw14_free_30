@@ -32,6 +32,7 @@ public class Creeper extends Entity
 	private static double monsterprevx = 0.0;
 	private static double monsterprevy = 0.0;
 	
+	private static boolean isbehindblocks = false;
 	private static boolean isindistance = false;
 	private static boolean islavainfront = false;
 	private static boolean istoohighleft = false;
@@ -42,7 +43,6 @@ public class Creeper extends Entity
 //	private static boolean iscreeperpassingplayernow = false;
 //	private static boolean iscreeperpassingplayerprev = false;
 	private static boolean ismonsterstayingstill = false;
-	private static boolean ismonsterstayingstilprev = false;
 
 	private static boolean isgoingright = false;
 	private static boolean isgoinghorizontal = false;
@@ -101,30 +101,14 @@ public class Creeper extends Entity
 		double playery = player.getLocation().getY();
 		double monsterx = getLocation().getX();
 		double monstery = getLocation().getY();
-		System.out.println("monsterx_playerx="+absoluteDifference(monsterx, playerx)+"  monster_prev="+absoluteDifference(monsterx, monsterprevx));
-		if (
-		    (
-			 ((monsterx > playerx) && (monsterprevx <= playerx) || (absoluteDifference(monsterx, monsterprevx) < 0.1)) ||
-		     ((monsterx < playerx) && (monsterprevx >= playerx) || (absoluteDifference(monsterx, monsterprevx) < 0.1))
-		    ) && (playerprevx == playerx))
+		//System.out.println("monsterx_playerx="+absoluteDifference(monsterx, playerx)+"  monster_prev="+absoluteDifference(monsterx, monsterprevx));
+		if (isInTolerance(monsterx, playerx, 0.8) && isInTolerance(playerprevx, playerx, 0.01))
 		{
 			ismonsterstayingstill = true;
 		}
 		else if (playerprevx != playerx)
 		{
 			ismonsterstayingstill = false;
-		}
-		if (ismonsterstayingstilprev != ismonsterstayingstill)
-		{
-			ismonsterstayingstilprev = ismonsterstayingstill;
-			if (ismonsterstayingstill)
-			{
-				System.out.println("Monster is STILL!!!!");
-			}
-			else
-			{
-				System.out.println("Monster is GOING!!!!");
-			}
 		}
 		distance = Math.sqrt(Math.pow(playerx - monsterx, 2.0) + Math.pow(playery - monstery, 2.0));
 		if (distance < radius)
@@ -319,7 +303,7 @@ public class Creeper extends Entity
 			double playery = player.getLocation().getY();
 			double monsterx = getLocation().getX();
 			double monstery = getLocation().getY();
-			double addx = 0.7;
+			double addx = 0.6;
 			double addy = 0.0;
 			
 			Material materialx0y0 = game.getWorld().getBlockAt(new Location(monsterx, monstery + addy)).getType();
@@ -328,17 +312,19 @@ public class Creeper extends Entity
 			Material materialxm1y0 = game.getWorld().getBlockAt(new Location(monsterx - addx, monstery + addy)).getType();
 			Material materialxm1yp1 = game.getWorld().getBlockAt(new Location(monsterx - addx, monstery + 1.0)).getType();
 			
+			boolean isgoingrighttrue = isgoingright && isgoinghorizontal;
+			boolean isgoinglefttrue = !isgoingright && isgoinghorizontal;
+			boolean israndomgoingrighttrue = israndomgoingright && israndomgoing;
+			boolean israndomgoinglefttrue = !israndomgoingright && israndomgoing;
+			boolean isplayerpropertiesrighttrue = !player.isOnGround() || (!istoohighright && (absoluteDifference(playerx, monsterx) > 0.5));
+			boolean isplayerpropertieslefttrue  = !player.isOnGround() || ( !istoohighleft && (absoluteDifference(playerx, monsterx) > 0.5));
 			boolean ismaterialxp1true = (materialxp1y0 != materialx0y0) && (materialxp1yp1 == materialx0y0);
 			boolean ismaterialxm1true = (materialxm1y0 != materialx0y0) && (materialxm1yp1 == materialx0y0);
-			boolean isgoingrighttrue = isgoingright && isgoinghorizontal;
-			boolean israndomgoingrighttrue = israndomgoingright && israndomgoing;
-			boolean isplayerpropertiesrighttrue = (!player.isOnGround() || (!istoohighright && (absoluteDifference(playerx, monsterx) > 0.5)));
-			boolean isplayerpropertieslefttrue  = (!player.isOnGround() || ( !istoohighleft && (absoluteDifference(playerx, monsterx) > 0.5)));
 			
-			if (
-			       ((( isgoingrighttrue && isplayerpropertiesrighttrue) ||  israndomgoingrighttrue) && ismaterialxp1true) ||
-				   (((!isgoingrighttrue &&  isplayerpropertieslefttrue) || !israndomgoingrighttrue) && ismaterialxm1true)
-			   )
+			boolean statement1 = ((isgoingrighttrue && isplayerpropertiesrighttrue) || israndomgoingrighttrue) && ismaterialxp1true;
+			boolean statement2 = (( isgoinglefttrue &&  isplayerpropertieslefttrue) ||  israndomgoinglefttrue) && ismaterialxm1true;
+			
+			if (statement1 || statement2)
 			{
 				jump();
 			}
@@ -475,10 +461,6 @@ public class Creeper extends Entity
 
 		getVelocity().setX(vx);
 		setLastMoveTime(now);
-
-		
-		
-		
 		
 		float multiplier=0.01F;
 		float playerwidth=(float) (Math.abs(bounds.getMin().getX()-bounds.getMax().getX()));
@@ -539,9 +521,16 @@ public class Creeper extends Entity
 	{
 		return (double)((int)(number * (double)Math.pow(10.0, (double)digits))) / (double)Math.pow(10.0, (double)digits);
 	}
-	
 	double absoluteDifference(double number1, double number2)
 	{
 		return Math.abs(Math.abs(number1) - Math.abs(number2));
+	}
+	boolean isInTolerance(double number1, double number2, double delta)
+	{
+		return (Math.abs(number1 - number2) <= delta);
+	}
+	double getEyeHeight()
+	{
+		return (getHitBox().getMax().getY() - getHitBox().getMin().getY()) * 0.8;
 	}
 }

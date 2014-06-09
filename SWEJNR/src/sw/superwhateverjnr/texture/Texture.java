@@ -97,25 +97,41 @@ public class Texture
 	public boolean equals(Object obj)
 	{
 		if (this == obj)
+		{
 			return true;
+		}
 		if (obj == null)
+		{
 			return false;
+		}
 		if (getClass() != obj.getClass())
+		{
 			return false;
+		}
 		
 		Texture other = (Texture) obj;
 		if (width != other.width)
+		{
 			return false;
+		}
 		if (height != other.height)
+		{
 			return false;
+		}
 		
 		if (reference == null || other.reference == null)
+		{
 			return false;
+		}
 		else if (!reference.equals(other.reference))
+		{
 			return false;
+		}
 		
 		if (image == null || other.image == null)
+		{
 			return false;
+		}
 		else 
 		{
 			if(image.getWidth()!=other.image.getWidth() || image.getHeight()!=other.image.getHeight())
@@ -137,6 +153,36 @@ public class Texture
 			}
 		}
 		
+		if (orgimage == null || other.orgimage == null)
+		{
+			return false;
+		}
+		else 
+		{
+			if(orgimage.getWidth()!=other.orgimage.getWidth() || orgimage.getHeight()!=other.orgimage.getHeight())
+			{
+				return false;
+			}
+			else 
+			{
+				for(int x=0;x<orgimage.getWidth();x++)
+				{
+					for(int y=0;y<orgimage.getHeight();y++)
+					{
+						if(orgimage.getPixel(x, y)!=other.orgimage.getPixel(x, y))
+						{
+							return false;
+						}
+					}
+				}
+			}
+		}
+		
+		if(scale != other.scale)
+		{
+			return false;
+		}
+		
 		return true;
 	}
 	@Override
@@ -147,7 +193,9 @@ public class Texture
 		result = prime * result + height;
 		result = prime * result + ((reference == null) ? 0 : reference.hashCode());
 		result = prime * result + ((image == null) ? 0 : image.hashCode());
+		result = prime * result + ((orgimage == null) ? 0 : orgimage.hashCode());
 		result = prime * result + width;
+		result = (int) (prime * result + scale);
 		return result;
 	}
 
