@@ -15,7 +15,7 @@ public abstract class WorldLoader
 	@Getter
 	private static final int wlimit = 1024;
 	@Getter
-	private static final int minimum = 10;
+	private static final int minimum = 30;
 	
 	public abstract World loadWorld(String name) throws Exception;
 	public static World createWorld(String name, int width, int height, Location spawn, Block[][] data, List<Entity> entities) throws Exception

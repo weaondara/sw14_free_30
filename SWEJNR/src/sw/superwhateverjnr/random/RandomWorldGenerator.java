@@ -53,8 +53,8 @@ public class RandomWorldGenerator
 	@Getter @Setter
 	private int minWidth;
 	
-        private int maxMobs;
-        private int mobsSpawned;
+        private int lastSpawn = 0;
+        private int spawnDistance;
         
 	private Random randomizer;
 	private static BlockFactory bf;
@@ -94,19 +94,17 @@ public class RandomWorldGenerator
 			height = randomizer.nextInt(maxHeight);
 		}
 		Block blocks[][] = new Block[width][height];
-		List<Entity> entities = new ArrayList<Entity>();
 		
 		int spawnHeight = height/2;
 		if (spawnHeight > 10)
 		{
 			spawnHeight = 0;
 		}
-		
-                maxMobs = width/(randomizer.nextInt(3)+3);
-                
+                spawnDistance = randomizer.nextInt(5)+5;
+		                
 		Location spawn = new Location(0.5, spawnHeight+1);
 		
-		World w = WorldLoader.createWorld(name, width, height, spawn, blocks, entities);
+		World w = WorldLoader.createWorld(name, width, height, spawn, blocks, new ArrayList<Entity>());
                 String[] music = SWEJNR.getInstance().getAssets().list("music");
                 if(music.length != 0)
                 {
@@ -249,18 +247,21 @@ public class RandomWorldGenerator
 		blocks[offset][i] = bf.create(top.getId(), (byte)0, offset, i, w, null);
                 if(top.isSolid())
                 {
-                        if(randomizer.nextBoolean()  && mobsSpawned != maxMobs && height < maxHeight+2)
+                        if(randomizer.nextBoolean()  && lastSpawn > spawnDistance && height < maxHeight+2 && height > 0)
                         {
                                 try
                                 {
-                                        Entity e = ef.create(rmobg.nextMob().getId(), Entity.getNewId(), offset+0.5, height+1, w, null);
-                                        w.getEntities().add(ef.create(rmobg.nextMob().getId(), Entity.getNewId(), offset, height+1, w, null));
-                                        mobsSpawned++;
+                                        w.getEntities().add(ef.create(rmobg.nextMob().getId(), Entity.getNewId(), offset+0.5, height+1, w, null));
+                                        lastSpawn = 0;
                                 }
                                 catch(Exception e)
                                 {
                                         e.printStackTrace();
                                 }
+                        }
+                        else
+                        {
+                                lastSpawn++;
                         }
                 }
 	}
@@ -270,6 +271,17 @@ public class RandomWorldGenerator
 	{
 		//Dammmit Yukari!
                 int fillDepth = Math.min(fromHeight, toHeight);
+                try
+                {
+                        if(!blocks[offset-1][0].getType().isSolid())
+                        {
+                                filling = blocks[offset-1][0].getType();
+                        }
+                }
+                catch(NullPointerException e)
+                {
+                        filling = Material.AIR;
+                }
 		for (int i = 0; i < width; i++)
 		{
 			pillar(blocks, w, offset+i, fillDepth, filling);
@@ -280,7 +292,7 @@ public class RandomWorldGenerator
         @SneakyThrows
 	private void step(Block blocks[][], World w, int offset, int width, int toHeight, boolean left)
 	{
-		Material m = rmg.nextSurface(); //Magic!
+		Material m = rmg.nextSurface();
 		if(left)
 		{
 			offset -= width;
