@@ -253,7 +253,7 @@ public class RandomWorldGenerator
                         {
                                 try
                                 {
-                                        Entity e = ef.create(rmobg.nextMob().getId(), Entity.getNewId(), offset+0.5, height+1, w, null)
+                                        Entity e = ef.create(rmobg.nextMob().getId(), Entity.getNewId(), offset+0.5, height+1, w, null);
                                         w.getEntities().add(ef.create(rmobg.nextMob().getId(), Entity.getNewId(), offset, height+1, w, null));
                                         mobsSpawned++;
                                 }
