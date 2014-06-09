@@ -197,6 +197,10 @@ public class Game
 		TextureMap.loadTexture(new IdAndSubId(18, 5),textureLoader);
 		
 		TextureMap.loadTexture(EntityType.PLAYER,textureLoader);
+		TextureMap.loadTexture(EntityType.CREEPER,textureLoader);
+		TextureMap.loadTexture(EntityType.ZOMBIE,textureLoader);
+		TextureMap.loadTexture(EntityType.SKELETON,textureLoader);
+		TextureMap.loadTexture(EntityType.SPIDER,textureLoader);
 	}
 	
 	private void loadSettings()
