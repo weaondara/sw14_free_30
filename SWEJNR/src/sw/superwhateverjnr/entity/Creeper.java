@@ -29,11 +29,20 @@ public class Creeper extends Entity
 	
 	private static double playerprevx = 0.0;
 	private static double playerprevy = 0.0;
+	private static double monsterprevx = 0.0;
+	private static double monsterprevy = 0.0;
 	
 	private static boolean isindistance = false;
 	private static boolean islavainfront = false;
 	private static boolean istoohighleft = false;
 	private static boolean istoohighright = false;
+	
+//	private static boolean isplayerpositionchangednow = false;
+//	private static boolean isplayerpositionchangedprev = false;
+//	private static boolean iscreeperpassingplayernow = false;
+//	private static boolean iscreeperpassingplayerprev = false;
+	private static boolean ismonsterstayingstill = false;
+	private static boolean ismonsterstayingstilprev = false;
 
 	private static boolean isgoingright = false;
 	private static boolean isgoinghorizontal = false;
@@ -78,9 +87,11 @@ public class Creeper extends Entity
 		stopIfTooHigh();
 		// swimIfWater();
 		trigger();
+		triggerExplosion();
 		randomJump(false);
 		randomWalk(true);
 		jumpIfWall();
+		setLastPosition();
 		tickMove();
 	}
 	@SneakyThrows
@@ -90,43 +101,72 @@ public class Creeper extends Entity
 		double playery = player.getLocation().getY();
 		double monsterx = getLocation().getX();
 		double monstery = getLocation().getY();
-		distance = Math.sqrt(Math.pow(playerx - monsterx, 2.0) + Math.pow(playery - monstery, 2.0));
-
-		if (distance < radius)
+		System.out.println("monsterx_playerx="+absoluteDifference(monsterx, playerx)+"  monster_prev="+absoluteDifference(monsterx, monsterprevx));
+		if (
+		    (
+			 ((monsterx > playerx) && (monsterprevx <= playerx) || (absoluteDifference(monsterx, monsterprevx) < 0.1)) ||
+		     ((monsterx < playerx) && (monsterprevx >= playerx) || (absoluteDifference(monsterx, monsterprevx) < 0.1))
+		    ) && (playerprevx == playerx))
 		{
-			isindistance = true;
-			if (playerx > monsterx)
+			ismonsterstayingstill = true;
+		}
+		else if (playerprevx != playerx)
+		{
+			ismonsterstayingstill = false;
+		}
+		if (ismonsterstayingstilprev != ismonsterstayingstill)
+		{
+			ismonsterstayingstilprev = ismonsterstayingstill;
+			if (ismonsterstayingstill)
 			{
-				if (!istoohighright)
-				{
-					setMovingright(true);
-					isgoinghorizontal = true;
-				}
-				else
-				{
-					setMovingright(false);
-					isgoinghorizontal = false;
-				}
-				setMovingleft(false);
-				isgoingright = true;
-			}
-			else if (playerx < monsterx)
-			{
-				if (!istoohighleft)
-				{
-					setMovingleft(true);
-					isgoinghorizontal = true;
-				}
-				else
-				{
-					setMovingleft(false);
-					isgoinghorizontal = false;
-				}
-				setMovingright(false);
-				isgoingright = false;
+				System.out.println("Monster is STILL!!!!");
 			}
 			else
 			{
+				System.out.println("Monster is GOING!!!!");
+			}
+		}
+		distance = Math.sqrt(Math.pow(playerx - monsterx, 2.0) + Math.pow(playery - monstery, 2.0));
+		if (distance < radius)
+		{
+			isindistance = true;
+			if (!ismonsterstayingstill)
+			{
+				if (playerx >= monsterx)
+				{
+					if (!istoohighright)
+					{
+						setMovingright(true);
+						isgoinghorizontal = true;
+					}
+					else
+					{
+						setMovingright(false);
+						isgoinghorizontal = false;
+					}
+					setMovingleft(false);
+					isgoingright = true;
+				}
+				else if (playerx <= monsterx)
+				{
+					if (!istoohighleft)
+					{
+						setMovingleft(true);
+						isgoinghorizontal = true;
+					}
+					else
+					{
+						setMovingleft(false);
+						isgoinghorizontal = false;
+					}
+					setMovingright(false);
+					isgoingright = false;
+				}
+			}
+			else
+			{
+				setMovingright(false);
+				setMovingleft(false);
 				isgoinghorizontal = false;
 			}
 			
@@ -162,7 +202,6 @@ public class Creeper extends Entity
 			System.out.println("BOOMMM!!!!");
 		}
 	}
-	
 	protected void randomJump(boolean dorandomjump)
 	{
 		if (isindistance && dorandomjump)
@@ -192,14 +231,9 @@ public class Creeper extends Entity
 			israndomjumpcompleted = false;
 		}
 	}
-	
 	protected void randomWalk(boolean dorandomwalk)
 	{
-		double playerx = player.getLocation().getX();
-		double playery = player.getLocation().getY();
-		double monsterx = getLocation().getX();
-		double monstery = getLocation().getY();
-		if (!isindistance && dorandomwalk && (absoluteDifference(playerx, monsterx) > 0.5))
+		if (!isindistance && dorandomwalk)
 		{
 			if (randomtimewalk[0] < randomtimewalk[1])
 			{
@@ -277,7 +311,6 @@ public class Creeper extends Entity
 			israndomgoing = false;
 		}
 	}
-	
 	protected void jumpIfWall()
 	{
 		if (isgoinghorizontal || israndomgoing)
@@ -311,12 +344,10 @@ public class Creeper extends Entity
 			}
 		}
 	}
-	
 	protected void stopIfLava()
 	{
 		//stop instantly!!!
 	}
-	
 	protected void stopIfTooHigh()
 	{
 		double monsterx = getLocation().getX();
@@ -329,11 +360,19 @@ public class Creeper extends Entity
 		Material materialxm1yp1 = game.getWorld().getBlockAt(new Location(monsterx - addx, monstery + 1.0)).getType();
 		if ((materialxp1y0 == Material.AIR) && (materialxp1yp1 == Material.AIR))
 		{
+			boolean ismaterialxp1ym1air = false;
+			boolean ismaterialxp1ym2air = false;
+			boolean ismaterialxp1ym3air = false;
+			boolean ismaterialxp1ym4air = false;
 			Material materialxp1ym1 = game.getWorld().getBlockAt(new Location(monsterx + addx, monstery - 1.0)).getType();
 			Material materialxp1ym2 = game.getWorld().getBlockAt(new Location(monsterx + addx, monstery - 2.0)).getType();
 			Material materialxp1ym3 = game.getWorld().getBlockAt(new Location(monsterx + addx, monstery - 3.0)).getType();
 			Material materialxp1ym4 = game.getWorld().getBlockAt(new Location(monsterx + addx, monstery - 4.0)).getType();
-			if ((materialxp1ym1 == Material.AIR) && (materialxp1ym2 == Material.AIR) && (materialxp1ym3 == Material.AIR)  && (materialxp1ym4 == Material.AIR))
+			ismaterialxp1ym1air = (materialxp1ym1 == Material.AIR);
+			ismaterialxp1ym2air = (materialxp1ym2 == Material.AIR);
+			ismaterialxp1ym3air = (materialxp1ym3 == Material.AIR);
+			ismaterialxp1ym4air = (materialxp1ym4 == Material.AIR);
+			if (ismaterialxp1ym1air && ismaterialxp1ym2air && ismaterialxp1ym3air  && ismaterialxp1ym4air)
 			{
 				istoohighright = true;
 			}
@@ -344,11 +383,19 @@ public class Creeper extends Entity
 		}
 		if ((materialxm1y0 == Material.AIR) && (materialxm1yp1 == Material.AIR))
 		{
+			boolean ismaterialxm1ym1air = false;
+			boolean ismaterialxm1ym2air = false;
+			boolean ismaterialxm1ym3air = false;
+			boolean ismaterialxm1ym4air = false;
 			Material materialxm1ym1 = game.getWorld().getBlockAt(new Location(monsterx - addx, monstery - 1.0)).getType();
 			Material materialxm1ym2 = game.getWorld().getBlockAt(new Location(monsterx - addx, monstery - 2.0)).getType();
 			Material materialxm1ym3 = game.getWorld().getBlockAt(new Location(monsterx - addx, monstery - 3.0)).getType();
 			Material materialxm1ym4 = game.getWorld().getBlockAt(new Location(monsterx - addx, monstery - 4.0)).getType();
-			if ((materialxm1ym1 == Material.AIR) && (materialxm1ym2 == Material.AIR) && (materialxm1ym3 == Material.AIR)  && (materialxm1ym4 == Material.AIR))
+			ismaterialxm1ym1air = (materialxm1ym1 == Material.AIR);
+			ismaterialxm1ym2air = (materialxm1ym2 == Material.AIR);
+			ismaterialxm1ym3air = (materialxm1ym3 == Material.AIR);
+			ismaterialxm1ym4air = (materialxm1ym4 == Material.AIR);
+			if (ismaterialxm1ym1air && ismaterialxm1ym2air && ismaterialxm1ym3air  && ismaterialxm1ym4air)
 			{
 				istoohighleft = true;
 			}
@@ -358,7 +405,13 @@ public class Creeper extends Entity
 			}
 		}
 	}
-	
+	protected void setLastPosition()
+	{
+		playerprevx = player.getLocation().getX();
+		playerprevy = player.getLocation().getY();
+		monsterprevx = getLocation().getX();
+		monsterprevy = getLocation().getY();
+	}
 	/*protected void swimIfWater()
 	{
 		if (isindistance)
