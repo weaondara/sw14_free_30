@@ -1,10 +1,8 @@
 package sw.superwhateverjnr.texture.entity;
 
-import java.io.FileOutputStream;
 
 import lombok.Getter;
 import android.graphics.Bitmap;
-import android.os.Environment;
 import sw.superwhateverjnr.entity.EntityType;
 import sw.superwhateverjnr.texture.EntityTexture;
 
@@ -88,27 +86,4 @@ public class PlayerTexture extends EntityTexture
 		leftLegRight=getSubBitmap(image, 8*scale, 20*scale, 4*scale, 12*scale);
 		leftLegLeft=getSubBitmap(image, 0*scale, 20*scale, 4*scale, 12*scale);
 	}
-	private static Bitmap getSubBitmap(Bitmap bm, int xoff, int yoff, int width, int height)
-	{
-		Bitmap ret=Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        for(int x=0;x<width;x++)
-        {
-        	for(int y=0;y<height;y++)
-            {
-            	ret.setPixel(x, y, bm.getPixel(x+xoff, y+yoff));
-            }
-        }
-
-		return ret;
-	}
-//	private static Bitmap getSubBitmap(Bitmap bm, int x, int y, int width, int height)
-//	{
-//		Bitmap ret=Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-//        int[] pixels = new int[width * height];
-//        
-//		bm.getPixels(pixels, 0, width, 0, 0, height, height);
-//		ret.setPixels(pixels, 0, width, 0, 0, width, height);
-//		
-//		return ret;
-//	}
 }

@@ -12,6 +12,20 @@ import android.graphics.Bitmap;
 @ToString
 public class Texture
 {
+	public static Bitmap getSubBitmap(Bitmap bm, int xoff, int yoff, int width, int height)
+	{
+		Bitmap ret=Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        for(int x=0;x<width;x++)
+        {
+        	for(int y=0;y<height;y++)
+            {
+            	ret.setPixel(x, y, bm.getPixel(x+xoff, y+yoff));
+            }
+        }
+
+		return ret;
+	}
+	
 	protected Object reference;
 	protected int width, height;
 	protected Bitmap image;

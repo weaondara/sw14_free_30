@@ -4,7 +4,6 @@ import lombok.Getter;
 import android.graphics.Bitmap;
 import sw.superwhateverjnr.entity.EntityType;
 import sw.superwhateverjnr.texture.EntityTexture;
-import sw.superwhateverjnr.texture.Texture;
 
 @Getter
 public class ZombieTexture extends EntityTexture
@@ -86,17 +85,5 @@ public class ZombieTexture extends EntityTexture
 		leftLegRight=getSubBitmap(image, 8*scale, 20*scale, 4*scale, 12*scale);
 		leftLegLeft=getSubBitmap(image, 0*scale, 20*scale, 4*scale, 12*scale);
 	}
-	private static Bitmap getSubBitmap(Bitmap bm, int xoff, int yoff, int width, int height)
-	{
-		Bitmap ret=Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        for(int x=0;x<width;x++)
-        {
-        	for(int y=0;y<height;y++)
-            {
-            	ret.setPixel(x, y, bm.getPixel(x+xoff, y+yoff));
-            }
-        }
-
-		return ret;
-	}
+	
 }
