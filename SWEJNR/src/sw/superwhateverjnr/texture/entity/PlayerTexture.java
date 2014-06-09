@@ -5,6 +5,7 @@ import lombok.Getter;
 import android.graphics.Bitmap;
 import sw.superwhateverjnr.entity.EntityType;
 import sw.superwhateverjnr.texture.EntityTexture;
+import sw.superwhateverjnr.texture.Texture;
 
 @Getter
 public class PlayerTexture extends EntityTexture
@@ -54,36 +55,35 @@ public class PlayerTexture extends EntityTexture
 	public PlayerTexture(int width, int height, Bitmap image)
 	{
 		super(EntityType.PLAYER, width, height, image);
-		
-		try
-		{
-			piecify();
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
 	}
-	private void piecify()
+	
+	@Override
+	protected void piecify()
 	{
-		int scale = width / 64;
+		double pscale = width / 64;
 		
-		headRight=getSubBitmap(image, 0*scale, 8*scale, 8*scale, 8*scale);
-		headLeft=getSubBitmap(image, 16*scale, 8*scale, 8*scale, 8*scale);
+		headRight=getSubBitmap(image, 0*pscale, 8*pscale, 8*pscale, 8*pscale);
+		headLeft=getSubBitmap(image, 16*pscale, 8*pscale, 8*pscale, 8*pscale);
 		
-		bodyRight=getSubBitmap(image, 16*scale, 20*scale, 4*scale, 12*scale);
-		bodyLeft=getSubBitmap(image, 28*scale, 20*scale, 4*scale, 12*scale);
+		bodyRight=getSubBitmap(image, 16*pscale, 20*pscale, 4*pscale, 12*pscale);
+		bodyLeft=getSubBitmap(image, 28*pscale, 20*pscale, 4*pscale, 12*pscale);
 
-		rightArmRight=getSubBitmap(image, 40*scale, 20*scale, 4*scale, 12*scale);
-		rightArmLeft=getSubBitmap(image, 48*scale, 20*scale, 4*scale, 12*scale);
+		rightArmRight=getSubBitmap(image, 40*pscale, 20*pscale, 4*pscale, 12*pscale);
+		rightArmLeft=getSubBitmap(image, 48*pscale, 20*pscale, 4*pscale, 12*pscale);
 
-		leftArmRight=getSubBitmap(image, 48*scale, 20*scale, 4*scale, 12*scale);
-		leftArmLeft=getSubBitmap(image, 40*scale, 20*scale, 4*scale, 12*scale);
+		leftArmRight=getSubBitmap(image, 48*pscale, 20*pscale, 4*pscale, 12*pscale);
+		leftArmLeft=getSubBitmap(image, 40*pscale, 20*pscale, 4*pscale, 12*pscale);
 
-		rightLegRight=getSubBitmap(image, 0*scale, 20*scale, 4*scale, 12*scale);
-		rightLegLeft=getSubBitmap(image, 8*scale, 20*scale, 4*scale, 12*scale);
+		rightLegRight=getSubBitmap(image, 0*pscale, 20*pscale, 4*pscale, 12*pscale);
+		rightLegLeft=getSubBitmap(image, 8*pscale, 20*pscale, 4*pscale, 12*pscale);
 
-		leftLegRight=getSubBitmap(image, 8*scale, 20*scale, 4*scale, 12*scale);
-		leftLegLeft=getSubBitmap(image, 0*scale, 20*scale, 4*scale, 12*scale);
+		leftLegRight=getSubBitmap(image, 8*pscale, 20*pscale, 4*pscale, 12*pscale);
+		leftLegLeft=getSubBitmap(image, 0*pscale, 20*pscale, 4*pscale, 12*pscale);
+	}
+	
+	@Override
+	protected void resize()
+	{
+		Texture.doScale(this.getClass(), this);
 	}
 }

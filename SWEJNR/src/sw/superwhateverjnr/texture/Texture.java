@@ -1,17 +1,20 @@
 package sw.superwhateverjnr.texture;
 
-import lombok.AllArgsConstructor;
+import java.lang.reflect.Field;
+
 import lombok.Getter;
 import lombok.Setter;
+import lombok.SneakyThrows;
 import lombok.ToString;
 import android.graphics.Bitmap;
 
-@Getter
-@Setter
-@AllArgsConstructor(suppressConstructorProperties=true)
 @ToString
 public class Texture
 {
+	public static Bitmap getSubBitmap(Bitmap bm, double xoff, double yoff, double width, double height)
+	{
+		return getSubBitmap(bm, (int)Math.round(xoff), (int)Math.round(yoff), (int)Math.round(width), (int)Math.round(height));
+	}
 	public static Bitmap getSubBitmap(Bitmap bm, int xoff, int yoff, int width, int height)
 	{
 		Bitmap ret=Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
@@ -25,10 +28,71 @@ public class Texture
 
 		return ret;
 	}
+	@SneakyThrows
+	public static void doScale(Class<? extends Texture> clazz, Texture t)
+	{
+		for(Field f : clazz.getDeclaredFields())
+		{
+			if(f.getType() == Bitmap.class)
+			{
+				f.setAccessible(true);
+				Bitmap b=(Bitmap) f.get(t);
+				if(b==null)
+				{
+					continue;
+				}
+				b = Bitmap.createScaledBitmap(b, (int)(b.getWidth()*t.getScale()), (int)(b.getHeight()*t.getScale()), false);
+				f.set(t, b);
+			}
+		}
+	}
 	
+	// ----------------------------- class ----------------------------------
+
+	@Getter @Setter
 	protected Object reference;
 	protected int width, height;
+	protected Bitmap orgimage;
+	@Getter
 	protected Bitmap image;
+	@Getter
+	protected double scale;
+	
+	public Texture(Object reference, int width, int height, Bitmap image)
+	{
+		super();
+		this.reference = reference;
+		this.width = width;
+		this.height = height;
+		this.orgimage = image;
+		this.image = image;
+		scale = 1;
+	}
+
+	public void scale(double scale)
+	{
+		image = Bitmap.createScaledBitmap(orgimage, (int)(width*scale), (int)(height*scale), false);
+		this.scale = scale;
+	}
+	
+	public double getOrigWidth()
+	{
+		return width;
+	}
+	public double getOrigHeight()
+	{
+		return height;
+	}
+	
+	public double getWidth()
+	{
+		return width * scale;
+	}
+	public double getHeight()
+	{
+		return height * scale;
+	}
+	
 	@Override
 	public boolean equals(Object obj)
 	{
@@ -86,4 +150,7 @@ public class Texture
 		result = prime * result + width;
 		return result;
 	}
+
+	
+
 }
