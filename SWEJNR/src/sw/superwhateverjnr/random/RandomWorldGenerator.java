@@ -247,23 +247,22 @@ public class RandomWorldGenerator
 			i++;
 		}
 		blocks[offset][i] = bf.create(top.getId(), (byte)0, offset, i, w, null);
-//                TODO: random mobs.
-//                if(top.isSolid())
-//                {
-//                        if(randomizer.nextBoolean()  && mobsSpawned != maxMobs)
-//                        {
-//                                try
-//                                {
-//                                        Entity e = ef.create(rmobg.nextMob().getId(), Entity.getNewId(), offset, height+1, w, null)
-//                                        w.getEntities().add(ef.create(rmobg.nextMob().getId(), Entity.getNewId(), offset, height+1, w, null));
-//                                        mobsSpawned++;
-//                                }
-//                                catch(Exception e)
-//                                {
-//                                        e.printStackTrace();
-//                                }
-//                        }
-//                }
+                if(top.isSolid())
+                {
+                        if(randomizer.nextBoolean()  && mobsSpawned != maxMobs && height < maxHeight+2)
+                        {
+                                try
+                                {
+                                        Entity e = ef.create(rmobg.nextMob().getId(), Entity.getNewId(), offset+0.5, height+1, w, null)
+                                        w.getEntities().add(ef.create(rmobg.nextMob().getId(), Entity.getNewId(), offset, height+1, w, null));
+                                        mobsSpawned++;
+                                }
+                                catch(Exception e)
+                                {
+                                        e.printStackTrace();
+                                }
+                        }
+                }
 	}
 	
         @SneakyThrows
