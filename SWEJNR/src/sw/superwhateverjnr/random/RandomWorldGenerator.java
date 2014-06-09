@@ -120,7 +120,7 @@ public class RandomWorldGenerator
         int thisHeight = spawnHeight;
         int nextHeight;
         int jw;
-        int jh = ref.getJumpMaxHeight();
+        int jh = (int) ref.getJumpMaxHeight();
         int mwidth = width - 1;
         for (int fillWidth = 1; fillWidth < width;)
         {
