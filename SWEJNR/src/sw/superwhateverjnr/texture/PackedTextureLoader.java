@@ -12,7 +12,11 @@ import com.google.common.base.Preconditions;
 
 import sw.superwhateverjnr.SWEJNR;
 import sw.superwhateverjnr.entity.EntityType;
+import sw.superwhateverjnr.texture.entity.CreeperTexture;
 import sw.superwhateverjnr.texture.entity.PlayerTexture;
+import sw.superwhateverjnr.texture.entity.SkeletonTexture;
+import sw.superwhateverjnr.texture.entity.SpiderTexture;
+import sw.superwhateverjnr.texture.entity.ZombieTexture;
 import sw.superwhateverjnr.util.IdAndSubId;
 
 public class PackedTextureLoader implements TextureLoader
@@ -61,6 +65,10 @@ public class PackedTextureLoader implements TextureLoader
 		
 		idpathmapentity=new HashMap<EntityType, String>();
 		idpathmapentity.put(EntityType.PLAYER, "textures/entity/steve.png");
+		idpathmapentity.put(EntityType.CREEPER, "textures/entity/creeper.png");
+		idpathmapentity.put(EntityType.ZOMBIE, "textures/entity/zombie.png");
+		idpathmapentity.put(EntityType.SKELETON, "textures/entity/skeleton.png");
+		idpathmapentity.put(EntityType.SPIDER, "textures/entity/spider.png");
 	}
 	@Override
 	public BlockTexture loadTexture(IdAndSubId ref) throws IOException
@@ -107,6 +115,18 @@ public class PackedTextureLoader implements TextureLoader
 		{
 			case PLAYER:
 				tex=new PlayerTexture(bm.getWidth(),bm.getHeight(), bm);
+				break;
+			case CREEPER:
+				tex=new CreeperTexture(bm.getWidth(),bm.getHeight(), bm);
+				break;
+			case ZOMBIE:
+				tex=new ZombieTexture(bm.getWidth(),bm.getHeight(), bm);
+				break;
+			case SKELETON:
+				tex=new SkeletonTexture(bm.getWidth(),bm.getHeight(), bm);
+				break;
+			case SPIDER:
+				tex=new SpiderTexture(bm.getWidth(),bm.getHeight(), bm);
 				break;
 			default:
 				tex=new EntityTexture(ref, bm.getWidth(),bm.getHeight(), bm);
