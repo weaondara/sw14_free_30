@@ -6,6 +6,7 @@ import java.util.Random;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.SneakyThrows;
 import sw.superwhateverjnr.SWEJNR;
 import sw.superwhateverjnr.block.Block;
 import sw.superwhateverjnr.block.BlockFactory;
@@ -23,7 +24,8 @@ public class RandomWorldGenerator
 	{
 		PILLAR(0),
 		GAP(1),
-		STEP(2);
+		STEP(2),
+                PLATEAU(3);
 		
 		@Getter
 		private int id;
@@ -65,14 +67,15 @@ public class RandomWorldGenerator
 		bf = BlockFactory.getInstance();
 	}
 	
-	public World newWorld(long seed) throws Exception
+        @SneakyThrows
+	public World newWorld(long seed)
 	{
 		randomizer.setSeed(seed);
 		rmg.setSeed(seed);
 		String name=String.valueOf(seed);
 		
 		int width = 0, height = 0;
-		while (width < minWidth && height < minHeight)
+		while (width < minWidth || height < minHeight)
 		{
 			width = randomizer.nextInt(maxWidth);
 			height = randomizer.nextInt(maxHeight);
@@ -136,7 +139,7 @@ public class RandomWorldGenerator
 					{
 						nextHeight = maxHeight-1;
 					}
-					gap(blocks, w, fillWidth, jw, nextHeight, Material.AIR);
+					gap(blocks, w, fillWidth, jw, thisHeight, nextHeight, rmg.nextFilling());
 					fillWidth += jw + 1;
 					break;
 				case STEP:
@@ -153,6 +156,21 @@ public class RandomWorldGenerator
 					step(blocks, w, fillWidth, jw, nextHeight, false);
 					fillWidth += jw + 1;
 					break;
+                                case PLATEAU:
+                                        int maxPlatWidth = Math.max(5, width/10);
+                                        int platWidth = randomizer.nextInt(maxPlatWidth);
+                                        if(platWidth > mwidth - fillWidth)
+                                        {
+                                                platWidth = mwidth - fillWidth;
+                                        }
+                                        nextHeight = randomizer.nextInt(thisHeight + 2);
+					if(nextHeight > maxHeight - 2)
+					{
+						nextHeight = maxHeight - 2;
+					}                   
+                                        plateau(blocks, w, fillWidth, platWidth, nextHeight, rmg.nextSurface());
+                                        fillWidth += platWidth + 1;
+                                        thisHeight = nextHeight;
 			}
 		}
 		
@@ -171,7 +189,8 @@ public class RandomWorldGenerator
 		return w;
 	}
 	
-	public World newWorld(String name) throws Exception
+        @SneakyThrows
+	public World newWorld(String name)
 	{
 		long seed;
 		try
@@ -187,16 +206,18 @@ public class RandomWorldGenerator
 		return w;
 	}
 	
-	private void pillar(Block blocks[][], World w, int offset, int height) throws Exception
+        @SneakyThrows
+	private void pillar(Block blocks[][], World w, int offset, int height)
 	{
-		Material top= rmg.nextMaterial();
+		Material top= rmg.nextSurface();
 		pillar(blocks, w, offset, height, top);
 	}
 	
-	private void pillar(Block blocks[][], World w, int offset, int height, Material top) throws Exception
+        @SneakyThrows
+	private void pillar(Block blocks[][], World w, int offset, int height, Material top)
 	{
-		Material subtop = rmg.getSubtop(top);
-		Material ground = rmg.getGround(top);
+		Material subtop = top.getSubtop();
+		Material ground = top.getGround();
 		
 		int i=0;
 		while(i <=height-4)
@@ -213,19 +234,22 @@ public class RandomWorldGenerator
 		blocks[offset][i] = bf.create(top.getId(), (byte)0, offset, i, w, null);
 	}
 	
-	private void gap(Block blocks[][], World w, int offset, int width, int toHeight, Material filling) throws Exception
+        @SneakyThrows
+	private void gap(Block blocks[][], World w, int offset, int width, int fromHeight, int toHeight, Material filling)
 	{
 		//Dammmit Yukari!
+                int fillDepth = Math.min(fromHeight, toHeight);
 		for (int i = 0; i < width; i++)
 		{
-			pillar(blocks, w, offset+i, toHeight, filling);
+			pillar(blocks, w, offset+i, fillDepth, filling);
 		}
 		pillar(blocks, w, offset+width, toHeight);
 	}
 	
-	private void step(Block blocks[][], World w, int offset, int width, int toHeight, boolean left) throws Exception
+        @SneakyThrows
+	private void step(Block blocks[][], World w, int offset, int width, int toHeight, boolean left)
 	{
-		Material m = Material.DIRT; //Magic!
+		Material m = rmg.nextSurface(); //Magic!
 		if(left)
 		{
 			offset -= width;
@@ -236,4 +260,13 @@ public class RandomWorldGenerator
 		}
 		blocks[offset][toHeight] = bf.create(m.getId(), (byte)0, offset, toHeight, w, null);	
 	}
+        
+        @SneakyThrows
+        private void plateau(Block blocks[][], World w, int offset, int width, int height, Material top)
+        {
+                for (int i = 0; !(i> width); i++)
+		{
+			pillar(blocks, w, offset+i, height, top);
+		}
+        }
 }
