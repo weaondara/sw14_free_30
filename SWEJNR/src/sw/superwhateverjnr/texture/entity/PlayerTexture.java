@@ -68,23 +68,25 @@ public class PlayerTexture extends EntityTexture
 	}
 	private void piecify()
 	{
-		headRight=getSubBitmap(image, 0, 8, 8, 8);
-		headLeft=getSubBitmap(image, 16, 8, 8, 8);
+		int scale = width / 64;
 		
-		bodyRight=getSubBitmap(image, 16, 20, 4, 12);
-		bodyLeft=getSubBitmap(image, 28, 20, 4, 12);
+		headRight=getSubBitmap(image, 0*scale, 8*scale, 8*scale, 8*scale);
+		headLeft=getSubBitmap(image, 16*scale, 8*scale, 8*scale, 8*scale);
+		
+		bodyRight=getSubBitmap(image, 16*scale, 20*scale, 4*scale, 12*scale);
+		bodyLeft=getSubBitmap(image, 28*scale, 20*scale, 4*scale, 12*scale);
 
-		rightArmRight=getSubBitmap(image, 40, 20, 4, 12);
-		rightArmLeft=getSubBitmap(image, 48, 20, 4, 12);
+		rightArmRight=getSubBitmap(image, 40*scale, 20*scale, 4*scale, 12*scale);
+		rightArmLeft=getSubBitmap(image, 48*scale, 20*scale, 4*scale, 12*scale);
 
-		leftArmRight=getSubBitmap(image, 48, 20, 4, 12);
-		leftArmLeft=getSubBitmap(image, 40, 20, 4, 12);
+		leftArmRight=getSubBitmap(image, 48*scale, 20*scale, 4*scale, 12*scale);
+		leftArmLeft=getSubBitmap(image, 40*scale, 20*scale, 4*scale, 12*scale);
 
-		rightLegRight=getSubBitmap(image, 0, 20, 4, 12);
-		rightLegLeft=getSubBitmap(image, 8, 20, 4, 12);
+		rightLegRight=getSubBitmap(image, 0*scale, 20*scale, 4*scale, 12*scale);
+		rightLegLeft=getSubBitmap(image, 8*scale, 20*scale, 4*scale, 12*scale);
 
-		leftLegRight=getSubBitmap(image, 8, 20, 4, 12);
-		leftLegLeft=getSubBitmap(image, 0, 20, 4, 12);
+		leftLegRight=getSubBitmap(image, 8*scale, 20*scale, 4*scale, 12*scale);
+		leftLegLeft=getSubBitmap(image, 0*scale, 20*scale, 4*scale, 12*scale);
 	}
 	private static Bitmap getSubBitmap(Bitmap bm, int xoff, int yoff, int width, int height)
 	{
