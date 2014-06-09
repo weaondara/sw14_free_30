@@ -230,7 +230,7 @@ public class Renderer
 		float legwidth=4;
 		float legheight=6;
 		
-		float blocksize=16;
+		float blocksize=13;
 
 		blocksize*=2/(c.getHitBox().getMax().getY()-c.getHitBox().getMin().getY());
 		
