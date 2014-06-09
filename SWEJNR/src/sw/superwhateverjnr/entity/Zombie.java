@@ -9,25 +9,40 @@ import sw.superwhateverjnr.world.Location;
 public class Zombie extends Entity
 {
 	//-------------------------- animation ------------------------------
-	private final static float armMaxDegreeDeltaMoving = 4;
-	private final static float armMaxDegreeDeltaStanding = 4;
-	private final static float armMoveConstantMoving = 0.075F;
-	private final static float armMoveConstantStanding = 0.075F;
-	public float getArmMaxDegreeDeltaMoving()
+	protected static final double radiant = 2 * Math.PI / 180;
+	protected static double angleRotationMoving=2.5;
+	protected static double angleRotationStanding=0.5;
+
+	protected static double maxArmAngleMoving=6;
+	protected static double maxArmAngleStanding=6;
+	
+	protected static double maxLegAngleMoving=30;
+	protected static double maxLegAngleStanding=0;
+	
+	
+	public double getAngleRotationMoving()
 	{
-		return armMaxDegreeDeltaMoving;
+		return angleRotationMoving;
 	}
-	public float getArmMaxDegreeDeltaStanding()
+	public double getAngleRotationStanding()
 	{
-		return armMaxDegreeDeltaStanding;
+		return angleRotationStanding;
 	}
-	public float getArmMoveConstantMoving()
+	public double getMaxArmAngleMoving()
 	{
-		return armMoveConstantMoving;
+		return maxArmAngleMoving;
 	}
-	public float getArmMoveConstantStanding()
+	public double getMaxArmAngleStanding()
 	{
-		return armMoveConstantStanding;
+		return maxArmAngleStanding;
+	}
+	public double getMaxLegAngleMoving()
+	{
+		return maxLegAngleMoving;
+	}
+	public double getMaxLegAngleStanding()
+	{
+		return maxLegAngleStanding;
 	}
 	
 	//-------------------------- movement ------------------------------
