@@ -31,8 +31,8 @@ public class Zombie extends Entity
 	}
 	
 	//-------------------------- movement ------------------------------
-	private final static double runningMin = 1.5;
-	private final static double runningMax = 4.5;
+	private final static double runningMin = 0.75;
+	private final static double runningMax = 2.25;
 	private final static double runPower = 0.0015;
 	private final static double jumpPower = 7.0;
 	private final static double radius = 6.0;
@@ -57,11 +57,26 @@ public class Zombie extends Entity
 		super.tick();
 		trigger();
 		// randomJump();
+		tickMove();
 	}
 	
+	private long ticks;
 	protected void trigger()
 	{
-		
+		//dump left right run
+		if(ticks % 200 == 0)
+		{
+			setMovingright(false);
+			setMovingleft(true);
+			setLookingRight(false);
+		}
+		else if((ticks - 100) % 200 == 0)
+		{
+			setMovingright(true);
+			setMovingleft(false);
+			setLookingRight(true);
+		}
+		ticks++;
 	}
 	/*
 	protected void randomJump()
