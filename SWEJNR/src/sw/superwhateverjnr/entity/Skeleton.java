@@ -58,6 +58,8 @@ public class Skeleton extends Entity
 	public Skeleton(int id, EntityType type, Location location, Map<String, Object> extraData)
 	{
 		super(id, EntityType.SKELETON, location, extraData);
+		
+		triggerRadius = 6;
 	}
 	
 	@Override

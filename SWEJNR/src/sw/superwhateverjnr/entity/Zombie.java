@@ -58,6 +58,8 @@ public class Zombie extends Entity
 	public Zombie(int id, EntityType type, Location location, Map<String, Object> extraData)
 	{
 		super(id, EntityType.ZOMBIE, location, extraData);
+		
+		triggerRadius = 6;
 	}
 
 	@Override

@@ -98,6 +98,9 @@ public abstract class Entity
 		return jumpPower;
 	}
 	
+	//-------------------------- triggering --------------------------
+	protected Location triggerCenter;
+	protected double triggerRadius;
 	
 	//-------------------------- general ------------------------------
 	protected int id;
@@ -166,6 +169,10 @@ public abstract class Entity
 		armAngle=0;
 		legAngle=0;
 		armMovingRight=false;
+		
+		// trigger
+		triggerCenter = new Location(0, (hitBox.getMax().getY() - hitBox.getMin().getY()) / 2);
+		triggerRadius = 0;
 	}
 	public void jump()
 	{
@@ -392,10 +399,6 @@ public abstract class Entity
 		armAngle=(float) aangle;
 		legAngle=(float) langle;
 	}
-	
-	
-	
-	
 	
 	
 	public boolean isOnGround()
