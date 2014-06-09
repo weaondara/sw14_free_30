@@ -265,8 +265,11 @@ public class Renderer
 		float right=x+game.getTextureWidth()*(headwidth/blocksize)/2;
 		float bottom=ytop+(headheight/blocksize)*game.getTextureHeight();
 		float top=ytop;
-//		canvas.drawBitmap(pt.getHeadRight(), left, top, paint);
-		canvas.drawRect(left, top, right, bottom, paint);
+		
+		matrix.setRotate(0, 0, 0);
+		matrix.postTranslate(left, top);
+		Bitmap bm = Bitmap.createScaledBitmap(p.isLookingRight() ? pt.getHeadRight() : pt.getHeadLeft(), (int)(right-left), (int)(bottom-top), false);
+		canvas.drawBitmap(bm, matrix, paint);
 
 		//body height
 		left=x-game.getTextureWidth()*(bodywidth/blocksize)/2;
@@ -281,22 +284,23 @@ public class Renderer
 			//left arm
 			matrix.setRotate(angle, (right-left)/2, (right-left)/2);
 			matrix.postTranslate(left, top);			
-			Bitmap bitmap=Bitmap.createBitmap((int)(right-left), (int)(bottom-top), Bitmap.Config.ARGB_8888);
-			new Canvas(bitmap).drawColor(0xFF00FF00);
-			canvas.drawBitmap(bitmap, matrix, paint);
+			bm = Bitmap.createScaledBitmap(pt.getLeftArmRight(), (int)(right-left), (int)(bottom-top), false);
+			canvas.drawBitmap(bm, matrix, paint);
 		}
 		else
 		{
 			//right arm
 			matrix.setRotate(-angle, (right-left)/2, (right-left)/2);
 			matrix.postTranslate(left, top);
-			Bitmap bitmap=Bitmap.createBitmap((int)(right-left), (int)(bottom-top), Bitmap.Config.ARGB_8888);
-			new Canvas(bitmap).drawColor(0xFFFF0000);
-			canvas.drawBitmap(bitmap, matrix, paint);
+			bm = Bitmap.createScaledBitmap(pt.getRightArmLeft(), (int)(right-left), (int)(bottom-top), false);
+			canvas.drawBitmap(bm, matrix, paint);
 		}
 		
 		//body
-		canvas.drawRect(left, top, right, bottom, paint);
+		matrix.setRotate(0, 0, 0);
+		matrix.postTranslate(left, top);
+		bm = Bitmap.createScaledBitmap(p.isLookingRight() ? pt.getBodyRight() : pt.getBodyLeft(), (int)(right-left), (int)(bottom-top), false);
+		canvas.drawBitmap(bm, matrix, paint);
 		
 		//arm
 		if(p.isLookingRight())
@@ -304,18 +308,16 @@ public class Renderer
 			//right arm
 			matrix.setRotate(-angle, (right-left)/2, (right-left)/2);
 			matrix.postTranslate(left, top);
-			Bitmap bitmap=Bitmap.createBitmap((int)(right-left), (int)(bottom-top), Bitmap.Config.ARGB_8888);
-			new Canvas(bitmap).drawColor(0xFFFF0000);
-			canvas.drawBitmap(bitmap, matrix, paint);
+			bm = Bitmap.createScaledBitmap(pt.getRightArmRight(), (int)(right-left), (int)(bottom-top), false);
+			canvas.drawBitmap(bm, matrix, paint);
 		}
 		else
 		{
 			//left arm
 			matrix.setRotate(angle, (right-left)/2, (right-left)/2);
 			matrix.postTranslate(left, top);
-			Bitmap bitmap=Bitmap.createBitmap((int)(right-left), (int)(bottom-top), Bitmap.Config.ARGB_8888);
-			new Canvas(bitmap).drawColor(0xFF00FF00);
-			canvas.drawBitmap(bitmap, matrix, paint);
+			bm = Bitmap.createScaledBitmap(pt.getLeftArmLeft(), (int)(right-left), (int)(bottom-top), false);
+			canvas.drawBitmap(bm, matrix, paint);
 		}
 		
 		//leg height
@@ -331,32 +333,28 @@ public class Renderer
 			//left leg
 			matrix.setRotate(angle, (right-left)/2, 0);
 			matrix.postTranslate(left, top);
-			Bitmap bitmap=Bitmap.createBitmap((int)(right-left), (int)(bottom-top), Bitmap.Config.ARGB_8888);
-			new Canvas(bitmap).drawColor(0xFF00FF00);
-			canvas.drawBitmap(bitmap, matrix, paint);
+			bm = Bitmap.createScaledBitmap(pt.getLeftLegRight(), (int)(right-left), (int)(bottom-top), false);
+			canvas.drawBitmap(bm, matrix, paint);
 			
 			//right leg
 			matrix.setRotate(-angle, (right-left)/2, 0);
 			matrix.postTranslate(left, top);
-			bitmap=Bitmap.createBitmap((int)(right-left), (int)(bottom-top), Bitmap.Config.ARGB_8888);
-			new Canvas(bitmap).drawColor(0xFFFF0000);
-			canvas.drawBitmap(bitmap, matrix, paint);
+			bm = Bitmap.createScaledBitmap(pt.getRightLegRight(), (int)(right-left), (int)(bottom-top), false);
+			canvas.drawBitmap(bm, matrix, paint);
 		}
 		else
 		{
 			//right leg
 			matrix.setRotate(-angle, (right-left)/2, 0);
 			matrix.postTranslate(left, top);
-			Bitmap bitmap=Bitmap.createBitmap((int)(right-left), (int)(bottom-top), Bitmap.Config.ARGB_8888);
-			new Canvas(bitmap).drawColor(0xFFFF0000);
-			canvas.drawBitmap(bitmap, matrix, paint);
+			bm = Bitmap.createScaledBitmap(pt.getRightLegLeft(), (int)(right-left), (int)(bottom-top), false);
+			canvas.drawBitmap(bm, matrix, paint);
 			
 			//left leg
 			matrix.setRotate(angle, (right-left)/2, 0);
 			matrix.postTranslate(left, top);
-			bitmap=Bitmap.createBitmap((int)(right-left), (int)(bottom-top), Bitmap.Config.ARGB_8888);
-			new Canvas(bitmap).drawColor(0xFF00FF00);
-			canvas.drawBitmap(bitmap, matrix, paint);
+			bm = Bitmap.createScaledBitmap(pt.getLeftLegLeft(), (int)(right-left), (int)(bottom-top), false);
+			canvas.drawBitmap(bm, matrix, paint);
 		}
 	
 		
