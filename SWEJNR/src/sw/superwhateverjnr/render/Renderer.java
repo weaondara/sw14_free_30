@@ -882,6 +882,7 @@ public class Renderer
 		//render & hitbox
 		if(SWEJNR.DEBUG)
 		{
+			//render box
 			float x=(float) (leftoffset+(e.getLocation().getX()-x1)*game.getTextureWidth());
 			float y=(float) (topoffset+(y2-e.getLocation().getY())*game.getTextureHeight());
 			
@@ -897,7 +898,7 @@ public class Renderer
 			
 			canvas.drawRect(left, top, right, bottom, paint);
 			
-		
+			//hitbox
 			paint.setColor(0xFF00FF00);
 			
 			playerwidh=(float) (Math.abs(e.getHitBox().getMin().getX()-e.getHitBox().getMax().getX())*game.getTextureWidth());
@@ -908,6 +909,22 @@ public class Renderer
 			top=(float) (y-e.getHitBox().getMax().getY()*game.getTextureHeight());
 			
 			canvas.drawRect(left, top, right, bottom, paint);
+			
+			//triggercenter
+			Location tc=e.getTriggerCenter().add(e.getLocation());
+			x=(float) (leftoffset+(tc.getX()-x1)*game.getTextureWidth());
+			y=(float) (topoffset+(y2-tc.getY())*game.getTextureHeight());
+			
+			System.out.print("x="+x+";y="+y);
+			
+			canvas.drawLine(x-13, y-13, x+13, y+13, paint);
+			canvas.drawLine(x+13, y-13, x-13, y+13, paint);
+			
+			//triggerradius
+			if(e.getTriggerRadius() > 0)
+			{
+				canvas.drawCircle(x, y, (float) e.getTriggerRadius()*game.getTextureWidth(), paint);
+			}
 		}
 	}
 }
