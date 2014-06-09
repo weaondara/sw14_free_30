@@ -28,8 +28,8 @@ public class EntityFactory
 		Preconditions.checkElementIndex((int) x, w.getWidth());
 		Preconditions.checkElementIndex((int) y, w.getHeight());
 		
-		EntityType et=EntityType.fromID(id);
-		Preconditions.checkNotNull(et, "invalid id");
+		EntityType et=EntityType.fromID(type);
+		Preconditions.checkNotNull(et, "invalid type");
 		
 		Constructor<? extends Entity> ctor=et.getEntityClazz().getDeclaredConstructor(int.class, EntityType.class, Location.class, Map.class);
 		ctor.setAccessible(true);
