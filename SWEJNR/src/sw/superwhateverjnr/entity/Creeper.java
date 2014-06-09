@@ -72,7 +72,7 @@ public class Creeper extends Entity
 		super.tick();
 		stopIfLava();
 		stopIfTooHigh();
-		//swimIfWater();
+		// swimIfWater();
 		randomJump(false);
 		trigger();
 		randomWalk(true);
@@ -190,7 +190,11 @@ public class Creeper extends Entity
 	
 	protected void randomWalk(boolean dorandomwalk)
 	{
-		if (!isindistance && dorandomwalk)
+		double playerx = player.location.getX();
+		double playery = player.location.getY();
+		double monsterx = location.getX();
+		double monstery = location.getY();
+		if (!isindistance && dorandomwalk && (absoluteDifference(playerx, monsterx) > 0.5))
 		{
 			if (randomtimewalk[0] < randomtimewalk[1])
 			{
@@ -275,8 +279,8 @@ public class Creeper extends Entity
 	{
 		if (isgoinghorizontal || israndomgoing)
 		{
-			double playerblockx = location.getX();
-			double playerblocky = location.getY();
+			double playerblockx = player.location.getX();
+			double playerblocky = player.location.getY();
 			double monsterblockx = location.getX();
 			double monsterblocky = location.getY();
 			double addx = 0.7;
@@ -291,8 +295,6 @@ public class Creeper extends Entity
 			if ((ischanged[0] != (isgoingright || israndomgoingright)) ||
 				(ischanged[1] != (materialxp1 != materialx0)) ||
 				(ischanged[2] != ((double)(monsterblockx - (int)monsterblockx)) > (-addx)) ||
-				
-				
 				(ischanged[3] != (!isgoingright || !israndomgoingright)) ||
 				(ischanged[4] != (materialxm1 != materialx0)) ||
 				(ischanged[5] != ((double)(monsterblockx - (int)monsterblockx) < addx)))
@@ -306,10 +308,10 @@ public class Creeper extends Entity
 				//System.out.println("right "+"= "+ischanged[0]+"  "+"materialpx1= "+ischanged[1]+"  "+"1-addx= "+ischanged[2]+"  "+"!right="+ischanged[3]+"  "+"materialmx1="+ischanged[4]+"  "+"addx="+ischanged[5]);
 			}
 			
-			if ((distance > 0.2) &&
+			if (//(distance > 0.2) &&
 				 (
-			       ((( isgoingright && (!player.isOnGround() || !istoohighright) && isgoinghorizontal) ||  israndomgoingright && israndomgoing) && (materialxp1 != materialx0) && (materialxp1yp1 == materialx0)) ||
-				   (((!isgoingright && (!player.isOnGround() || !istoohighleft) && isgoinghorizontal) || !israndomgoingright && israndomgoing) && (materialxm1 != materialx0) && (materialxm1yp1 == materialx0))
+			       ((( isgoingright && (!player.isOnGround() || (!istoohighright && (absoluteDifference(playerblockx, monsterblockx) > 0.5))) && isgoinghorizontal) ||  israndomgoingright && israndomgoing) && (materialxp1 != materialx0) && (materialxp1yp1 == materialx0)) ||
+				   (((!isgoingright && (!player.isOnGround() || ( !istoohighleft && (absoluteDifference(playerblockx, monsterblockx) > 0.5))) && isgoinghorizontal) || !israndomgoingright && israndomgoing) && (materialxm1 != materialx0) && (materialxm1yp1 == materialx0))
 			     )
 			   )
 			{
@@ -493,5 +495,10 @@ public class Creeper extends Entity
 	double roundNumber(double number, int digits)
 	{
 		return (double)((int)(number * (double)Math.pow(10.0, (double)digits))) / (double)Math.pow(10.0, (double)digits);
+	}
+	
+	double absoluteDifference(double number1, double number2)
+	{
+		return Math.abs(Math.abs(number1) - Math.abs(number2));
 	}
 }
