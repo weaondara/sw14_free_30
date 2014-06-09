@@ -12,6 +12,7 @@ import sw.superwhateverjnr.block.Block;
 import sw.superwhateverjnr.block.BlockFactory;
 import sw.superwhateverjnr.block.Material;
 import sw.superwhateverjnr.entity.Entity;
+import sw.superwhateverjnr.entity.EntityFactory;
 import sw.superwhateverjnr.entity.Player;
 import sw.superwhateverjnr.world.Location;
 import sw.superwhateverjnr.world.World;
@@ -52,9 +53,19 @@ public class RandomWorldGenerator
 	@Getter @Setter
 	private int minWidth;
 	
+        private int maxMobs;
+        private int mobsSpawned;
+        
 	private Random randomizer;
-	private BlockFactory bf;
+	private static BlockFactory bf;
+        private static EntityFactory ef;
+        static
+        {
+                bf = BlockFactory.getInstance();
+                ef = EntityFactory.getInstance();
+        }
 	private RandomMaterialGetter rmg;
+        private RandomMobGetter rmobg;
 	
 	public RandomWorldGenerator(int minx, int maxx, int miny, int maxy)
 	{
@@ -63,8 +74,8 @@ public class RandomWorldGenerator
 		minHeight = miny;
 		maxHeight = maxy;
 		randomizer = new Random();
-		rmg = new RandomMaterialGetter(randomizer.nextLong());
-		bf = BlockFactory.getInstance();
+		rmg = new RandomMaterialGetter(0);
+                rmobg = new RandomMobGetter(0);
 	}
 	
         @SneakyThrows
@@ -72,6 +83,8 @@ public class RandomWorldGenerator
 	{
 		randomizer.setSeed(seed);
 		rmg.setSeed(seed);
+                rmobg.setSeed(seed);
+                
 		String name=String.valueOf(seed);
 		
 		int width = 0, height = 0;
@@ -89,6 +102,8 @@ public class RandomWorldGenerator
 			spawnHeight = 0;
 		}
 		
+                maxMobs = width/(randomizer.nextInt(3)+3);
+                
 		Location spawn = new Location(0.5, spawnHeight+1);
 		
 		World w = WorldLoader.createWorld(name, width, height, spawn, blocks, entities);
@@ -232,6 +247,23 @@ public class RandomWorldGenerator
 			i++;
 		}
 		blocks[offset][i] = bf.create(top.getId(), (byte)0, offset, i, w, null);
+//                TODO: random mobs.
+//                if(top.isSolid())
+//                {
+//                        if(randomizer.nextBoolean()  && mobsSpawned != maxMobs)
+//                        {
+//                                try
+//                                {
+//                                        Entity e = ef.create(rmobg.nextMob().getId(), Entity.getNewId(), offset, height+1, w, null)
+//                                        w.getEntities().add(ef.create(rmobg.nextMob().getId(), Entity.getNewId(), offset, height+1, w, null));
+//                                        mobsSpawned++;
+//                                }
+//                                catch(Exception e)
+//                                {
+//                                        e.printStackTrace();
+//                                }
+//                        }
+//                }
 	}
 	
         @SneakyThrows

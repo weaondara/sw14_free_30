@@ -39,9 +39,9 @@ public enum Material
 		return null;
 	}
 	
-	public boolean isSolid()
+	public static boolean isSolid(Material m)
 	{
-		switch(this)
+		switch(m)
 		{
 			case STONE:
 			case GRASS:
@@ -57,9 +57,9 @@ public enum Material
 				return false;
 		}
 	}
-	public boolean isLiquid()
+	public static boolean isLiquid(Material m)
 	{
-		switch(this)
+		switch(m)
 		{
 			case WATER_FlOWING:
 			case WATER_STANDING:
@@ -70,9 +70,9 @@ public enum Material
 				return false;
 		}
 	}
-        public boolean onSurface()
+        public static boolean onSurface(Material m)
         {
-                switch(this)
+                switch(m)
                 {
                         case GRASS:
                         case SAND:
@@ -82,6 +82,20 @@ public enum Material
                                 return false;
                 }
         }
+        
+        public boolean isSolid() 
+        {
+                return isSolid(this);
+        }
+        public boolean isLiquid() 
+        {
+                return isLiquid(this);
+        }
+        public boolean onSurface() 
+        {
+                return onSurface(this);
+        }
+        
         public Material getSubtop()
 	{
 		switch(this)

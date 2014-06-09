@@ -31,6 +31,20 @@ public enum EntityType
 		}
 		return null;
 	}
+        
+        public static boolean isMob(EntityType e)
+        {
+                switch(e)
+                {
+                        case CREEPER:
+			case SKELETON:
+			case SPIDER:
+			case ZOMBIE:
+				return true;
+			default:
+				return false;
+                }
+        }
 	
 	public boolean isHostile()
 	{

@@ -4,38 +4,42 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import sw.superwhateverjnr.block.Material;
+import static sw.superwhateverjnr.block.Material.isSolid;
+import static sw.superwhateverjnr.block.Material.onSurface;
 
 public class RandomMaterialGetter
 {
 	private Random randomizer;
+        private static List<Material> surfaceMats;
+        private static List<Material> fillings;
+        static
+        {
+                surfaceMats = new ArrayList<Material>();
+                fillings = new ArrayList<Material>();
+                Material[] materials = Material.values();
+                for(int i=0; i < materials.length; i++)
+                {
+                        if (materials[i] == null)
+                        {
+                                continue;
+                        }
+                        if(isSolid(materials[i]) && onSurface(materials[i]))
+                        {
+                                surfaceMats.add(materials[i]);
+                        }
+                        else if(!(isSolid(materials[i])))
+                        {
+                                fillings.add(materials[i]);
+                        }
+                        
+                }
+        }
 	private Material lastMaterial;
-        private List<Material> surfaceMats;
-        private List<Material> fillings;
 	
 	RandomMaterialGetter(long seed)
 	{
 		randomizer = new Random(seed);
 		lastMaterial = Material.GRASS;
-                surfaceMats = new ArrayList<Material>();
-                fillings = new ArrayList<Material>();
-                
-                Material m = Material.AIR;
-                for(int id = 0;;id++)
-                {
-                        m = Material.fromID(id);
-                        if(m == null)
-                        {
-                                break;
-                        }
-                        if(m.onSurface() && m.isSolid()) //preventing Liquids on surface
-                        {
-                                surfaceMats.add(m);
-                        }
-                        else if (!m.isSolid())
-                        {
-                                fillings.add(m);
-                        }
-                }
 	}
 	
 	void setSeed(long seed)
@@ -59,6 +63,5 @@ public class RandomMaterialGetter
         Material nextFilling()
         {
                 return fillings.get(randomizer.nextInt(fillings.size()));
-        }
-	
+        }	
 }
