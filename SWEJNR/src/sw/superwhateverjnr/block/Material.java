@@ -15,7 +15,7 @@ public enum Material
 	WOOD_LOG(5, StandardBlock.class),
 	SAPLING(6, StandardBlock.class),
 	BEDROCK(7, StandardBlock.class),
-	WATER_FlOWING(8, LiquidBlock.class),
+	WATER_FLOWING(8, LiquidBlock.class),
 	WATER_STANDING(9, LiquidBlock.class),
 	LAVA_FlOWING(10, LiquidBlock.class),
 	LAVA_STANDING(11, LiquidBlock.class),
@@ -48,7 +48,6 @@ public enum Material
 			case DIRT:
 			case COBBLESTONE:
 			case WOOD_LOG:
-			case SAPLING:
 			case BEDROCK:
 			case SAND:
 			case GRAVEL:
@@ -61,7 +60,7 @@ public enum Material
 	{
 		switch(m)
 		{
-			case WATER_FlOWING:
+			case WATER_FLOWING:
 			case WATER_STANDING:
 			case LAVA_FlOWING:
 			case LAVA_STANDING:
@@ -74,12 +73,27 @@ public enum Material
         {
                 switch(m)
                 {
+                        case AIR:
                         case GRASS:
                         case SAND:
                         case GRAVEL:
+                        case WATER_STANDING:
+                        case LAVA_STANDING:
                               return true;
                         default:
                                 return false;
+                }
+        }
+        public static boolean translucent(Material m)
+        {
+                switch(m)
+                {
+                        case AIR:
+                        case WATER_FLOWING:
+                        case WATER_STANDING:
+                                return false;
+                        default:
+                                return true;
                 }
         }
         
@@ -95,6 +109,10 @@ public enum Material
         {
                 return onSurface(this);
         }
+        public boolean translucent()
+        {
+                return translucent(this);
+        }
         
         public Material getSubtop()
 	{
@@ -106,7 +124,6 @@ public enum Material
                                 return this;
                 }
 	}
-	
 	public Material getGround()
 	{
 		switch(this)

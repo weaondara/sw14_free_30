@@ -27,7 +27,7 @@ public class RandomMaterialGetter
                         {
                                 surfaceMats.add(materials[i]);
                         }
-                        else if(!(isSolid(materials[i])))
+                        else if(onSurface(materials[i]))
                         {
                                 fillings.add(materials[i]);
                         }
