@@ -230,7 +230,7 @@ public class Renderer
 		float legwidth=4;
 		float legheight=6;
 		
-		float blocksize=13;
+		float blocksize=12+1;
 
 		blocksize*=2/(c.getHitBox().getMax().getY()-c.getHitBox().getMin().getY());
 		
@@ -247,7 +247,6 @@ public class Renderer
 		float ytop=y-playerheight;
 		
 		Matrix matrix = new Matrix();
-		Bitmap bm;
 		
 		CreeperTexture pt=(CreeperTexture) TextureMap.getTexture(EntityType.CREEPER);
 		pt.scale(game.getTextureWidth()/64);
