@@ -1,13 +1,12 @@
 package sw.superwhateverjnr.texture.entity;
 
-
 import lombok.Getter;
 import android.graphics.Bitmap;
 import sw.superwhateverjnr.entity.EntityType;
 import sw.superwhateverjnr.texture.EntityTexture;
 
 @Getter
-public class PlayerTexture extends EntityTexture
+public class SkeletonTexture extends EntityTexture
 {
 	private Bitmap headRight;
 	private Bitmap headLeft;
@@ -51,9 +50,9 @@ public class PlayerTexture extends EntityTexture
 	private Bitmap leftLegTop;
 	private Bitmap leftLegBottom;
 
-	public PlayerTexture(int width, int height, Bitmap image)
+	public SkeletonTexture(int width, int height, Bitmap image)
 	{
-		super(EntityType.PLAYER, width, height, image);
+		super(EntityType.SKELETON, width, height, image);
 		
 		try
 		{
@@ -74,16 +73,16 @@ public class PlayerTexture extends EntityTexture
 		bodyRight=getSubBitmap(image, 16*scale, 20*scale, 4*scale, 12*scale);
 		bodyLeft=getSubBitmap(image, 28*scale, 20*scale, 4*scale, 12*scale);
 
-		rightArmRight=getSubBitmap(image, 40*scale, 20*scale, 4*scale, 12*scale);
-		rightArmLeft=getSubBitmap(image, 48*scale, 20*scale, 4*scale, 12*scale);
+		rightArmRight=getSubBitmap(image, 40*scale, 20*scale, 2*scale, 12*scale);
+		rightArmLeft=getSubBitmap(image, 44*scale, 20*scale, 2*scale, 12*scale);
 
-		leftArmRight=getSubBitmap(image, 48*scale, 20*scale, 4*scale, 12*scale);
-		leftArmLeft=getSubBitmap(image, 40*scale, 20*scale, 4*scale, 12*scale);
+		leftArmRight=getSubBitmap(image, 44*scale, 20*scale, 2*scale, 12*scale);
+		leftArmLeft=getSubBitmap(image, 40*scale, 20*scale, 2*scale, 12*scale);
 
-		rightLegRight=getSubBitmap(image, 0*scale, 20*scale, 4*scale, 12*scale);
-		rightLegLeft=getSubBitmap(image, 8*scale, 20*scale, 4*scale, 12*scale);
+		rightLegRight=getSubBitmap(image, 0*scale, 20*scale, 2*scale, 10*scale);
+		rightLegLeft=getSubBitmap(image, 4*scale, 20*scale, 2*scale, 10*scale);
 
-		leftLegRight=getSubBitmap(image, 8*scale, 20*scale, 4*scale, 12*scale);
-		leftLegLeft=getSubBitmap(image, 0*scale, 20*scale, 4*scale, 12*scale);
+		leftLegRight=getSubBitmap(image, 4*scale, 20*scale, 2*scale, 10*scale);
+		leftLegLeft=getSubBitmap(image, 0*scale, 20*scale, 2*scale, 10*scale);
 	}
 }

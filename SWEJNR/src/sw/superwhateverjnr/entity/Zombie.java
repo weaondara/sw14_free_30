@@ -8,14 +8,37 @@ import sw.superwhateverjnr.world.Location;
 
 public class Zombie extends Entity
 {
-	private static Player player;
-	private static boolean isindistance = false;
+	//-------------------------- animation ------------------------------
+	private final static float armMaxDegreeDeltaMoving = 4;
+	private final static float armMaxDegreeDeltaStanding = 4;
+	private final static float armMoveConstantMoving = 0.075F;
+	private final static float armMoveConstantStanding = 0.075F;
+	public float getArmMaxDegreeDeltaMoving()
+	{
+		return armMaxDegreeDeltaMoving;
+	}
+	public float getArmMaxDegreeDeltaStanding()
+	{
+		return armMaxDegreeDeltaStanding;
+	}
+	public float getArmMoveConstantMoving()
+	{
+		return armMoveConstantMoving;
+	}
+	public float getArmMoveConstantStanding()
+	{
+		return armMoveConstantStanding;
+	}
 	
+	//-------------------------- movement ------------------------------
 	private final static double runningMin = 1.5;
 	private final static double runningMax = 4.5;
 	private final static double runPower = 0.0015;
 	private final static double jumpPower = 7.0;
 	private final static double radius = 6.0;
+	
+	private Player player;
+	private static boolean isindistance = false;
 	
 	public Zombie(int id, EntityType type, Location location, Map<String, Object> extraData)
 	{

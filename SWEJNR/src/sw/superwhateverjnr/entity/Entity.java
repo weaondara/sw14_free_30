@@ -22,6 +22,30 @@ import sw.superwhateverjnr.world.World;
 @EqualsAndHashCode
 public abstract class Entity
 {
+	//-------------------------- animation ------------------------------
+	private final static float armMaxDegreeDeltaMoving = 60;
+	private final static float armMaxDegreeDeltaStanding = 12;
+	private final static float armMoveConstantMoving = 4;
+	private final static float armMoveConstantStanding = 0.15F;
+	public float getArmMaxDegreeDeltaMoving()
+	{
+		return armMaxDegreeDeltaMoving;
+	}
+	public float getArmMaxDegreeDeltaStanding()
+	{
+		return armMaxDegreeDeltaStanding;
+	}
+	public float getArmMoveConstantMoving()
+	{
+		return armMoveConstantMoving;
+	}
+	public float getArmMoveConstantStanding()
+	{
+		return armMoveConstantStanding;
+	}
+	
+	//-------------------------- movement ------------------------------
+	
 	protected static final double gravity = 0.02;
 	
 	private final static double runningMin = 1.5;
@@ -46,7 +70,7 @@ public abstract class Entity
 		return jumpPower;
 	}
 	
-	
+	//-------------------------- entity id ------------------------------
 	
 	private static int ENTITY_ID = 0;
 	@Synchronized
@@ -88,6 +112,13 @@ public abstract class Entity
 	@Setter
 	protected boolean lookingRight;
 	
+	//-------------------------- animation ------------------------------
+	private float armAngle;
+	private float legAngle;
+	private boolean armMovingRight;
+	
+	//--------------------------  ------------------------------
+	
 	public Entity(EntityType type, Location location, Map<String, Object> extraData)
 	{
 		this(getNewId(), type, location, extraData);
@@ -103,14 +134,19 @@ public abstract class Entity
 		renderBox = EntityInfoMap.getRenderBox(type);
 		health = EntityInfoMap.getMaxHealth(type);
 		
+		//movement
 		velocity = new Vector(0, 0);
 		
 		lastJumpTime=-1;
 		lastMoveTime=-1;
 		
 		jumping=false;
-		
 		lookingRight = true;
+		
+		//animation
+		armAngle=0;
+		legAngle=0;
+		armMovingRight=false;
 	}
 	public void jump()
 	{
@@ -140,6 +176,7 @@ public abstract class Entity
 	public void tick()
 	{
 		tickGravity();
+		tickAnimation();
 	}
 	
 	public double getJumpWidth(double height)
@@ -298,7 +335,69 @@ public abstract class Entity
 		}
 		location.setY(y);
 	}
-	
+	protected void tickAnimation()
+	{
+		if(isMoving())
+		{
+			//arms
+			if(armMovingRight)
+			{
+				armAngle += getArmMoveConstantMoving();
+			}
+			else
+			{
+				armAngle -= getArmMoveConstantMoving();
+			}
+			legAngle = -armAngle;
+			
+			if(armAngle > getArmMaxDegreeDeltaMoving())
+			{
+				armMovingRight = false;
+			}
+			else if(armAngle < -getArmMaxDegreeDeltaMoving())
+			{
+				armMovingRight = true;
+			}
+		}
+		else
+		{
+			//arms
+			if(armMovingRight)
+			{
+				if(Math.abs(armAngle)>getArmMaxDegreeDeltaStanding())
+				{
+					armAngle += getArmMoveConstantMoving();
+					legAngle = -armAngle;
+				}
+				else
+				{
+					armAngle += getArmMoveConstantStanding();
+					legAngle=0;
+				}
+			}
+			else
+			{
+				if(Math.abs(armAngle)>getArmMaxDegreeDeltaStanding())
+				{
+					armAngle -= getArmMoveConstantMoving();
+				}
+				else
+				{
+					armAngle -= getArmMoveConstantStanding();
+				}
+				legAngle=0;
+			}
+			
+			if(armAngle > getArmMaxDegreeDeltaStanding())
+			{
+				armMovingRight = false;
+			}
+			else if(armAngle < -getArmMaxDegreeDeltaStanding())
+			{
+				armMovingRight = true;
+			}
+		}
+	}
 	
 	
 	
@@ -339,5 +438,6 @@ public abstract class Entity
 	{
 		return Game.getInstance().getWorld();
 	}
+	
 	
 }
