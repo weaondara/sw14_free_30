@@ -30,4 +30,8 @@ public class Location implements Cloneable
 	{
 		return new Location(this.x+x, this.y+y);
 	}
+	public double distance(Location l)
+	{
+		return Math.sqrt(Math.pow(x - l.x, 2)+Math.pow(y - l.y, 2));
+	}
 }
