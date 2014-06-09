@@ -2,6 +2,7 @@ package sw.superwhateverjnr.entity;
 
 import java.util.Map;
 
+import sw.superwhateverjnr.Game;
 import sw.superwhateverjnr.block.Block;
 import sw.superwhateverjnr.util.Rectangle;
 import sw.superwhateverjnr.world.Location;
@@ -31,6 +32,10 @@ public class Spider extends Entity
 	@Override
 	public void tick()
 	{
+		if(player == null)
+		{
+			player=Game.getInstance().getPlayer();
+		}
 		super.tick();
 		trigger();
 		// randomJump();
