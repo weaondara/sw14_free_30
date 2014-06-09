@@ -40,6 +40,6 @@ public class Location implements Cloneable
 	}
 	public double distance(Location l)
 	{
-		return Math.sqrt(Math.pow(x - l.x, 2)+Math.pow(y - l.y, 2));
+		return Math.sqrt(Math.pow(x + l.x, 2)+Math.pow(y + l.y, 2));
 	}
 }
