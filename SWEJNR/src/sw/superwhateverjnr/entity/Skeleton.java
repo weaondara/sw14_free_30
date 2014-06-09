@@ -42,7 +42,7 @@ public class Skeleton extends Entity
 	
 	public Skeleton(int id, EntityType type, Location location, Map<String, Object> extraData)
 	{
-		super(EntityType.SKELETON, location, extraData);
+		super(id, EntityType.SKELETON, location, extraData);
 	}
 	
 	@Override

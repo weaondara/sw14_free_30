@@ -42,7 +42,7 @@ public class Zombie extends Entity
 	
 	public Zombie(int id, EntityType type, Location location, Map<String, Object> extraData)
 	{
-		super(EntityType.ZOMBIE, location, extraData);
+		super(id, EntityType.ZOMBIE, location, extraData);
 	}
 
 	@Override

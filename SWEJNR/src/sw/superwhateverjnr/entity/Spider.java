@@ -1,5 +1,7 @@
 package sw.superwhateverjnr.entity;
 
+import java.util.Map;
+
 import sw.superwhateverjnr.block.Block;
 import sw.superwhateverjnr.util.Rectangle;
 import sw.superwhateverjnr.world.Location;
@@ -15,9 +17,9 @@ public class Spider extends Entity
 	private final static double jumpPower = 7.0;
 	private final static double radius = 6.0;
 	
-	public Spider(Location location)
+	public Spider(int id, EntityType type, Location location, Map<String, Object> extraData)
 	{
-		super(EntityType.SPIDER, location, null);
+		super(id, EntityType.SPIDER, location, extraData);
 	}
 
 	@Override
