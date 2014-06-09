@@ -73,16 +73,16 @@ public class SkeletonTexture extends EntityTexture
 		bodyRight=getSubBitmap(image, 16*scale, 20*scale, 4*scale, 12*scale);
 		bodyLeft=getSubBitmap(image, 28*scale, 20*scale, 4*scale, 12*scale);
 
-		rightArmRight=getSubBitmap(image, 40*scale, 20*scale, 2*scale, 12*scale);
-		rightArmLeft=getSubBitmap(image, 44*scale, 20*scale, 2*scale, 12*scale);
+		rightArmRight=getSubBitmap(image, 40*scale, 18*scale, 2*scale, 12*scale);
+		rightArmLeft=getSubBitmap(image, 44*scale, 18*scale, 2*scale, 12*scale);
 
-		leftArmRight=getSubBitmap(image, 44*scale, 20*scale, 2*scale, 12*scale);
-		leftArmLeft=getSubBitmap(image, 40*scale, 20*scale, 2*scale, 12*scale);
+		leftArmRight=getSubBitmap(image, 44*scale, 18*scale, 2*scale, 12*scale);
+		leftArmLeft=getSubBitmap(image, 40*scale, 18*scale, 2*scale, 12*scale);
 
-		rightLegRight=getSubBitmap(image, 0*scale, 20*scale, 2*scale, 10*scale);
-		rightLegLeft=getSubBitmap(image, 4*scale, 20*scale, 2*scale, 10*scale);
+		rightLegRight=getSubBitmap(image, 0*scale, 18*scale, 2*scale, 12*scale);
+		rightLegLeft=getSubBitmap(image, 4*scale, 18*scale, 2*scale, 12*scale);
 
-		leftLegRight=getSubBitmap(image, 4*scale, 20*scale, 2*scale, 10*scale);
-		leftLegLeft=getSubBitmap(image, 0*scale, 20*scale, 2*scale, 10*scale);
+		leftLegRight=getSubBitmap(image, 4*scale, 18*scale, 2*scale, 12*scale);
+		leftLegLeft=getSubBitmap(image, 0*scale, 18*scale, 2*scale, 12*scale);
 	}
 }
