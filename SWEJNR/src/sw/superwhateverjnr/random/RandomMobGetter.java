@@ -30,7 +30,7 @@ public class RandomMobGetter
                 }
         }               
         
-        RandomMobGetter(long seed)
+        public RandomMobGetter(long seed)
         {
                 randomizer = new Random(seed);
         }

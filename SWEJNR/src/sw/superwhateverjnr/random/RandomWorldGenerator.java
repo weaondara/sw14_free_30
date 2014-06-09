@@ -117,6 +117,7 @@ public class RandomWorldGenerator
 		int thisHeight = spawnHeight;
 		int nextHeight;
 		int jw;
+                int jh = ref.getJumpMaxHeight();
 		int mwidth = width - 1;
 		for (int fillWidth = 1; fillWidth < width;)
 		{
@@ -124,10 +125,10 @@ public class RandomWorldGenerator
 			switch(nextConstruct)
 			{
 				case PILLAR:
-					nextHeight = randomizer.nextInt(thisHeight+2);//Assuming Jump Height 2.
+					nextHeight = randomizer.nextInt(thisHeight+jh);
 					while (nextHeight < thisHeight - 3)
 					{
-						nextHeight = randomizer.nextInt(thisHeight+2);
+						nextHeight = randomizer.nextInt(thisHeight+jh);
 					}
 					if(nextHeight > maxHeight - 2)
 					{
@@ -176,7 +177,7 @@ public class RandomWorldGenerator
                                         {
                                                 platWidth = mwidth - fillWidth;
                                         }
-                                        nextHeight = randomizer.nextInt(thisHeight + 2);
+                                        nextHeight = randomizer.nextInt(thisHeight + jh);
 					if(nextHeight > maxHeight - 2)
 					{
 						nextHeight = maxHeight - 2;

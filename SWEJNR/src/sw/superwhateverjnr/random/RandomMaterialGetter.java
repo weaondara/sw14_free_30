@@ -36,7 +36,7 @@ public class RandomMaterialGetter
         }
 	private Material lastMaterial;
 	
-	RandomMaterialGetter(long seed)
+	public RandomMaterialGetter(long seed)
 	{
 		randomizer = new Random(seed);
 		lastMaterial = Material.GRASS;
