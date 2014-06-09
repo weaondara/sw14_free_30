@@ -15,6 +15,8 @@ import sw.superwhateverjnr.io.FileReader;
 
 public class PackedWorldLoader extends WorldLoader
 {
+        private static final String bgmFileEnding = ".flac";
+        
 	@Override
 	public World loadWorld(String name) throws Exception
 	{
@@ -31,8 +33,11 @@ public class PackedWorldLoader extends WorldLoader
 		Location spawn = new Location(spawnx, spawny);
 		Block blocks[][] = new Block[width][height];
 		List<Entity> entities = new ArrayList<Entity>();
+                String wbgmfile = fr.readString();
+                wbgmfile += bgmFileEnding;
 		
 		World w = createWorld(wname, width, height, spawn, blocks, entities);
+                w.setBgmfile(wbgmfile);
 		
 		for(int x = 0; x < width; x++)
 		{
