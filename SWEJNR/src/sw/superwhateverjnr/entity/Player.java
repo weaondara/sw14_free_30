@@ -10,10 +10,10 @@ import sw.superwhateverjnr.world.Location;
 @Getter
 public class Player extends Entity
 {
-	private final static float armMaxDegreeDeltaMoving = 60;
-	private final static float armMaxDegreeDeltaStanding = 12;
-	private static float armMoveConstantMoving = 4;
-	private static float armMoveConstantStanding = 0.15F;
+//	private final static float armMaxDegreeDeltaMoving = 60;
+//	private final static float armMaxDegreeDeltaStanding = 12;
+//	private static float armMoveConstantMoving = 4;
+//	private static float armMoveConstantStanding = 0.15F;
 	
 	private final static double runningMin = 1.5;
 	private final static double runningMax = 4.5;
@@ -36,17 +36,12 @@ public class Player extends Entity
 		return jumpPower;
 	}
 	
-	private float armAngle;
-	private float legAngle;
-	
 	@Setter
 	private boolean armMovingRight;
 	
 	public Player(Location location)
 	{
 		super(EntityType.PLAYER, location, null);
-		armAngle=0;
-		legAngle=0;
 	}
 	
 	@Override
@@ -54,7 +49,6 @@ public class Player extends Entity
 	{
 		super.tick();
 		tickMove();
-		swingArms();
 		
 		Game.getInstance().updateView();
 	}
@@ -65,69 +59,6 @@ public class Player extends Entity
 		
 	}
 	
-	private void swingArms()
-	{
-		if(isMoving())
-		{
-			//arms
-			if(armMovingRight)
-			{
-				armAngle += armMoveConstantMoving;
-			}
-			else
-			{
-				armAngle -= armMoveConstantMoving;
-			}
-			legAngle = -armAngle;
-			
-			if(armAngle > armMaxDegreeDeltaMoving)
-			{
-				armMovingRight = false;
-			}
-			else if(armAngle < -armMaxDegreeDeltaMoving)
-			{
-				armMovingRight = true;
-			}
-		}
-		else
-		{
-			//arms
-			if(armMovingRight)
-			{
-				if(Math.abs(armAngle)>armMaxDegreeDeltaStanding)
-				{
-					armAngle += armMoveConstantMoving;
-					legAngle = -armAngle;
-				}
-				else
-				{
-					armAngle += armMoveConstantStanding;
-					legAngle=0;
-				}
-			}
-			else
-			{
-				if(Math.abs(armAngle)>armMaxDegreeDeltaStanding)
-				{
-					armAngle -= armMoveConstantMoving;
-				}
-				else
-				{
-					armAngle -= armMoveConstantStanding;
-				}
-				legAngle=0;
-			}
-			
-			if(armAngle > armMaxDegreeDeltaStanding)
-			{
-				armMovingRight = false;
-			}
-			else if(armAngle < -armMaxDegreeDeltaStanding)
-			{
-				armMovingRight = true;
-			}
-		}
-	}
 	private void tickMove()
 	{
 		if(location==null || world()==null)
