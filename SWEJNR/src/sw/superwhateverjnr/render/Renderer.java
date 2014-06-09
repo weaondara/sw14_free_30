@@ -184,36 +184,7 @@ public class Renderer
 			Entity e = list.get(i);
 			Location l = e.getLocation();
 			
-			//render & hitbox
-			if(SWEJNR.DEBUG)
-			{
-				float x=(float) (leftoffset+(l.getX()-x1)*game.getTextureWidth());
-				float y=(float) (topoffset+(y2-l.getY())*game.getTextureHeight());
-				
-				paint.setStyle(Style.STROKE);
-				paint.setColor(0xFFFFFF00);
-				
-				float playerwidh=(float) (Math.abs(e.getRenderBox().getMin().getX()-e.getRenderBox().getMax().getX())*game.getTextureWidth());
-		
-				float left=x-playerwidh/2;
-				float right=x+playerwidh/2;
-				float bottom=y;
-				float top=(float) (y-e.getRenderBox().getMax().getY()*game.getTextureHeight());
-				
-				canvas.drawRect(left, top, right, bottom, paint);
-				
-			
-				paint.setColor(0xFF00FF00);
-				
-				playerwidh=(float) (Math.abs(e.getHitBox().getMin().getX()-e.getHitBox().getMax().getX())*game.getTextureWidth());
-
-				left=x-playerwidh/2;
-				right=x+playerwidh/2;
-				bottom=y;
-				top=(float) (y-e.getHitBox().getMax().getY()*game.getTextureHeight());
-				
-				canvas.drawRect(left, top, right, bottom, paint);
-			}
+			drawEntityBoxes(canvas, e);
 		}
 	}
 	private void drawPlayer(Canvas canvas)
@@ -224,14 +195,8 @@ public class Renderer
 		float bodywidth=4;
 		float bodyheight=12;
 		
-		float armwidth=4;
-		float armheight=12;
-		
 		float legwidth=4;
 		float legheight=12;
-		
-		float maxwidth=8;
-		float maxheight=32;
 		
 		float blocksize=16;
 
@@ -358,37 +323,37 @@ public class Renderer
 		}
 	
 		
-		
-		//render & hitbox
-		if(SWEJNR.DEBUG)
-		{
-			x=(float) (leftoffset+(l.getX()-x1)*game.getTextureWidth());
-			y=(float) (topoffset+(y2-l.getY())*game.getTextureHeight());
-			
-			paint.setStyle(Style.STROKE);
-			paint.setColor(0xFFFFFF00);
-			
-			playerwidh=(float) (Math.abs(p.getRenderBox().getMin().getX()-p.getRenderBox().getMax().getX())*game.getTextureWidth());
-	
-			left=x-playerwidh/2;
-			right=x+playerwidh/2;
-			bottom=y;
-			top=(float) (y-p.getRenderBox().getMax().getY()*game.getTextureHeight());
-			
-			canvas.drawRect(left, top, right, bottom, paint);
-			
-		
-			paint.setColor(0xFF00FF00);
-			
-			playerwidh=(float) (Math.abs(p.getHitBox().getMin().getX()-p.getHitBox().getMax().getX())*game.getTextureWidth());
-
-			left=x-playerwidh/2;
-			right=x+playerwidh/2;
-			bottom=y;
-			top=(float) (y-p.getHitBox().getMax().getY()*game.getTextureHeight());
-			
-			canvas.drawRect(left, top, right, bottom, paint);
-		}
+		drawEntityBoxes(canvas, p);
+//		//render & hitbox
+//		if(SWEJNR.DEBUG)
+//		{
+//			x=(float) (leftoffset+(l.getX()-x1)*game.getTextureWidth());
+//			y=(float) (topoffset+(y2-l.getY())*game.getTextureHeight());
+//			
+//			paint.setStyle(Style.STROKE);
+//			paint.setColor(0xFFFFFF00);
+//			
+//			playerwidh=(float) (Math.abs(p.getRenderBox().getMin().getX()-p.getRenderBox().getMax().getX())*game.getTextureWidth());
+//	
+//			left=x-playerwidh/2;
+//			right=x+playerwidh/2;
+//			bottom=y;
+//			top=(float) (y-p.getRenderBox().getMax().getY()*game.getTextureHeight());
+//			
+//			canvas.drawRect(left, top, right, bottom, paint);
+//			
+//		
+//			paint.setColor(0xFF00FF00);
+//			
+//			playerwidh=(float) (Math.abs(p.getHitBox().getMin().getX()-p.getHitBox().getMax().getX())*game.getTextureWidth());
+//
+//			left=x-playerwidh/2;
+//			right=x+playerwidh/2;
+//			bottom=y;
+//			top=(float) (y-p.getHitBox().getMax().getY()*game.getTextureHeight());
+//			
+//			canvas.drawRect(left, top, right, bottom, paint);
+//		}
 	}
 	private void drawInfo(Canvas canvas)
 	{
@@ -540,6 +505,40 @@ public class Renderer
 				
 				canvas.drawPath(path, paint);
 			}
+		}
+	}
+	
+	private void drawEntityBoxes(Canvas canvas, Entity e)
+	{
+		//render & hitbox
+		if(SWEJNR.DEBUG)
+		{
+			float x=(float) (leftoffset+(e.getLocation().getX()-x1)*game.getTextureWidth());
+			float y=(float) (topoffset+(y2-e.getLocation().getY())*game.getTextureHeight());
+			
+			paint.setStyle(Style.STROKE);
+			paint.setColor(0xFFFFFF00);
+			
+			float playerwidh=(float) (Math.abs(e.getRenderBox().getMin().getX()-e.getRenderBox().getMax().getX())*game.getTextureWidth());
+	
+			float left=x-playerwidh/2;
+			float right=x+playerwidh/2;
+			float bottom=y;
+			float top=(float) (y-e.getRenderBox().getMax().getY()*game.getTextureHeight());
+			
+			canvas.drawRect(left, top, right, bottom, paint);
+			
+		
+			paint.setColor(0xFF00FF00);
+			
+			playerwidh=(float) (Math.abs(e.getHitBox().getMin().getX()-e.getHitBox().getMax().getX())*game.getTextureWidth());
+
+			left=x-playerwidh/2;
+			right=x+playerwidh/2;
+			bottom=y;
+			top=(float) (y-e.getHitBox().getMax().getY()*game.getTextureHeight());
+			
+			canvas.drawRect(left, top, right, bottom, paint);
 		}
 	}
 }
