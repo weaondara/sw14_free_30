@@ -436,7 +436,7 @@ public abstract class Entity
 	
 	public boolean isInsideWorld(World w)
 	{
-		return location.getX() >= 0 && location.getY() >= 0 && location.getX() < w.getWidth() && location.getY() < w.getHeight();
+		return location.isInsideWorld(w);
 	}
 
 	protected World world()

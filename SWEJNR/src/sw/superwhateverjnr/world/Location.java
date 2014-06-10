@@ -42,4 +42,9 @@ public class Location implements Cloneable
 	{
 		return Math.sqrt(Math.pow(x + l.x, 2)+Math.pow(y + l.y, 2));
 	}
+	
+	public boolean isInsideWorld(World w)
+	{
+		return x >= 0 && y >= 0 && x < w.getWidth() && y < w.getHeight();
+	}
 }
