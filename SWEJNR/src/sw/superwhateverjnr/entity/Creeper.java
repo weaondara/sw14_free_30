@@ -74,13 +74,11 @@ public class Creeper extends Entity
 		blockfactory = BlockFactory.getInstance();
 		triggerRadius = radius;
 	}
-
 	@Override
 	protected void die()
 	{
 		
 	}
-	
 	@Override
 	public void tick()
 	{
@@ -186,31 +184,46 @@ public class Creeper extends Entity
 			double monsterx = getLocation().getX();
 			double monstery = getLocation().getY();
 			
-			boolean ismonsterlookingplayer1 = false;
-			boolean ismonsterlookingplayer2 = false;
-			
-			if (isgoingright)
+			if ((playery >= 0) && (playerx >= 1) && (playerx <= game.getWorld().getWidth() - 1) && (monstery >= 0) && (monsterx >= 1) && (monsterx <= game.getWorld().getWidth() - 1))
 			{
-				ismonsterlookingplayer1 = !isInLineAnotherBlock(new Location(playerx, playery), new Location(getHitBox().getMax().getX(), monstery + getEyeHeight(this)), Material.AIR);
-				ismonsterlookingplayer2 = !isInLineAnotherBlock(new Location(playerx, playery + getEyeHeight(player)), new Location(getHitBox().getMax().getX(), monstery + getEyeHeight(this)), Material.AIR);
-			}
-			else
-			{
-				ismonsterlookingplayer1 = !isInLineAnotherBlock(new Location(playerx, playery), new Location(getHitBox().getMin().getX(), monstery + getEyeHeight(this)), Material.AIR);
-				ismonsterlookingplayer2 = !isInLineAnotherBlock(new Location(playerx, playery + getEyeHeight(player)), new Location(getHitBox().getMin().getX(), monstery + getEyeHeight(this)), Material.AIR);
-			}
-			if (ismonsterlookingplayer1 || ismonsterlookingplayer2)
-			{
-				isbehindblocks = false;
-			}
-			else
-			{
-				isbehindblocks = true;
-				isindistance = false;
-				setMovingright(false);
-				setMovingleft(false);
-				isgoinghorizontal = false;
-				System.out.println("FALSEEE!!!!");
+				boolean ismonsterlookingplayer1 = false;
+				boolean ismonsterlookingplayer2 = false;
+				double monsterlocationx = 0.0;
+				double monsterlocationy = monstery + getEyeHeight(this);
+				double playerlocationx1 = playerx;
+				double playerlocationy1 = playery;
+				double playerlocationx2 = playerx;
+				double playerlocationy2 = playery + getEyeHeight(player);
+				
+				if (isgoingright && (monsterx < playerx))
+				{
+					monsterlocationx = monsterx + 0.3;
+					ismonsterlookingplayer1 = !isInLineAnotherBlock(new Location(monsterlocationx, monsterlocationy), new Location(playerlocationx1, playerlocationy1), Material.AIR);
+					ismonsterlookingplayer2 = !isInLineAnotherBlock(new Location(monsterlocationx, monsterlocationy), new Location(playerlocationx2, playerlocationy2), Material.AIR);
+					//System.out.println("Monster going RIGHT, looking="+(ismonsterlookingplayer1||ismonsterlookingplayer2));
+				}
+				else if (!isgoingright && (monsterx > playerx))
+				{
+					monsterlocationx = monsterx - 0.3;
+					ismonsterlookingplayer1 = !isInLineAnotherBlock(new Location(monsterlocationx, monsterlocationy), new Location(playerlocationx1, playerlocationy1), Material.AIR);
+					ismonsterlookingplayer2 = !isInLineAnotherBlock(new Location(monsterlocationx, monsterlocationy), new Location(playerlocationx2, playerlocationy2), Material.AIR);
+					//System.out.println("Monster going  LEFT, looking="+(ismonsterlookingplayer1||ismonsterlookingplayer2));
+				}
+				//System.out.println(isInLineAnotherBlock(new Location(13,13.5), new Location(25,13.5), Material.AIR));
+				//System.out.println("monsterxmin="+getHitBox().getMin().getX()+"  monsterx"+getLocation().getX()+"  monsterxmax"+getHitBox().getMax().getX());
+				if (ismonsterlookingplayer1 || ismonsterlookingplayer2)
+				{
+					isbehindblocks = false;
+				}
+				else
+				{
+					isbehindblocks = true;
+					isindistance = false;
+					setMovingright(false);
+					setMovingleft(false);
+					isgoinghorizontal = false;
+					//System.out.println("FALSEEE!!!!");
+				}
 			}
 		}
 	}
@@ -334,7 +347,6 @@ public class Creeper extends Entity
 			israndomgoing = false;
 		}
 	}
-	int debugoutput = 0;
 	protected void jumpIfWall()
 	{
 		if (isgoinghorizontal || israndomgoing)
@@ -346,12 +358,7 @@ public class Creeper extends Entity
 			double addx = 0.6;
 			double addy = 0.0;
 			
-			if (debugoutput++ > 10)
-			{
-				debugoutput = 0;
-				System.out.println("playerx="+roundNumber(playerx,3)+"   playery="+roundNumber(playery,3)+"   monsterx="+roundNumber(monsterx,3)+"   monstery="+roundNumber(monstery,3)+"   addx="+addx+"   addy="+addy);
-			}
-			
+			//System.out.println("playerx="+roundNumber(playerx,3)+"   playery="+roundNumber(playery,3)+"   monsterx="+roundNumber(monsterx,3)+"   monstery="+roundNumber(monstery,3)+"   addx="+addx+"   addy="+addy);
 			if ((monsterx >= 1) && (monsterx <= game.getWorld().getWidth() - 1) && (monstery >= 0))
 			{
 				Material materialx0y0 = game.getWorld().getBlockAt(new Location(monsterx, monstery + addy)).getType();
@@ -625,7 +632,7 @@ public class Creeper extends Entity
 	{
 		boolean isinlineanotherblock = false;
 		int iterations = 1000;
-		int loop = 10000;
+		int loop = 0;
 		double x1 = point1.getX();
 		double y1 = point1.getY();
 		double x2 = point2.getX();
@@ -639,7 +646,7 @@ public class Creeper extends Entity
 			if ((x != (int)(x1 + dx * (double)loop)) || (y != (int)(y1 + dy * (double)loop)))
 			{
 				x = (int)(x1 + dx * (double)loop);
-				y = (int)(x1 + dx * (double)loop);
+				y = (int)(y1 + dy * (double)loop);
 				if (game.getWorld().getBlockAt(new Location(x, y)).getType() != material)
 				{
 					isinlineanotherblock = !isinlineanotherblock;
