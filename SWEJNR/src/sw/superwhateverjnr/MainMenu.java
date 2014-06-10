@@ -1,10 +1,12 @@
 package sw.superwhateverjnr;
 
+import sw.superwhateverjnr.activity.FullscreenActivity;
+import sw.superwhateverjnr.activity.GameActivity;
 import sw.superwhateverjnr.ui.MainMenuView;
 import sw.superwhateverjnr.ui.MainMenuView.SelectedListener;
-import sw.superwhateverjnr.world.DummyWorldLoader;
-import sw.superwhateverjnr.world.RandomWorldLoader;
 import android.annotation.SuppressLint;
+import android.content.Intent;
+
 import java.util.Random;
 
 public class MainMenu implements SelectedListener
@@ -23,30 +25,26 @@ public class MainMenu implements SelectedListener
 	
 	public void newGame()
 	{
-		Game g = new Game();
-		g.init();
-		g.setWorldLoader(new DummyWorldLoader());
-		g.loadWorld("entitytest");
-		g.enable();
+		Intent i=new Intent(FullscreenActivity.getInstance(), GameActivity.class);
+		i.putExtra("worldloader", "dummy");
+		i.putExtra("worldname", "entitytest");
+		FullscreenActivity.getInstance().startActivity(i);
 	}
 	
 	public void continueGame()
 	{
-		Game g = new Game();
-		g.init();
-		g.setWorldLoader(new DummyWorldLoader());
-		g.loadWorld("physicstest");
-		g.enable();
+		Intent i=new Intent(FullscreenActivity.getInstance(), GameActivity.class);
+		i.putExtra("worldloader", "dummy");
+		i.putExtra("worldname", "physicstest");
+		FullscreenActivity.getInstance().startActivity(i);
 	}
 	
 	public void startRandom()
 	{
-		Random r = new Random();
-		Game g = new Game();
-		g.init();
-		g.setWorldLoader(new RandomWorldLoader());
-		g.loadWorld(String.valueOf(r.nextInt()));
-		g.enable();
+		Intent i=new Intent(FullscreenActivity.getInstance(), GameActivity.class);
+		i.putExtra("worldloader", "random");
+		i.putExtra("worldname", String.valueOf(new Random().nextInt()));
+		FullscreenActivity.getInstance().startActivity(i);
 	}
 
 	@Override

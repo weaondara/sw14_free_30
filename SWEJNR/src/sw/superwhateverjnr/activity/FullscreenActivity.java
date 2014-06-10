@@ -1,5 +1,6 @@
-package sw.superwhateverjnr;
+package sw.superwhateverjnr.activity;
 
+import sw.superwhateverjnr.MainMenu;
 import lombok.Getter;
 
 import android.annotation.SuppressLint;
@@ -13,13 +14,16 @@ public class FullscreenActivity extends Activity
 {
     @Getter
     private static FullscreenActivity instance;
-
+    public FullscreenActivity()
+    {
+    	super();
+    	instance=this;
+    }
+    
     @SuppressLint("NewApi")
 	@Override
     protected void onCreate(Bundle savedInstanceState) 
     {
-        instance=this;
-        
         super.onCreate(savedInstanceState);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);

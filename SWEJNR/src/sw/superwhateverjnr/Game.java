@@ -14,6 +14,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
 import lombok.ToString;
+import sw.superwhateverjnr.activity.GameActivity;
 import sw.superwhateverjnr.entity.Entity;
 import sw.superwhateverjnr.entity.EntityType;
 import sw.superwhateverjnr.entity.Player;
@@ -87,7 +88,7 @@ public class Game
 		worldLoader=new DummyWorldLoader();
 		textureLoader=new PackedTextureLoader();
 		
-		gameView=new GameView(SWEJNR.getInstance());
+		gameView=new GameView(GameActivity.getInstance());
 		
 //		init();
 //		loadWorld("bla");
@@ -108,8 +109,8 @@ public class Game
 			return;
 		}
 		
-		oldview=FullscreenActivity.getInstance().findViewById(android.R.id.content);
-		FullscreenActivity.getInstance().setContentView(gameView);
+//		oldview=FullscreenActivity.getInstance().findViewById(android.R.id.content);
+		GameActivity.getInstance().setContentView(gameView);
 		gameRunning=true;
 		
         mp = new MediaPlayer();
@@ -140,7 +141,7 @@ public class Game
 			return;
 		}
 		gameRunning=false;
-		FullscreenActivity.getInstance().setContentView(oldview);
+//		FullscreenActivity.getInstance().setContentView(oldview);
 		
 		enabled=false;
 	}
