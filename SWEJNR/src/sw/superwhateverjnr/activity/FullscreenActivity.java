@@ -1,6 +1,6 @@
 package sw.superwhateverjnr.activity;
 
-import sw.superwhateverjnr.MainMenu;
+import sw.superwhateverjnr.LoadingScreen;
 import lombok.Getter;
 
 import android.annotation.SuppressLint;
@@ -32,6 +32,8 @@ public class FullscreenActivity extends Activity
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
         
-        new MainMenu();
+        new LoadingScreen();
+        
+//        new MainMenu();
     }
 }
