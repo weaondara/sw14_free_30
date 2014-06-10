@@ -60,11 +60,13 @@ public class GameActivity extends Activity
     protected void onPause() 
     {
     	super.onPause();
+    	game.setPaused(true);
     }
     @Override
     protected void onResume() 
     {
     	super.onResume();
+    	game.setPaused(false);
     }
     
     @Override

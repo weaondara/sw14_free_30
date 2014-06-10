@@ -109,6 +109,7 @@ public class Game
 		
 		GameActivity.getInstance().setContentView(gameView);
 		gameRunning=true;
+		paused=false;
 		
         mp = new MediaPlayer();
         
@@ -120,6 +121,7 @@ public class Game
             mp.setLooping(true);
             mp.prepare();
             mp.start(); 
+            as.close();
         }
         catch(IOException e)
         {
@@ -140,6 +142,19 @@ public class Game
 		gameRunning=false;
 		
 		enabled=false;
+	}
+	
+	private boolean paused;
+	public void setPaused(boolean paused)
+	{
+		if(this.paused == paused)
+		{
+			return;
+		}
+		
+		gameRunning=!paused;
+		gameView.setPaused(paused);
+		this.paused = paused;
 	}
 	
 	public void loadWorld(String name)

@@ -21,6 +21,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Vie
 	private Renderer renderer;
 	
 	@Getter
+	private boolean paused;
+	
+	@Getter
 	private int fps=0;
 	private int frames=0;
 	private long fpsmeasurelast=0;
@@ -50,6 +53,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Vie
 		rt.start();
 	}
 
+	public void setPaused(boolean paused)
+	{
+		this.paused = paused;
+		rt.setRunning(paused);
+	}
+	
 	public void drawNextFrame()
 	{
 		if(allowdraw)
