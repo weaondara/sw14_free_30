@@ -1,11 +1,10 @@
 package sw.superwhateverjnr.ui;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import sw.superwhateverjnr.SWEJNR;
-import sw.superwhateverjnr.texture.Texture;
+import sw.superwhateverjnr.texture.TextureMap;
 
 import lombok.Getter;
 import lombok.NonNull;
@@ -15,8 +14,6 @@ import lombok.SneakyThrows;
 import lombok.ToString;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
@@ -47,7 +44,6 @@ public class MainMenuView extends View implements View.OnTouchListener
     
     
     private List<MainMenuButton> buttons;
-    private Bitmap logo;
     @Getter @Setter
     private SelectedListener selectedListener;
     
@@ -104,22 +100,13 @@ public class MainMenuView extends View implements View.OnTouchListener
 
         currentheight+=height+ymargin;
         buttons.add(new MainMenuButton(QUIT_GAME,"Quit Game",xright, (int) currentheight, width, (int) height, Align.RIGHT));
-
-        //background
-        InputStream is=SWEJNR.getInstance().getResources().getAssets().open("textures/swejnrtitle.png");
-		logo=BitmapFactory.decodeStream(is);
-		
-		int logowidth=logo.getHeight()*displayWidth/displayHeight;
-		logo=Texture.getSubBitmap(logo, (logo.getWidth()-logowidth)/2, 0, logowidth, logo.getHeight());
-		logo=Bitmap.createScaledBitmap(logo, displayWidth, displayHeight, true);
-		
     }
     
     private Paint paint=new Paint();
     @Override
 	public void draw(Canvas c)
 	{
-    	c.drawBitmap(logo, 0, 0, paint);
+    	c.drawBitmap(TextureMap.getMenuTexture().getImage(), 0, 0, paint);
     	
     	paint.setStyle(Style.STROKE);
     	paint.setTextSize(c.getHeight()/25);
