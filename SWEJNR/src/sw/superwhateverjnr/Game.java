@@ -227,7 +227,14 @@ public class Game
 					for(int i=0;i<world.getEntities().size();i++)
 					{
 						Entity e=world.getEntities().get(i);
-						e.tick();
+						try
+						{
+							e.tick();
+						}
+						catch(Exception ex)
+						{
+							ex.printStackTrace();
+						}
 					}
 				}
 				catch(Exception e)
