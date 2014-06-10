@@ -191,13 +191,13 @@ public class Creeper extends Entity
 			
 			if (isgoingright)
 			{
-				ismonsterlookingplayer1 = isInLineAnotherBlock(new Location(playerx, playery), new Location(getHitBox().getMax().getX(), monstery + getEyeHeight(this)), Material.AIR);
-				ismonsterlookingplayer2 = isInLineAnotherBlock(new Location(playerx, playery + getEyeHeight(player)), new Location(getHitBox().getMax().getX(), monstery + getEyeHeight(this)), Material.AIR);
+				ismonsterlookingplayer1 = !isInLineAnotherBlock(new Location(playerx, playery), new Location(getHitBox().getMax().getX(), monstery + getEyeHeight(this)), Material.AIR);
+				ismonsterlookingplayer2 = !isInLineAnotherBlock(new Location(playerx, playery + getEyeHeight(player)), new Location(getHitBox().getMax().getX(), monstery + getEyeHeight(this)), Material.AIR);
 			}
 			else
 			{
-				ismonsterlookingplayer1 = isInLineAnotherBlock(new Location(playerx, playery), new Location(getHitBox().getMin().getX(), monstery + getEyeHeight(this)), Material.AIR);
-				ismonsterlookingplayer2 = isInLineAnotherBlock(new Location(playerx, playery + getEyeHeight(player)), new Location(getHitBox().getMin().getX(), monstery + getEyeHeight(this)), Material.AIR);
+				ismonsterlookingplayer1 = !isInLineAnotherBlock(new Location(playerx, playery), new Location(getHitBox().getMin().getX(), monstery + getEyeHeight(this)), Material.AIR);
+				ismonsterlookingplayer2 = !isInLineAnotherBlock(new Location(playerx, playery + getEyeHeight(player)), new Location(getHitBox().getMin().getX(), monstery + getEyeHeight(this)), Material.AIR);
 			}
 			if (ismonsterlookingplayer1 || ismonsterlookingplayer2)
 			{
@@ -210,6 +210,7 @@ public class Creeper extends Entity
 				setMovingright(false);
 				setMovingleft(false);
 				isgoinghorizontal = false;
+				System.out.println("FALSEEE!!!!");
 			}
 		}
 	}
@@ -351,7 +352,7 @@ public class Creeper extends Entity
 				System.out.println("playerx="+roundNumber(playerx,3)+"   playery="+roundNumber(playery,3)+"   monsterx="+roundNumber(monsterx,3)+"   monstery="+roundNumber(monstery,3)+"   addx="+addx+"   addy="+addy);
 			}
 			
-			if (monstery >= 0)
+			if ((monsterx >= 1) && (monsterx <= game.getWorld().getWidth() - 1) && (monstery >= 0))
 			{
 				Material materialx0y0 = game.getWorld().getBlockAt(new Location(monsterx, monstery + addy)).getType();
 				Material materialxp1y0 = game.getWorld().getBlockAt(new Location(monsterx + addx, monstery + addy)).getType();
@@ -388,7 +389,7 @@ public class Creeper extends Entity
 		double monstery = getLocation().getY();
 		double addx = 0.5;
 		
-		if (monstery >= 0)
+		if ((monsterx >= 1) && (monsterx <= game.getWorld().getWidth() - 1) && (monstery >= 0))
 		{
 			Material materialxp1y0 = game.getWorld().getBlockAt(new Location(monsterx + addx, monstery + 0.0)).getType();
 			Material materialxp1yp1 = game.getWorld().getBlockAt(new Location(monsterx + addx, monstery + 1.0)).getType();
@@ -402,7 +403,7 @@ public class Creeper extends Entity
 				boolean ismaterialxp1ym4air = false;
 				boolean istemp = false;
 				
-				/*if (monstery - 1.0 >= 0)
+				if (monstery - 1.0 >= 0)
 				{
 					Material materialxp1ym1 = game.getWorld().getBlockAt(new Location(monsterx + addx, monstery - 1.0)).getType();
 					ismaterialxp1ym1air = (materialxp1ym1 == Material.AIR);
@@ -425,7 +426,7 @@ public class Creeper extends Entity
 					Material materialxp1ym4 = game.getWorld().getBlockAt(new Location(monsterx + addx, monstery - 4.0)).getType();
 					ismaterialxp1ym4air = (materialxp1ym4 == Material.AIR);
 					istemp = (istemp && ismaterialxp1ym4air);
-				}*/
+				}
 				if (istemp)
 				{
 					istoohighright = true;
@@ -443,7 +444,7 @@ public class Creeper extends Entity
 				boolean ismaterialxm1ym4air = false;
 				boolean istemp = false;
 				
-				/*if (monstery - 1.0 >= 0)
+				if (monstery - 1.0 >= 0)
 				{
 					Material materialxm1ym1 = game.getWorld().getBlockAt(new Location(monsterx - addx, monstery - 1.0)).getType();
 					ismaterialxm1ym1air = (materialxm1ym1 == Material.AIR);
@@ -466,7 +467,7 @@ public class Creeper extends Entity
 					Material materialxm1ym4 = game.getWorld().getBlockAt(new Location(monsterx - addx, monstery - 4.0)).getType();
 					ismaterialxm1ym4air = (materialxm1ym4 == Material.AIR);
 					istemp = (istemp && ismaterialxm1ym4air);
-				}*/
+				}
 				if (istemp)
 				{
 					istoohighleft = true;
