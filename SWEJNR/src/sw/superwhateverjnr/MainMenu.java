@@ -1,5 +1,7 @@
 package sw.superwhateverjnr;
 
+import sw.superwhateverjnr.ui.MainMenuView;
+import sw.superwhateverjnr.ui.MainMenuView.SelectedListener;
 import sw.superwhateverjnr.world.DummyWorldLoader;
 import sw.superwhateverjnr.world.RandomWorldLoader;
 import android.annotation.SuppressLint;
@@ -10,41 +12,21 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import java.util.Random;
 
-public class MainMenu
+public class MainMenu implements SelectedListener
 {
+	private MainMenuView mainMenuView;
+	
 	@SuppressLint("NewApi")
-	MainMenu()
+	public MainMenu()
 	{
 		FullscreenActivity instance = FullscreenActivity.getInstance();
-		LinearLayout l = new LinearLayout(instance);
-		l.setLayoutDirection(LinearLayout.HORIZONTAL);
 		
-		Button newGameButton = new Button(instance);
-		newGameButton.setText("New Game");
-		newGameButton.setOnClickListener(new OnClickListener(){@Override public void onClick(View v){newGame();}});
-		l.addView(newGameButton);
-		
-		Button continueGameButton = new Button(instance);
-		continueGameButton.setText("Continue");
-		continueGameButton.setOnClickListener(new OnClickListener(){@Override public void onClick(View v){continueGame();}});
-		l.addView(continueGameButton);
-		
-		Button randomGameButton = new Button(instance);
-		randomGameButton.setText("SWERWG");
-		randomGameButton.setOnClickListener(new OnClickListener(){@Override public void onClick(View v){startRandom();}});
-		l.addView(randomGameButton);
-		
-		/*
-		 Button credits = new Button(instance);
-		 credits.setText("Credits");
-		 credits.setOnClickListener(new OnClickListener(){@Override public void onClick(View v){SWENJR.showCredits();}});
-		 l.addView(credits);
-		 */
-		
-		instance.setContentView(l);
+		mainMenuView = new MainMenuView(SWEJNR.getInstance());
+		mainMenuView.setSelectedListener(this);
+		instance.setContentView(mainMenuView);
 	}
 	
-	void newGame()
+	public void newGame()
 	{
 		Game g = new Game();
 		g.init();
@@ -53,7 +35,7 @@ public class MainMenu
 		g.enable();
 	}
 	
-	void continueGame()
+	public void continueGame()
 	{
 		Game g = new Game();
 		g.init();
@@ -62,7 +44,7 @@ public class MainMenu
 		g.enable();
 	}
 	
-	void startRandom()
+	public void startRandom()
 	{
 		Random r = new Random();
 		Game g = new Game();
@@ -70,5 +52,34 @@ public class MainMenu
 		g.setWorldLoader(new RandomWorldLoader());
 		g.loadWorld(String.valueOf(r.nextInt()));
 		g.enable();
+	}
+
+	@Override
+	public void onSelected(String touched)
+	{
+		if(touched.equalsIgnoreCase(MainMenuView.NEW_GAME))
+		{
+			newGame();
+		}
+		else if(touched.equalsIgnoreCase(MainMenuView.CONTINUE_GAME))
+		{
+			continueGame();
+		}
+		else if(touched.equalsIgnoreCase(MainMenuView.RANDOM_GAME))
+		{
+			startRandom();
+		}
+		else if(touched.equalsIgnoreCase(MainMenuView.SETTINGS))
+		{
+			
+		}
+		else if(touched.equalsIgnoreCase(MainMenuView.CREDITS))
+		{
+			
+		}
+		else if(touched.equalsIgnoreCase(MainMenuView.QUIT_GAME))
+		{
+			FullscreenActivity.getInstance().finish();
+		}
 	}
 }
