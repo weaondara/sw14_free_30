@@ -110,7 +110,7 @@ public class MainMenuView extends View implements View.OnTouchListener
 		logo=BitmapFactory.decodeStream(is);
 		
 		int logowidth=logo.getHeight()*displayWidth/displayHeight;
-		logo=Texture.getSubBitmap(logo, (logo.getWidth()-displayWidth)/2, 0, logowidth, logo.getHeight());
+		logo=Texture.getSubBitmap(logo, (logo.getWidth()-logowidth)/2, 0, logowidth, logo.getHeight());
 		logo=Bitmap.createScaledBitmap(logo, displayWidth, displayHeight, true);
 		
     }
