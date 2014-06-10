@@ -60,13 +60,10 @@ public class CreditsView extends View
     	paint.setColor(0xFFFFFFFF);
     	paint.setStyle(Style.STROKE);
     	paint.setTextSize(c.getHeight()/25);
-    	int textheight=(int) (paint.descent() + paint.ascent());
-    	
     	
     	c.drawText("This game is made by ", c.getWidth()/7, c.getHeight()*60/100, paint);
     	c.drawText("wea_ondara", c.getWidth()/5, c.getHeight()*75/100, paint);
     	c.drawText("Lord Yuuma", c.getWidth()*3/7, c.getHeight()*90/100, paint);
     	c.drawText("PiMathCLanguage", c.getWidth()*5/7, c.getHeight()*82/100, paint);
-        
 	}
 }
