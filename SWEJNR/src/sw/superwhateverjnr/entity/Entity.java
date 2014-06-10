@@ -408,6 +408,10 @@ public abstract class Entity
 		{
 			return false;
 		}
+		if(!isInsideWorld(w))
+		{
+			return false;
+		}
 		
 		Location left=location.add(-hitBox.getMax().getX()/2, -1);
 		Location right=location.add(hitBox.getMax().getX()/2, -1);
@@ -434,7 +438,7 @@ public abstract class Entity
 	{
 		return location.getX() >= 0 && location.getY() >= 0 && location.getX() < w.getWidth() && location.getY() < w.getHeight();
 	}
-	
+
 	protected World world()
 	{
 		return Game.getInstance().getWorld();
