@@ -1,5 +1,6 @@
 package sw.superwhateverjnr;
 
+import sw.superwhateverjnr.activity.CreditsActivity;
 import sw.superwhateverjnr.activity.FullscreenActivity;
 import sw.superwhateverjnr.activity.GameActivity;
 import sw.superwhateverjnr.ui.MainMenuView;
@@ -46,6 +47,11 @@ public class MainMenu implements SelectedListener
 		i.putExtra("worldname", String.valueOf(new Random().nextInt()));
 		FullscreenActivity.getInstance().startActivity(i);
 	}
+	public void showCredits()
+	{
+		Intent i=new Intent(FullscreenActivity.getInstance(), CreditsActivity.class);
+		FullscreenActivity.getInstance().startActivity(i);
+	}
 
 	@Override
 	public void onSelected(String touched)
@@ -68,7 +74,7 @@ public class MainMenu implements SelectedListener
 		}
 		else if(touched.equalsIgnoreCase(MainMenuView.CREDITS))
 		{
-			
+			showCredits();
 		}
 		else if(touched.equalsIgnoreCase(MainMenuView.QUIT_GAME))
 		{
