@@ -97,8 +97,6 @@ public class Game
 
 	public void init()
 	{
-		loadSettings();
-		setupTextures();
 		registerSchedulerTasks();
 	}
 	
@@ -109,7 +107,6 @@ public class Game
 			return;
 		}
 		
-//		oldview=FullscreenActivity.getInstance().findViewById(android.R.id.content);
 		GameActivity.getInstance().setContentView(gameView);
 		gameRunning=true;
 		
@@ -141,7 +138,6 @@ public class Game
 			return;
 		}
 		gameRunning=false;
-//		FullscreenActivity.getInstance().setContentView(oldview);
 		
 		enabled=false;
 	}
@@ -157,57 +153,7 @@ public class Game
 		catch(Exception e) {e.printStackTrace();}
 	}
 
-	private void setupTextures()
-	{
-		TextureMap.loadTexture(new IdAndSubId(1, -1),textureLoader);
-		TextureMap.loadTexture(new IdAndSubId(2, -1),textureLoader);
-		TextureMap.loadTexture(new IdAndSubId(3, -1),textureLoader);
-		TextureMap.loadTexture(new IdAndSubId(4, -1),textureLoader);
-		TextureMap.loadTexture(new IdAndSubId(5, 0),textureLoader);
-		TextureMap.loadTexture(new IdAndSubId(5, 1),textureLoader);
-		TextureMap.loadTexture(new IdAndSubId(5, 2),textureLoader);
-		TextureMap.loadTexture(new IdAndSubId(5, 3),textureLoader);
-		TextureMap.loadTexture(new IdAndSubId(5, 4),textureLoader);
-		TextureMap.loadTexture(new IdAndSubId(5, 5),textureLoader);
-		TextureMap.loadTexture(new IdAndSubId(6, 0),textureLoader);
-		TextureMap.loadTexture(new IdAndSubId(6, 1),textureLoader);
-		TextureMap.loadTexture(new IdAndSubId(6, 2),textureLoader);
-		TextureMap.loadTexture(new IdAndSubId(6, 3),textureLoader);
-		TextureMap.loadTexture(new IdAndSubId(6, 4),textureLoader);
-		TextureMap.loadTexture(new IdAndSubId(6, 5),textureLoader);
-		TextureMap.loadTexture(new IdAndSubId(7, -1),textureLoader);
-		TextureMap.loadTexture(new IdAndSubId(8, -1),textureLoader);
-		TextureMap.loadTexture(new IdAndSubId(9, -1),textureLoader);
-		TextureMap.loadTexture(new IdAndSubId(10, -1),textureLoader);
-		TextureMap.loadTexture(new IdAndSubId(11, -1),textureLoader);
-		TextureMap.loadTexture(new IdAndSubId(12, -1),textureLoader);
-		TextureMap.loadTexture(new IdAndSubId(13, -1),textureLoader);
-		
-		
-		TextureMap.loadTexture(new IdAndSubId(17, 0),textureLoader);
-		TextureMap.loadTexture(new IdAndSubId(17, 1),textureLoader);
-		TextureMap.loadTexture(new IdAndSubId(17, 2),textureLoader);
-		TextureMap.loadTexture(new IdAndSubId(17, 3),textureLoader);
-		TextureMap.loadTexture(new IdAndSubId(17, 4),textureLoader);
-		TextureMap.loadTexture(new IdAndSubId(17, 5),textureLoader);
-		TextureMap.loadTexture(new IdAndSubId(18, 0),textureLoader);
-		TextureMap.loadTexture(new IdAndSubId(18, 1),textureLoader);
-		TextureMap.loadTexture(new IdAndSubId(18, 2),textureLoader);
-		TextureMap.loadTexture(new IdAndSubId(18, 3),textureLoader);
-		TextureMap.loadTexture(new IdAndSubId(18, 4),textureLoader);
-		TextureMap.loadTexture(new IdAndSubId(18, 5),textureLoader);
-		
-		TextureMap.loadTexture(EntityType.PLAYER,textureLoader);
-		TextureMap.loadTexture(EntityType.CREEPER,textureLoader);
-		TextureMap.loadTexture(EntityType.ZOMBIE,textureLoader);
-		TextureMap.loadTexture(EntityType.SKELETON,textureLoader);
-		TextureMap.loadTexture(EntityType.SPIDER,textureLoader);
-	}
 	
-	private void loadSettings()
-	{
-		
-	}
 	
 	private void registerSchedulerTasks()
 	{

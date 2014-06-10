@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sw.superwhateverjnr.SWEJNR;
-import sw.superwhateverjnr.texture.TextureMap;
 
 import lombok.Getter;
 import lombok.NonNull;
@@ -26,7 +25,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 
-public class MainMenuView extends View implements View.OnTouchListener
+public class MainMenuView extends BackgroundView implements View.OnTouchListener
 {
 	public final static String NEW_GAME = "new";
 	public final static String CONTINUE_GAME = "continue";
@@ -106,7 +105,7 @@ public class MainMenuView extends View implements View.OnTouchListener
     @Override
 	public void draw(Canvas c)
 	{
-    	c.drawBitmap(TextureMap.getMenuTexture().getImage(), 0, 0, paint);
+    	super.draw(c);
     	
     	paint.setStyle(Style.STROKE);
     	paint.setTextSize(c.getHeight()/25);

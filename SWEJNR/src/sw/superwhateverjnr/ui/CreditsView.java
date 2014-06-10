@@ -1,14 +1,12 @@
 package sw.superwhateverjnr.ui;
 
-import sw.superwhateverjnr.texture.TextureMap;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.util.AttributeSet;
-import android.view.View;
 
-public class CreditsView extends View
+public class CreditsView extends BackgroundView
 {
 	public CreditsView(Context context)
     {
@@ -27,7 +25,7 @@ public class CreditsView extends View
     @Override
     public void draw(Canvas c)
 	{
-    	c.drawBitmap(TextureMap.getMenuTexture().getImage(), 0, 0, paint);
+    	super.draw(c);
     	
     	paint.setColor(0xFFFFFFFF);
     	paint.setStyle(Style.STROKE);
