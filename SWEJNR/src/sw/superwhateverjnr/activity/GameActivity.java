@@ -8,9 +8,7 @@ import sw.superwhateverjnr.world.WorldLoader;
 import lombok.Getter;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
-import android.util.AttributeSet;
 
 public class GameActivity extends Activity
 {
