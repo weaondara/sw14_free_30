@@ -5,11 +5,6 @@ import sw.superwhateverjnr.ui.MainMenuView.SelectedListener;
 import sw.superwhateverjnr.world.DummyWorldLoader;
 import sw.superwhateverjnr.world.RandomWorldLoader;
 import android.annotation.SuppressLint;
-//import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import java.util.Random;
 
 public class MainMenu implements SelectedListener
