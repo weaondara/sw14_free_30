@@ -915,8 +915,6 @@ public class Renderer
 			x=(float) (leftoffset+(tc.getX()-x1)*game.getTextureWidth());
 			y=(float) (topoffset+(y2-tc.getY())*game.getTextureHeight());
 			
-			System.out.print("x="+x+";y="+y);
-			
 			canvas.drawLine(x-13, y-13, x+13, y+13, paint);
 			canvas.drawLine(x+13, y-13, x-13, y+13, paint);
 			
