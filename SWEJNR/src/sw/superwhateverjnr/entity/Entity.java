@@ -430,6 +430,10 @@ public abstract class Entity
 		return Math.abs(velocity.getX())>0;
 	}
 	
+	public boolean isInsideWorld(World w)
+	{
+		return location.getX() >= 0 && location.getY() >= 0 && location.getX() < w.getWidth() && location.getY() < w.getHeight();
+	}
 	
 	protected World world()
 	{
