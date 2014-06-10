@@ -333,6 +333,7 @@ public class Creeper extends Entity
 			israndomgoing = false;
 		}
 	}
+	int debugoutput = 0;
 	protected void jumpIfWall()
 	{
 		if (isgoinghorizontal || israndomgoing)
@@ -344,27 +345,36 @@ public class Creeper extends Entity
 			double addx = 0.6;
 			double addy = 0.0;
 			
-			Material materialx0y0 = game.getWorld().getBlockAt(new Location(monsterx, monstery + addy)).getType();
-			Material materialxp1y0 = game.getWorld().getBlockAt(new Location(monsterx + addx, monstery + addy)).getType();
-			Material materialxp1yp1 = game.getWorld().getBlockAt(new Location(monsterx + addx, monstery + 1.0)).getType();
-			Material materialxm1y0 = game.getWorld().getBlockAt(new Location(monsterx - addx, monstery + addy)).getType();
-			Material materialxm1yp1 = game.getWorld().getBlockAt(new Location(monsterx - addx, monstery + 1.0)).getType();
-			
-			boolean isgoingrighttrue = isgoingright && isgoinghorizontal;
-			boolean isgoinglefttrue = !isgoingright && isgoinghorizontal;
-			boolean israndomgoingrighttrue = israndomgoingright && israndomgoing;
-			boolean israndomgoinglefttrue = !israndomgoingright && israndomgoing;
-			boolean isplayerpropertiesrighttrue = !player.isOnGround() || (!istoohighright && (absoluteDifference(playerx, monsterx) > 0.5));
-			boolean isplayerpropertieslefttrue  = !player.isOnGround() || ( !istoohighleft && (absoluteDifference(playerx, monsterx) > 0.5));
-			boolean ismaterialxp1true = (materialxp1y0 != materialx0y0) && (materialxp1yp1 == materialx0y0);
-			boolean ismaterialxm1true = (materialxm1y0 != materialx0y0) && (materialxm1yp1 == materialx0y0);
-			
-			boolean statement1 = ((isgoingrighttrue && isplayerpropertiesrighttrue) || israndomgoingrighttrue) && ismaterialxp1true;
-			boolean statement2 = (( isgoinglefttrue &&  isplayerpropertieslefttrue) ||  israndomgoinglefttrue) && ismaterialxm1true;
-			
-			if (statement1 || statement2)
+			if (debugoutput++ > 10)
 			{
-				jump();
+				debugoutput = 0;
+				System.out.println("playerx="+roundNumber(playerx,3)+"   playery="+roundNumber(playery,3)+"   monsterx="+roundNumber(monsterx,3)+"   monstery="+roundNumber(monstery,3)+"   addx="+addx+"   addy="+addy);
+			}
+			
+			if (monstery >= 0)
+			{
+				Material materialx0y0 = game.getWorld().getBlockAt(new Location(monsterx, monstery + addy)).getType();
+				Material materialxp1y0 = game.getWorld().getBlockAt(new Location(monsterx + addx, monstery + addy)).getType();
+				Material materialxp1yp1 = game.getWorld().getBlockAt(new Location(monsterx + addx, monstery + 1.0)).getType();
+				Material materialxm1y0 = game.getWorld().getBlockAt(new Location(monsterx - addx, monstery + addy)).getType();
+				Material materialxm1yp1 = game.getWorld().getBlockAt(new Location(monsterx - addx, monstery + 1.0)).getType();
+				
+				boolean isgoingrighttrue = isgoingright && isgoinghorizontal;
+				boolean isgoinglefttrue = !isgoingright && isgoinghorizontal;
+				boolean israndomgoingrighttrue = israndomgoingright && israndomgoing;
+				boolean israndomgoinglefttrue = !israndomgoingright && israndomgoing;
+				boolean isplayerpropertiesrighttrue = !player.isOnGround() || (!istoohighright && (absoluteDifference(playerx, monsterx) > 0.5));
+				boolean isplayerpropertieslefttrue  = !player.isOnGround() || ( !istoohighleft && (absoluteDifference(playerx, monsterx) > 0.5));
+				boolean ismaterialxp1true = (materialxp1y0 != materialx0y0) && (materialxp1yp1 == materialx0y0);
+				boolean ismaterialxm1true = (materialxm1y0 != materialx0y0) && (materialxm1yp1 == materialx0y0);
+				
+				boolean statement1 = ((isgoingrighttrue && isplayerpropertiesrighttrue) || israndomgoingrighttrue) && ismaterialxp1true;
+				boolean statement2 = (( isgoinglefttrue &&  isplayerpropertieslefttrue) ||  israndomgoinglefttrue) && ismaterialxm1true;
+				
+				if (statement1 || statement2)
+				{
+					jump();
+				}
 			}
 		}
 	}
@@ -378,90 +388,93 @@ public class Creeper extends Entity
 		double monstery = getLocation().getY();
 		double addx = 0.5;
 		
-		Material materialxp1y0 = game.getWorld().getBlockAt(new Location(monsterx + addx, monstery + 0.0)).getType();
-		Material materialxp1yp1 = game.getWorld().getBlockAt(new Location(monsterx + addx, monstery + 1.0)).getType();
-		Material materialxm1y0 = game.getWorld().getBlockAt(new Location(monsterx - addx, monstery + 0.0)).getType();
-		Material materialxm1yp1 = game.getWorld().getBlockAt(new Location(monsterx - addx, monstery + 1.0)).getType();
-		if ((materialxp1y0 == Material.AIR) && (materialxp1yp1 == Material.AIR))
+		if (monstery >= 0)
 		{
-			boolean ismaterialxp1ym1air = false;
-			boolean ismaterialxp1ym2air = false;
-			boolean ismaterialxp1ym3air = false;
-			boolean ismaterialxp1ym4air = false;
-			boolean istemp = false;
-			
-			if (monstery - 1.0 >= 0)
+			Material materialxp1y0 = game.getWorld().getBlockAt(new Location(monsterx + addx, monstery + 0.0)).getType();
+			Material materialxp1yp1 = game.getWorld().getBlockAt(new Location(monsterx + addx, monstery + 1.0)).getType();
+			Material materialxm1y0 = game.getWorld().getBlockAt(new Location(monsterx - addx, monstery + 0.0)).getType();
+			Material materialxm1yp1 = game.getWorld().getBlockAt(new Location(monsterx - addx, monstery + 1.0)).getType();
+			if ((materialxp1y0 == Material.AIR) && (materialxp1yp1 == Material.AIR))
 			{
-				Material materialxp1ym1 = game.getWorld().getBlockAt(new Location(monsterx + addx, monstery - 1.0)).getType();
-				ismaterialxp1ym1air = (materialxp1ym1 == Material.AIR);
-				istemp = ismaterialxp1ym1air;
+				boolean ismaterialxp1ym1air = false;
+				boolean ismaterialxp1ym2air = false;
+				boolean ismaterialxp1ym3air = false;
+				boolean ismaterialxp1ym4air = false;
+				boolean istemp = false;
+				
+				/*if (monstery - 1.0 >= 0)
+				{
+					Material materialxp1ym1 = game.getWorld().getBlockAt(new Location(monsterx + addx, monstery - 1.0)).getType();
+					ismaterialxp1ym1air = (materialxp1ym1 == Material.AIR);
+					istemp = ismaterialxp1ym1air;
+				}
+				if (monstery - 2.0 >= 0)
+				{
+					Material materialxp1ym2 = game.getWorld().getBlockAt(new Location(monsterx + addx, monstery - 2.0)).getType();
+					ismaterialxp1ym2air = (materialxp1ym2 == Material.AIR);
+					istemp = (istemp && ismaterialxp1ym2air);
+				}
+				if (monstery - 3.0 >= 0)
+				{
+					Material materialxp1ym3 = game.getWorld().getBlockAt(new Location(monsterx + addx, monstery - 3.0)).getType();
+					ismaterialxp1ym3air = (materialxp1ym3 == Material.AIR);
+					istemp = (istemp && ismaterialxp1ym3air);
+				}
+				if (monstery - 4.0 >= 0)
+				{
+					Material materialxp1ym4 = game.getWorld().getBlockAt(new Location(monsterx + addx, monstery - 4.0)).getType();
+					ismaterialxp1ym4air = (materialxp1ym4 == Material.AIR);
+					istemp = (istemp && ismaterialxp1ym4air);
+				}*/
+				if (istemp)
+				{
+					istoohighright = true;
+				}
+				else
+				{
+					istoohighright = false;
+				}
 			}
-			if (monstery - 2.0 >= 0)
+			if ((materialxm1y0 == Material.AIR) && (materialxm1yp1 == Material.AIR))
 			{
-				Material materialxp1ym2 = game.getWorld().getBlockAt(new Location(monsterx + addx, monstery - 2.0)).getType();
-				ismaterialxp1ym2air = (materialxp1ym2 == Material.AIR);
-				istemp = (istemp && ismaterialxp1ym2air);
-			}
-			if (monstery - 3.0 >= 0)
-			{
-				Material materialxp1ym3 = game.getWorld().getBlockAt(new Location(monsterx + addx, monstery - 3.0)).getType();
-				ismaterialxp1ym3air = (materialxp1ym3 == Material.AIR);
-				istemp = (istemp && ismaterialxp1ym3air);
-			}
-			if (monstery - 4.0 >= 0)
-			{
-				Material materialxp1ym4 = game.getWorld().getBlockAt(new Location(monsterx + addx, monstery - 4.0)).getType();
-				ismaterialxp1ym4air = (materialxp1ym4 == Material.AIR);
-				istemp = (istemp && ismaterialxp1ym4air);
-			}
-			if (istemp)
-			{
-				istoohighright = true;
-			}
-			else
-			{
-				istoohighright = false;
-			}
-		}
-		if ((materialxm1y0 == Material.AIR) && (materialxm1yp1 == Material.AIR))
-		{
-			boolean ismaterialxm1ym1air = false;
-			boolean ismaterialxm1ym2air = false;
-			boolean ismaterialxm1ym3air = false;
-			boolean ismaterialxm1ym4air = false;
-			boolean istemp = false;
-			
-			if (monstery - 1.0 >= 0)
-			{
-				Material materialxm1ym1 = game.getWorld().getBlockAt(new Location(monsterx - addx, monstery - 1.0)).getType();
-				ismaterialxm1ym1air = (materialxm1ym1 == Material.AIR);
-				istemp = ismaterialxm1ym1air;
-			}
-			if (monstery - 2.0 >= 0)
-			{
-				Material materialxm1ym2 = game.getWorld().getBlockAt(new Location(monsterx - addx, monstery - 2.0)).getType();
-				ismaterialxm1ym2air = (materialxm1ym2 == Material.AIR);
-				istemp = (istemp && ismaterialxm1ym2air);
-			}
-			if (monstery - 3.0 >= 0)
-			{
-				Material materialxm1ym3 = game.getWorld().getBlockAt(new Location(monsterx - addx, monstery - 3.0)).getType();
-				ismaterialxm1ym3air = (materialxm1ym3 == Material.AIR);
-				istemp = (istemp && ismaterialxm1ym3air);
-			}
-			if (monstery - 4.0 >= 0)
-			{
-				Material materialxm1ym4 = game.getWorld().getBlockAt(new Location(monsterx - addx, monstery - 4.0)).getType();
-				ismaterialxm1ym4air = (materialxm1ym4 == Material.AIR);
-				istemp = (istemp && ismaterialxm1ym4air);
-			}
-			if (istemp)
-			{
-				istoohighleft = true;
-			}
-			else
-			{
-				istoohighleft = false;
+				boolean ismaterialxm1ym1air = false;
+				boolean ismaterialxm1ym2air = false;
+				boolean ismaterialxm1ym3air = false;
+				boolean ismaterialxm1ym4air = false;
+				boolean istemp = false;
+				
+				/*if (monstery - 1.0 >= 0)
+				{
+					Material materialxm1ym1 = game.getWorld().getBlockAt(new Location(monsterx - addx, monstery - 1.0)).getType();
+					ismaterialxm1ym1air = (materialxm1ym1 == Material.AIR);
+					istemp = ismaterialxm1ym1air;
+				}
+				if (monstery - 2.0 >= 0)
+				{
+					Material materialxm1ym2 = game.getWorld().getBlockAt(new Location(monsterx - addx, monstery - 2.0)).getType();
+					ismaterialxm1ym2air = (materialxm1ym2 == Material.AIR);
+					istemp = (istemp && ismaterialxm1ym2air);
+				}
+				if (monstery - 3.0 >= 0)
+				{
+					Material materialxm1ym3 = game.getWorld().getBlockAt(new Location(monsterx - addx, monstery - 3.0)).getType();
+					ismaterialxm1ym3air = (materialxm1ym3 == Material.AIR);
+					istemp = (istemp && ismaterialxm1ym3air);
+				}
+				if (monstery - 4.0 >= 0)
+				{
+					Material materialxm1ym4 = game.getWorld().getBlockAt(new Location(monsterx - addx, monstery - 4.0)).getType();
+					ismaterialxm1ym4air = (materialxm1ym4 == Material.AIR);
+					istemp = (istemp && ismaterialxm1ym4air);
+				}*/
+				if (istemp)
+				{
+					istoohighleft = true;
+				}
+				else
+				{
+					istoohighleft = false;
+				}
 			}
 		}
 	}
@@ -611,7 +624,7 @@ public class Creeper extends Entity
 	{
 		boolean isinlineanotherblock = false;
 		int iterations = 1000;
-		int loop = 0;
+		int loop = 10000;
 		double x1 = point1.getX();
 		double y1 = point1.getY();
 		double x2 = point2.getX();
