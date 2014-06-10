@@ -3,6 +3,9 @@ package sw.superwhateverjnr.texture;
 import java.util.Map;
 import java.util.HashMap;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import sw.superwhateverjnr.entity.EntityType;
 import sw.superwhateverjnr.util.IdAndSubId;
 
@@ -12,6 +15,8 @@ public class TextureMap
 	
 	private final static Map<IdAndSubId,Texture> blocks=new HashMap<IdAndSubId,Texture>();
 	private final static Map<EntityType,Texture> entities=new HashMap<EntityType, Texture>();
+	@Getter @Setter
+	private static Texture menuTexture;
 	private static boolean loadingErrorBlock=false;
 	private static boolean loadingErrorEntity=false;
 	public static boolean loadTexture(IdAndSubId ref, TextureLoader loader)
