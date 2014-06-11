@@ -115,7 +115,7 @@ public class Creeper extends Entity
 			isindistance = true;
 			if (!ismonsterstayingstill)
 			{
-				if (playerx >= monsterx)
+				if ((playerx >= monsterx) && lookingRight)
 				{
 					if (!istoohighright)
 					{
@@ -130,7 +130,7 @@ public class Creeper extends Entity
 					setMovingleft(false);
 					isgoingright = true;
 				}
-				else if (playerx <= monsterx)
+				else if ((playerx <= monsterx) && !lookingRight)
 				{
 					if (!istoohighleft)
 					{
@@ -171,6 +171,7 @@ public class Creeper extends Entity
 		else
 		{
 			isindistance = false;
+			isgoinghorizontal = false;
 		}
 	}
 	protected void seePlayer()
@@ -684,6 +685,6 @@ public class Creeper extends Entity
 	}
 	public String getDebugInfo()
 	{
-		return super.getDebugInfo()+"\nCountdown: "+roundNumber(triggerexplosiontime[0], 3);
+		return super.getDebugInfo()+"\nisindistance="+isindistance+"\nisbehindblock"+isbehindblocks+"\nCountdown: "+roundNumber(triggerexplosiontime[0], 3)+"\nisgoing="+isgoinghorizontal+"\nisradnomgoing="+israndomgoing;
 	}
 }
