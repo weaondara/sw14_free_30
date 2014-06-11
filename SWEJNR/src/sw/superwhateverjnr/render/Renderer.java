@@ -309,22 +309,22 @@ public class Renderer
 		{
 			//right front leg
 			matrix.setRotate(-angle, 0, 0);
-			matrix.postTranslate(left-(right-left), top);
+			matrix.postTranslate(right, top);
 			canvas.drawBitmap(pt.getRightLegLeft(), matrix, paint);
 			
 			//right back leg
 			matrix.setRotate(angle, right-left, 0);
-			matrix.postTranslate(right, top);
+			matrix.postTranslate(left-(right-left), top);
 			canvas.drawBitmap(pt.getRightLegLeft(), matrix, paint);
 			
 			//left front leg
 			matrix.setRotate(angle, 0, 0);
-			matrix.postTranslate(left-(right-left), top);
+			matrix.postTranslate(right, top);
 			canvas.drawBitmap(pt.getLeftLegLeft(), matrix, paint);
 			
 			//left back leg
 			matrix.setRotate(-angle, right-left, 0);
-			matrix.postTranslate(right, top);
+			matrix.postTranslate(left-(right-left), top);
 			canvas.drawBitmap(pt.getLeftLegLeft(), matrix, paint);
 		}
 	}
