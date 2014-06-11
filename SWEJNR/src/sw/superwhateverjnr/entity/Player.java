@@ -51,6 +51,7 @@ public class Player extends Entity
         super.tick();
         tickMove();
         checkGoalReached();
+        checkTime();
         
         Game.getInstance().updateView();
     }
@@ -183,6 +184,14 @@ public class Player extends Entity
     	if(reachedGoal())
     	{
     		System.out.println("You win!");
+    	}
+    }
+    private void checkTime()
+    {
+    	if(world().getTime() == world().getTimeElapsed())
+    	{
+    		System.out.println("Time's up!");
+    		die();
     	}
     }
 }
