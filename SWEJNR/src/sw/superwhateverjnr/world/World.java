@@ -31,6 +31,8 @@ public class World
     private Location goal;
     private Block[][] data;
     private List<Entity> entities;
+    private long time;
+    private long timeElapsed;
     @Setter
     private String bgmfile;
     

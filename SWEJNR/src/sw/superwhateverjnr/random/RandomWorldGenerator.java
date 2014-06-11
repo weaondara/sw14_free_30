@@ -106,8 +106,10 @@ public class RandomWorldGenerator
         spawnDistance = randomizer.nextInt(5) + 5;
 
         Location spawn = new Location(0.5, spawnHeight + 1);
+        
+        long time = randomizer.nextLong();
 
-        World w = WorldLoader.createWorld(name, width, height, spawn, null, blocks, new ArrayList<Entity>());
+        World w = WorldLoader.createWorld(name, width, height, spawn, null, blocks, new ArrayList<Entity>(), time);
         String[] music = SWEJNR.getInstance().getAssets().list("music");
         if (music.length != 0)
         {

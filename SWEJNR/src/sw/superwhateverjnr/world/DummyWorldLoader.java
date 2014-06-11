@@ -40,7 +40,7 @@ public class DummyWorldLoader extends WorldLoader
         Location spawn=new Location(1.5, 10);
         Block[][] data=new Block[width][height];
         List<Entity> entities = new ArrayList<Entity>();
-        World world=createWorld("physicstest", width, height, spawn, null, data, entities);
+        World world=createWorld("physicstest", width, height, spawn, null, data, entities, Long.MAX_VALUE);
         
         BlockFactory bf=BlockFactory.getInstance();
         for(int x=0;x<width;x++)
@@ -119,7 +119,7 @@ public class DummyWorldLoader extends WorldLoader
         Location spawn=new Location(1.5, 11);
         Block[][] data=new Block[width][height];
         List<Entity> entities = new ArrayList<Entity>();
-        World world=createWorld("jumpTest", width, height, spawn, null, data, entities);
+        World world=createWorld("jumpTest", width, height, spawn, null, data, entities, Long.MAX_VALUE);
         
         BlockFactory bf=BlockFactory.getInstance();
         for(int x=0;x<width;x++)
@@ -153,7 +153,7 @@ public class DummyWorldLoader extends WorldLoader
         Location spawn=new Location(2, 10);
         Block[][] data=new Block[width][height];
         List<Entity> entities = new ArrayList<Entity>();
-        World world=createWorld("dummy", width, height, spawn, null, data, entities);
+        World world=createWorld("dummy", width, height, spawn, null, data, entities, 20000);
         
         BlockFactory bf=BlockFactory.getInstance();
         for(int x=0;x<width;x++)
@@ -183,7 +183,7 @@ public class DummyWorldLoader extends WorldLoader
         Location spawn=new Location(2, 10);
         Block[][] data=new Block[width][height];
         List<Entity> entities = new ArrayList<Entity>();
-        World world=createWorld("entitytest", width, height, spawn, null, data, entities);
+        World world=createWorld("entitytest", width, height, spawn, null, data, entities, Long.MAX_VALUE);
         world.setBgmfile("futsuu.flac");
         
         BlockFactory bf=BlockFactory.getInstance();
