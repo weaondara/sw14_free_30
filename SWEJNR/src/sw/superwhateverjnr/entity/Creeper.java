@@ -16,9 +16,9 @@ public class Creeper extends Entity
 {
 	private final static int MAXCOUNTERWALK = 3;
 	
-	private static Player player;
-	private static Game game;
-	private static BlockFactory blockfactory;
+	private Player player;
+	private Game game;
+	private BlockFactory blockfactory;
 	
 	private final static double runningMin = 0.75;
 	private final static double runningMax = 2.25;
@@ -26,43 +26,43 @@ public class Creeper extends Entity
 	private final static double jumpPower = 7.0;
 	private final static double radius = 6.0;
 	private final static double triggerradiusexplosion = 3.0;
-	private static double distance = 0.0;
+	private double distance = 0.0;
 	
-	private static double playerprevx = 0.0;
-	private static double playerprevy = 0.0;
-	private static double monsterprevx = 0.0;
-	private static double monsterprevy = 0.0;
+	private double playerprevx = 0.0;
+	private double playerprevy = 0.0;
+	private double monsterprevx = 0.0;
+	private double monsterprevy = 0.0;
 	
-	private static boolean isbehindblocks = false;
-	private static boolean isindistance = false;
-	private static boolean islavainfront = false;
-	private static boolean istoohighleft = false;
-	private static boolean istoohighright = false;
+	private boolean isbehindblocks = false;
+	private boolean isindistance = false;
+	private boolean islavainfront = false;
+	private boolean istoohighleft = false;
+	private boolean istoohighright = false;
 	
 //	private static boolean isplayerpositionchangednow = false;
 //	private static boolean isplayerpositionchangedprev = false;
 //	private static boolean iscreeperpassingplayernow = false;
 //	private static boolean iscreeperpassingplayerprev = false;
-	private static boolean ismonsterstayingstill = false;
+	private boolean ismonsterstayingstill = false;
 
-	private static boolean isgoingright = false;
-	private static boolean isgoinghorizontal = false;
-	private static boolean isgoingup = false;
-	private static boolean isgoingvertical = false;
+	private boolean isgoingright = false;
+	private boolean isgoinghorizontal = false;
+	private boolean isgoingup = false;
+	private boolean isgoingvertical = false;
 	
-	private static double[] randomtimewalk = {0.0, 0.0};
-	private static int counterright = 0;
-	private static int counterleft = 0;
-	private static boolean israndomgoing = false;
-	private static boolean israndomgoingright = false;
+	private double[] randomtimewalk = {0.0, 0.0};
+	private int counterright = 0;
+	private int counterleft = 0;
+	private boolean israndomgoing = false;
+	private boolean israndomgoingright = false;
 	
-	private static double[] randomtimejump = {0.0, 0.0};
-	private static boolean israndomjump = false;
-	private static boolean israndomjumpcompleted = false;
+	private double[] randomtimejump = {0.0, 0.0};
+	private boolean israndomjump = false;
+	private boolean israndomjumpcompleted = false;
 	
-	private static double[] triggerexplosiontime = {0.0, 0.0};
-	private static boolean istriggertimer = false;
-	private static boolean istriggerexplosion = false;
+	private double[] triggerexplosiontime = {0.0, 0.0};
+	private boolean istriggertimer = false;
+	private boolean istriggerexplosion = false;
 
 	private Random random = new Random();
 	
