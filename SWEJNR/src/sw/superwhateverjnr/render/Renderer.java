@@ -3,6 +3,7 @@ package sw.superwhateverjnr.render;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import sw.superwhateverjnr.Game;
 import sw.superwhateverjnr.SWEJNR;
@@ -922,6 +923,22 @@ public class Renderer
 			if(e.getTriggerRadius() > 0)
 			{
 				canvas.drawCircle(x, y, (float) e.getTriggerRadius()*game.getTextureWidth(), paint);
+			}
+			
+			//debug data
+			x=(float) (leftoffset+(e.getLocation().getX()-x1)*game.getTextureWidth());
+			y=(float) (topoffset+(y2-e.getLocation().getY())*game.getTextureHeight());
+			
+			String debugdata=e.getDebugInfo();
+			String[] list=debugdata.split("\n");
+			float textheight=(paint.descent()+paint.ascent())*list.length;
+			y+=2*textheight;
+			
+			
+			for(String s:list)
+			{
+				canvas.drawText(s, x, y, paint);
+				y-=paint.descent()+paint.ascent();
 			}
 		}
 	}

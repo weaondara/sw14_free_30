@@ -108,6 +108,8 @@ public abstract class Entity
 	protected Location location;
 	protected Map<String, Object> extraData;
 	
+	protected long ticksLived;
+	
 	//-------------------------- properties ------------------------------
 	protected Rectangle hitBox;
 	protected Rectangle renderBox;
@@ -201,6 +203,7 @@ public abstract class Entity
 	
 	public void tick()
 	{
+		ticksLived++;
 		tickGravity();
 		tickAnimation();
 	}
@@ -444,4 +447,8 @@ public abstract class Entity
 		return Game.getInstance().getWorld();
 	}
 	
+	public String getDebugInfo()
+	{
+		return location+"\n"+velocity+"\nhealth: "+health+"\ntickslived: "+ticksLived+"\nlookingright: "+lookingRight;
+	}
 }
