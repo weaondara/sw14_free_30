@@ -27,6 +27,7 @@ public class World
     private String name;
     private int width, height;
     private Location spawnLocation;
+    @Setter
     private Location goal;
     private Block[][] data;
     private List<Entity> entities;
@@ -49,28 +50,42 @@ public class World
         return data[x][y];
     }
     @SneakyThrows
-    public void createExplosion(Location location, int radius, int method)
+    public void createExplosion(Location location, float radius, int method)
     {
         BlockFactory bf = BlockFactory.getInstance();
         Game game=Game.getInstance();
-        int x = location.getBlockX();
-        int y = location.getBlockY();
+        double x = location.getX();
+        double y = location.getY();
         switch (method)
         {
-        case 1: //Rectangle 
-            x -= radius - 1;
-            y += radius + 1;
-            for(int i = 0; i < radius * 2 - 1; i++)
-            {
-                for(int j = 0; j < radius * 2 - 1; j++)
-                {
-                    if (((x + i) >= 0) && ((x + i) < getWidth()) &&
-                        ((y + i) >= 0) && ((y + i) < getHeight()))
-                    {
-                        game.getWorld().setBlockAt(x + i, y + j, bf.create(Material.AIR.getId(), (byte)0, x + i, y + j, game.getWorld(), null));
-                    }
-                }
-            }
+	        case 1: //Rectangle 
+	            x -= radius - 1;
+	            y += radius + 1;
+	            for(int i = 0; i < radius * 2 - 1; i++)
+	            {
+	                for(int j = 0; j < radius * 2 - 1; j++)
+	                {
+	                    if (((x + i) >= 0) && ((x + i) < getWidth()) &&
+	                        ((y + i) >= 0) && ((y + i) < getHeight()))
+	                    {
+	                        game.getWorld().setBlockAt((int)(x + i), (int)(y + j), bf.create(Material.AIR.getId(), (byte)0, (int)(x + i), (int)(y + j), game.getWorld(), null));
+	                    }
+	                }
+	            }
+	            break;
+	        case 2: //Circle 
+	            for(float i = -radius; i <= radius; i++)
+	            {
+	                for(float j = -radius; j <= radius; j++)
+	                {
+	                    if (location.add(i, j).isInsideWorld(this) && location.distance(location.add(i, j))<=radius)
+	                    {
+	                        game.getWorld().setBlockAt((int)(x + i), (int)(y + j), 
+	                        		bf.create(Material.AIR.getId(), (byte)0, (int)(x + i), (int)(y + j), game.getWorld(), null));
+	                    }
+	                }
+	            }
+	            break;
         }
     }
 }
