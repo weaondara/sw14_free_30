@@ -731,14 +731,19 @@ public class Renderer
 		int fontcolor=0xFF00FF00;
 		
 		paint.setColor(fontcolor);
-		paint.setTextAlign(Align.LEFT);
 		paint.setTextSize(fontsize);
 		
 		Rect r=new Rect();
 		paint.getTextBounds("b", 0, 1, r);
 		int textheight=r.height();
 		
+//		float textheight=paint.ascent()+paint.descent();
+		
+		paint.setTextAlign(Align.LEFT);
 		canvas.drawText("FPS: "+Game.getInstance().getGameView().getFps(), 10, 10+textheight, paint);
+		
+		paint.setTextAlign(Align.RIGHT);
+		canvas.drawText("Time: "+(world.getTime()-world.getTimeElapsed())/100, canvas.getWidth() - 10, 10+textheight, paint);
 	}
 	private void drawControls(Canvas canvas)
 	{
@@ -926,6 +931,8 @@ public class Renderer
 			}
 			
 			//debug data
+			paint.setTextAlign(Align.LEFT);
+			
 			x=(float) (leftoffset+(e.getLocation().getX()-x1)*game.getTextureWidth());
 			y=(float) (topoffset+(y2-e.getLocation().getY())*game.getTextureHeight());
 			
