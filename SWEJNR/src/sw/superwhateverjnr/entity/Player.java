@@ -10,11 +10,6 @@ import sw.superwhateverjnr.world.Location;
 @Getter
 public class Player extends Entity
 {
-//    private final static float armMaxDegreeDeltaMoving = 60;
-//    private final static float armMaxDegreeDeltaStanding = 12;
-//    private static float armMoveConstantMoving = 4;
-//    private static float armMoveConstantStanding = 0.15F;
-    
     private final static double runningMin = 1.5;
     private final static double runningMax = 4.5;
     private final static double runPower = 0.0015;
@@ -39,7 +34,7 @@ public class Player extends Entity
     public boolean reachedGoal()
     {
         Location goal = Game.getInstance().getWorld().getGoal();
-        return location.getBlockX() == goal.getBlockX() && location.getBlockY() == location.getBlockY();
+        return goal != null && location.getBlockX() == goal.getBlockX() && location.getBlockY() == location.getBlockY();
     }
     
     @Setter

@@ -185,22 +185,22 @@ public class Game
 				try
 				{
 					player.tick();
-					for(int i=0;i<world.getEntities().size();i++)
-					{
-						Entity e=world.getEntities().get(i);
-						try
-						{
-							e.tick();
-						}
-						catch(Exception ex)
-						{
-							ex.printStackTrace();
-						}
-					}
 				}
 				catch(Exception e)
 				{
 					e.printStackTrace();
+				}
+				for(int i=0;i<world.getEntities().size();i++)
+				{
+					Entity e=world.getEntities().get(i);
+					try
+					{
+						e.tick();
+					}
+					catch(Exception ex)
+					{
+						ex.printStackTrace();
+					}
 				}
 			}
 		};
@@ -279,7 +279,6 @@ public class Game
 		{
 			return;
 		}
-//		System.out.println(l);
 		if(l.getX()<minDisplayPoint.getX()+viewRect.getMin().getX())
 		{
 			float x=(float) (l.getX()-viewRect.getMin().getX());
@@ -311,10 +310,10 @@ public class Game
 		else if(l.getY()>minDisplayPoint.getY()+viewRect.getMax().getY())
 		{
 			float y=(float) (l.getY()-(viewRect.getMax().getY()));
-//			if(y>world.getHeight())
-//			{
-//				y=world.getHeight();
-//			}
+			if(y>world.getHeight())
+			{
+				y=world.getHeight();
+			}
 			minDisplayPoint.setY(y);
 		}
 	}
