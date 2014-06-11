@@ -110,7 +110,7 @@ public class Game
 		GameActivity.getInstance().setContentView(gameView);
 		gameRunning=true;
 		paused=false;
-		
+        
         mp = new MediaPlayer();
         
         try
@@ -140,7 +140,7 @@ public class Game
 			return;
 		}
 		gameRunning=false;
-		
+        mp.pause();
 		enabled=false;
 	}
 	
@@ -151,10 +151,17 @@ public class Game
 		{
 			return;
 		}
-		
 		gameRunning=!paused;
 		gameView.setPaused(paused);
 		this.paused = paused;
+        if(paused)
+        {
+            mp.pause();
+        }
+        else
+        {
+            mp.start();
+        }
 	}
 	
 	public void loadWorld(String name)
