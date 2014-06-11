@@ -453,6 +453,6 @@ public abstract class Entity
 	
 	public String getDebugInfo()
 	{
-		return location+"\n"+velocity+"\nhealth: "+health+"\ntickslived: "+ticksLived+"\nlookingright: "+lookingRight;
+		return "Type: "+type.name()+"\n"+location+"\n"+velocity+"\nhealth: "+health+"\ntickslived: "+ticksLived+"\nlookingright: "+lookingRight;
 	}
 }
