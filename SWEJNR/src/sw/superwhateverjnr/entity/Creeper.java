@@ -25,7 +25,7 @@ public class Creeper extends Entity
 	private final static double runPower = 0.0015;
 	private final static double jumpPower = 7.0;
 	private final static double radius = 6.0;
-	private final static double triggerradiusexplosion = 3.0;
+	private final static double triggerradiusexplosion = 2.0;
 	private double distance = 0.0;
 	
 	private double playerprevx = 0.0;
@@ -39,10 +39,6 @@ public class Creeper extends Entity
 	private boolean istoohighleft = false;
 	private boolean istoohighright = false;
 	
-//	private static boolean isplayerpositionchangednow = false;
-//	private static boolean isplayerpositionchangedprev = false;
-//	private static boolean iscreeperpassingplayernow = false;
-//	private static boolean iscreeperpassingplayerprev = false;
 	private boolean ismonsterstayingstill = false;
 
 	private boolean isgoingright = false;
@@ -60,7 +56,7 @@ public class Creeper extends Entity
 	private boolean israndomjump = false;
 	private boolean israndomjumpcompleted = false;
 	
-	private double[] triggerexplosiontime = {0.0, 3.0};
+	private double[] triggerexplosiontime = {0.0, 2.0};
 	private boolean istriggertimer = false;
 	private boolean istriggerexplosion = false;
 	private int lasttriggerinttime = 0;
@@ -78,7 +74,7 @@ public class Creeper extends Entity
 	@Override
 	protected void die()
 	{
-		
+		super.die();
 	}
 	@Override
 	public void tick()
@@ -94,6 +90,7 @@ public class Creeper extends Entity
 		randomWalk(true);
 		jumpIfWall();
 		setLastPosition();
+		setLookingSide();
 		tickMove();
 	}
 	@SneakyThrows
@@ -231,7 +228,7 @@ public class Creeper extends Entity
 	@SneakyThrows
 	protected void triggerExplosion()
 	{
-		if (!istriggerexplosion && isindistance)
+		if (!istriggerexplosion && (location.distance(player.location) <= triggerradiusexplosion) && isindistance)
 		{
 			istriggertimer = true;
 			long now=System.currentTimeMillis();
@@ -239,13 +236,14 @@ public class Creeper extends Entity
 			if (lasttriggerinttime < (int)triggerexplosiontime[0])
 			{
 				lasttriggerinttime = (int)triggerexplosiontime[0];
-				System.out.println("Countdown = "+((int)triggerexplosiontime[1]-lasttriggerinttime));
+				//System.out.println("Countdown = "+((int)triggerexplosiontime[1]-lasttriggerinttime));
 			}
 			if (triggerexplosiontime[0] > triggerexplosiontime[1])
 			{
 				istriggerexplosion = !istriggerexplosion;
-				System.out.println("BOOOOOOOOOOOOOOMMMMMMMMMMMMMMMM!!!!");
+				//System.out.println("BOOOOOOOOOOOOOOMMMMMMMMMMMMMMMM!!!!");
 				game.getWorld().createExplosion(location, 4, 2);
+				die();
 			}
 		}
 		else
@@ -510,6 +508,17 @@ public class Creeper extends Entity
 		monsterprevx = getLocation().getX();
 		monsterprevy = getLocation().getY();
 	}
+	protected void setLookingSide()
+	{
+		if (israndomgoingright && israndomgoing || isgoingright && isgoinghorizontal)
+		{
+			lookingRight = true;
+		}
+		else if (!israndomgoingright && israndomgoing || !isgoingright && isgoinghorizontal)
+		{
+			lookingRight = false;
+		}
+	}
 	/*protected void swimIfWater()
 	{
 		if (isindistance)
@@ -628,7 +637,6 @@ public class Creeper extends Entity
 			
 		location.setX(x);
 	}
-	
 	private double roundNumber(double number, int digits)
 	{
 		return (double)((int)(number * (double)Math.pow(10.0, (double)digits))) / (double)Math.pow(10.0, (double)digits);
@@ -673,5 +681,9 @@ public class Creeper extends Entity
 			loop++;
 		}
 		return isinlineanotherblock;
+	}
+	public String getDebugInfo()
+	{
+		return super.getDebugInfo()+"\nCountdown: "+roundNumber(triggerexplosiontime[0], 3);
 	}
 }
