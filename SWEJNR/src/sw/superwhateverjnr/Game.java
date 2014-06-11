@@ -190,17 +190,13 @@ public class Game
 				{
 					e.printStackTrace();
 				}
-				for(int i=0;i<world.getEntities().size();i++)
+				try
 				{
-					Entity e=world.getEntities().get(i);
-					try
-					{
-						e.tick();
-					}
-					catch(Exception ex)
-					{
-						ex.printStackTrace();
-					}
+					world.tick();
+				}
+				catch(Exception e)
+				{
+					e.printStackTrace();
 				}
 			}
 		};

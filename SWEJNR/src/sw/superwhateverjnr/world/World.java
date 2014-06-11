@@ -51,6 +51,24 @@ public class World
         
         return data[x][y];
     }
+    
+    public void tick()
+    {
+    	timeElapsed++;
+    	for(int i=0;i<entities.size();i++)
+		{
+			Entity e=entities.get(i);
+			try
+			{
+				e.tick();
+			}
+			catch(Exception ex)
+			{
+				ex.printStackTrace();
+			}
+		}
+    }
+    
     @SneakyThrows
     public void createExplosion(Location location, float radius, int method)
     {
