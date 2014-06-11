@@ -78,7 +78,8 @@ public class World
 	            {
 	                for(float j = -radius; j <= radius; j++)
 	                {
-	                    if (location.add(i, j).isInsideWorld(this) && location.distance(location.add(i, j))<=radius)
+	                	Location l = location.add(i, j);
+	                    if (l.isInsideWorld(this) && location.distance(l)<=radius)
 	                    {
 	                        game.getWorld().setBlockAt((int)(x + i), (int)(y + j), 
 	                        		bf.create(Material.AIR.getId(), (byte)0, (int)(x + i), (int)(y + j), game.getWorld(), null));
