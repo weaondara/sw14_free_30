@@ -60,9 +60,10 @@ public class Creeper extends Entity
 	private boolean israndomjump = false;
 	private boolean israndomjumpcompleted = false;
 	
-	private double[] triggerexplosiontime = {0.0, 0.0};
+	private double[] triggerexplosiontime = {0.0, 3.0};
 	private boolean istriggertimer = false;
 	private boolean istriggerexplosion = false;
+	private int lasttriggerinttime = 0;
 
 	private Random random = new Random();
 	
@@ -232,9 +233,26 @@ public class Creeper extends Entity
 	{
 		if (!istriggerexplosion && isindistance)
 		{
-			game.getWorld().createExplosion(location, 4, 2);
-			istriggerexplosion = !istriggerexplosion;
-			System.out.println("BOOOOOOOOOOOOOOMMMMMMMMMMMMMMMM!!!!");
+			istriggertimer = true;
+			long now=System.currentTimeMillis();
+			triggerexplosiontime[0] += (double)(now - getLastMoveTime()) / 1000.0;
+			if (lasttriggerinttime < (int)triggerexplosiontime[0])
+			{
+				lasttriggerinttime = (int)triggerexplosiontime[0];
+				System.out.println("Countdown = "+((int)triggerexplosiontime[1]-lasttriggerinttime));
+			}
+			if (triggerexplosiontime[0] > triggerexplosiontime[1])
+			{
+				istriggerexplosion = !istriggerexplosion;
+				System.out.println("BOOOOOOOOOOOOOOMMMMMMMMMMMMMMMM!!!!");
+				game.getWorld().createExplosion(location, 4, 2);
+			}
+		}
+		else
+		{
+			istriggertimer = false;
+			triggerexplosiontime[0] = 0.0;
+			lasttriggerinttime = 0;
 		}
 	}
 	protected void randomJump(boolean dorandomjump)
