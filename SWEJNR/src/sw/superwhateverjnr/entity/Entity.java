@@ -275,6 +275,7 @@ public abstract class Entity
 	
 	protected void die()
 	{
+		health = 0;
 		world().getEntities().remove(this);
 	}
 	
