@@ -57,6 +57,10 @@ public class RandomWorldGenerator
 
     private int lastSpawn = 0;
     private int spawnDistance;
+    
+    private int maxjw;
+    private int mwidth;
+    private int fillWidth;
 
     private Random randomizer;
     private static BlockFactory bf;
@@ -98,10 +102,10 @@ public class RandomWorldGenerator
         }
         Block blocks[][] = new Block[width][height];
 
-        int spawnHeight = height / 2;
-        if (spawnHeight > 10)
+        int spawnHeight = 0;
+        while(spawnHeight < 5)
         {
-            spawnHeight = 0;
+            spawnHeight = randomizer.nextInt(Math.max(height/2,10));
         }
         spawnDistance = randomizer.nextInt(5) + 5;
 
@@ -117,14 +121,26 @@ public class RandomWorldGenerator
         }
         Player ref = new Player(null);
 
-        pillar(blocks, w, 0, spawnHeight);
+        try
+        {
+            pillar(blocks, w, 0, spawnHeight);
+        }
+        catch(IndexOutOfBoundsException e)
+        {
+            // Should never happen but for debugging purposes....
+            System.err.println("Somehow, these world parameters caused an IndexOutOfBoundsException:");
+            System.err.println("Width: " + width + " Height: " + height);
+            System.err.println("Here flies an exception with the full information!");
+            throw e;
+        }
 
         int thisHeight = spawnHeight;
         int nextHeight;
         int jw;
+        
         int jh = (int) ref.getJumpMaxHeight();
-        int mwidth = width - 1;
-        int fillWidth;
+        maxjw = (int) ref.getJumpWidth(3); // Three is a magic number.
+        mwidth = width - 1;
         for (fillWidth = 1; fillWidth < width;)
         {
             Structure nextConstruct = Structure.fromId(randomizer.nextInt(Structure.values().length));
@@ -150,28 +166,22 @@ public class RandomWorldGenerator
                     {
                         jw = randomizer.nextInt((int) ref.getJumpWidth((double) thisHeight));
                     }
-                    if (jw > mwidth - fillWidth)
-                    {
-                        jw = mwidth - fillWidth;
-                    }
+                    jw = validateJW(jw);                   
                     nextHeight = thisHeight + (int) ref.getJumpHeight((double) jw);
-                    if (nextHeight > maxHeight - 1)
+                    if (nextHeight > maxHeight - 2)
                     {
-                        nextHeight = maxHeight - 1;
+                        nextHeight = maxHeight - 2;
                     }
                     gap(blocks, w, fillWidth, jw, thisHeight, nextHeight, rmg.nextFilling());
                     fillWidth += jw + 1;
                     break;
                 case STEP:
                     jw = randomizer.nextInt((int) ref.getJumpWidth((double) thisHeight));
-                    if (jw > mwidth - fillWidth)
-                    {
-                        jw = mwidth - fillWidth;
-                    }
+                    jw = validateJW(jw);
                     nextHeight = thisHeight + (int) ref.getJumpHeight((double) jw);
-                    if (nextHeight > maxHeight - 1)
+                    if (nextHeight > maxHeight - 2)
                     {
-                        nextHeight = maxHeight - 1;
+                        nextHeight = maxHeight - 2;
                     }
                     step(blocks, w, fillWidth, jw, nextHeight, false);
                     fillWidth += jw + 1;
@@ -184,6 +194,10 @@ public class RandomWorldGenerator
                         platWidth = mwidth - fillWidth;
                     }
                     nextHeight = randomizer.nextInt(thisHeight + jh);
+                    while (nextHeight < thisHeight - 3)
+                    {
+                        nextHeight = randomizer.nextInt(thisHeight + jh);
+                    }
                     if (nextHeight > maxHeight - 2)
                     {
                         nextHeight = maxHeight - 2;
@@ -204,7 +218,7 @@ public class RandomWorldGenerator
                 }
             }
         }
-        w.setGoal(new Location(fillWidth,thisHeight+1));
+        w.setGoal(new Location(fillWidth-1,thisHeight+1));
         return w;
     }
 
@@ -239,13 +253,13 @@ public class RandomWorldGenerator
         Material ground = top.getGround();
 
         int i = 0;
-        while (i <= height - 4)
+        while (i < height - 3)
         {
             blocks[offset][i] = bf.create(ground.getId(), (byte) 0, offset, i, w, null);
             i++;
         }
 
-        while (i <= height - 1)
+        while (i < height)
         {
             blocks[offset][i] = bf.create(subtop.getId(), (byte) 0, offset, i, w, null);
             i++;
@@ -317,5 +331,11 @@ public class RandomWorldGenerator
         {
             pillar(blocks, w, offset + i, height, top);
         }
+    }
+    
+    private int validateJW(int jw)
+    {
+        jw = jw > mwidth - fillWidth ? mwidth -fillWidth : jw;
+        return jw > maxjw ? maxjw : jw;
     }
 }
