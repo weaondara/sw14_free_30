@@ -232,8 +232,8 @@ public class Creeper extends Entity
 	{
 		if (!istriggerexplosion && isindistance)
 		{
-			//world.createExplosion(new Location(11,10), 3, 1);
-			game.getWorld().setBlockAt(9, 10, blockfactory.create(Material.AIR.getId(), (byte)0, 9, 10, game.getWorld(), null));
+			game.getWorld().createExplosion(location, 3, 2);
+			//game.getWorld().setBlockAt(9, 10, blockfactory.create(Material.AIR.getId(), (byte)0, 9, 10, game.getWorld(), null));
 			istriggerexplosion = !istriggerexplosion;
 			System.out.println("BOOOOOOOOOOOOOOMMMMMMMMMMMMMMMM!!!!");
 		}
