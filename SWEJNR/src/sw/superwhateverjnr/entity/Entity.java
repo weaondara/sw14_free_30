@@ -273,7 +273,10 @@ public abstract class Entity
 		return maxheight * 0.01;
 	}
 	
-	protected abstract void die();
+	protected void die()
+	{
+		world().getEntities().remove(this);
+	}
 	
 	protected void tickGravity()
 	{
