@@ -107,7 +107,7 @@ public class RandomWorldGenerator
 
         Location spawn = new Location(0.5, spawnHeight + 1);
 
-        World w = WorldLoader.createWorld(name, width, height, spawn, blocks, new ArrayList<Entity>());
+        World w = WorldLoader.createWorld(name, width, height, spawn, null, blocks, new ArrayList<Entity>());
         String[] music = SWEJNR.getInstance().getAssets().list("music");
         if (music.length != 0)
         {
@@ -122,7 +122,8 @@ public class RandomWorldGenerator
         int jw;
         int jh = (int) ref.getJumpMaxHeight();
         int mwidth = width - 1;
-        for (int fillWidth = 1; fillWidth < width;)
+        int fillWidth;
+        for (fillWidth = 1; fillWidth < width;)
         {
             Structure nextConstruct = Structure.fromId(randomizer.nextInt(Structure.values().length));
             switch (nextConstruct)
@@ -201,7 +202,7 @@ public class RandomWorldGenerator
                 }
             }
         }
-
+        w.setGoal(new Location(fillWidth,thisHeight+1));
         return w;
     }
 
