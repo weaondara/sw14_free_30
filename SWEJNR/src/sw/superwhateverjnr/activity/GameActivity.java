@@ -58,25 +58,21 @@ public class GameActivity extends Activity
         init(worldloader, worldname);
         PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         wl = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "SWEJNR");
-        wl.acquire();
-        game.enable();
     }
     
     @Override
     protected void onPause() 
     {
-        wl.release();
-        System.err.println("Pausing.");
+    	game.disable();
     	super.onPause();
-    	game.setPaused(true);
+        wl.release();
     }
     @Override
     protected void onResume() 
     {
         wl.acquire();
-        System.err.println("Resuming.");
     	super.onResume();
-    	game.setPaused(false);
+    	game.enable();
     }
     
     @Override
@@ -86,8 +82,12 @@ public class GameActivity extends Activity
         {
             wl.release();
         }
-        System.err.println("Stopping.");
         super.onStop();
-        game.disable();
+    }
+    @Override
+    protected void onDestroy() 
+    {
+        game.close();
+        super.onDestroy();
     }
 }

@@ -55,6 +55,7 @@ public class Game
 	private View oldview;
 	private GameView gameView;
 	
+	private String worldname;
 	@Setter
 	private WorldLoader worldLoader;
 	private World world;
@@ -64,10 +65,9 @@ public class Game
 	private Settings settings;
 	private Scheduler scheduler;
 	
-	private boolean gameRunning = false;
-	
 	private boolean enabled = false;
-	private String worldname;
+	
+	private boolean musicinitdone = false;
 	
 	public Game()
 	{
@@ -90,9 +90,9 @@ public class Game
 		
 		gameView=new GameView(GameActivity.getInstance());
 		
-//		init();
-//		loadWorld("bla");
-//		enable();
+		mp = new MediaPlayer();
+		mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
+		mp.setLooping(true);
 	}
 
 	public void init()
@@ -108,60 +108,47 @@ public class Game
 		}
 		
 		GameActivity.getInstance().setContentView(gameView);
-		gameRunning=true;
-		paused=false;
-        
-        mp = new MediaPlayer();
-        
-        try
-        {
-            AssetFileDescriptor as = SWEJNR.getInstance().getAssets().openFd("music/"+world.getBgmfile());
-            mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            mp.setDataSource(as.getFileDescriptor(), as.getStartOffset(), as.getLength());
-            mp.setLooping(true);
-            mp.prepare();
-            mp.start(); 
-            as.close();
-        }
-        catch(IOException e)
-        {
-            if(world.getBgmfile()!=null)
-            {
-                e.printStackTrace();
-            }
-        }
+		gameView.setPaused(false);
+		
+		if(!musicinitdone)
+		{
+			try
+	        {
+				AssetFileDescriptor as = SWEJNR.getInstance().getAssets().openFd("music/"+world.getBgmfile());
+		        mp.setDataSource(as.getFileDescriptor(), as.getStartOffset(), as.getLength());
+		        mp.prepare();
+		        as.close();
+	        }
+	        catch(IOException e)
+	        {
+	            if(world.getBgmfile()!=null)
+	            {
+	                e.printStackTrace();
+	            }
+	        }
+			musicinitdone=true;
+		}
+		
+		mp.start(); 
 		
 		enabled=true;
 	}
+	
 	public void disable()
 	{
 		if(!enabled)
 		{
 			return;
 		}
-		gameRunning=false;
-        mp.pause();
+		gameView.setPaused(true);
+		mp.pause();
+		
 		enabled=false;
 	}
-	
-	private boolean paused;
-	public void setPaused(boolean paused)
+	public void close()
 	{
-		if(this.paused == paused)
-		{
-			return;
-		}
-		gameRunning=!paused;
-		gameView.setPaused(paused);
-		this.paused = paused;
-        if(paused)
-        {
-            mp.pause();
-        }
-        else
-        {
-            mp.start();
-        }
+		mp.stop();
+		mp.release();
 	}
 	
 	public void loadWorld(String name)
@@ -185,7 +172,7 @@ public class Game
 			@Override
 			public void run()
 			{
-				while(!gameRunning)
+				while(!enabled)
 				{
 					return;
 				}
