@@ -15,7 +15,7 @@ public class RandomWorldLoader extends WorldLoader
 		int hlimit = getHlimit();
 		int wlimit = getWlimit();
 		int minimum = getMinimum();
-		while(minx < minimum)
+		while(minx < minimum || miny < minimum)
 		{
 			maxx = r.nextInt(hlimit);
 			maxy = r.nextInt(wlimit);

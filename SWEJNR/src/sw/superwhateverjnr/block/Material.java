@@ -69,77 +69,88 @@ public enum Material
 				return false;
 		}
 	}
-        public static boolean onSurface(Material m)
+    public static boolean onSurface(Material m)
+    {
+        switch(m)
         {
-                switch(m)
-                {
-                        case AIR:
-                        case GRASS:
-                        case SAND:
-                        case GRAVEL:
-                        case WATER_STANDING:
-                        case LAVA_STANDING:
-                              return true;
-                        default:
-                                return false;
-                }
+            case AIR:
+            case GRASS:
+            case SAND:
+            case GRAVEL:
+            case WATER_STANDING:
+            case LAVA_STANDING:
+                return true;
+            default:
+                return false;
         }
-        public static boolean translucent(Material m)
+    }
+    
+    public static boolean deepUnderground(Material m)
+    {
+       switch(m)
         {
-                switch(m)
-                {
-                        case AIR:
-                        case WATER_FLOWING:
-                        case WATER_STANDING:
-                                return false;
-                        default:
-                                return true;
-                }
+            case BEDROCK:
+                return true;
+            default:
+                return false;
         }
-        
-        public boolean isSolid() 
+    }
+    
+    public static boolean translucent(Material m)
+    {
+        switch(m)
         {
-                return isSolid(this);
+            case AIR:
+            case WATER_FLOWING:
+            case WATER_STANDING:
+                return false;
+            default:
+                return true;
         }
-        public boolean isLiquid() 
+    }
+
+    public boolean isSolid() 
+    {
+        return isSolid(this);
+    }
+    public boolean isLiquid() 
+    {
+        return isLiquid(this);
+    }
+    public boolean onSurface() 
+    {
+        return onSurface(this);
+    }
+    public boolean deepUnderground()
+    {
+        return deepUnderground(this);
+    }
+    public boolean translucent()
+    {
+        return translucent(this);
+    }
+
+    public Material getSubtop()
+    {
+        switch(this)
         {
-                return isLiquid(this);
+        case GRASS:
+            return DIRT;
+        default:
+            return this;
         }
-        public boolean onSurface() 
-        {
-                return onSurface(this);
-        }
-        public boolean translucent()
-        {
-                return translucent(this);
-        }
-        
-        public Material getSubtop()
-	{
-		switch(this)
-                {
-                        case GRASS:
-                                return DIRT;
-                        default:
-                                return this;
-                }
-	}
+    }
 	public Material getGround()
 	{
-		switch(this)
-                {
-                        default:
-                                return STONE;
-                }
-	}
-        public boolean deepUnderground()
+        if(!this.isSolid())
         {
-                switch(this)
-                {
-                        case BEDROCK:
-                                return true;
-                        default:
-                                return false;
-                }
+            return this; // as long as you can't swim or die in lava this is to let the player fall outside the world
         }
+        switch(this)
+        {
+            case AIR:
+            default:
+                return STONE;
+        }
+    }
 }

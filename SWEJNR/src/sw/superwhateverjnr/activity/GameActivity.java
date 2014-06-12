@@ -1,19 +1,23 @@
 package sw.superwhateverjnr.activity;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
+import android.os.Bundle;
+import android.os.PowerManager;
+import android.os.PowerManager.WakeLock;
+import lombok.Getter;
 import sw.superwhateverjnr.Game;
 import sw.superwhateverjnr.world.DummyWorldLoader;
 import sw.superwhateverjnr.world.PackedWorldLoader;
 import sw.superwhateverjnr.world.RandomWorldLoader;
 import sw.superwhateverjnr.world.WorldLoader;
-import lombok.Getter;
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.os.Bundle;
 
 public class GameActivity extends Activity
 {
 	@Getter
     private static GameActivity instance;
+    private WakeLock wl;
 	
 	private Game game;
 	public GameActivity()
@@ -52,27 +56,38 @@ public class GameActivity extends Activity
         String worldloader=this.getIntent().getExtras().getString("worldloader");
         String worldname=this.getIntent().getExtras().getString("worldname");
         init(worldloader, worldname);
-        
-        game.enable();
+        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        wl = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "SWEJNR");
     }
     
     @Override
     protected void onPause() 
     {
+    	game.disable();
     	super.onPause();
-    	game.setPaused(true);
+        wl.release();
     }
     @Override
     protected void onResume() 
     {
+        wl.acquire();
     	super.onResume();
-    	game.setPaused(false);
+    	game.enable();
     }
     
     @Override
     protected void onStop() 
     {
+        if(wl.isHeld())
+        {
+            wl.release();
+        }
         super.onStop();
-        game.disable();
+    }
+    @Override
+    protected void onDestroy() 
+    {
+        game.close();
+        super.onDestroy();
     }
 }
