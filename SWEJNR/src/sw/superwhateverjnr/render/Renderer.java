@@ -99,8 +99,8 @@ public class Renderer
 		x1=(int) Math.floor(min.getX());
 		y1=(int) Math.floor(min.getY());
 		
-		x2=(int) (x1+Math.ceil((double)game.getDisplayWidth()/game.getTextureWidth()))+(min.getX()%1==0?0:1);
-		y2=(int) (y1+Math.ceil((double)game.getDisplayHeight()/game.getTextureHeight()))+(min.getY()%1==0?0:1);
+		x2=(int) (x1+Math.ceil((double)game.getDisplayWidth()/game.getTextureSize()))+(min.getX()%1==0?0:1);
+		y2=(int) (y1+Math.ceil((double)game.getDisplayHeight()/game.getTextureSize()))+(min.getY()%1==0?0:1);
 		
 		xstart=x1<0?0:x1;
 		ystart=y1<0?0:y1;
@@ -111,29 +111,29 @@ public class Renderer
 		
 		if(min.getY()<0)
 		{
-			leftoffset=(float) ((min.getX()%1)*game.getTextureWidth());
+			leftoffset=(float) ((min.getX()%1)*game.getTextureSize());
 		}
 		else
 		{
-			leftoffset=(float) ((1-min.getX()%1)*game.getTextureWidth());
+			leftoffset=(float) ((1-min.getX()%1)*game.getTextureSize());
 		}
 		if(leftoffset>0)
 		{
-			leftoffset-=game.getTextureWidth();
+			leftoffset-=game.getTextureSize();
 		}
 		
 		
 		if(min.getY()>0)
 		{
-			topoffset=(float) ((min.getY()%1)*game.getTextureHeight());
+			topoffset=(float) ((min.getY()%1)*game.getTextureSize());
 		}
 		else
 		{
-			topoffset=(float) ((1-min.getY()%1)*game.getTextureHeight());
+			topoffset=(float) ((1-min.getY()%1)*game.getTextureSize());
 		}
 		if(topoffset>0)
 		{
-			topoffset-=game.getTextureHeight();
+			topoffset-=game.getTextureSize();
 		}
 	}
 	
@@ -145,7 +145,7 @@ public class Renderer
 	{
 		for(int x=xstart;x<xend;x++)
 		{
-			float left=leftoffset + (x-x1) * game.getTextureWidth();
+			float left=leftoffset + (x-x1) * game.getTextureSize();
 			for(int y=yend-1;y>ystart-1;y--)
 			{
 				Block b=world.getBlockAt(x, y);
@@ -162,7 +162,7 @@ public class Renderer
 					continue;
 				}
 				
-				float top=topoffset+(y2-1-y)*game.getTextureHeight();
+				float top=topoffset+(y2-1-y)*game.getTextureSize();
 				canvas.drawBitmap(tex.getImage(), left, top, null);
 			}
 		}
@@ -174,12 +174,12 @@ public class Renderer
 		
 		for(int x=xstart;x<xend+1;x++)
 		{
-			float px=leftoffset+(x-x1)*game.getTextureWidth();
+			float px=leftoffset+(x-x1)*game.getTextureSize();
 			canvas.drawLine(px, 0, px, game.getDisplayHeight(), paint);
 		}
 		for(int y=ystart;y<yend+1;y++)
 		{
-			float py=topoffset+(y2-1-y)*game.getTextureHeight();
+			float py=topoffset+(y2-1-y)*game.getTextureSize();
 			canvas.drawLine(0, py, game.getDisplayWidth(), py, paint);
 		}
 	}
@@ -190,8 +190,8 @@ public class Renderer
 		{
 			Entity e = list.get(i);
 			Location l = e.getLocation();
-			if(l.getX() > min.getX() - 1 && l.getX() < min.getX() + game.getDisplayWidth() / game.getTextureWidth() + 1 && 
-			   l.getY() > min.getY() - 1 && l.getY() < min.getY() + game.getDisplayHeight() / game.getTextureHeight() + 1)
+			if(l.getX() > min.getX() - 1 && l.getX() < min.getX() + game.getDisplayWidth() / game.getTextureSize() + 1 && 
+			   l.getY() > min.getY() - 1 && l.getY() < min.getY() + game.getDisplayHeight() / game.getTextureSize() + 1)
 			{
 				switch(e.getType())
 				{
@@ -239,23 +239,23 @@ public class Renderer
 		paint.setStyle(Style.FILL);
 		paint.setColor(0xFF000000);
 
-		float x=(float) (leftoffset+(l.getX()-x1)*game.getTextureWidth());
-		float y=(float) (topoffset+(y2-l.getY())*game.getTextureHeight());
+		float x=(float) (leftoffset+(l.getX()-x1)*game.getTextureSize());
+		float y=(float) (topoffset+(y2-l.getY())*game.getTextureSize());
 
-		float playerwidh=(float) (Math.abs(c.getHitBox().getMin().getX()-c.getHitBox().getMax().getX())*game.getTextureWidth());
-		float playerheight=(float) (Math.abs(c.getHitBox().getMin().getY()-c.getHitBox().getMax().getY())*game.getTextureWidth());
+		float playerwidh=(float) (Math.abs(c.getHitBox().getMin().getX()-c.getHitBox().getMax().getX())*game.getTextureSize());
+		float playerheight=(float) (Math.abs(c.getHitBox().getMin().getY()-c.getHitBox().getMax().getY())*game.getTextureSize());
 		
 		float ytop=y-playerheight;
 		
 		Matrix matrix = new Matrix();
 		
 		CreeperTexture pt=(CreeperTexture) TextureMap.getTexture(EntityType.CREEPER);
-		pt.scale(game.getTextureWidth()/64);
+		pt.scale(game.getTextureSize()/64);
 		
 		//head
-		float left=x-game.getTextureWidth()*(headwidth/blocksize)/2;
-		float right=x+game.getTextureWidth()*(headwidth/blocksize)/2;
-		float bottom=ytop+(headheight/blocksize)*game.getTextureHeight();
+		float left=x-game.getTextureSize()*(headwidth/blocksize)/2;
+		float right=x+game.getTextureSize()*(headwidth/blocksize)/2;
+		float bottom=ytop+(headheight/blocksize)*game.getTextureSize();
 		float top=ytop;
 
 		matrix.setRotate(0, 0, 0);
@@ -263,10 +263,10 @@ public class Renderer
 		canvas.drawBitmap(c.isLookingRight() ? pt.getHeadRight() : pt.getHeadLeft(), matrix, paint);
 
 		//body height
-		left=x-game.getTextureWidth()*(bodywidth/blocksize)/2;
-		right=x+game.getTextureWidth()*(bodywidth/blocksize)/2;
+		left=x-game.getTextureSize()*(bodywidth/blocksize)/2;
+		right=x+game.getTextureSize()*(bodywidth/blocksize)/2;
 		top=bottom;
-		bottom+=(bodyheight/blocksize)*game.getTextureHeight();
+		bottom+=(bodyheight/blocksize)*game.getTextureSize();
 		
 		
 		//body
@@ -276,10 +276,10 @@ public class Renderer
 		
 		
 		//leg height
-		left=x-game.getTextureWidth()*(legwidth/blocksize)/2;
-		right=x+game.getTextureWidth()*(legwidth/blocksize)/2;
+		left=x-game.getTextureSize()*(legwidth/blocksize)/2;
+		right=x+game.getTextureSize()*(legwidth/blocksize)/2;
 		top=bottom;
-		bottom+=(legheight/blocksize)*game.getTextureHeight();
+		bottom+=(legheight/blocksize)*game.getTextureSize();
 		
 		//legs
 		float angle=c.getLegAngle();
@@ -353,23 +353,23 @@ public class Renderer
 		paint.setStyle(Style.FILL);
 		paint.setColor(0xFF000000);
 
-		float x=(float) (leftoffset+(l.getX()-x1)*game.getTextureWidth());
-		float y=(float) (topoffset+(y2-l.getY())*game.getTextureHeight());
+		float x=(float) (leftoffset+(l.getX()-x1)*game.getTextureSize());
+		float y=(float) (topoffset+(y2-l.getY())*game.getTextureSize());
 
-		float playerwidh=(float) (Math.abs(c.getHitBox().getMin().getX()-c.getHitBox().getMax().getX())*game.getTextureWidth());
-		float playerheight=(float) (Math.abs(c.getHitBox().getMin().getY()-c.getHitBox().getMax().getY())*game.getTextureWidth());
+		float playerwidh=(float) (Math.abs(c.getHitBox().getMin().getX()-c.getHitBox().getMax().getX())*game.getTextureSize());
+		float playerheight=(float) (Math.abs(c.getHitBox().getMin().getY()-c.getHitBox().getMax().getY())*game.getTextureSize());
 		
 		float ytop=y-playerheight;
 		
 		Matrix matrix = new Matrix();
 		
 		ZombieTexture pt=(ZombieTexture) TextureMap.getTexture(EntityType.ZOMBIE);
-		pt.scale(game.getTextureWidth()/64);
+		pt.scale(game.getTextureSize()/64);
 		
 		//head
-		float left=x-game.getTextureWidth()*(headwidth/blocksize)/2;
-		float right=x+game.getTextureWidth()*(headwidth/blocksize)/2;
-		float bottom=ytop+(headheight/blocksize)*game.getTextureHeight();
+		float left=x-game.getTextureSize()*(headwidth/blocksize)/2;
+		float right=x+game.getTextureSize()*(headwidth/blocksize)/2;
+		float bottom=ytop+(headheight/blocksize)*game.getTextureSize();
 		float top=ytop;
 		
 		matrix.setRotate(0, 0, 0);
@@ -377,10 +377,10 @@ public class Renderer
 		canvas.drawBitmap(c.isLookingRight() ? pt.getHeadRight() : pt.getHeadLeft(), matrix, paint);
 
 		//body height
-		left=x-game.getTextureWidth()*(bodywidth/blocksize)/2;
-		right=x+game.getTextureWidth()*(bodywidth/blocksize)/2;
+		left=x-game.getTextureSize()*(bodywidth/blocksize)/2;
+		right=x+game.getTextureSize()*(bodywidth/blocksize)/2;
 		top=bottom;
-		bottom+=(bodyheight/blocksize)*game.getTextureHeight();
+		bottom+=(bodyheight/blocksize)*game.getTextureSize();
 		
 		//arm
 		float angle=c.getArmAngle();
@@ -421,10 +421,10 @@ public class Renderer
 		}
 		
 		//leg height
-		left=x-game.getTextureWidth()*(legwidth/blocksize)/2;
-		right=x+game.getTextureWidth()*(legwidth/blocksize)/2;
+		left=x-game.getTextureSize()*(legwidth/blocksize)/2;
+		right=x+game.getTextureSize()*(legwidth/blocksize)/2;
 		top=bottom;
-		bottom+=(legheight/blocksize)*game.getTextureHeight();
+		bottom+=(legheight/blocksize)*game.getTextureSize();
 		
 		//legs
 		angle=c.getLegAngle();
@@ -481,23 +481,23 @@ public class Renderer
 		paint.setStyle(Style.FILL);
 		paint.setColor(0xFF000000);
 
-		float x=(float) (leftoffset+(l.getX()-x1)*game.getTextureWidth());
-		float y=(float) (topoffset+(y2-l.getY())*game.getTextureHeight());
+		float x=(float) (leftoffset+(l.getX()-x1)*game.getTextureSize());
+		float y=(float) (topoffset+(y2-l.getY())*game.getTextureSize());
 
-		float playerwidh=(float) (Math.abs(c.getHitBox().getMin().getX()-c.getHitBox().getMax().getX())*game.getTextureWidth());
-		float playerheight=(float) (Math.abs(c.getHitBox().getMin().getY()-c.getHitBox().getMax().getY())*game.getTextureWidth());
+		float playerwidh=(float) (Math.abs(c.getHitBox().getMin().getX()-c.getHitBox().getMax().getX())*game.getTextureSize());
+		float playerheight=(float) (Math.abs(c.getHitBox().getMin().getY()-c.getHitBox().getMax().getY())*game.getTextureSize());
 		
 		float ytop=y-playerheight;
 		
 		Matrix matrix = new Matrix();
 		
 		SkeletonTexture pt=(SkeletonTexture) TextureMap.getTexture(EntityType.SKELETON);
-		pt.scale(game.getTextureWidth()/64);
+		pt.scale(game.getTextureSize()/64);
 		
 		//head
-		float left=x-game.getTextureWidth()*(headwidth/blocksize)/2;
-		float right=x+game.getTextureWidth()*(headwidth/blocksize)/2;
-		float bottom=ytop+(headheight/blocksize)*game.getTextureHeight();
+		float left=x-game.getTextureSize()*(headwidth/blocksize)/2;
+		float right=x+game.getTextureSize()*(headwidth/blocksize)/2;
+		float bottom=ytop+(headheight/blocksize)*game.getTextureSize();
 		float top=ytop;
 		
 		matrix.setRotate(0, 0, 0);
@@ -505,10 +505,10 @@ public class Renderer
 		canvas.drawBitmap(c.isLookingRight() ? pt.getHeadRight() : pt.getHeadLeft(), matrix, paint);
 
 		//arm height
-		left=x-game.getTextureWidth()*(armwidth/blocksize)/2;
-		right=x+game.getTextureWidth()*(armwidth/blocksize)/2;
+		left=x-game.getTextureSize()*(armwidth/blocksize)/2;
+		right=x+game.getTextureSize()*(armwidth/blocksize)/2;
 		top=bottom;
-		bottom+=(armheight/blocksize)*game.getTextureHeight();
+		bottom+=(armheight/blocksize)*game.getTextureSize();
 		
 		//arm
 		float angle=c.getArmAngle();
@@ -528,10 +528,10 @@ public class Renderer
 		}
 		
 		//body height
-		left=x-game.getTextureWidth()*(bodywidth/blocksize)/2;
-		right=x+game.getTextureWidth()*(bodywidth/blocksize)/2;
+		left=x-game.getTextureSize()*(bodywidth/blocksize)/2;
+		right=x+game.getTextureSize()*(bodywidth/blocksize)/2;
 //		top=bottom;
-//		bottom+=(bodyheight/blocksize)*game.getTextureHeight();
+//		bottom+=(bodyheight/blocksize)*game.getTextureSize();
 		
 		//body
 		matrix.setRotate(0, 0, 0);
@@ -539,10 +539,10 @@ public class Renderer
 		canvas.drawBitmap(c.isLookingRight() ? pt.getBodyRight() : pt.getBodyLeft(), matrix, paint);
 		
 		//arm height
-		left=x-game.getTextureWidth()*(armwidth/blocksize)/2;
-		right=x+game.getTextureWidth()*(armwidth/blocksize)/2;
+		left=x-game.getTextureSize()*(armwidth/blocksize)/2;
+		right=x+game.getTextureSize()*(armwidth/blocksize)/2;
 //		top=bottom;
-//		bottom+=(armheight/blocksize)*game.getTextureHeight();
+//		bottom+=(armheight/blocksize)*game.getTextureSize();
 		
 		//arm
 		if(c.isLookingRight())
@@ -561,10 +561,10 @@ public class Renderer
 		}
 		
 		//leg height
-		left=x-game.getTextureWidth()*(legwidth/blocksize)/2;
-		right=x+game.getTextureWidth()*(legwidth/blocksize)/2;
+		left=x-game.getTextureSize()*(legwidth/blocksize)/2;
+		right=x+game.getTextureSize()*(legwidth/blocksize)/2;
 		top=bottom;
-		bottom+=(legheight/blocksize)*game.getTextureHeight();
+		bottom+=(legheight/blocksize)*game.getTextureSize();
 		
 		//legs
 		angle=c.getLegAngle();
@@ -622,23 +622,23 @@ public class Renderer
 		paint.setStyle(Style.FILL);
 		paint.setColor(0xFF000000);
 
-		float x=(float) (leftoffset+(l.getX()-x1)*game.getTextureWidth());
-		float y=(float) (topoffset+(y2-l.getY())*game.getTextureHeight());
+		float x=(float) (leftoffset+(l.getX()-x1)*game.getTextureSize());
+		float y=(float) (topoffset+(y2-l.getY())*game.getTextureSize());
 
-		float playerwidh=(float) (Math.abs(p.getHitBox().getMin().getX()-p.getHitBox().getMax().getX())*game.getTextureWidth());
-		float playerheight=(float) (Math.abs(p.getHitBox().getMin().getY()-p.getHitBox().getMax().getY())*game.getTextureWidth());
+		float playerwidh=(float) (Math.abs(p.getHitBox().getMin().getX()-p.getHitBox().getMax().getX())*game.getTextureSize());
+		float playerheight=(float) (Math.abs(p.getHitBox().getMin().getY()-p.getHitBox().getMax().getY())*game.getTextureSize());
 		
 		float ytop=y-playerheight;
 		
 		Matrix matrix = new Matrix();
 		
 		PlayerTexture pt=(PlayerTexture) TextureMap.getTexture(EntityType.PLAYER);
-		pt.scale(pt.getOrigWidth()/(16+1)*game.getTextureWidth()/64);
+		pt.scale(pt.getOrigWidth()/(16+1)*game.getTextureSize()/64);
 		
 		//head
-		float left=x-game.getTextureWidth()*(headwidth/blocksize)/2;
-		float right=x+game.getTextureWidth()*(headwidth/blocksize)/2;
-		float bottom=ytop+(headheight/blocksize)*game.getTextureHeight();
+		float left=x-game.getTextureSize()*(headwidth/blocksize)/2;
+		float right=x+game.getTextureSize()*(headwidth/blocksize)/2;
+		float bottom=ytop+(headheight/blocksize)*game.getTextureSize();
 		float top=ytop;
 		
 		matrix.setRotate(0, 0, 0);
@@ -646,10 +646,10 @@ public class Renderer
 		canvas.drawBitmap(p.isLookingRight() ? pt.getHeadRight() : pt.getHeadLeft(), matrix, paint);
 
 		//body height
-		left=x-game.getTextureWidth()*(bodywidth/blocksize)/2;
-		right=x+game.getTextureWidth()*(bodywidth/blocksize)/2;
+		left=x-game.getTextureSize()*(bodywidth/blocksize)/2;
+		right=x+game.getTextureSize()*(bodywidth/blocksize)/2;
 		top=bottom;
-		bottom+=(bodyheight/blocksize)*game.getTextureHeight();
+		bottom+=(bodyheight/blocksize)*game.getTextureSize();
 		
 		//arm
 		float angle=p.getArmAngle();
@@ -690,10 +690,10 @@ public class Renderer
 		}
 		
 		//leg height
-		left=x-game.getTextureWidth()*(legwidth/blocksize)/2;
-		right=x+game.getTextureWidth()*(legwidth/blocksize)/2;
+		left=x-game.getTextureSize()*(legwidth/blocksize)/2;
+		right=x+game.getTextureSize()*(legwidth/blocksize)/2;
 		top=bottom;
-		bottom+=(legheight/blocksize)*game.getTextureHeight();
+		bottom+=(legheight/blocksize)*game.getTextureSize();
 		
 		//legs
 		angle=p.getLegAngle();
@@ -889,37 +889,37 @@ public class Renderer
 		if(SWEJNR.DEBUG)
 		{
 			//render box
-			float x=(float) (leftoffset+(e.getLocation().getX()-x1)*game.getTextureWidth());
-			float y=(float) (topoffset+(y2-e.getLocation().getY())*game.getTextureHeight());
+			float x=(float) (leftoffset+(e.getLocation().getX()-x1)*game.getTextureSize());
+			float y=(float) (topoffset+(y2-e.getLocation().getY())*game.getTextureSize());
 			
 			paint.setStyle(Style.STROKE);
 			paint.setColor(0xFFFFFF00);
 			
-			float playerwidh=(float) (Math.abs(e.getRenderBox().getMin().getX()-e.getRenderBox().getMax().getX())*game.getTextureWidth());
+			float playerwidh=(float) (Math.abs(e.getRenderBox().getMin().getX()-e.getRenderBox().getMax().getX())*game.getTextureSize());
 	
 			float left=x-playerwidh/2;
 			float right=x+playerwidh/2;
 			float bottom=y;
-			float top=(float) (y-e.getRenderBox().getMax().getY()*game.getTextureHeight());
+			float top=(float) (y-e.getRenderBox().getMax().getY()*game.getTextureSize());
 			
 			canvas.drawRect(left, top, right, bottom, paint);
 			
 			//hitbox
 			paint.setColor(0xFF00FF00);
 			
-			playerwidh=(float) (Math.abs(e.getHitBox().getMin().getX()-e.getHitBox().getMax().getX())*game.getTextureWidth());
+			playerwidh=(float) (Math.abs(e.getHitBox().getMin().getX()-e.getHitBox().getMax().getX())*game.getTextureSize());
 
 			left=x-playerwidh/2;
 			right=x+playerwidh/2;
 			bottom=y;
-			top=(float) (y-e.getHitBox().getMax().getY()*game.getTextureHeight());
+			top=(float) (y-e.getHitBox().getMax().getY()*game.getTextureSize());
 			
 			canvas.drawRect(left, top, right, bottom, paint);
 			
 			//triggercenter
 			Location tc=e.getTriggerCenter().add(e.getLocation());
-			x=(float) (leftoffset+(tc.getX()-x1)*game.getTextureWidth());
-			y=(float) (topoffset+(y2-tc.getY())*game.getTextureHeight());
+			x=(float) (leftoffset+(tc.getX()-x1)*game.getTextureSize());
+			y=(float) (topoffset+(y2-tc.getY())*game.getTextureSize());
 			
 			canvas.drawLine(x-13, y-13, x+13, y+13, paint);
 			canvas.drawLine(x+13, y-13, x-13, y+13, paint);
@@ -927,14 +927,14 @@ public class Renderer
 			//triggerradius
 			if(e.getTriggerRadius() > 0)
 			{
-				canvas.drawCircle(x, y, (float) e.getTriggerRadius()*game.getTextureWidth(), paint);
+				canvas.drawCircle(x, y, (float) e.getTriggerRadius()*game.getTextureSize(), paint);
 			}
 			
 			//debug data
 			paint.setTextAlign(Align.LEFT);
 			
-			x=(float) (leftoffset+(e.getLocation().getX()-x1)*game.getTextureWidth());
-			y=(float) (topoffset+(y2-e.getLocation().getY())*game.getTextureHeight());
+			x=(float) (leftoffset+(e.getLocation().getX()-x1)*game.getTextureSize());
+			y=(float) (topoffset+(y2-e.getLocation().getY())*game.getTextureSize());
 			
 			String debugdata=e.getDebugInfo();
 			String[] list=debugdata.split("\n");

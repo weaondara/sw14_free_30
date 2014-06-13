@@ -49,8 +49,7 @@ public class Game
 	private int displayWidth;
 	private int displayHeight;
 	
-	private int textureWidth;
-	private int textureHeight;
+	private int textureSize;
 	
 	private View oldview;
 	private GameView gameView;
@@ -78,8 +77,7 @@ public class Game
 		displayWidth=metrics.widthPixels;
 		displayHeight=metrics.heightPixels;
 		
-		textureWidth=64;
-		textureHeight=64;
+		textureSize=64;
 		
 		player=new Player(null);
 		settings=new Settings();
@@ -147,6 +145,8 @@ public class Game
 	{
 		mp.stop();
 		mp.release();
+		
+		instance=null;
 	}
 	
 	public void loadWorld(String name)
@@ -256,10 +256,10 @@ public class Game
 	public void updateView()
 	{
 		Rectangle viewRect=new Rectangle(
-				displayWidth*0.3/textureWidth,
-				displayHeight*0.35/textureHeight,
-				displayWidth*0.5/textureWidth,
-				displayHeight*0.55/textureHeight
+				displayWidth*0.3/textureSize,
+				displayHeight*0.35/textureSize,
+				displayWidth*0.5/textureSize,
+				displayHeight*0.55/textureSize
 				);
 		
 		Location l=player.getLocation();
@@ -279,9 +279,9 @@ public class Game
 		else if(l.getX()>minDisplayPoint.getX()+viewRect.getMax().getX())
 		{
 			float x=(float) (l.getX()-viewRect.getMax().getX());
-			if(x>world.getWidth()-displayWidth/textureWidth)
+			if(x>world.getWidth()-displayWidth/textureSize)
 			{
-				x=world.getWidth()-displayWidth/textureWidth;
+				x=world.getWidth()-displayWidth/textureSize;
 			}
 			minDisplayPoint.setX(x);
 		}
