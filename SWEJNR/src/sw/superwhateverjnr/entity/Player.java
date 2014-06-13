@@ -59,7 +59,14 @@ public class Player extends Entity
     @Override
     protected void die()
     {
-        
+        try
+        {
+            Game.getInstance().end(false);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
     }
     
     private void tickMove()
@@ -183,8 +190,14 @@ public class Player extends Entity
     {
     	if(reachedGoal())
     	{
-    		System.out.println("You win!");
-//    		Game.getInstance().getActivity().finish();
+    		try
+            {
+                //Game.getInstance().end(true);
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
     	}
     }
     private void checkTime()
