@@ -34,7 +34,7 @@ public class Player extends Entity
     public boolean reachedGoal()
     {
         Location goal = Game.getInstance().getWorld().getGoal();
-        return goal != null && location.getBlockX() == goal.getBlockX() && location.getBlockY() == location.getBlockY();
+        return goal != null && location.getBlockX() == goal.getBlockX() && location.getBlockY() == goal.getBlockY();
     }
     
     @Setter
@@ -192,7 +192,7 @@ public class Player extends Entity
     	{
     		try
             {
-                //Game.getInstance().end(true);
+                Game.getInstance().end(true);
             }
             catch(Exception e)
             {
