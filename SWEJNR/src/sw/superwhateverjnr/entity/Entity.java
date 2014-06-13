@@ -335,10 +335,14 @@ public abstract class Entity
 		try
 		{
 			b5=world().getBlockAt(l5);
+		}
+		catch(Exception e){}
+		try
+		{
 			b6=world().getBlockAt(l6);
 		}
 		catch(Exception e){}
-		if(b5!=null && b6!=null &&(b5.getType().isSolid() || b6.getType().isSolid()))
+		if((b5!=null && b5.getType().isSolid()) || (b6!=null && b6.getType().isSolid()))
 		{
 			if(velocity.getY()<0)
 			{
@@ -355,10 +359,14 @@ public abstract class Entity
 		try
 		{
 			b7=world().getBlockAt(l7);
+		}
+		catch(Exception e){}
+		try
+		{
 			b8=world().getBlockAt(l8);
 		}
 		catch(Exception e){}
-		if(b7!=null && b8!=null &&(b7.getType().isSolid() || b8.getType().isSolid()))
+		if((b7!=null && b7.getType().isSolid()) || (b8!=null && b8.getType().isSolid()))
 		{
 			if(velocity.getY()>0)
 			{
@@ -422,15 +430,18 @@ public abstract class Entity
 		
 		Location left=location.add(-hitBox.getMax().getX()/2, -1);
 		Location right=location.add(hitBox.getMax().getX()/2, -1);
-		Block bleft=w.getBlockAt(left);
-		Block bright=w.getBlockAt(right);
-		if(!bleft.getType().isSolid() && !bright.getType().isSolid())
+		boolean linside=left.isInsideWorld(w);
+		boolean rinside=right.isInsideWorld(w);
+		if(!linside && !rinside)
 		{
 			return false;
 		}
 		
-		return left.getBlockY()==left.getY() ||
-				right.getBlockY()==right.getY();
+		Block bleft=linside ? w.getBlockAt(left) : null;
+		Block bright=rinside ? w.getBlockAt(right) : null;
+		
+		return (linside && bleft.getType().isSolid() && left.getBlockY()==left.getY()) ||
+			   (rinside && bright.getType().isSolid() && right.getBlockY()==right.getY());
 	}
 	public boolean isMoving()
 	{
