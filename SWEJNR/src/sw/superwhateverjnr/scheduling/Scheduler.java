@@ -35,7 +35,12 @@ public class Scheduler
 		f.setAccessible(true);
 		f.set(null, this);
 	}
-	
+	public void close()
+	{
+		timer.cancel();
+		timer.purge();
+		tasks.clear();
+	}
 	
 	public Task registerTask(Runnable r, long delay)
 	{
@@ -97,5 +102,4 @@ public class Scheduler
 		
 		return t;
 	}
-	
 }
