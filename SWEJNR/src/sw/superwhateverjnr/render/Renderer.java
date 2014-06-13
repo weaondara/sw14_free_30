@@ -1,5 +1,6 @@
 package sw.superwhateverjnr.render;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -899,7 +900,7 @@ public class Renderer
 			paint.setColor(0xFF00FF00);
 			
 			playerwidh=(float) (Math.abs(e.getHitBox().getMin().getX()-e.getHitBox().getMax().getX())*game.getTextureSize());
-
+			
 			left=x-playerwidh/2;
 			right=x+playerwidh/2;
 			bottom=y;
@@ -926,12 +927,12 @@ public class Renderer
 			
 			x=(float) (leftoffset+(e.getLocation().getX()-x1)*game.getTextureSize());
 			y=(float) (topoffset+(y2-e.getLocation().getY())*game.getTextureSize());
+
+			float playerheight=(float) (Math.abs(e.getHitBox().getMin().getY()-e.getHitBox().getMax().getY())*game.getTextureSize());
 			
 			String debugdata=e.getDebugInfo();
 			String[] list=debugdata.split("\n");
-			float textheight=(paint.descent()+paint.ascent())*list.length;
-			y+=2*textheight;
-			
+			y+=(paint.descent()+paint.ascent())*(list.length-1) - playerheight;
 			
 			for(String s:list)
 			{
