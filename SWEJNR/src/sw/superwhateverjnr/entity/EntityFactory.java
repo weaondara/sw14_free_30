@@ -24,7 +24,6 @@ public class EntityFactory
 	
 	public Entity create(int type, int id, double x, double y, World w, Map<String,Object> extradata) throws Exception
 	{
-		Preconditions.checkElementIndex(id, 256);
 		Preconditions.checkElementIndex((int) x, w.getWidth());
 		Preconditions.checkElementIndex((int) y, w.getHeight());
 		
