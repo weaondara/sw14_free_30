@@ -61,7 +61,6 @@ public class Game
 	private World world;
 	private MediaPlayer mp;
 	
-	private TextureLoader textureLoader;
 	private Settings settings;
 	private Scheduler scheduler;
 	
@@ -86,7 +85,6 @@ public class Game
 		settings=new Settings();
 		scheduler=new Scheduler();
 		worldLoader=new DummyWorldLoader();
-		textureLoader=new PackedTextureLoader();
 		
 		gameView=new GameView(GameActivity.getInstance());
 		

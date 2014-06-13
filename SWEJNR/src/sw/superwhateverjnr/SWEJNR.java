@@ -65,11 +65,13 @@ public class SWEJNR extends Application implements Runnable
 	private void loadSettings()
 	{
 		
-		textureLoader=new PackedTextureLoader();
+		
 	}
 	
 	private void loadTextures()
 	{
+		textureLoader=new PackedTextureLoader();
+		
 		TextureMap.loadTexture(new IdAndSubId(1, -1),textureLoader);
 		TextureMap.loadTexture(new IdAndSubId(2, -1),textureLoader);
 		TextureMap.loadTexture(new IdAndSubId(3, -1),textureLoader);
