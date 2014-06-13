@@ -3,7 +3,7 @@ package sw.superwhateverjnr.ui;
 import lombok.Getter;
 import sw.superwhateverjnr.Game;
 import sw.superwhateverjnr.render.RenderThread;
-import sw.superwhateverjnr.render.Renderer;
+import sw.superwhateverjnr.render.RendererBase;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -18,7 +18,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Vie
 	private boolean allowdraw;
 	
 	private RenderThread rt;
-	private Renderer renderer;
+	private RendererBase renderer;
 	
 	@Getter
 	private boolean paused;
@@ -47,7 +47,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Vie
 	{
 		getHolder().addCallback(this);
 		setFocusable(true);
-		rt=new RenderThread();
+		rt=new RenderThread(false);
 		renderer=rt.getRenderer();
 		this.setOnTouchListener(this);
 		rt.start();
