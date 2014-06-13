@@ -184,6 +184,7 @@ public class Player extends Entity
     	if(reachedGoal())
     	{
     		System.out.println("You win!");
+//    		Game.getInstance().getActivity().finish();
     	}
     }
     private void checkTime()
