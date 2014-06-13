@@ -10,6 +10,8 @@ import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -67,7 +69,10 @@ public class Game
 	private Scheduler scheduler;
 	
 	private boolean enabled = false;
-	
+    
+    private boolean finished = false;
+	private boolean won = false;
+    
 	private boolean musicinitdone = false;
 	
 	public Game(Activity calling)
@@ -145,12 +150,29 @@ public class Game
 		mp.pause();
 		
 		enabled=false;
-	}
+	}    
+    
+    public void end(boolean won)
+    {
+        this.won = won;
+        finished = true;
+    }
+    
 	public void close()
 	{
-		mp.stop();
-		mp.release();
-		
+        if(enabled)
+        {
+            disable();
+        }
+        try
+        {
+            mp.stop();
+            mp.release();
+        }
+        catch(IllegalStateException e)
+        {
+        }
+		gameView.getRt().kill();
 		instance=null;
 	}
 	
@@ -195,6 +217,12 @@ public class Game
 				{
 					e.printStackTrace();
 				}
+                if(finished)
+                {
+                    disable();
+                    close();
+                    activity.finish();
+                }
 			}
 		};
 		scheduler.registerRepeatingTask(r10ms, 1, 10);

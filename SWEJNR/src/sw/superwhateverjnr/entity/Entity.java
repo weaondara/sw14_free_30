@@ -316,9 +316,7 @@ public abstract class Entity
 		y+=velocity.getY()*multiplier;
 		if(y<-5)
 		{
-			y = -5;
-			// die();
-			velocity.setY(0);
+			die();
 		}
 //		if(y>=world().getHeight())
 //		{

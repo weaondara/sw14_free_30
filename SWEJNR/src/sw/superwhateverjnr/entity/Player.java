@@ -34,7 +34,7 @@ public class Player extends Entity
     public boolean reachedGoal()
     {
         Location goal = Game.getInstance().getWorld().getGoal();
-        return goal != null && location.getBlockX() == goal.getBlockX() && location.getBlockY() == location.getBlockY();
+        return goal != null && location.getBlockX() == goal.getBlockX() && location.getBlockY() == goal.getBlockY();
     }
     
     @Setter
@@ -59,7 +59,14 @@ public class Player extends Entity
     @Override
     protected void die()
     {
-        
+        try
+        {
+            Game.getInstance().end(false);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
     }
     
     private void tickMove()
@@ -183,8 +190,14 @@ public class Player extends Entity
     {
     	if(reachedGoal())
     	{
-    		System.out.println("You win!");
-//    		Game.getInstance().getActivity().finish();
+    		try
+            {
+                Game.getInstance().end(true);
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
     	}
     }
     private void checkTime()
