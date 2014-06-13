@@ -3,7 +3,6 @@ package sw.superwhateverjnr.render;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import sw.superwhateverjnr.Game;
 import sw.superwhateverjnr.SWEJNR;
@@ -14,7 +13,6 @@ import sw.superwhateverjnr.entity.Entity;
 import sw.superwhateverjnr.entity.EntityType;
 import sw.superwhateverjnr.entity.Player;
 import sw.superwhateverjnr.entity.Skeleton;
-import sw.superwhateverjnr.entity.Spider;
 import sw.superwhateverjnr.entity.Zombie;
 import sw.superwhateverjnr.settings.Settings;
 import sw.superwhateverjnr.texture.Texture;
@@ -203,9 +201,6 @@ public class Renderer
 						break;
 					case SKELETON:
 						drawSkeleton(canvas, (Skeleton) e);
-						break;
-					case SPIDER:
-						drawSpider(canvas, (Spider) e);
 						break;
 					default:
 						break;
@@ -592,10 +587,6 @@ public class Renderer
 			matrix.postTranslate(left, top);
 			canvas.drawBitmap(pt.getLeftLegLeft(), matrix, paint);
 		}
-	}
-	private void drawSpider(Canvas canvas, Spider c)
-	{
-		
 	}
 	private void drawPlayer(Canvas canvas)
 	{
