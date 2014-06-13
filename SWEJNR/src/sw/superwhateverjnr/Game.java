@@ -1,5 +1,6 @@
 package sw.superwhateverjnr;
 
+import android.app.Activity;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.PointF;
 import android.media.AudioManager;
@@ -42,6 +43,8 @@ public class Game
 	@Getter
 	private static Game instance;
 	
+	private Activity activity;
+	
 	private Player player;
 	
 	private Location minDisplayPoint;
@@ -67,9 +70,11 @@ public class Game
 	
 	private boolean musicinitdone = false;
 	
-	public Game()
+	public Game(Activity calling)
 	{
 		instance=this;
+		
+		activity=calling;
 		
 		minDisplayPoint=new Location(0, 9);
 		
