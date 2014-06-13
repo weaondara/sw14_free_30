@@ -8,7 +8,6 @@ import sw.superwhateverjnr.Game;
 import sw.superwhateverjnr.render.RenderThread;
 import sw.superwhateverjnr.render.RendererBase;
 import android.content.Context;
-import android.graphics.Canvas;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLU;
 import android.util.AttributeSet;
@@ -43,12 +42,11 @@ public class GLGameView extends GLSurfaceView implements SurfaceHolder.Callback,
 	}
 	private void setup()
 	{
-		System.out.println("setup");
-//		getHolder().addCallback(this);
-//		setFocusable(true);
-//		rt=new RenderThread(true);
-//		renderer=rt.getRenderer();
-//		this.setOnTouchListener(this);
+		getHolder().addCallback(this);
+		setFocusable(true);
+		rt=new RenderThread(true);
+		renderer=rt.getRenderer();
+		this.setOnTouchListener(this);
 		
 		
 //		this.requestRender();
@@ -64,18 +62,15 @@ public class GLGameView extends GLSurfaceView implements SurfaceHolder.Callback,
 		
 		if(paused)
 		{
-			System.out.println("glr pausing");
 			this.onPause();
 		}
 		else
 		{
 			if(!bla)
 			{
-				System.out.println("setting renderer");
 				this.setRenderer(this);
 				bla=true;
 			}
-			System.out.println("glr resuming");
 			this.onResume();
 		}
 	}
@@ -115,29 +110,29 @@ public class GLGameView extends GLSurfaceView implements SurfaceHolder.Callback,
 //		}
 		
 	}
-	@Override
-	public void draw(Canvas c)
-	{
-//		renderer.nextFrame(c);
-	}
+//	@Override
+//	public void draw(Canvas c)
+//	{
+////		renderer.nextFrame(c);
+//	}
 
-	@Override
-	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) 
-	{
-	}
-	@Override
-	public void surfaceCreated(SurfaceHolder holder) 
-	{
-		fpsmeasurelast=System.currentTimeMillis();
-//		rt.setRunning(true);
-		allowdraw=true;
-	}
-	@Override
-	public void surfaceDestroyed(SurfaceHolder holder) 
-	{
-//		rt.setRunning(false);
-		allowdraw=false;
-	}
+//	@Override
+//	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) 
+//	{
+//	}
+//	@Override
+//	public void surfaceCreated(SurfaceHolder holder) 
+//	{
+////		fpsmeasurelast=System.currentTimeMillis();
+////		rt.setRunning(true);
+////		allowdraw=true;
+//	}
+//	@Override
+//	public void surfaceDestroyed(SurfaceHolder holder) 
+//	{
+////		rt.setRunning(false);
+////		allowdraw=false;
+//	}
 
 	
 	public boolean onTouch(View v, MotionEvent event)
@@ -153,13 +148,11 @@ public class GLGameView extends GLSurfaceView implements SurfaceHolder.Callback,
 	@Override
 	public void onDrawFrame(GL10 gl)
 	{
-		System.out.println("draw called");
 		renderer.nextFrame(gl);
 	}
 	@Override
 	public void onSurfaceChanged(GL10 gl, int width, int height)
 	{
-		System.out.println("onSurfaceChanged");
 		//won't occur => do nothing
 		
 		
@@ -176,7 +169,6 @@ public class GLGameView extends GLSurfaceView implements SurfaceHolder.Callback,
 	@Override
 	public void onSurfaceCreated(GL10 gl, EGLConfig config)
 	{
-		System.out.println("onSurfaceCreated");
 		//bind texures
 		
 		//gl setup
