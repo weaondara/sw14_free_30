@@ -3,6 +3,8 @@ package sw.superwhateverjnr.render;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.microedition.khronos.opengles.GL10;
+
 import sw.superwhateverjnr.Game;
 import sw.superwhateverjnr.SWEJNR;
 import sw.superwhateverjnr.entity.Creeper;
@@ -25,6 +27,8 @@ public abstract class RendererBase
 	protected Game game;
 
 	protected Paint paint;
+	protected Canvas canvas;
+	protected GL10 gl;
 
 	public RendererBase()
 	{
@@ -34,7 +38,7 @@ public abstract class RendererBase
 		paint = new Paint();
 	}
 
-	public void nextFrame(Canvas canvas)
+	public void nextFrame(Canvas c)
 	{
 		world=Game.getInstance().getWorld();
 		if(world==null)
@@ -42,22 +46,55 @@ public abstract class RendererBase
 			return;
 		}
 		
+		canvas = c;
+		
 		prepare();
 		
 		
-		drawBackground(canvas);
-		drawWorld(canvas);
+		drawBackground();
+		drawWorld();
 		
 		if(SWEJNR.DEBUG)
 		{
-			drawWorldGrid(canvas);
+			drawWorldGrid();
 		}
 		
-		drawEntities(canvas);
-		drawPlayer(canvas);
+		drawEntities();
+		drawPlayer();
 		
-		drawInfo(canvas);
-		drawControls(canvas);
+		drawInfo();
+		drawControls();
+		
+		canvas = null;
+	}
+	public void nextFrame(GL10 gl)
+	{
+		world=Game.getInstance().getWorld();
+		if(world==null)
+		{
+			return;
+		}
+		
+		this.gl = gl;
+		
+		prepare();
+		
+		
+		drawBackground();
+		drawWorld();
+		
+		if(SWEJNR.DEBUG)
+		{
+			drawWorldGrid();
+		}
+		
+		drawEntities();
+		drawPlayer();
+		
+		drawInfo();
+		drawControls();
+		
+		this.gl=null;
 	}
 	
 	protected Location min;
@@ -68,7 +105,7 @@ public abstract class RendererBase
 	protected int xend;
 	
 	protected int y1;
-	protected int y2;	
+	protected int y2;
 	protected int ystart;
 	protected int yend;
 	
@@ -120,20 +157,20 @@ public abstract class RendererBase
 		}
 	}
 	
-	protected abstract void drawBackground(Canvas canvas);
-	protected abstract void drawWorld(Canvas canvas);
-	protected abstract void drawWorldGrid(Canvas canvas);
-	protected abstract void drawEntities(Canvas canvas);
-	protected abstract void drawCreeper(Canvas canvas, Creeper c);
-	protected abstract void drawZombie(Canvas canvas, Zombie c);
-	protected abstract void drawSkeleton(Canvas canvas, Skeleton c);
-	protected abstract void drawPlayer(Canvas canvas);
-	protected abstract void drawInfo(Canvas canvas);
-	protected void drawControls(Canvas canvas)
+	protected abstract void drawBackground();
+	protected abstract void drawWorld();
+	protected abstract void drawWorldGrid();
+	protected abstract void drawEntities();
+	protected abstract void drawCreeper(Creeper c);
+	protected abstract void drawZombie(Zombie c);
+	protected abstract void drawSkeleton(Skeleton c);
+	protected abstract void drawPlayer();
+	protected abstract void drawInfo();
+	protected void drawControls()
 	{
-		drawControls0(canvas, true);
+		drawControls0(true);
 	}
-	protected abstract void drawControls0(Canvas canvas, boolean retry);
+	protected abstract void drawControls0(boolean retry);
 	protected void makeLeftArrow(Path path, float size, float xoffset, float yoffset)
 	{
 		path.rewind();
@@ -249,5 +286,5 @@ public abstract class RendererBase
 		}
 	}
 	
-	protected abstract void drawEntityBoxes(Canvas canvas, Entity e);
+	protected abstract void drawEntityBoxes(Entity e);
 }

@@ -21,7 +21,6 @@ import sw.superwhateverjnr.texture.entity.ZombieTexture;
 import sw.superwhateverjnr.util.IdAndSubId;
 import sw.superwhateverjnr.world.Location;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
@@ -36,12 +35,12 @@ public class Renderer extends RendererBase
 	}
 
 	@Override
-	protected void drawBackground(Canvas canvas)
+	protected void drawBackground()
 	{
 		canvas.drawColor((game.getSettings().getBackgroudColor() & 0x00FFFFF) | 0xFF000000);
 	}
 	@Override
-	protected void drawWorld(Canvas canvas)
+	protected void drawWorld()
 	{
 		for(int x=xstart;x<xend;x++)
 		{
@@ -68,7 +67,7 @@ public class Renderer extends RendererBase
 		}
 	}
 	@Override
-	protected void drawWorldGrid(Canvas canvas)
+	protected void drawWorldGrid()
 	{
 		paint.setColor(0xFFFF0000);
 		paint.setStrokeWidth(0);
@@ -85,7 +84,7 @@ public class Renderer extends RendererBase
 		}
 	}
 	@Override
-	protected void drawEntities(Canvas canvas)
+	protected void drawEntities()
 	{
 		List<Entity> list = game.getWorld().getEntities();
 		for(int i = 0; i < list.size(); i++)
@@ -98,23 +97,23 @@ public class Renderer extends RendererBase
 				switch(e.getType())
 				{
 					case CREEPER:
-						drawCreeper(canvas, (Creeper) e);
+						drawCreeper((Creeper) e);
 						break;
 					case ZOMBIE:
-						drawZombie(canvas, (Zombie) e);
+						drawZombie((Zombie) e);
 						break;
 					case SKELETON:
-						drawSkeleton(canvas, (Skeleton) e);
+						drawSkeleton((Skeleton) e);
 						break;
 					default:
 						break;
 				}
-				drawEntityBoxes(canvas, e);
+				drawEntityBoxes(e);
 			}
 		}
 	}
 	@Override
-	protected void drawCreeper(Canvas canvas, Creeper c)
+	protected void drawCreeper(Creeper c)
 	{
 		Location l=c.getLocation();
 		if(l==null)
@@ -229,7 +228,7 @@ public class Renderer extends RendererBase
 		}
 	}
 	@Override
-	protected void drawZombie(Canvas canvas, Zombie c)
+	protected void drawZombie(Zombie c)
 	{
 		Location l=c.getLocation();
 		if(l==null)
@@ -355,7 +354,7 @@ public class Renderer extends RendererBase
 		}
 	}
 	@Override
-	protected void drawSkeleton(Canvas canvas, Skeleton c)
+	protected void drawSkeleton(Skeleton c)
 	{
 		Location l=c.getLocation();
 		if(l==null)
@@ -496,7 +495,7 @@ public class Renderer extends RendererBase
 		}
 	}
 	@Override
-	protected void drawPlayer(Canvas canvas)
+	protected void drawPlayer()
 	{
 		Player p=game.getPlayer();
 		Location l=p.getLocation();
@@ -622,10 +621,10 @@ public class Renderer extends RendererBase
 		}
 	
 		
-		drawEntityBoxes(canvas, p);
+		drawEntityBoxes(p);
 	}
 	@Override
-	protected void drawInfo(Canvas canvas)
+	protected void drawInfo()
 	{
 		int fontsize=30;
 		int fontcolor=0xFF00FF00;
@@ -646,7 +645,7 @@ public class Renderer extends RendererBase
 		canvas.drawText("Time: "+(world.getTime()-world.getTimeElapsed())/100, canvas.getWidth() - 10, 10+textheight, paint);
 	}
 	@Override
-	protected void drawControls0(Canvas canvas, boolean retry)
+	protected void drawControls0(boolean retry)
 	{
 		for(String key:cachedControlKeys)
 		{
@@ -656,7 +655,7 @@ public class Renderer extends RendererBase
 				redrawControls();
 				if(retry)
 				{
-					drawControls0(canvas, false);
+					drawControls0(false);
 				}
 				return;
 			}
@@ -667,7 +666,7 @@ public class Renderer extends RendererBase
 	}
 
 	@Override
-	protected void drawEntityBoxes(Canvas canvas, Entity e)
+	protected void drawEntityBoxes(Entity e)
 	{
 		//render & hitbox
 		if(SWEJNR.DEBUG)

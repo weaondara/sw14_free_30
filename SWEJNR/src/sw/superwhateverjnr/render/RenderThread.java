@@ -10,11 +10,18 @@ public class RenderThread extends Thread
 	@Setter
 	private boolean running;
 	@Getter
-	private Renderer renderer;
+	private RendererBase renderer;
 	
-	public RenderThread()
+	public RenderThread(boolean useGL)
 	{
-		renderer=new Renderer();
+		if(useGL)
+		{
+			renderer=new GLRenderer();
+		}
+		else
+		{
+			renderer=new Renderer();
+		}
 		running=false;
 	}
 	
