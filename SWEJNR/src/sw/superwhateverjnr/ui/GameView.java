@@ -52,6 +52,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Vie
 		this.setOnTouchListener(this);
 		rt.start();
 	}
+	public void close()
+	{
+		getHolder().removeCallback(this);
+		this.setOnTouchListener(null);
+	}
 
 	public void setPaused(boolean paused)
 	{
