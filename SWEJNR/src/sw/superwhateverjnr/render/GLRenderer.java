@@ -44,8 +44,6 @@ public class GLRenderer extends RendererBase
 	@Override
 	public void nextFrame(GL10 gl)
 	{
-		System.out.println("draw");
-		
 //		int texturemap[] = new int[1];
 //
 //		//Generate and bind to the texture (gl is my GL10 object)
@@ -75,7 +73,7 @@ public class GLRenderer extends RendererBase
 		
 		gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
 		gl.glLoadIdentity();
-		gl.glTranslatef(0.0f, 0.0f, -5.0f);
+		gl.glTranslatef(0.0f, 0.0f, -2.0f);
 		
 		
 		Square sq=new Square();
