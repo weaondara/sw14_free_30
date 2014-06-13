@@ -173,6 +173,7 @@ public class Game
         {
         }
 		gameView.getRt().kill();
+        gameView.close();
 		instance=null;
 	}
 	
