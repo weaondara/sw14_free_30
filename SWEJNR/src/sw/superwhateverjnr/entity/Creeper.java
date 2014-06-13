@@ -35,6 +35,7 @@ public class Creeper extends Entity
 	
 	private boolean isbehindblocks = false;
 	private boolean isindistance = false;
+	private boolean istriggeredonce = false;
 	private boolean islavainfront = false;
 	private boolean istoohighleft = false;
 	private boolean istoohighright = false;
@@ -115,8 +116,9 @@ public class Creeper extends Entity
 			isindistance = true;
 			if (!ismonsterstayingstill)
 			{
-				if ((playerx >= monsterx) && lookingRight)
+				if ((playerx >= monsterx) && (lookingRight || istriggeredonce))
 				{
+					istriggeredonce = true;
 					if (!istoohighright)
 					{
 						setMovingright(true);
@@ -130,8 +132,9 @@ public class Creeper extends Entity
 					setMovingleft(false);
 					isgoingright = true;
 				}
-				else if ((playerx <= monsterx) && !lookingRight)
+				else if ((playerx <= monsterx) && (!lookingRight || istriggeredonce))
 				{
+					istriggeredonce = true;
 					if (!istoohighleft)
 					{
 						setMovingleft(true);
@@ -172,6 +175,7 @@ public class Creeper extends Entity
 		{
 			isindistance = false;
 			isgoinghorizontal = false;
+			istriggeredonce = false;
 		}
 	}
 	protected void seePlayer()
@@ -218,8 +222,8 @@ public class Creeper extends Entity
 				{
 					isbehindblocks = true;
 					isindistance = false;
-					setMovingright(false);
-					setMovingleft(false);
+					//setMovingright(false);
+					//setMovingleft(false);
 					isgoinghorizontal = false;
 					//System.out.println("FALSEEE!!!!");
 				}
@@ -229,7 +233,7 @@ public class Creeper extends Entity
 	@SneakyThrows
 	protected void triggerExplosion()
 	{
-		if (!istriggerexplosion && (location.distance(player.location) <= triggerradiusexplosion) && isindistance)
+		if (!istriggerexplosion && (location.distance(player.location) <= triggerradiusexplosion) && !isbehindblocks)
 		{
 			istriggertimer = true;
 			long now=System.currentTimeMillis();
@@ -285,7 +289,7 @@ public class Creeper extends Entity
 	}
 	protected void randomWalk(boolean dorandomwalk)
 	{
-		if (!isindistance && dorandomwalk)
+		if (!isindistance && dorandomwalk || !istriggeredonce && (israndomgoingright && (player.location.getX() < location.getX()) || !israndomgoingright && (player.location.getX() > location.getX())))
 		{
 			if (randomtimewalk[0] < randomtimewalk[1])
 			{
@@ -326,8 +330,8 @@ public class Creeper extends Entity
 			}
 			else
 			{
-				setMovingright(false);
-				setMovingleft(false);
+				//setMovingright(false);
+				//setMovingleft(false);
 				randomtimewalk[0] = 0.0;
 				randomtimewalk[1] = roundNumber(random.nextDouble() * 2 + 1.5, 3);
 				israndomgoingright = random.nextBoolean();
@@ -685,6 +689,6 @@ public class Creeper extends Entity
 	}
 	public String getDebugInfo()
 	{
-		return super.getDebugInfo()+"\nisindistance="+isindistance+"\nisbehindblock"+isbehindblocks+"\nCountdown: "+roundNumber(triggerexplosiontime[0], 3)+"\nisgoing="+isgoinghorizontal+"\nisradnomgoing="+israndomgoing;
+		return super.getDebugInfo()+"\nisindistance="+isindistance+"\nisbehindblock"+isbehindblocks+"\ncountdown="+roundNumber(triggerexplosiontime[0], 3)+"\nisgoing="+isgoinghorizontal+"\nisgoingright="+isgoingright+"\nisradnomgoing="+israndomgoing+"\nisradnomgoingright="+israndomgoingright;
 	}
 }
