@@ -103,9 +103,9 @@ public class RandomWorldGenerator
         Block blocks[][] = new Block[width][height];
 
         int spawnHeight = 0;
-        while(spawnHeight < 5)
+        while(spawnHeight < Math.min(height/4, 5))
         {
-            spawnHeight = randomizer.nextInt(Math.max(height/2,10));
+            spawnHeight = randomizer.nextInt(height/2);
         }
         spawnDistance = randomizer.nextInt(5) + 5;
 
