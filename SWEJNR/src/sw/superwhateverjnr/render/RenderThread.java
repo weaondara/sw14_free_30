@@ -2,6 +2,7 @@ package sw.superwhateverjnr.render;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.SneakyThrows;
 import sw.superwhateverjnr.Game;
 
 public class RenderThread extends Thread
@@ -11,6 +12,7 @@ public class RenderThread extends Thread
 	private boolean running;
 	@Getter
 	private RendererBase renderer;
+	private boolean stop;
 	
 	public RenderThread(boolean useGL)
 	{
@@ -27,7 +29,7 @@ public class RenderThread extends Thread
 	
 	public void run()
 	{
-		while(true)
+		while(!stop)
 		{
 			if(!running || Game.getInstance().getWorld()==null)
 			{
@@ -40,6 +42,16 @@ public class RenderThread extends Thread
 			}
 			
 			Game.getInstance().getGameView().drawNextFrame();
+		}
+	}
+	
+	@SneakyThrows
+	public void kill()
+	{
+		stop = true;
+		while(isAlive())
+		{
+			Thread.sleep(1);
 		}
 	}
 }

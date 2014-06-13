@@ -16,7 +16,7 @@ import android.view.View;
 public class GameView extends SurfaceView implements SurfaceHolder.Callback, View.OnTouchListener
 {
 	private boolean allowdraw;
-	
+	@Getter
 	private RenderThread rt;
 	private RendererBase renderer;
 	
