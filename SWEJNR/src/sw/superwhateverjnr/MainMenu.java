@@ -6,6 +6,7 @@ import sw.superwhateverjnr.activity.GameActivity;
 import sw.superwhateverjnr.ui.MainMenuView;
 import sw.superwhateverjnr.ui.MainMenuView.SelectedListener;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 
 import java.util.Random;
@@ -14,43 +15,45 @@ public class MainMenu implements SelectedListener
 {
 	private MainMenuView mainMenuView;
 	
+	private Activity calling;
+	
 	@SuppressLint("NewApi")
-	public MainMenu()
+	public MainMenu(Activity calling)
 	{
-		FullscreenActivity instance = FullscreenActivity.getInstance();
+		this.calling = calling;
 		
 		mainMenuView = new MainMenuView(SWEJNR.getInstance());
 		mainMenuView.setSelectedListener(this);
-		instance.setContentView(mainMenuView);
+		calling.setContentView(mainMenuView);
 	}
 	
 	public void newGame()
 	{
-		Intent i=new Intent(FullscreenActivity.getInstance(), GameActivity.class);
+		Intent i=new Intent(calling, GameActivity.class);
 		i.putExtra("worldloader", "dummy");
 		i.putExtra("worldname", "entitytest");
-		FullscreenActivity.getInstance().startActivity(i);
+		calling.startActivity(i);
 	}
 	
 	public void continueGame()
 	{
-		Intent i=new Intent(FullscreenActivity.getInstance(), GameActivity.class);
+		Intent i=new Intent(calling, GameActivity.class);
 		i.putExtra("worldloader", "dummy");
 		i.putExtra("worldname", "physicstest");
-		FullscreenActivity.getInstance().startActivity(i);
+		calling.startActivity(i);
 	}
 	
 	public void startRandom()
 	{
-		Intent i=new Intent(FullscreenActivity.getInstance(), GameActivity.class);
+		Intent i=new Intent(calling, GameActivity.class);
 		i.putExtra("worldloader", "random");
 		i.putExtra("worldname", String.valueOf(new Random().nextInt()));
-		FullscreenActivity.getInstance().startActivity(i);
+		calling.startActivity(i);
 	}
 	public void showCredits()
 	{
-		Intent i=new Intent(FullscreenActivity.getInstance(), CreditsActivity.class);
-		FullscreenActivity.getInstance().startActivity(i);
+		Intent i=new Intent(calling, CreditsActivity.class);
+		calling.startActivity(i);
 	}
 
 	@Override
@@ -78,7 +81,7 @@ public class MainMenu implements SelectedListener
 		}
 		else if(touched.equalsIgnoreCase(MainMenuView.QUIT_GAME))
 		{
-			FullscreenActivity.getInstance().finish();
+			calling.finish();
 		}
 	}
 }
