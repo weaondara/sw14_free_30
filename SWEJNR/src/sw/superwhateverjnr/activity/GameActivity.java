@@ -42,7 +42,7 @@ public class GameActivity extends Activity
 			wl=new DummyWorldLoader();
 		}
 		
-		game = new Game();
+		game = new Game(this);
 		game.init();
 		game.setWorldLoader(wl);
 		game.loadWorld(world);

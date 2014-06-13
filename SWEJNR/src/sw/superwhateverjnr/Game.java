@@ -1,5 +1,6 @@
 package sw.superwhateverjnr;
 
+import android.app.Activity;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.PointF;
 import android.media.AudioManager;
@@ -42,6 +43,8 @@ public class Game
 	@Getter
 	private static Game instance;
 	
+	private Activity activity;
+	
 	private Player player;
 	
 	private Location minDisplayPoint;
@@ -49,8 +52,7 @@ public class Game
 	private int displayWidth;
 	private int displayHeight;
 	
-	private int textureWidth;
-	private int textureHeight;
+	private int textureSize;
 	
 	private View oldview;
 	private GameView gameView;
@@ -61,7 +63,6 @@ public class Game
 	private World world;
 	private MediaPlayer mp;
 	
-	private TextureLoader textureLoader;
 	private Settings settings;
 	private Scheduler scheduler;
 	
@@ -69,9 +70,11 @@ public class Game
 	
 	private boolean musicinitdone = false;
 	
-	public Game()
+	public Game(Activity calling)
 	{
 		instance=this;
+		
+		activity=calling;
 		
 		minDisplayPoint=new Location(0, 9);
 		
@@ -79,14 +82,12 @@ public class Game
 		displayWidth=metrics.widthPixels;
 		displayHeight=metrics.heightPixels;
 		
-		textureWidth=64;
-		textureHeight=64;
+		textureSize=64;
 		
 		player=new Player(null);
 		settings=new Settings();
 		scheduler=new Scheduler();
 		worldLoader=new DummyWorldLoader();
-		textureLoader=new PackedTextureLoader();
 		
 		gameView=new GameView(GameActivity.getInstance());
 		
@@ -149,6 +150,8 @@ public class Game
 	{
 		mp.stop();
 		mp.release();
+		
+		instance=null;
 	}
 	
 	public void loadWorld(String name)
@@ -258,10 +261,10 @@ public class Game
 	public void updateView()
 	{
 		Rectangle viewRect=new Rectangle(
-				displayWidth*0.3/textureWidth,
-				displayHeight*0.35/textureHeight,
-				displayWidth*0.5/textureWidth,
-				displayHeight*0.55/textureHeight
+				displayWidth*0.3/textureSize,
+				displayHeight*0.35/textureSize,
+				displayWidth*0.5/textureSize,
+				displayHeight*0.55/textureSize
 				);
 		
 		Location l=player.getLocation();
@@ -281,9 +284,9 @@ public class Game
 		else if(l.getX()>minDisplayPoint.getX()+viewRect.getMax().getX())
 		{
 			float x=(float) (l.getX()-viewRect.getMax().getX());
-			if(x>world.getWidth()-displayWidth/textureWidth)
+			if(x>world.getWidth()-displayWidth/textureSize)
 			{
-				x=world.getWidth()-displayWidth/textureWidth;
+				x=world.getWidth()-displayWidth/textureSize;
 			}
 			minDisplayPoint.setX(x);
 		}

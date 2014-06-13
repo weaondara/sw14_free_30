@@ -8,55 +8,52 @@ import lombok.Getter;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public enum EntityType
 {
-	UNKNOWN(-1, null),
-	
-	PLAYER(0, Player.class),
-	CREEPER(50, Creeper.class),
-	SKELETON(51, Skeleton.class),
-	SPIDER(52, Spider.class),
-	ZOMBIE(54, Zombie.class),
-	DROPPED_ITEM(1, null);
-	
-	private int id;
-	private Class<? extends Entity> entityClazz;
+    UNKNOWN(-1, null),
+    
+    PLAYER(0, Player.class),
+    CREEPER(50, Creeper.class),
+    SKELETON(51, Skeleton.class),
+    ZOMBIE(54, Zombie.class),
+    DROPPED_ITEM(1, null);
+    
+    private int id;
+    private Class<? extends Entity> entityClazz;
 
-	public static EntityType fromID(int id)
-	{
-		for(EntityType type:values())
-		{
-			if(type.id==id)
-			{
-				return type;
-			}
-		}
-		return null;
-	}
-        
-        public static boolean isMob(EntityType e)
+    public static EntityType fromID(int id)
+    {
+        for(EntityType type:values())
         {
-                switch(e)
-                {
-                        case CREEPER:
-			case SKELETON:
-			case SPIDER:
-			case ZOMBIE:
-				return true;
-			default:
-				return false;
-                }
+            if(type.id==id)
+            {
+                return type;
+            }
         }
-	
-	public boolean isHostile()
-	{
-		switch(this)
-		{
-			case CREEPER:
-			case SKELETON:
-			case SPIDER:
-			case ZOMBIE:
-				return true;
-			default:
-				return false;
-		}
-	}
+        return null;
+    }
+        
+    public static boolean isMob(EntityType e)
+    {
+        switch(e)
+        {
+            case CREEPER:
+	        case SKELETON:
+	        case ZOMBIE:
+	            return true;
+	        default:
+	        	return false;
+        }
+    }
+    
+    public boolean isHostile()
+    {
+        switch(this)
+        {
+            case CREEPER:
+            case SKELETON:
+            case ZOMBIE:
+                return true;
+            default:
+                return false;
+        }
+    }
 }
