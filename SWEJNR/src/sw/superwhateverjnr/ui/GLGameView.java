@@ -1,15 +1,26 @@
 package sw.superwhateverjnr.ui;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import lombok.Getter;
 import sw.superwhateverjnr.Game;
+import sw.superwhateverjnr.entity.EntityType;
+import sw.superwhateverjnr.render.GLRenderer;
+import sw.superwhateverjnr.render.GLTex;
 import sw.superwhateverjnr.render.RenderThread;
-import sw.superwhateverjnr.render.RendererBase;
+import sw.superwhateverjnr.texture.Texture;
+import sw.superwhateverjnr.texture.TextureMap;
+import sw.superwhateverjnr.texture.entity.PlayerTexture;
+import sw.superwhateverjnr.util.IdAndSubId;
 import android.content.Context;
 import android.opengl.GLSurfaceView;
-import android.opengl.GLU;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -18,7 +29,7 @@ import android.view.View;
 public class GLGameView extends GLSurfaceView implements SurfaceHolder.Callback, View.OnTouchListener, GLSurfaceView.Renderer
 {
 	private RenderThread rt;
-	private RendererBase renderer;
+	private GLRenderer renderer;
 	
 	@Getter
 	private boolean paused;
@@ -27,6 +38,9 @@ public class GLGameView extends GLSurfaceView implements SurfaceHolder.Callback,
 	private int fps=0;
 	private int frames=0;
 	private long fpsmeasurelast=0;
+	
+	private List<GLTex> bindable;
+	private Map<Object, GLTex> textures;
 	
 	public GLGameView(Context context)
 	{
@@ -40,17 +54,21 @@ public class GLGameView extends GLSurfaceView implements SurfaceHolder.Callback,
 	}
 	private void setup()
 	{
+		bindable=new ArrayList<GLTex>();
+		textures=new HashMap<Object, GLTex>();
+		
+		loadTextures();
+		
+		
 		getHolder().addCallback(this);
 		setFocusable(true);
 		rt=new RenderThread(true);
-		renderer=rt.getRenderer();
+		renderer=(GLRenderer) rt.getRenderer();
+//		renderer.setDwidth(1920);
+//		renderer.setDheight(1080);
 		this.setOnTouchListener(this);
 		
 		this.setRenderer(this);
-		
-		
-//		this.requestRender();
-//		rt.start();
 	}
 	
 	private boolean bla=false;
@@ -102,17 +120,14 @@ public class GLGameView extends GLSurfaceView implements SurfaceHolder.Callback,
 	@Override
 	public void onSurfaceChanged(GL10 gl, int width, int height)
 	{
-		//won't occur => do nothing
-		
-		
-		gl.glViewport(0, 0, width, height);     //Reset The Current Viewport
-        gl.glMatrixMode(GL10.GL_PROJECTION);    //Select The Projection Matrix
-        gl.glLoadIdentity();                    //Reset The Projection Matrix
- 
-        //Calculate The Aspect Ratio Of The Window
-        GLU.gluPerspective(gl, 45.0f, (float)width / (float)height, 0.1f, 100.0f);
- 
-        gl.glMatrixMode(GL10.GL_MODELVIEW);     //Select The Modelview Matrix
+        renderer.setDwidth(width);
+        renderer.setDheight(height);
+        
+		gl.glViewport(0, 0, width, height);
+        gl.glMatrixMode(GL10.GL_PROJECTION);
+        gl.glLoadIdentity();
+
+        gl.glOrthof(0, 0, width, height, -1F, 1);
         gl.glLoadIdentity();
 	}
 	@Override
@@ -121,24 +136,41 @@ public class GLGameView extends GLSurfaceView implements SurfaceHolder.Callback,
 		fpsmeasurelast=System.currentTimeMillis();
 		
 		//bind texures
+		textures.clear();
+		bindTextures(gl);
 		
-		//gl setup
-//		gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
-//	    gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_FASTEST);
-//	    gl.glShadeModel(GL10.GL_FLAT);
-//	    gl.glDisable(GL10.GL_DEPTH_TEST);
-//	    gl.glEnable(GL10.GL_BLEND);
-//	    gl.glBlendFunc(GL10.GL_ONE, GL10.GL_ONE_MINUS_SRC_ALPHA); 
-//
-//	    gl.glViewport(0, 0, 1920,  1080);
-//	    gl.glMatrixMode(GL10.GL_PROJECTION);
-//	    gl.glLoadIdentity();
-//	    gl.glEnable(GL10.GL_BLEND);
-//	    gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
-//	    gl.glShadeModel(GL10.GL_FLAT);
-//	    gl.glEnable(GL10.GL_TEXTURE_2D);
-//
-//	    GLU.gluOrtho2D(gl, 0, 1920, 1080, 0);
+		renderer.setTextures(textures);
+	}
+	
+	
+	private void loadTextures()
+	{
+		for(Entry<IdAndSubId, Texture> e:TextureMap.getBlocks().entrySet())
+		{
+			GLTex gltex=new GLTex(e.getKey(), e.getValue().getOrgimage());
+			bindable.add(gltex);
+		}
+		
+//		PlayerTexture pt = (PlayerTexture) TextureMap.getTexture(EntityType.PLAYER);
+//		GLTex gltex=new GLTex(e.getKey(), e.getValue().getOrgimage());
+//		
+//		
+//		
+//		for(Entry<IdAndSubId, Texture> e:TextureMap.getBlocks().entrySet())
+//		{
+//			GLTex gltex=new GLTex(e.getKey(), e.getValue().getOrgimage());
+//			bindable.add(gltex);
+//		}
+	}
+	
+	private void bindTextures(GL10 gl)
+	{
+		textures.clear();
+		for(GLTex e:bindable)
+		{
+			e.upload(gl);
+			textures.put(e.getRef(), e);
+		}
 	}
 	public void drawNextFrame(){}
 }
