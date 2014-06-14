@@ -77,7 +77,7 @@ public class Player extends Entity
         }
         Rectangle bounds=getHitBox();
         long now=System.currentTimeMillis();
-        long time=now-getLastMoveTime();
+        long time=Game.TICK_INTERVAL;
         
         double vx=velocity.getX();
         if(isMovingleft() && !isMovingright())
@@ -119,8 +119,6 @@ public class Player extends Entity
         }
 
         getVelocity().setX(vx);
-        setLastMoveTime(now);
-
         
         if(vx>0)
         {

@@ -107,8 +107,8 @@ public class Creeper extends Entity
 			ismonsterstayingstill = true;
 		}
 		else if (playerprevx != playerx)
-		{
-			ismonsterstayingstill = false;
+        {
+    		ismonsterstayingstill = false;
 		}
 		distance = Math.sqrt(Math.pow(playerx - monsterx, 2.0) + Math.pow(playery - monstery, 2.0));
 		if (distance < radius)
@@ -237,7 +237,7 @@ public class Creeper extends Entity
 		{
 			istriggertimer = true;
 			long now=System.currentTimeMillis();
-			triggerexplosiontime[0] += (double)(now - getLastMoveTime()) / 1000.0;
+			triggerexplosiontime[0] += (double)(Game.TICK_INTERVAL) / 1000.0;
 			if (lasttriggerinttime < (int)triggerexplosiontime[0])
 			{
 				lasttriggerinttime = (int)triggerexplosiontime[0];
@@ -279,7 +279,7 @@ public class Creeper extends Entity
 				randomtimejump[1] = roundNumber(random.nextDouble() * 3 + 2.0, 3);
 			}
 			long now=System.currentTimeMillis();
-			randomtimejump[0] += (double)(now - getLastMoveTime()) / 1000.0;
+			randomtimejump[0] += (double)(Game.TICK_INTERVAL) / 1000.0;
 		}
 		else
 		{
@@ -360,7 +360,7 @@ public class Creeper extends Entity
 				}
 			}
 			long now=System.currentTimeMillis();
-			randomtimewalk[0] += (double)(now - getLastMoveTime()) / 1000.0;
+			randomtimewalk[0] += (double)(Game.TICK_INTERVAL) / 1000.0;
 		}
 		else
 		{
@@ -544,7 +544,7 @@ public class Creeper extends Entity
 		}
 		Rectangle bounds=getHitBox();
 		long now=System.currentTimeMillis();
-		long time=now-getLastMoveTime();
+		long time=Game.TICK_INTERVAL;
 		
 		double vx=velocity.getX();
 		if(isMovingleft() && !isMovingright())
@@ -586,7 +586,6 @@ public class Creeper extends Entity
 		}
 
 		getVelocity().setX(vx);
-		setLastMoveTime(now);
 		
 		float multiplier=0.01F;
 		float playerwidth=(float) (Math.abs(bounds.getMin().getX()-bounds.getMax().getX()));

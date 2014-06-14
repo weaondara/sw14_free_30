@@ -1,6 +1,7 @@
 package sw.superwhateverjnr.entity;
 
 import java.util.Map;
+import sw.superwhateverjnr.Game;
 
 import sw.superwhateverjnr.block.Block;
 import sw.superwhateverjnr.util.Rectangle;
@@ -112,7 +113,7 @@ public class Skeleton extends Entity
 		}
 		Rectangle bounds=getHitBox();
 		long now=System.currentTimeMillis();
-		long time=now-getLastMoveTime();
+		long time=Game.TICK_INTERVAL;
 		
 		double vx=velocity.getX();
 		if(isMovingleft() && !isMovingright())
@@ -154,18 +155,13 @@ public class Skeleton extends Entity
 		}
 
 		getVelocity().setX(vx);
-		setLastMoveTime(now);
-
-		
-		
-		
 		
 		float multiplier=0.01F;
 		float playerwidth=(float) (Math.abs(bounds.getMin().getX()-bounds.getMax().getX()));
 		
 		//world check
 		double x=location.getX();
-		x+=velocity.getX()*multiplier;
+        x+=velocity.getX()*multiplier;
 		if(x<0)
 		{
 			x=0;
