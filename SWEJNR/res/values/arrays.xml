@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <string-array name="colours">
+        <item name="red">Red</item>
+        <item name="blue">Blue</item>
+        <item name="green">Green</item>
+        <item name="yellow">Yellow</item>
+        <item name="white">White</item>
+        <item name="orange">Orange</item>
+        <item name="pink">Pink</item>
+        <item name="purple">Purple</item>
+        <item name="mint">Mint</item>
+        <item name="cinnamon">Cinnamon</item>
+        <item name="pizza">Pizza</item>
+        <item name="default">Default</item>
+    </string-array>
+    
+    <string-array name="colourValues">
+        <item name="red">0xFF0000</item>
+        <item name="blue">0x0000FF</item>
+        <item name="green">0x00FF00</item>
+        <item name="yellow">0xFFFF00</item>
+        <item name="white">0xFEFEFE</item>
+        <item name="orange">0xFF681F</item>
+        <item name="pink">0xFFC0CB</item>
+        <item name="purple">0x660099</item>
+        <item name="mint">0x98FF98</item>
+        <item name="cinnamon">0x7B3F00</item>
+        <item name="pizza">0xC99415</item>
+        <item name="default">-1</item>
+    </string-array>
+    
+    <string-array name="opacity">
+      <item name="0">0</item>
+      <item name="25">25</item>
+      <item name="50">50</item>
+      <item name="75">75</item>
+      <item name="100">100</item>
+      <item name="default">Default</item>
+    </string-array>
+    
+    <string-array name="opacityValues">
+      <item name="0">0x00</item>
+      <item name="25">0x3F</item>
+      <item name="50">0x7F</item>
+      <item name="75">0xBE</item>
+      <item name="100">0xFE</item>
+      <item name="default">-1</item>
+    </string-array>
+
+</resources>

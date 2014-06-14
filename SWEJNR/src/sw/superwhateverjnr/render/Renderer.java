@@ -37,7 +37,7 @@ public class Renderer extends RendererBase
 	@Override
 	protected void drawBackground()
 	{
-		canvas.drawColor((game.getSettings().getBackgroudColor() & 0x00FFFFF) | 0xFF000000);
+		canvas.drawColor((game.getSettings().getBackgroundColor() & 0x00FFFFFF) | 0xFF000000);
 	}
 	@Override
 	protected void drawWorld()

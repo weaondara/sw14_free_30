@@ -1,15 +1,14 @@
 package sw.superwhateverjnr;
 
-import sw.superwhateverjnr.activity.CreditsActivity;
-import sw.superwhateverjnr.activity.FullscreenActivity;
-import sw.superwhateverjnr.activity.GameActivity;
-import sw.superwhateverjnr.ui.MainMenuView;
-import sw.superwhateverjnr.ui.MainMenuView.SelectedListener;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
-
 import java.util.Random;
+import sw.superwhateverjnr.activity.CreditsActivity;
+import sw.superwhateverjnr.activity.GameActivity;
+import sw.superwhateverjnr.activity.SettingsActivity;
+import sw.superwhateverjnr.ui.MainMenuView;
+import sw.superwhateverjnr.ui.MainMenuView.SelectedListener;
 
 public class MainMenu implements SelectedListener
 {
@@ -55,6 +54,11 @@ public class MainMenu implements SelectedListener
 		Intent i=new Intent(calling, CreditsActivity.class);
 		calling.startActivity(i);
 	}
+    public void showSettings()
+	{
+		Intent i=new Intent(calling, SettingsActivity.class);
+		calling.startActivity(i);
+	}
 
 	@Override
 	public void onSelected(String touched)
@@ -73,7 +77,7 @@ public class MainMenu implements SelectedListener
 		}
 		else if(touched.equalsIgnoreCase(MainMenuView.SETTINGS))
 		{
-			
+			showSettings();
 		}
 		else if(touched.equalsIgnoreCase(MainMenuView.CREDITS))
 		{

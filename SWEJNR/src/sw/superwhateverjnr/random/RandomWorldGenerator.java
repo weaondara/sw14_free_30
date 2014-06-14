@@ -229,7 +229,6 @@ public class RandomWorldGenerator
             default:
                 w.setGoal(new Location(fillWidth-1, thisHeight+1));
         }
-        System.err.println(w.getGoal());
         return w;
     }
 

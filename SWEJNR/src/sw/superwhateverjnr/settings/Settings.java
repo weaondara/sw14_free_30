@@ -1,6 +1,10 @@
 package sw.superwhateverjnr.settings;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import java.nio.ByteBuffer;
 import sw.superwhateverjnr.Game;
+import sw.superwhateverjnr.SWEJNR;
 
 public class Settings
 {
@@ -18,9 +22,23 @@ public class Settings
 	
 	private float controlMargin=-1;
 	
-	private int backgroudColor=-1;
+	private int backgroundColor=-1;
+    
+    public Settings()
+    {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(SWEJNR.getInstance());
+        controlCircleRadiusOuter = Integer.valueOf(sp.getString("prefOuterButtonSize", "-1"));
+        controlCircleRadiusInner = Integer.valueOf(sp.getString("prefInnerButtonSize", "-1"));
+        controlArrowSize = Integer.valueOf(sp.getString("prefArrowSize", "-1"));
+        controlCircleColorOuter=Integer.decode(sp.getString("prefOuterColour", "-1"));
+        controlCircleColorInner=Integer.decode(sp.getString("prefInnerColour", "-1"));
+        controlArrowColor=Integer.decode(sp.getString("prefArrowColour", "-1"));
+        controlCircleOpacityOuter=ByteBuffer.allocate(4).putInt(Integer.decode(sp.getString("prefOuterOpacity", "-1"))).array()[3];
+        controlCircleOpacityInner=ByteBuffer.allocate(4).putInt(Integer.decode(sp.getString("prefInnerOpacity", "-1"))).array()[3];
+        controlArrowOpacity=ByteBuffer.allocate(4).putInt(Integer.decode(sp.getString("prefArrowOpacity", "-1"))).array()[3];
+        backgroundColor=Integer.decode(sp.getString("prefBackgroundColour", "-1"));
+    }
 	
-
 	public float getControlCircleRadiusOuter()
 	{
 		if(controlCircleRadiusOuter<0)
@@ -71,7 +89,7 @@ public class Settings
 	}
 	public byte getControlCircleOpacityOuter()
 	{
-		if(controlCircleOpacityOuter<0)
+		if(controlCircleOpacityOuter == -1)
 		{
 			return 0x37;
 		}
@@ -79,7 +97,7 @@ public class Settings
 	}
 	public byte getControlCircleOpacityInner()
 	{
-		if(controlCircleOpacityInner<0)
+		if(controlCircleOpacityInner == -1)
 		{
 			return 0x37;
 		}
@@ -87,7 +105,7 @@ public class Settings
 	}
 	public byte getControlArrowOpacity()
 	{
-		if(controlArrowOpacity<0)
+		if(controlArrowOpacity == -1)
 		{
 			return 0x7F;
 		}
@@ -101,13 +119,13 @@ public class Settings
 		}
 		return controlMargin;
 	}
-	public int getBackgroudColor()
+	public int getBackgroundColor()
 	{
-		if(backgroudColor==-1)
+		if(backgroundColor==-1)
 		{
 			return 0x275FFF;
 		}
-		return backgroudColor;
+		return backgroundColor;
 	}
 	
 	
@@ -152,8 +170,8 @@ public class Settings
 	{
 		this.controlMargin = controlMargin;
 	}
-	public void setBackgroudColor(int backgroudColor)
+	public void setBackgroundColor(int backgroundColor)
 	{
-		this.backgroudColor = backgroudColor;
+		this.backgroundColor = backgroundColor;
 	}
 }
