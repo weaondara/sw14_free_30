@@ -121,12 +121,7 @@ public abstract class Entity
 	//-------------------------- movement ------------------------------
 	@Setter
 	protected Vector velocity;
-	
-	@Setter
-	protected long lastJumpTime;
-	@Setter
-	protected long lastMoveTime;
-	
+		
 	@Setter
 	protected boolean movingright;
 	@Setter
@@ -137,8 +132,8 @@ public abstract class Entity
 	protected boolean lookingRight;
 	
 	//-------------------------- animation ------------------------------
-	protected float armAngle;
-	protected float legAngle;
+    protected float armAngle;
+    protected float legAngle;
 	protected boolean armMovingRight;
 	
 	//--------------------------  ------------------------------
@@ -161,9 +156,6 @@ public abstract class Entity
 		//movement
 		velocity = new Vector(0, 0);
 		
-		lastJumpTime=-1;
-		lastMoveTime=-1;
-		
 		jumping=false;
 		lookingRight = true;
 		
@@ -183,8 +175,11 @@ public abstract class Entity
 			if(isOnGround())
 			{
 				velocity.setY(getJumpPower());
-				lastJumpTime=System.currentTimeMillis();
 			}
+            if(isInLiquid())
+            {
+                velocity.setY(getJumpPower()*3/4);
+            }
 		}
 		catch(Exception e) {}
 	}
@@ -286,7 +281,7 @@ public abstract class Entity
 			return;
 		}
 		long now=System.currentTimeMillis();
-		long time = getLastMoveTime() == -1 ? 0 : now - getLastMoveTime();
+		long time = Game.TICK_INTERVAL;
 		
 		boolean onground=false;
 		try
@@ -417,11 +412,7 @@ public abstract class Entity
 	public boolean isOnGround()
 	{
 		World w=world();
-		if(w==null)
-		{
-			return false;
-		}
-		if(!isInsideWorld(w))
+		if(w==null || !isInsideWorld(w))
 		{
 			return false;
 		}
@@ -441,6 +432,17 @@ public abstract class Entity
 		return (linside && bleft.getType().isSolid() && left.getBlockY()==left.getY()) ||
 			   (rinside && bright.getType().isSolid() && right.getBlockY()==right.getY());
 	}
+    
+    public boolean isInLiquid()
+    {
+        World w=world();
+        if(w==null || !isInsideWorld(w))
+		{
+            return false;
+        }
+        return w.getBlockAt(location).getType().isLiquid();
+    }
+    
 	public boolean isMoving()
 	{
 		return Math.abs(velocity.getX())>0.2;

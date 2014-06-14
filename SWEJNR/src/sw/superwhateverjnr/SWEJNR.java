@@ -1,19 +1,20 @@
 package sw.superwhateverjnr;
 
+import android.app.Application;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.preference.PreferenceManager;
+import android.util.DisplayMetrics;
 import java.io.InputStream;
-
+import lombok.Getter;
+import lombok.SneakyThrows;
 import sw.superwhateverjnr.entity.EntityType;
+import sw.superwhateverjnr.settings.Settings;
 import sw.superwhateverjnr.texture.PackedTextureLoader;
 import sw.superwhateverjnr.texture.Texture;
 import sw.superwhateverjnr.texture.TextureLoader;
 import sw.superwhateverjnr.texture.TextureMap;
 import sw.superwhateverjnr.util.IdAndSubId;
-import lombok.Getter;
-import lombok.SneakyThrows;
-import android.app.Application;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.DisplayMetrics;
 
 public class SWEJNR extends Application implements Runnable
 {
@@ -37,7 +38,7 @@ public class SWEJNR extends Application implements Runnable
         instance = this;
         
         super.onCreate();
-        
+        PreferenceManager.setDefaultValues(this, R.xml.settings, false);
         loadBackground();
         
         t = new Thread(this);

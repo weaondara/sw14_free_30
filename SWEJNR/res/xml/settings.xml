@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+  <PreferenceCategory android:title="Buttons">
+    <PreferenceScreen android:title="Size">
+      <EditTextPreference
+        android:title="Outer Button Size"
+        android:summary="Set the outer button size"
+        android:key="prefOuterButtonSize"
+        android:inputType="numberDecimal|numberSigned"
+        android:persistent="true"
+        android:defaultValue="-1"/>
+       <EditTextPreference
+        android:title="Inner Button Size"
+        android:summary="Set the inner button size"
+        android:key="prefInnerButtonSize"
+        android:inputType="numberDecimal|numberSigned"
+        android:persistent="true"
+        android:defaultValue="-1"/>
+       <EditTextPreference
+        android:title="Arrow Size"
+        android:summary="Set the arrow size"
+        android:key="prefArrowSize"
+        android:inputType="numberDecimal|numberSigned"
+        android:persistent="true"
+        android:defaultValue="-1"/>
+    </PreferenceScreen>
+    <PreferenceScreen android:title="Colour">
+      <ListPreference
+        android:key="prefOuterColour"
+        android:title="Outer circle colour"
+        android:summary="Set the colour for the outer circle."
+        android:defaultValue="0x275FFF" 
+        android:persistent="true"
+        android:entries="@array/colours"
+        android:entryValues="@array/colourValues"
+        />
+      <ListPreference
+        android:key="prefInnerColour"
+        android:title="Inner circle colour"
+        android:summary="Set the colour for the inner circle."
+        android:defaultValue="0xFFFFFF" 
+        android:persistent="true"
+        android:entries="@array/colours"
+        android:entryValues="@array/colourValues"
+        />
+      <ListPreference
+        android:key="prefArrowColour"
+        android:title="Arrow colour"
+        android:summary="Set the colour for the inner circle."
+        android:defaultValue="0xFFFFFF" 
+        android:persistent="true"
+        android:entries="@array/colours"
+        android:entryValues="@array/colourValues"
+        />
+    </PreferenceScreen>
+    <PreferenceScreen android:title="Opacity">
+      <ListPreference
+        android:key="prefOuterOpacity"
+        android:title="Outer circle opacity"
+        android:summary="Set the opacity for the outer circle."
+        android:defaultValue="0x37" 
+        android:persistent="true"
+        android:entries="@array/opacity"
+        android:entryValues="@array/opacityValues"
+        />
+      <ListPreference
+        android:key="prefInnerOpacity"
+        android:title="Inner circle opacity"
+        android:summary="Set the opacity for the inner circle."
+        android:defaultValue="0x37" 
+        android:persistent="true"
+        android:entries="@array/opacity"
+        android:entryValues="@array/opacityValues"
+        />
+      <ListPreference
+        android:key="prefArrowOpacity"
+        android:title="Inner circle opacity"
+        android:summary="Set the opacity for the inner circle."
+        android:defaultValue="0x7F" 
+        android:persistent="true"
+        android:entries="@array/opacity"
+        android:entryValues="@array/opacityValues"
+        />
+    </PreferenceScreen>
+  </PreferenceCategory>
+  <PreferenceCategory android:title="Background">
+    <ListPreference
+        android:key="prefBackColour"
+        android:title="Background colour"
+        android:summary="Set the colour for the background."
+        android:defaultValue="0x275FFF" 
+        android:persistent="true"
+        android:entries="@array/colours"
+        android:entryValues="@array/colourValues"
+        />
+  </PreferenceCategory>
+  <PreferenceCategory android:title="Rendering">
+    <CheckBoxPreference
+       android:title="Software Rendering"
+       android:summary="Use software rendering instead of OpenGL"
+       android:key="prefSoftwareRendering"
+       android:persistent="true"
+       android:defaultValue="false"/>
+  </PreferenceCategory>
+</PreferenceScreen>

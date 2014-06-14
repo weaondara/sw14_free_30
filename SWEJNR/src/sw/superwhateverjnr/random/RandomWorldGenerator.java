@@ -141,10 +141,11 @@ public class RandomWorldGenerator
         int jh = (int) ref.getJumpMaxHeight();
         maxjw = (int) ref.getJumpWidth(3); // Three is a magic number.
         mwidth = width - 1;
-        for (fillWidth = 1; fillWidth < width;)
+        Structure lastConstruct = Structure.PILLAR;
+        for (fillWidth = 1; fillWidth < width; fillWidth++)
         {
-            Structure nextConstruct = Structure.fromId(randomizer.nextInt(Structure.values().length));
-            switch (nextConstruct)
+            lastConstruct = Structure.fromId(randomizer.nextInt(Structure.values().length));
+            switch (lastConstruct)
             {
                 case PILLAR:
                     nextHeight = randomizer.nextInt(thisHeight + jh);
@@ -158,7 +159,6 @@ public class RandomWorldGenerator
                     }
                     pillar(blocks, w, fillWidth, nextHeight);
                     thisHeight = nextHeight;
-                    fillWidth++;
                     break;
                 case GAP:
                     jw = 0;
@@ -173,7 +173,8 @@ public class RandomWorldGenerator
                         nextHeight = maxHeight - 2;
                     }
                     gap(blocks, w, fillWidth, jw, thisHeight, nextHeight, rmg.nextFilling());
-                    fillWidth += jw + 1;
+                    fillWidth += jw;
+                    thisHeight = nextHeight;
                     break;
                 case STEP:
                     jw = randomizer.nextInt((int) ref.getJumpWidth((double) thisHeight));
@@ -184,7 +185,8 @@ public class RandomWorldGenerator
                         nextHeight = maxHeight - 2;
                     }
                     step(blocks, w, fillWidth, jw, nextHeight, false);
-                    fillWidth += jw + 1;
+                    fillWidth += jw;
+                    thisHeight = nextHeight;
                     break;
                 case PLATEAU:
                     int maxPlatWidth = Math.max(5, width / 10);
@@ -203,8 +205,9 @@ public class RandomWorldGenerator
                         nextHeight = maxHeight - 2;
                     }
                     plateau(blocks, w, fillWidth, platWidth, nextHeight, rmg.nextSurface());
-                    fillWidth += platWidth + 1;
+                    fillWidth += platWidth;
                     thisHeight = nextHeight;
+                    break;
             }
         }
 
@@ -218,7 +221,14 @@ public class RandomWorldGenerator
                 }
             }
         }
-        w.setGoal(new Location(fillWidth-1,thisHeight+1));
+        switch(lastConstruct)
+        {
+            case GAP:
+            case STEP:
+                w.setGoal(new Location(fillWidth-1,thisHeight+1));
+            default:
+                w.setGoal(new Location(fillWidth-1, thisHeight+1));
+        }
         return w;
     }
 

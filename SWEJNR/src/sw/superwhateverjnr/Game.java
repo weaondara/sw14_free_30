@@ -42,6 +42,8 @@ import sw.superwhateverjnr.world.WorldLoader;
 @EqualsAndHashCode
 public class Game
 {
+    public static final int TICK_INTERVAL=10;
+    
 	@Getter
 	private static Game instance;
 	
@@ -173,6 +175,7 @@ public class Game
         {
         }
 		gameView.getRt().kill();
+        gameView.close();
 		instance=null;
 	}
 	
@@ -225,7 +228,7 @@ public class Game
                 }
 			}
 		};
-		scheduler.registerRepeatingTask(r10ms, 1, 10);
+		scheduler.registerRepeatingTask(r10ms, 1, TICK_INTERVAL);
 	}
 
 	
