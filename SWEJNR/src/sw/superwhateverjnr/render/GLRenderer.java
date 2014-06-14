@@ -108,7 +108,7 @@ public class GLRenderer extends RendererBase
     @Override
     protected void drawBackground()
     {
-        fill((game.getSettings().getBackgroudColor() & 0x00FFFFF) | 0xFF000000);
+        fill((game.getSettings().getBackgroundColor() & 0x00FFFFF) | 0xFF000000);
     }
     @Override
     protected void drawWorld()
