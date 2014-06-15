@@ -657,8 +657,12 @@ public class GLRenderer extends RendererBase
         paint.setColor(fontcolor);
         paint.setTextSize(fontsize);
         
+        gl.glEnable(GL10.GL_BLEND);
+        
         drawFPS();
         drawTime();
+        
+        gl.glDisable(GL10.GL_BLEND);
     }
     
     private GLTex fpstex;
@@ -734,6 +738,8 @@ public class GLRenderer extends RendererBase
     @Override
     protected void drawControls0(boolean retry)
     {
+    	gl.glEnable(GL10.GL_BLEND);
+    	
         for(String key:cachedControlKeys)
         {
             PointF point=cachedControlsPostions.get(key);
@@ -747,9 +753,6 @@ public class GLRenderer extends RendererBase
                 return;
             }
             
-//            Bitmap bm=cachedControlsBitmaps.get(key);
-//            canvas.drawBitmap(bm, point.x, point.y, null);
-            
             GLTex gltex=textures.get(key);
             if(gltex==null)
             {
@@ -761,6 +764,8 @@ public class GLRenderer extends RendererBase
             gltex.position(point.x, point.y, size, size, dwidth, dheight);
             gltex.draw(gl);
         }
+        
+        gl.glDisable(GL10.GL_BLEND);
     }
     @Override
     protected void redrawControls()
