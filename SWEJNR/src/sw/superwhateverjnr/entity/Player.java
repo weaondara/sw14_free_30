@@ -209,7 +209,7 @@ public class Player extends Entity
             for(int i = 0; i < ents.size(); i++)
             {
                 Entity e = ents.get(i);
-                if(hitBox.translatedTo(location).intersects(e.getHitBox().translatedTo(e.getLocation())))
+                if(e.type != EntityType.DROPPED_ITEM && hitBox.translatedTo(location).intersects(e.getHitBox().translatedTo(e.getLocation())))
                 {
                     e.takeDamage(DamageCause.STOMPED_BY_PLAYER, 0);
                     velocity.setY(jumpPower/4);
