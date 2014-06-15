@@ -1,8 +1,8 @@
 package sw.superwhateverjnr.entity;
 
 import java.util.Map;
+import java.util.Random;
 import sw.superwhateverjnr.Game;
-
 import sw.superwhateverjnr.block.Block;
 import sw.superwhateverjnr.util.Rectangle;
 import sw.superwhateverjnr.world.Location;
@@ -63,9 +63,16 @@ public class Zombie extends Entity
 		triggerRadius = 6;
 	}
 
+    private void dropFlesh()
+    {
+        int amount = new Random().nextInt(2);
+        super.dropItem(location.add(new Location(0.5, 0)), Drop.DropType.ROTTEN_FLESH, amount);
+    }
+    
 	@Override
 	protected void die()
 	{
+        dropFlesh();
 		super.die();
 	}
 	

@@ -66,6 +66,7 @@ public class Game
     
     private boolean finished = false;
     private boolean won = false;
+    private int points = 0;
     
     private boolean musicinitdone = false;
     
@@ -210,7 +211,10 @@ public class Game
         catch(Exception e) {e.printStackTrace();}
     }
 
-    
+    public void addPoints(int points)
+    {
+        this.points += points;
+    }
     
     private void registerSchedulerTasks()
     {

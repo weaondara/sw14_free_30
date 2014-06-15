@@ -212,6 +212,7 @@ public class Player extends Entity
                 if(hitBox.translatedTo(location).intersects(e.getHitBox().translatedTo(e.getLocation())))
                 {
                     e.takeDamage(DamageCause.STOMPED_BY_PLAYER, 0);
+                    velocity.setY(jumpPower/4);
                 }
             }
         }

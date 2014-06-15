@@ -14,7 +14,7 @@ public enum EntityType
     CREEPER(50, Creeper.class),
     SKELETON(51, Skeleton.class),
     ZOMBIE(54, Zombie.class),
-    DROPPED_ITEM(1, null);
+    DROPPED_ITEM(1, Drop.class);
     
     private int id;
     private Class<? extends Entity> entityClazz;

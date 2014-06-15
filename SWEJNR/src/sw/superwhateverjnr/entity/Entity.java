@@ -1,10 +1,8 @@
 package sw.superwhateverjnr.entity;
 
+import com.google.common.base.Preconditions;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.google.common.base.Preconditions;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,6 +11,7 @@ import lombok.ToString;
 import sw.superwhateverjnr.Game;
 import sw.superwhateverjnr.block.Block;
 import sw.superwhateverjnr.block.Material;
+import sw.superwhateverjnr.entity.Drop.DropType;
 import sw.superwhateverjnr.util.Rectangle;
 import sw.superwhateverjnr.util.Vector;
 import sw.superwhateverjnr.world.Location;
@@ -180,7 +179,7 @@ public abstract class Entity
 			}
             if(isInLiquid())
             {
-                velocity.setY(getJumpPower()*3/4);
+                velocity.setY(getJumpPower()/2);
             }
 		}
 		catch(Exception e) {}
@@ -276,6 +275,21 @@ public abstract class Entity
 		health = 0;
 		world().getEntities().remove(this);
 	}
+    protected void dropItem(Location l, DropType t, int amount)
+    {
+        EntityFactory ef = EntityFactory.getInstance();
+        for(int i = 0; i < amount; i++)
+        {
+            try
+            {
+                ef.create(EntityType.DROPPED_ITEM.getId(), getNewId(), l.getX(), l.getY(), Game.getInstance().getWorld(), t.toExtraData());
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
     
     public void takeDamage(DamageCause cause, double distance)
     {
@@ -317,9 +331,11 @@ public abstract class Entity
 		long time = Game.TICK_INTERVAL;
 		
 		boolean onground=false;
+        boolean inwater=false;
 		try
 		{
 			onground=isOnGround();
+            inwater=isInLiquid();
 		}
 		catch(Exception e){}
 		if(!onground)
@@ -328,7 +344,7 @@ public abstract class Entity
 			{
 				double vy=velocity.getY();
 				
-				vy-= gravity*time;
+				vy-= inwater? (gravity/2)*time : gravity*time;
 				
 				velocity.setY(vy);
 			}
@@ -346,13 +362,7 @@ public abstract class Entity
 		{
 			die();
 		}
-//		if(y>=world().getHeight())
-//		{
-//			y=world().getHeight()-0.0000001;
-//			velocity.setY(0);
-//		}
-		
-		//block check
+        
 		Location l5=new Location(location.getX()+entitywidth/2-0.0000001,y);
 		Location l6=new Location(location.getX()-entitywidth/2,y);
 		Block b5=null;
