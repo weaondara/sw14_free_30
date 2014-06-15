@@ -101,7 +101,12 @@ public class GLGameView extends GLSurfaceView implements SurfaceHolder.Callback,
 			return false;
 		}
 		
-		Game.getInstance().handleGameTouchEvent(event);
+		Game g = Game.getInstance();
+		if(g == null)
+		{
+			return false;
+		}
+		g.handleGameTouchEvent(event);
 		return true;
 	}
 	@Override
