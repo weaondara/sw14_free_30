@@ -1,10 +1,5 @@
 package sw.superwhateverjnr.render;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.FloatBuffer;
 import java.util.List;
 import java.util.Map;
 
@@ -25,35 +20,84 @@ import sw.superwhateverjnr.entity.Player;
 import sw.superwhateverjnr.entity.Skeleton;
 import sw.superwhateverjnr.entity.Zombie;
 import sw.superwhateverjnr.texture.TextureMap;
-import sw.superwhateverjnr.texture.entity.CreeperTexture;
-import sw.superwhateverjnr.texture.entity.PlayerTexture;
 import sw.superwhateverjnr.texture.entity.SkeletonTexture;
 import sw.superwhateverjnr.texture.entity.ZombieTexture;
 import sw.superwhateverjnr.util.IdAndSubId;
 import sw.superwhateverjnr.world.Location;
 import android.graphics.Bitmap;
-import android.graphics.Bitmap.CompressFormat;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.PointF;
 import android.graphics.Rect;
-import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
-import android.os.Environment;
 
 public class GLRenderer extends RendererBase
 {
-	public final static String HEAD = "head";
-	public final static String BODY = "body";
-	public final static String ARM = "arm";
-	public final static String LEG = "leg";
-	
-	public final static String LEFT = "left";
-	public final static String RIGHT = "right";
-	
-	
-	
-	
+    public final static String HEAD = "head";
+    public final static String BODY = "body";
+    public final static String ARM = "arm";
+    public final static String LEG = "leg";
+    
+    public final static String LEFT = "left";
+    public final static String RIGHT = "right";
+    
+    // ---------------------------------- player --------------------------------------
+    public final static String PLAYER_HEAD_RIGHT=EntityType.PLAYER.name()+HEAD+RIGHT;
+    public final static String PLAYER_HEAD_LEFT=EntityType.PLAYER.name()+HEAD+LEFT;
+    
+    public final static String PLAYER_BODY_RIGHT=EntityType.PLAYER.name()+BODY+RIGHT;
+    public final static String PLAYER_BODY_LEFT=EntityType.PLAYER.name()+BODY+LEFT;
+    
+    public final static String PLAYER_RIGHT_ARM_RIGHT=EntityType.PLAYER.name()+RIGHT+ARM+RIGHT;
+    public final static String PLAYER_RIGHT_ARM_LEFT=EntityType.PLAYER.name()+RIGHT+ARM+LEFT;
+    public final static String PLAYER_LEFT_ARM_RIGHT=EntityType.PLAYER.name()+LEFT+ARM+RIGHT;
+    public final static String PLAYER_LEFT_ARM_LEFT=EntityType.PLAYER.name()+LEFT+ARM+LEFT;
+    
+    public final static String PLAYER_RIGHT_LEG_RIGHT=EntityType.PLAYER.name()+RIGHT+LEG+RIGHT;
+    public final static String PLAYER_RIGHT_LEG_LEFT=EntityType.PLAYER.name()+RIGHT+LEG+LEFT;
+    public final static String PLAYER_LEFT_LEG_RIGHT=EntityType.PLAYER.name()+LEFT+LEG+RIGHT;
+    public final static String PLAYER_LEFT_LEG_LEFT=EntityType.PLAYER.name()+LEFT+LEG+LEFT;
+    
+    // ---------------------------------- zombie --------------------------------------
+    public final static String ZOMBIE_HEAD_RIGHT=EntityType.ZOMBIE.name()+HEAD+RIGHT;
+    public final static String ZOMBIE_HEAD_LEFT=EntityType.ZOMBIE.name()+HEAD+LEFT;
+    
+    public final static String ZOMBIE_BODY_RIGHT=EntityType.ZOMBIE.name()+BODY+RIGHT;
+    public final static String ZOMBIE_BODY_LEFT=EntityType.ZOMBIE.name()+BODY+LEFT;
+    
+    public final static String ZOMBIE_RIGHT_ARM_RIGHT=EntityType.ZOMBIE.name()+RIGHT+ARM+RIGHT;
+    public final static String ZOMBIE_RIGHT_ARM_LEFT=EntityType.ZOMBIE.name()+RIGHT+ARM+LEFT;
+    public final static String ZOMBIE_LEFT_ARM_RIGHT=EntityType.ZOMBIE.name()+LEFT+ARM+RIGHT;
+    public final static String ZOMBIE_LEFT_ARM_LEFT=EntityType.ZOMBIE.name()+LEFT+ARM+LEFT;
+    
+    public final static String ZOMBIE_RIGHT_LEG_RIGHT=EntityType.ZOMBIE.name()+RIGHT+LEG+RIGHT;
+    public final static String ZOMBIE_RIGHT_LEG_LEFT=EntityType.ZOMBIE.name()+RIGHT+LEG+LEFT;
+    public final static String ZOMBIE_LEFT_LEG_RIGHT=EntityType.ZOMBIE.name()+LEFT+LEG+RIGHT;
+    public final static String ZOMBIE_LEFT_LEG_LEFT=EntityType.ZOMBIE.name()+LEFT+LEG+LEFT;
+    
+    // ---------------------------------- skeleton --------------------------------------
+    public final static String SKELETON_HEAD_RIGHT=EntityType.SKELETON.name()+HEAD+RIGHT;
+    public final static String SKELETON_HEAD_LEFT=EntityType.SKELETON.name()+HEAD+LEFT;
+    
+    public final static String SKELETON_BODY_RIGHT=EntityType.SKELETON.name()+BODY+RIGHT;
+    public final static String SKELETON_BODY_LEFT=EntityType.SKELETON.name()+BODY+LEFT;
+    
+    public final static String SKELETON_RIGHT_ARM_RIGHT=EntityType.SKELETON.name()+RIGHT+ARM+RIGHT;
+    public final static String SKELETON_RIGHT_ARM_LEFT=EntityType.SKELETON.name()+RIGHT+ARM+LEFT;
+    public final static String SKELETON_LEFT_ARM_RIGHT=EntityType.SKELETON.name()+LEFT+ARM+RIGHT;
+    public final static String SKELETON_LEFT_ARM_LEFT=EntityType.SKELETON.name()+LEFT+ARM+LEFT;
+    
+    public final static String SKELETON_RIGHT_LEG_RIGHT=EntityType.SKELETON.name()+RIGHT+LEG+RIGHT;
+    public final static String SKELETON_RIGHT_LEG_LEFT=EntityType.SKELETON.name()+RIGHT+LEG+LEFT;
+    public final static String SKELETON_LEFT_LEG_RIGHT=EntityType.SKELETON.name()+LEFT+LEG+RIGHT;
+    public final static String SKELETON_LEFT_LEG_LEFT=EntityType.SKELETON.name()+LEFT+LEG+LEFT;
+    
+    
+    
+    
+    
+    
+    
     @Getter @Setter
     private float dwidth;
     @Getter @Setter
@@ -87,7 +131,7 @@ public class GLRenderer extends RendererBase
     @Override
     protected void drawBackground()
     {
-    	glr.position(0, 0, dwidth, dheight, dwidth, dheight);
+        glr.position(0, 0, dwidth, dheight, dwidth, dheight);
         glr.color(gl, (game.getSettings().getBackgroundColor() & 0x00FFFFFF) | 0xFF000000);
         glr.draw(gl);
         glr.clearColor(gl);
@@ -110,8 +154,8 @@ public class GLRenderer extends RendererBase
                 GLTex gltex=textures.get(ref);
                 if(gltex==null)
                 {
-                	ref=new IdAndSubId(b.getType().getId(),-1);
-                	gltex=textures.get(ref);
+                    ref=new IdAndSubId(b.getType().getId(),-1);
+                    gltex=textures.get(ref);
                 }
                 
                 if(gltex==null)
@@ -132,7 +176,7 @@ public class GLRenderer extends RendererBase
     @Override
     protected void drawWorldGrid()
     {
-    	gll.color(gl, 0xFFFF0000);
+        gll.color(gl, 0xFFFF0000);
         
         for(int x=xstart;x<xend+1;x++)
         {
@@ -160,21 +204,21 @@ public class GLRenderer extends RendererBase
             if(l.getX() > min.getX() - 1 && l.getX() < min.getX() + game.getDisplayWidth() / game.getTextureSize() + 1 && 
                l.getY() > min.getY() - 1 && l.getY() < min.getY() + game.getDisplayHeight() / game.getTextureSize() + 1)
             {
-//                switch(e.getType())
-//                {
-//                    case CREEPER:
-//                        drawCreeper((Creeper) e);
-//                        break;
-//                    case ZOMBIE:
-//                        drawZombie((Zombie) e);
-//                        break;
-//                    case SKELETON:
-//                        drawSkeleton((Skeleton) e);
-//                        break;
-//                    default:
-//                        break;
-//                }
-//                drawEntityBoxes(e);
+                switch(e.getType())
+                {
+                    case CREEPER:
+                        drawCreeper((Creeper) e);
+                        break;
+                    case ZOMBIE:
+                        drawZombie((Zombie) e);
+                        break;
+                    case SKELETON:
+                        drawSkeleton((Skeleton) e);
+                        break;
+                    default:
+                        break;
+                }
+                drawEntityBoxes(e);
             }
         }
     }
@@ -212,10 +256,10 @@ public class GLRenderer extends RendererBase
         
         float ytop=y-playerheight;
         
-        Matrix matrix = new Matrix();
-        
-        CreeperTexture pt=(CreeperTexture) TextureMap.getTexture(EntityType.CREEPER);
-        pt.scale(game.getTextureSize()/64);
+//        Matrix matrix = new Matrix();
+//        
+//        CreeperTexture pt=(CreeperTexture) TextureMap.getTexture(EntityType.CREEPER);
+//        pt.scale(game.getTextureSize()/64);
         
         //head
         float left=x-game.getTextureSize()*(headwidth/blocksize)/2;
@@ -223,9 +267,9 @@ public class GLRenderer extends RendererBase
         float bottom=ytop+(headheight/blocksize)*game.getTextureSize();
         float top=ytop;
 
-        matrix.setRotate(0, 0, 0);
-        matrix.postTranslate(left, top);
-        canvas.drawBitmap(c.isLookingRight() ? pt.getHeadRight() : pt.getHeadLeft(), matrix, paint);
+//        matrix.setRotate(0, 0, 0);
+//        matrix.postTranslate(left, top);
+//        canvas.drawBitmap(c.isLookingRight() ? pt.getHeadRight() : pt.getHeadLeft(), matrix, paint);
 
         //body height
         left=x-game.getTextureSize()*(bodywidth/blocksize)/2;
@@ -235,9 +279,9 @@ public class GLRenderer extends RendererBase
         
         
         //body
-        matrix.setRotate(0, 0, 0);
-        matrix.postTranslate(left, top);
-        canvas.drawBitmap(c.isLookingRight() ? pt.getBodyRight() : pt.getBodyLeft(), matrix, paint);
+//        matrix.setRotate(0, 0, 0);
+//        matrix.postTranslate(left, top);
+//        canvas.drawBitmap(c.isLookingRight() ? pt.getBodyRight() : pt.getBodyLeft(), matrix, paint);
         
         
         //leg height
@@ -251,46 +295,46 @@ public class GLRenderer extends RendererBase
         if(c.isLookingRight())
         {
             //left front leg
-            matrix.setRotate(angle, 0, 0);
-            matrix.postTranslate(right, top);
-            canvas.drawBitmap(pt.getLeftLegRight(), matrix, paint);
+//            matrix.setRotate(angle, 0, 0);
+//            matrix.postTranslate(right, top);
+//            canvas.drawBitmap(pt.getLeftLegRight(), matrix, paint);
             
             //left back leg
-            matrix.setRotate(-angle, right-left, 0);
-            matrix.postTranslate(left-(right-left), top);
-            canvas.drawBitmap(pt.getLeftLegRight(), matrix, paint);
+//            matrix.setRotate(-angle, right-left, 0);
+//            matrix.postTranslate(left-(right-left), top);
+//            canvas.drawBitmap(pt.getLeftLegRight(), matrix, paint);
 
             //right front leg
-            matrix.setRotate(-angle, 0, 0);
-            matrix.postTranslate(right, top);
-            canvas.drawBitmap(pt.getRightLegRight(), matrix, paint);
+//            matrix.setRotate(-angle, 0, 0);
+//            matrix.postTranslate(right, top);
+//            canvas.drawBitmap(pt.getRightLegRight(), matrix, paint);
             
             //right back leg
-            matrix.setRotate(angle, right-left, 0);
-            matrix.postTranslate(left-(right-left), top);
-            canvas.drawBitmap(pt.getRightLegRight(), matrix, paint);
+//            matrix.setRotate(angle, right-left, 0);
+//            matrix.postTranslate(left-(right-left), top);
+//            canvas.drawBitmap(pt.getRightLegRight(), matrix, paint);
         }
         else
         {
             //right front leg
-            matrix.setRotate(-angle, 0, 0);
-            matrix.postTranslate(right, top);
-            canvas.drawBitmap(pt.getRightLegLeft(), matrix, paint);
+//            matrix.setRotate(-angle, 0, 0);
+//            matrix.postTranslate(right, top);
+//            canvas.drawBitmap(pt.getRightLegLeft(), matrix, paint);
             
             //right back leg
-            matrix.setRotate(angle, right-left, 0);
-            matrix.postTranslate(left-(right-left), top);
-            canvas.drawBitmap(pt.getRightLegLeft(), matrix, paint);
+//            matrix.setRotate(angle, right-left, 0);
+//            matrix.postTranslate(left-(right-left), top);
+//            canvas.drawBitmap(pt.getRightLegLeft(), matrix, paint);
             
             //left front leg
-            matrix.setRotate(angle, 0, 0);
-            matrix.postTranslate(right, top);
-            canvas.drawBitmap(pt.getLeftLegLeft(), matrix, paint);
+//            matrix.setRotate(angle, 0, 0);
+//            matrix.postTranslate(right, top);
+//            canvas.drawBitmap(pt.getLeftLegLeft(), matrix, paint);
             
             //left back leg
-            matrix.setRotate(-angle, right-left, 0);
-            matrix.postTranslate(left-(right-left), top);
-            canvas.drawBitmap(pt.getLeftLegLeft(), matrix, paint);
+//            matrix.setRotate(-angle, right-left, 0);
+//            matrix.postTranslate(left-(right-left), top);
+//            canvas.drawBitmap(pt.getLeftLegLeft(), matrix, paint);
         }
     }
     @Override
@@ -327,10 +371,10 @@ public class GLRenderer extends RendererBase
         
         float ytop=y-playerheight;
         
-        Matrix matrix = new Matrix();
-        
-        ZombieTexture pt=(ZombieTexture) TextureMap.getTexture(EntityType.ZOMBIE);
-        pt.scale(game.getTextureSize()/64);
+//        Matrix matrix = new Matrix();
+//        
+//        ZombieTexture pt=(ZombieTexture) TextureMap.getTexture(EntityType.ZOMBIE);
+//        pt.scale(game.getTextureSize()/64);
         
         //head
         float left=x-game.getTextureSize()*(headwidth/blocksize)/2;
@@ -338,10 +382,13 @@ public class GLRenderer extends RendererBase
         float bottom=ytop+(headheight/blocksize)*game.getTextureSize();
         float top=ytop;
         
-        matrix.setRotate(0, 0, 0);
-        matrix.postTranslate(left, top);
-        canvas.drawBitmap(c.isLookingRight() ? pt.getHeadRight() : pt.getHeadLeft(), matrix, paint);
-
+//        matrix.setRotate(0, 0, 0);
+//        matrix.postTranslate(left, top);
+//        canvas.drawBitmap(c.isLookingRight() ? pt.getHeadRight() : pt.getHeadLeft(), matrix, paint);
+        GLTex gltex=textures.get(c.isLookingRight() ? ZOMBIE_HEAD_RIGHT : ZOMBIE_HEAD_LEFT);
+        gltex.position(left, top, right-left, bottom-top, dwidth, dheight);
+        gltex.draw(gl);
+        
         //body height
         left=x-game.getTextureSize()*(bodywidth/blocksize)/2;
         right=x+game.getTextureSize()*(bodywidth/blocksize)/2;
@@ -353,37 +400,60 @@ public class GLRenderer extends RendererBase
         if(c.isLookingRight())
         {
             //left arm
-            matrix.setRotate(-90+angle, (right-left)/2, (right-left)/2);
-            matrix.postTranslate(left, top);            
-            canvas.drawBitmap(pt.getLeftArmRight(), matrix, paint);
+//            matrix.setRotate(-90+angle, (right-left)/2, (right-left)/2);
+//            matrix.postTranslate(left, top);            
+//            canvas.drawBitmap(pt.getLeftArmRight(), matrix, paint);
+            gltex=textures.get(ZOMBIE_LEFT_ARM_RIGHT);
+            gltex.position(left, top, right-left, bottom-top, dwidth, dheight);
+            gltex.rotate(gl, angle);
+            gltex.draw(gl);
+            gltex.clearRotate(gl);
         }
         else
         {
             //right arm
-            matrix.setRotate(90-angle, (right-left)/2, (right-left)/2);
-            matrix.postTranslate(left, top);
-            canvas.drawBitmap(pt.getRightArmLeft(), matrix, paint);
+//            matrix.setRotate(90-angle, (right-left)/2, (right-left)/2);
+//            matrix.postTranslate(left, top);
+//            canvas.drawBitmap(pt.getRightArmLeft(), matrix, paint);
+            gltex=textures.get(ZOMBIE_RIGHT_ARM_LEFT);
+            gltex.position(left, top, right-left, bottom-top, dwidth, dheight);
+            gltex.rotate(gl, -angle);
+            gltex.draw(gl);
+            gltex.clearRotate(gl);
         }
         
         //body
-        matrix.setRotate(0, 0, 0);
-        matrix.postTranslate(left, top);
-        canvas.drawBitmap(c.isLookingRight() ? pt.getBodyRight() : pt.getBodyLeft(), matrix, paint);
+//        matrix.setRotate(0, 0, 0);
+//        matrix.postTranslate(left, top);
+//        canvas.drawBitmap(c.isLookingRight() ? pt.getBodyRight() : pt.getBodyLeft(), matrix, paint);
+        gltex=textures.get(c.isLookingRight() ? ZOMBIE_BODY_RIGHT : ZOMBIE_BODY_LEFT);
+        gltex.position(left, top, right-left, bottom-top, dwidth, dheight);
+        gltex.draw(gl);
         
         //arm
         if(c.isLookingRight())
         {
             //right arm
-            matrix.setRotate(-90-angle, (right-left)/2, (right-left)/2);
-            matrix.postTranslate(left, top);
-            canvas.drawBitmap(pt.getRightArmRight(), matrix, paint);
+//            matrix.setRotate(-90-angle, (right-left)/2, (right-left)/2);
+//            matrix.postTranslate(left, top);
+//            canvas.drawBitmap(pt.getRightArmRight(), matrix, paint);
+            gltex=textures.get(ZOMBIE_RIGHT_ARM_RIGHT);
+            gltex.position(left, top, right-left, bottom-top, dwidth, dheight);
+            gltex.rotate(gl, -angle);
+            gltex.draw(gl);
+            gltex.clearRotate(gl);
         }
         else
         {
             //left arm
-            matrix.setRotate(90+angle, (right-left)/2, (right-left)/2);
-            matrix.postTranslate(left, top);
-            canvas.drawBitmap(pt.getLeftArmLeft(), matrix, paint);
+//            matrix.setRotate(90+angle, (right-left)/2, (right-left)/2);
+//            matrix.postTranslate(left, top);
+//            canvas.drawBitmap(pt.getLeftArmLeft(), matrix, paint);
+            gltex=textures.get(ZOMBIE_LEFT_ARM_LEFT);
+            gltex.position(left, top, right-left, bottom-top, dwidth, dheight);
+            gltex.rotate(gl, angle);
+            gltex.draw(gl);
+            gltex.clearRotate(gl);
         }
         
         //leg height
@@ -397,26 +467,38 @@ public class GLRenderer extends RendererBase
         if(c.isLookingRight())
         {
             //left leg
-            matrix.setRotate(angle, (right-left)/2, 0);
-            matrix.postTranslate(left, top);
-            canvas.drawBitmap(pt.getLeftLegRight(), matrix, paint);
+//            matrix.setRotate(angle, (right-left)/2, 0);
+//            matrix.postTranslate(left, top);
+//            canvas.drawBitmap(pt.getLeftLegRight(), matrix, paint);
+            gltex=textures.get(ZOMBIE_LEFT_LEG_RIGHT);
+            gltex.position(left, top, right-left, bottom-top, dwidth, dheight);
+            gltex.draw(gl);
             
             //right leg
-            matrix.setRotate(-angle, (right-left)/2, 0);
-            matrix.postTranslate(left, top);
-            canvas.drawBitmap(pt.getRightLegRight(), matrix, paint);
+//            matrix.setRotate(-angle, (right-left)/2, 0);
+//            matrix.postTranslate(left, top);
+//            canvas.drawBitmap(pt.getRightLegRight(), matrix, paint);
+            gltex=textures.get(ZOMBIE_RIGHT_LEG_RIGHT);
+            gltex.position(left, top, right-left, bottom-top, dwidth, dheight);
+            gltex.draw(gl);
         }
         else
         {
             //right leg
-            matrix.setRotate(-angle, (right-left)/2, 0);
-            matrix.postTranslate(left, top);
-            canvas.drawBitmap(pt.getRightLegLeft(), matrix, paint);
+//            matrix.setRotate(-angle, (right-left)/2, 0);
+//            matrix.postTranslate(left, top);
+//            canvas.drawBitmap(pt.getRightLegLeft(), matrix, paint);
+            gltex=textures.get(ZOMBIE_RIGHT_LEG_LEFT);
+            gltex.position(left, top, right-left, bottom-top, dwidth, dheight);
+            gltex.draw(gl);
             
             //left leg
-            matrix.setRotate(angle, (right-left)/2, 0);
-            matrix.postTranslate(left, top);
-            canvas.drawBitmap(pt.getLeftLegLeft(), matrix, paint);
+//            matrix.setRotate(angle, (right-left)/2, 0);
+//            matrix.postTranslate(left, top);
+//            canvas.drawBitmap(pt.getLeftLegLeft(), matrix, paint);
+            gltex=textures.get(ZOMBIE_LEFT_LEG_LEFT);
+            gltex.position(left, top, right-left, bottom-top, dwidth, dheight);
+            gltex.draw(gl);
         }
     }
     @Override
@@ -456,10 +538,10 @@ public class GLRenderer extends RendererBase
         
         float ytop=y-playerheight;
         
-        Matrix matrix = new Matrix();
-        
-        SkeletonTexture pt=(SkeletonTexture) TextureMap.getTexture(EntityType.SKELETON);
-        pt.scale(game.getTextureSize()/64);
+//        Matrix matrix = new Matrix();
+//        
+//        SkeletonTexture pt=(SkeletonTexture) TextureMap.getTexture(EntityType.SKELETON);
+//        pt.scale(game.getTextureSize()/64);
         
         //head
         float left=x-game.getTextureSize()*(headwidth/blocksize)/2;
@@ -467,9 +549,12 @@ public class GLRenderer extends RendererBase
         float bottom=ytop+(headheight/blocksize)*game.getTextureSize();
         float top=ytop;
         
-        matrix.setRotate(0, 0, 0);
-        matrix.postTranslate(left, top);
-        canvas.drawBitmap(c.isLookingRight() ? pt.getHeadRight() : pt.getHeadLeft(), matrix, paint);
+//        matrix.setRotate(0, 0, 0);
+//        matrix.postTranslate(left, top);
+//        canvas.drawBitmap(c.isLookingRight() ? pt.getHeadRight() : pt.getHeadLeft(), matrix, paint);
+        GLTex gltex=textures.get(c.isLookingRight() ? SKELETON_HEAD_RIGHT : SKELETON_HEAD_LEFT);
+        gltex.position(left, top, right-left, bottom-top, dwidth, dheight);
+        gltex.draw(gl);
 
         //arm height
         left=x-game.getTextureSize()*(armwidth/blocksize)/2;
@@ -482,16 +567,26 @@ public class GLRenderer extends RendererBase
         if(c.isLookingRight())
         {
             //left arm
-            matrix.setRotate(-90+angle, (right-left)/2, (right-left)/2);
-            matrix.postTranslate(left, top);            
-            canvas.drawBitmap(pt.getLeftArmRight(), matrix, paint);
+//            matrix.setRotate(-90+angle, (right-left)/2, (right-left)/2);
+//            matrix.postTranslate(left, top);            
+//            canvas.drawBitmap(pt.getLeftArmRight(), matrix, paint);
+            gltex=textures.get(SKELETON_LEFT_ARM_RIGHT);
+            gltex.position(left, top, right-left, bottom-top, dwidth, dheight);
+            gltex.rotate(gl, angle);
+            gltex.draw(gl);
+            gltex.clearRotate(gl);
         }
         else
         {
             //right arm
-            matrix.setRotate(90-angle, (right-left)/2, (right-left)/2);
-            matrix.postTranslate(left, top);
-            canvas.drawBitmap(pt.getRightArmLeft(), matrix, paint);
+//            matrix.setRotate(90-angle, (right-left)/2, (right-left)/2);
+//            matrix.postTranslate(left, top);
+//            canvas.drawBitmap(pt.getRightArmLeft(), matrix, paint);
+            gltex=textures.get(SKELETON_RIGHT_ARM_LEFT);
+            gltex.position(left, top, right-left, bottom-top, dwidth, dheight);
+            gltex.rotate(gl, -angle);
+            gltex.draw(gl);
+            gltex.clearRotate(gl);
         }
         
         //body height
@@ -501,9 +596,12 @@ public class GLRenderer extends RendererBase
 //        bottom+=(bodyheight/blocksize)*game.getTextureSize();
         
         //body
-        matrix.setRotate(0, 0, 0);
-        matrix.postTranslate(left, top);
-        canvas.drawBitmap(c.isLookingRight() ? pt.getBodyRight() : pt.getBodyLeft(), matrix, paint);
+//        matrix.setRotate(0, 0, 0);
+//        matrix.postTranslate(left, top);
+//        canvas.drawBitmap(c.isLookingRight() ? pt.getBodyRight() : pt.getBodyLeft(), matrix, paint);
+        gltex=textures.get(c.isLookingRight() ? SKELETON_BODY_RIGHT : SKELETON_BODY_LEFT);
+        gltex.position(left, top, right-left, bottom-top, dwidth, dheight);
+        gltex.draw(gl);
         
         //arm height
         left=x-game.getTextureSize()*(armwidth/blocksize)/2;
@@ -515,16 +613,26 @@ public class GLRenderer extends RendererBase
         if(c.isLookingRight())
         {
             //right arm
-            matrix.setRotate(-90-angle, (right-left)/2, (right-left)/2);
-            matrix.postTranslate(left, top);
-            canvas.drawBitmap(pt.getRightArmRight(), matrix, paint);
+//            matrix.setRotate(-90-angle, (right-left)/2, (right-left)/2);
+//            matrix.postTranslate(left, top);
+//            canvas.drawBitmap(pt.getRightArmRight(), matrix, paint);
+            gltex=textures.get(SKELETON_RIGHT_ARM_RIGHT);
+            gltex.position(left, top, right-left, bottom-top, dwidth, dheight);
+            gltex.rotate(gl, -angle);
+            gltex.draw(gl);
+            gltex.clearRotate(gl);
         }
         else
         {
             //left arm
-            matrix.setRotate(90+angle, (right-left)/2, (right-left)/2);
-            matrix.postTranslate(left, top);
-            canvas.drawBitmap(pt.getLeftArmLeft(), matrix, paint);
+//            matrix.setRotate(90+angle, (right-left)/2, (right-left)/2);
+//            matrix.postTranslate(left, top);
+//            canvas.drawBitmap(pt.getLeftArmLeft(), matrix, paint);
+            gltex=textures.get(SKELETON_LEFT_ARM_LEFT);
+            gltex.position(left, top, right-left, bottom-top, dwidth, dheight);
+            gltex.rotate(gl, angle);
+            gltex.draw(gl);
+            gltex.clearRotate(gl);
         }
         
         //leg height
@@ -538,26 +646,38 @@ public class GLRenderer extends RendererBase
         if(c.isLookingRight())
         {
             //left leg
-            matrix.setRotate(angle, (right-left)/2, 0);
-            matrix.postTranslate(left, top);
-            canvas.drawBitmap(pt.getLeftLegRight(), matrix, paint);
+//            matrix.setRotate(angle, (right-left)/2, 0);
+//            matrix.postTranslate(left, top);
+//            canvas.drawBitmap(pt.getLeftLegRight(), matrix, paint);
+            gltex=textures.get(SKELETON_LEFT_LEG_RIGHT);
+            gltex.position(left, top, right-left, bottom-top, dwidth, dheight);
+            gltex.draw(gl);
             
             //right leg
-            matrix.setRotate(-angle, (right-left)/2, 0);
-            matrix.postTranslate(left, top);
-            canvas.drawBitmap(pt.getRightLegRight(), matrix, paint);
+//            matrix.setRotate(-angle, (right-left)/2, 0);
+//            matrix.postTranslate(left, top);
+//            canvas.drawBitmap(pt.getRightLegRight(), matrix, paint);
+            gltex=textures.get(SKELETON_RIGHT_LEG_RIGHT);
+            gltex.position(left, top, right-left, bottom-top, dwidth, dheight);
+            gltex.draw(gl);
         }
         else
         {
             //right leg
-            matrix.setRotate(-angle, (right-left)/2, 0);
-            matrix.postTranslate(left, top);
-            canvas.drawBitmap(pt.getRightLegLeft(), matrix, paint);
+//            matrix.setRotate(-angle, (right-left)/2, 0);
+//            matrix.postTranslate(left, top);
+//            canvas.drawBitmap(pt.getRightLegLeft(), matrix, paint);
+            gltex=textures.get(SKELETON_RIGHT_LEG_LEFT);
+            gltex.position(left, top, right-left, bottom-top, dwidth, dheight);
+            gltex.draw(gl);
             
             //left leg
-            matrix.setRotate(angle, (right-left)/2, 0);
-            matrix.postTranslate(left, top);
-            canvas.drawBitmap(pt.getLeftLegLeft(), matrix, paint);
+//            matrix.setRotate(angle, (right-left)/2, 0);
+//            matrix.postTranslate(left, top);
+//            canvas.drawBitmap(pt.getLeftLegLeft(), matrix, paint);
+            gltex=textures.get(SKELETON_LEFT_LEG_LEFT);
+            gltex.position(left, top, right-left, bottom-top, dwidth, dheight);
+            gltex.draw(gl);
         }
     }
     @Override
@@ -594,15 +714,10 @@ public class GLRenderer extends RendererBase
         
         float ytop=y-playerheight;
         
-        if(1!=2)
-    	{
-    		return;
-    	}
-        
-        Matrix matrix = new Matrix();
-        
-        PlayerTexture pt=(PlayerTexture) TextureMap.getTexture(EntityType.PLAYER);
-        pt.scale(pt.getOrigWidth()/(16+1)*game.getTextureSize()/64);
+//        Matrix matrix = new Matrix();
+//        
+//        PlayerTexture pt=(PlayerTexture) TextureMap.getTexture(EntityType.PLAYER);
+//        pt.scale(pt.getOrigWidth()/(16+1)*game.getTextureSize()/64);
         
         //head
         float left=x-game.getTextureSize()*(headwidth/blocksize)/2;
@@ -610,9 +725,12 @@ public class GLRenderer extends RendererBase
         float bottom=ytop+(headheight/blocksize)*game.getTextureSize();
         float top=ytop;
         
-        matrix.setRotate(0, 0, 0);
-        matrix.postTranslate(left, top);
-        canvas.drawBitmap(p.isLookingRight() ? pt.getHeadRight() : pt.getHeadLeft(), matrix, paint);
+//        matrix.setRotate(0, 0, 0);
+//        matrix.postTranslate(left, top);
+//        canvas.drawBitmap(p.isLookingRight() ? pt.getHeadRight() : pt.getHeadLeft(), matrix, paint);
+        GLTex gltex=textures.get(p.isLookingRight() ? PLAYER_HEAD_RIGHT : PLAYER_HEAD_LEFT);
+        gltex.position(left, top, right-left, bottom-top, dwidth, dheight);
+        gltex.draw(gl);
 
         //body height
         left=x-game.getTextureSize()*(bodywidth/blocksize)/2;
@@ -625,37 +743,64 @@ public class GLRenderer extends RendererBase
         if(p.isLookingRight())
         {
             //left arm
-            matrix.setRotate(angle, (right-left)/2, (right-left)/2);
-            matrix.postTranslate(left, top);            
-            canvas.drawBitmap(pt.getLeftArmRight(), matrix, paint);
+//            matrix.setRotate(angle, (right-left)/2, (right-left)/2);
+//            matrix.postTranslate(left, top);            
+//            canvas.drawBitmap(pt.getLeftArmRight(), matrix, paint);
+            gltex=textures.get(PLAYER_LEFT_ARM_RIGHT);
+            gltex.position(left, top, right-left, bottom-top, dwidth, dheight);
+//            gltex.translate(gl, left+(right-left)/2, top+(right-left)/2, dwidth, dheight);
+            gltex.rotate(gl, angle);
+            gltex.draw(gl);
+            gltex.clearRotate(gl);
+//            gltex.clearTranslate(gl, dwidth, dheight);
         }
         else
         {
             //right arm
-            matrix.setRotate(-angle, (right-left)/2, (right-left)/2);
-            matrix.postTranslate(left, top);
-            canvas.drawBitmap(pt.getRightArmLeft(), matrix, paint);
+//            matrix.setRotate(-angle, (right-left)/2, (right-left)/2);
+//            matrix.postTranslate(left, top);
+//            canvas.drawBitmap(pt.getRightArmLeft(), matrix, paint);
+            gltex=textures.get(PLAYER_RIGHT_ARM_LEFT);
+            gltex.position(left, top, right-left, bottom-top, dwidth, dheight);
+            gltex.rotate(gl, -angle);
+            gltex.draw(gl);
+            gltex.clearRotate(gl);
         }
         
         //body
-        matrix.setRotate(0, 0, 0);
-        matrix.postTranslate(left, top);
-        canvas.drawBitmap(p.isLookingRight() ? pt.getBodyRight() : pt.getBodyLeft(), matrix, paint);
+//        matrix.setRotate(0, 0, 0);
+//        matrix.postTranslate(left, top);
+//        canvas.drawBitmap(p.isLookingRight() ? pt.getBodyRight() : pt.getBodyLeft(), matrix, paint);
+        gltex=textures.get(p.isLookingRight() ? PLAYER_BODY_RIGHT : PLAYER_BODY_LEFT);
+        gltex.position(left, top, right-left, bottom-top, dwidth, dheight);
+        gltex.draw(gl);
         
         //arm
         if(p.isLookingRight())
         {
             //right arm
-            matrix.setRotate(-angle, (right-left)/2, (right-left)/2);
-            matrix.postTranslate(left, top);
-            canvas.drawBitmap(pt.getRightArmRight(), matrix, paint);
+//            matrix.setRotate(-angle, (right-left)/2, (right-left)/2);
+//            matrix.postTranslate(left, top);
+//            canvas.drawBitmap(pt.getRightArmRight(), matrix, paint);
+            gltex=textures.get(PLAYER_RIGHT_ARM_RIGHT);
+            gltex.position(left, top, right-left, bottom-top, dwidth, dheight);
+//            gltex.translate(gl, left+(right-left)/2, top+(right-left)/2, dwidth, dheight);
+            gltex.rotate(gl, -angle);
+            gltex.draw(gl);
+            gltex.clearRotate(gl);
+//            gltex.clearTranslate(gl, dwidth, dheight);
         }
         else
         {
             //left arm
-            matrix.setRotate(angle, (right-left)/2, (right-left)/2);
-            matrix.postTranslate(left, top);
-            canvas.drawBitmap(pt.getLeftArmLeft(), matrix, paint);
+//            matrix.setRotate(angle, (right-left)/2, (right-left)/2);
+//            matrix.postTranslate(left, top);
+//            canvas.drawBitmap(pt.getLeftArmLeft(), matrix, paint);
+            gltex=textures.get(PLAYER_LEFT_ARM_LEFT);
+            gltex.position(left, top, right-left, bottom-top, dwidth, dheight);
+            gltex.rotate(gl, angle);
+            gltex.draw(gl);
+            gltex.clearRotate(gl);
         }
         
         //leg height
@@ -669,26 +814,38 @@ public class GLRenderer extends RendererBase
         if(p.isLookingRight())
         {
             //left leg
-            matrix.setRotate(angle, (right-left)/2, 0);
-            matrix.postTranslate(left, top);
-            canvas.drawBitmap(pt.getLeftLegRight(), matrix, paint);
+//            matrix.setRotate(angle, (right-left)/2, 0);
+//            matrix.postTranslate(left, top);
+//            canvas.drawBitmap(pt.getLeftLegRight(), matrix, paint);
+            gltex=textures.get(PLAYER_LEFT_LEG_RIGHT);
+            gltex.position(left, top, right-left, bottom-top, dwidth, dheight);
+            gltex.draw(gl);
             
             //right leg
-            matrix.setRotate(-angle, (right-left)/2, 0);
-            matrix.postTranslate(left, top);
-            canvas.drawBitmap(pt.getRightLegRight(), matrix, paint);
+//            matrix.setRotate(-angle, (right-left)/2, 0);
+//            matrix.postTranslate(left, top);
+//            canvas.drawBitmap(pt.getRightLegRight(), matrix, paint);
+            gltex=textures.get(PLAYER_RIGHT_LEG_RIGHT);
+            gltex.position(left, top, right-left, bottom-top, dwidth, dheight);
+            gltex.draw(gl);
         }
         else
         {
             //right leg
-            matrix.setRotate(-angle, (right-left)/2, 0);
-            matrix.postTranslate(left, top);
-            canvas.drawBitmap(pt.getRightLegLeft(), matrix, paint);
+//            matrix.setRotate(-angle, (right-left)/2, 0);
+//            matrix.postTranslate(left, top);
+//            canvas.drawBitmap(pt.getRightLegLeft(), matrix, paint);
+            gltex=textures.get(PLAYER_RIGHT_LEG_LEFT);
+            gltex.position(left, top, right-left, bottom-top, dwidth, dheight);
+            gltex.draw(gl);
             
             //left leg
-            matrix.setRotate(angle, (right-left)/2, 0);
-            matrix.postTranslate(left, top);
-            canvas.drawBitmap(pt.getLeftLegLeft(), matrix, paint);
+//            matrix.setRotate(angle, (right-left)/2, 0);
+//            matrix.postTranslate(left, top);
+//            canvas.drawBitmap(pt.getLeftLegLeft(), matrix, paint);
+            gltex=textures.get(PLAYER_LEFT_LEG_LEFT);
+            gltex.position(left, top, right-left, bottom-top, dwidth, dheight);
+            gltex.draw(gl);
         }
     
         
@@ -699,12 +856,12 @@ public class GLRenderer extends RendererBase
     @Override
     protected void drawInfo()
     {
-    	int fontsize=30;
+        int fontsize=30;
         int fontcolor=0xFF00FF00;
         
         paint.setColor(fontcolor);
         paint.setTextSize(fontsize);
-    	
+        
         drawFPS();
         drawTime();
     }
@@ -717,22 +874,22 @@ public class GLRenderer extends RendererBase
         String fps="FPS: "+Game.getInstance().getGlgameView().getFps();
         if(oldfps == null || !fps.equalsIgnoreCase(oldfps))
         {
-        	Rect r=new Rect();
-        	paint.getTextBounds(fps, 0, fps.length(), r);
-        	
-        	Bitmap bm=Bitmap.createBitmap(r.width()+10, r.height()+10, Bitmap.Config.ARGB_8888);
-        	Canvas cv=new Canvas(bm);
+            Rect r=new Rect();
+            paint.getTextBounds(fps, 0, fps.length(), r);
+            
+            Bitmap bm=Bitmap.createBitmap(r.width()+10, r.height()+10, Bitmap.Config.ARGB_8888);
+            Canvas cv=new Canvas(bm);
             cv.drawText(fps, 0+5, r.height()+5, paint);
-        	
+            
             if(oldfps == null)
             {
-            	fpstex=new GLTex(null, bm);
+                fpstex=new GLTex(null, bm);
             }
             else
             {
-            	fpstex.delete(gl);
-            	fpstex.getBitmap().recycle();
-            	fpstex.setBitmap(bm);
+                fpstex.delete(gl);
+                fpstex.getBitmap().recycle();
+                fpstex.setBitmap(bm);
             }
             
             fpstex.upload(gl);
@@ -751,22 +908,22 @@ public class GLRenderer extends RendererBase
         String time="Time: "+(world.getTime()-world.getTimeElapsed())/100;
         if(oldtime == null || !time.equalsIgnoreCase(oldtime))
         {
-        	Rect r=new Rect();
-        	paint.getTextBounds(time, 0, time.length(), r);
-        	
-        	Bitmap bm=Bitmap.createBitmap(r.width()+10, r.height()+10, Bitmap.Config.ARGB_8888);
-        	Canvas cv=new Canvas(bm);
+            Rect r=new Rect();
+            paint.getTextBounds(time, 0, time.length(), r);
+            
+            Bitmap bm=Bitmap.createBitmap(r.width()+10, r.height()+10, Bitmap.Config.ARGB_8888);
+            Canvas cv=new Canvas(bm);
             cv.drawText(time, 0+5, r.height()+5, paint);
-        	
+            
             if(oldtime == null)
             {
-            	timetex=new GLTex(null, bm);
+                timetex=new GLTex(null, bm);
             }
             else
             {
-            	timetex.delete(gl);
-            	timetex.getBitmap().recycle();
-            	timetex.setBitmap(bm);
+                timetex.delete(gl);
+                timetex.getBitmap().recycle();
+                timetex.setBitmap(bm);
             }
             
             timetex.upload(gl);
@@ -801,7 +958,7 @@ public class GLRenderer extends RendererBase
             GLTex gltex=textures.get(key);
             if(gltex==null)
             {
-            	continue;
+                continue;
             }
             
             int size=(int) Math.ceil(2*game.getSettings().getControlCircleRadiusOuter());
@@ -813,27 +970,27 @@ public class GLRenderer extends RendererBase
     @Override
     protected void redrawControls()
     {
-    	super.redrawControls();
-    	
-    	for(String key:cachedControlKeys)
-    	{
-    		GLTex gltex=textures.get(key);
-    		if(gltex!=null)
-    		{
-    			gltex.delete(gl);
-    			gltex.getBitmap().recycle();
-    			gltex.setBitmap(cachedControlsBitmaps.get(key));
-    		}
-    		else
-    		{
-    			gltex = new GLTex(key, cachedControlsBitmaps.get(key));
-    			textures.put(key, gltex);
-    		}
-    		
-    		gltex.upload(gl);
-    		
-    		cachedControlsBitmaps.get(key).recycle();
-    	}
+        super.redrawControls();
+        
+        for(String key:cachedControlKeys)
+        {
+            GLTex gltex=textures.get(key);
+            if(gltex!=null)
+            {
+                gltex.delete(gl);
+                gltex.getBitmap().recycle();
+                gltex.setBitmap(cachedControlsBitmaps.get(key));
+            }
+            else
+            {
+                gltex = new GLTex(key, cachedControlsBitmaps.get(key));
+                textures.put(key, gltex);
+            }
+            
+            gltex.upload(gl);
+            
+            cachedControlsBitmaps.get(key).recycle();
+        }
     }
 
     @Override
@@ -846,9 +1003,6 @@ public class GLRenderer extends RendererBase
             float x=(float) (leftoffset+(e.getLocation().getX()-x1)*game.getTextureSize());
             float y=(float) (topoffset+(y2-e.getLocation().getY())*game.getTextureSize());
             
-            paint.setStyle(Style.STROKE);
-            paint.setColor(0xFFFFFF00);
-            
             float playerwidh=(float) (Math.abs(e.getRenderBox().getMin().getX()-e.getRenderBox().getMax().getX())*game.getTextureSize());
     
             float left=x-playerwidh/2;
@@ -856,11 +1010,9 @@ public class GLRenderer extends RendererBase
             float bottom=y;
             float top=(float) (y-e.getRenderBox().getMax().getY()*game.getTextureSize());
             
-            canvas.drawRect(left, top, right, bottom, paint);
+            drawRect(left, top, right, bottom, 0xFFFFFF00);
             
             //hitbox
-            paint.setColor(0xFF00FF00);
-            
             playerwidh=(float) (Math.abs(e.getHitBox().getMin().getX()-e.getHitBox().getMax().getX())*game.getTextureSize());
             
             left=x-playerwidh/2;
@@ -868,39 +1020,80 @@ public class GLRenderer extends RendererBase
             bottom=y;
             top=(float) (y-e.getHitBox().getMax().getY()*game.getTextureSize());
             
-            canvas.drawRect(left, top, right, bottom, paint);
+            drawRect(left, top, right, bottom, 0xFF00FF00);
             
             //triggercenter
             Location tc=e.getTriggerCenter().add(e.getLocation());
             x=(float) (leftoffset+(tc.getX()-x1)*game.getTextureSize());
             y=(float) (topoffset+(y2-tc.getY())*game.getTextureSize());
             
-            canvas.drawLine(x-13, y-13, x+13, y+13, paint);
-            canvas.drawLine(x+13, y-13, x-13, y+13, paint);
+            gll.color(gl, 0xFF00FF00);
+            gll.position(x-13, y-13, 26, 26, dwidth, dheight);
+            gll.draw(gl);
+            gll.position(x+13, y-13, -26, 26, dwidth, dheight);
+            gll.draw(gl);
+            gll.clearColor(gl);
             
             //triggerradius
             if(e.getTriggerRadius() > 0)
             {
-                canvas.drawCircle(x, y, (float) e.getTriggerRadius()*game.getTextureSize(), paint);
+                drawCircle(x, y, (float) e.getTriggerRadius()*game.getTextureSize(), 0xFF00FF00);
             }
-            
-            //debug data
-            paint.setTextAlign(Align.LEFT);
-            
-            x=(float) (leftoffset+(e.getLocation().getX()-x1)*game.getTextureSize());
-            y=(float) (topoffset+(y2-e.getLocation().getY())*game.getTextureSize());
-
-            float playerheight=(float) (Math.abs(e.getHitBox().getMin().getY()-e.getHitBox().getMax().getY())*game.getTextureSize());
-            
-            String debugdata=e.getDebugInfo();
-            String[] list=debugdata.split("\n");
-            y+=(paint.descent()+paint.ascent())*(list.length-1) - playerheight;
-            
-            for(String s:list)
-            {
-                canvas.drawText(s, x, y, paint);
-                y-=paint.descent()+paint.ascent();
-            }
+//            
+//            //debug data
+//            paint.setTextAlign(Align.LEFT);
+//            
+//            x=(float) (leftoffset+(e.getLocation().getX()-x1)*game.getTextureSize());
+//            y=(float) (topoffset+(y2-e.getLocation().getY())*game.getTextureSize());
+//
+//            float playerheight=(float) (Math.abs(e.getHitBox().getMin().getY()-e.getHitBox().getMax().getY())*game.getTextureSize());
+//            
+//            String debugdata=e.getDebugInfo();
+//            String[] list=debugdata.split("\n");
+//            y+=(paint.descent()+paint.ascent())*(list.length-1) - playerheight;
+//            
+//            for(String s:list)
+//            {
+//                canvas.drawText(s, x, y, paint);
+//                y-=paint.descent()+paint.ascent();
+//            }
         }
+    }
+    
+    private void drawRect(float left, float top, float right, float bottom, int color)
+    {
+        gll.color(gl, color);
+        
+        gll.position(left, top, 0, bottom-top, dwidth, dheight);
+        gll.draw(gl);
+        gll.position(left, top, right-left, 0, dwidth, dheight);
+        gll.draw(gl);
+        gll.position(right, top, 0, bottom-top, dwidth, dheight);
+        gll.draw(gl);
+        gll.position(left, bottom, right-left, 0, dwidth, dheight);
+        gll.draw(gl);
+        
+        gll.clearColor(gl);
+    }
+    
+    private void drawCircle(float x, float y, float radius, int color)
+    {
+//        gll.color(gl, color);
+//        double angle=2*Math.PI/180/(360);
+//        float xa=x+radius;
+//        float ya=y;
+//        
+//        for(int i=0;i<360;i++)
+//        {
+//            float x1=(float) (xa+Math.sin(angle*i)*radius);
+//            float y1=(float) (ya+Math.cos(angle*i)*radius);
+//            float x2=(float) (xa+Math.sin(angle*(i+1))*radius);
+//            float y2=(float) (ya+Math.cos(angle*(i+1))*radius);
+//            
+//            
+//            gll.position(x1, y1, x2-x1, y2-y1, dwidth, dheight);
+//            gll.draw(gl);
+//        }
+//        gll.clearColor(gl);
     }
 }
