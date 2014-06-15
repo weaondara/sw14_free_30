@@ -3,11 +3,13 @@ package sw.superwhateverjnr.render;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
 
 import javax.microedition.khronos.opengles.GL10;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import android.graphics.Bitmap;
 import android.opengl.GLUtils;
@@ -24,6 +26,7 @@ public class GLTex
     private ShortBuffer indeces;
     
     private Object ref;
+    @Getter @Setter
     private Bitmap bitmap;
     private int glTextureId;
     
@@ -93,6 +96,17 @@ public class GLTex
         glTextureId=texturemap[0];
         
         return true;
+    }
+    public void delete(GL10 gl)
+    {
+    	ByteBuffer byteBuffer = ByteBuffer.allocateDirect(4); 
+        byteBuffer.order(ByteOrder.nativeOrder());
+        IntBuffer tex = byteBuffer.asIntBuffer();
+        tex.put(new int[]{glTextureId});
+        tex.position(0);
+        
+    	gl.glDeleteTextures(1, tex);
+    	glTextureId = 0;
     }
     
     
