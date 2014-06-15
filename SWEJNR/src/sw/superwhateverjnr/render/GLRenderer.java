@@ -1,11 +1,8 @@
 package sw.superwhateverjnr.render;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
-import java.nio.ShortBuffer;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +21,6 @@ import sw.superwhateverjnr.entity.EntityType;
 import sw.superwhateverjnr.entity.Player;
 import sw.superwhateverjnr.entity.Skeleton;
 import sw.superwhateverjnr.entity.Zombie;
-import sw.superwhateverjnr.texture.Texture;
 import sw.superwhateverjnr.texture.TextureMap;
 import sw.superwhateverjnr.texture.entity.CreeperTexture;
 import sw.superwhateverjnr.texture.entity.PlayerTexture;
@@ -33,13 +29,11 @@ import sw.superwhateverjnr.texture.entity.ZombieTexture;
 import sw.superwhateverjnr.util.IdAndSubId;
 import sw.superwhateverjnr.world.Location;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
-import android.opengl.GLUtils;
 
 public class GLRenderer extends RendererBase
 {
@@ -50,9 +44,16 @@ public class GLRenderer extends RendererBase
     @Getter @Setter
     private Map<Object, GLTex> textures;
     
+    
+    private GLLine gll;
+    private GLRect glr;
+    
     public GLRenderer()
     {
         super();
+        
+        gll = new GLLine();
+        glr = new GLRect();
     }
     
     @Override
@@ -101,6 +102,7 @@ public class GLRenderer extends RendererBase
 //        drawBitmap(wood, 984, 548, 64, 64, 0, 0, 0);
         
         drawWorld();
+        drawWorldGrid();
     }
 
     
@@ -150,19 +152,27 @@ public class GLRenderer extends RendererBase
     @Override
     protected void drawWorldGrid()
     {
-        paint.setColor(0xFFFF0000);
-        paint.setStrokeWidth(0);
+//        paint.setColor(0xFFFF0000);
+//        paint.setStrokeWidth(0);
+    	
+    	gll.color(gl, 0xFFFF0000);
         
         for(int x=xstart;x<xend+1;x++)
         {
             float px=leftoffset+(x-x1)*game.getTextureSize();
-            canvas.drawLine(px, 0, px, game.getDisplayHeight(), paint);
+//            canvas.drawLine(px, 0, px, game.getDisplayHeight(), paint);
+            gll.position(px, 0, 0, dheight, dwidth, dheight);
+            gll.draw(gl);
         }
         for(int y=ystart;y<yend+1;y++)
         {
             float py=topoffset+(y2-1-y)*game.getTextureSize();
-            canvas.drawLine(0, py, game.getDisplayWidth(), py, paint);
+//            canvas.drawLine(0, py, game.getDisplayWidth(), py, paint);
+            gll.position(0, py, dwidth, 0, dwidth, dheight);
+            gll.draw(gl);
         }
+        
+        gll.clearColor(gl);
     }
     @Override
     protected void drawEntities()
@@ -819,117 +829,120 @@ public class GLRenderer extends RendererBase
     
     private void fill(int color)
     {
-        drawRect(0, 0, (int)dwidth, (int)dheight, color);
+        glr.position(0, 0, dwidth, dheight, dwidth, dheight);
+        glr.color(gl, color);
+        glr.draw(gl);
+        glr.clearColor(gl);
     }
 
     
-    private void drawRect(int x, int y, int width, int height, int color) 
-    {
-        float left=(x - dwidth / 2) / (dwidth / 2);
-        float right=left + width / (dwidth / 2);
-        float top=(dheight / 2 - y) / (dheight / 2);
-        float bottom=top - height / (dheight / 2);
-        
-        float vertices[] = {
-                left,  bottom, 0.0f,
-                left,  top,    0.0f,
-                right, bottom, 0.0f,
-                right, top,    0.0f
-        };
-        ByteBuffer vertexByteBuffer = ByteBuffer.allocateDirect(vertices.length * 4);
-        vertexByteBuffer.order(ByteOrder.nativeOrder());
-         
-        FloatBuffer vertexBuffer = vertexByteBuffer.asFloatBuffer();
-        vertexBuffer.put(vertices);
-        vertexBuffer.position(0);
-        
-        
-        gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
-        
-        gl.glColor4f(
-                (float)((color & 0x00FF0000) >> 16) / 256,
-                (float)((color & 0x0000FF00) >> 8 ) / 256,
-                (float)((color & 0x000000FF)      ) / 256,
-                (float)((color & 0xFF000000) >> 24) / 256);
-        
-        gl.glVertexPointer(3, GL10.GL_FLOAT, 0, vertexBuffer);
-        gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, 0, 4);
-        
-        gl.glColor4f(1, 1, 1, 1);
-        
-        gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
-    }
+//    private void drawRect(int x, int y, int width, int height, int color) 
+//    {
+//        float left=(x - dwidth / 2) / (dwidth / 2);
+//        float right=left + width / (dwidth / 2);
+//        float top=(dheight / 2 - y) / (dheight / 2);
+//        float bottom=top - height / (dheight / 2);
+//        
+//        float vertices[] = {
+//                left,  bottom, 0.0f,
+//                left,  top,    0.0f,
+//                right, bottom, 0.0f,
+//                right, top,    0.0f
+//        };
+//        ByteBuffer vertexByteBuffer = ByteBuffer.allocateDirect(vertices.length * 4);
+//        vertexByteBuffer.order(ByteOrder.nativeOrder());
+//         
+//        FloatBuffer vertexBuffer = vertexByteBuffer.asFloatBuffer();
+//        vertexBuffer.put(vertices);
+//        vertexBuffer.position(0);
+//        
+//        
+//        gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
+//        
+//        gl.glColor4f(
+//                (float)((color & 0x00FF0000) >> 16) / 256,
+//                (float)((color & 0x0000FF00) >> 8 ) / 256,
+//                (float)((color & 0x000000FF)      ) / 256,
+//                (float)((color & 0xFF000000) >> 24) / 256);
+//        
+//        gl.glVertexPointer(3, GL10.GL_FLOAT, 0, vertexBuffer);
+//        gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, 0, 4);
+//        
+//        gl.glColor4f(1, 1, 1, 1);
+//        
+//        gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
+//    }
     
-    private void drawBitmap(Bitmap bitmap, int x, int y, int width, int height, float ratation, float rotX, float rotY)
-    {
-        float left=(x - dwidth / 2) / (dwidth / 2);
-        float right=left + width / (dwidth / 2);
-        float top=(dheight / 2 - y) / (dheight / 2);
-        float bottom=top - height / (dheight / 2);
-        
-        float vertices[] = {
-                left,  bottom, 0.0f,
-                left,  top,    0.0f,
-                right, bottom, 0.0f,
-                right, top,    0.0f
-        };
-        
-        float texturevertices[] = {
-                0.0f, 1.0f,
-                0.0f, 0.0f,
-                1.0f, 1.0f,
-                1.0f, 0.0f
-        };
-        
-        short[] index = {
-                0, 1, 2,
-                2, 1, 3
-        };
-        
-        ByteBuffer byteBuffer = ByteBuffer.allocateDirect(vertices.length * 4); 
-        byteBuffer.order(ByteOrder.nativeOrder());
-        FloatBuffer vertexBuffer = byteBuffer.asFloatBuffer();
-        vertexBuffer.put(vertices);
-        vertexBuffer.position(0);
-        
-        byteBuffer = ByteBuffer.allocateDirect(texturevertices.length * 4); 
-        byteBuffer.order(ByteOrder.nativeOrder());
-        FloatBuffer textureBuffer = byteBuffer.asFloatBuffer();
-        textureBuffer.put(texturevertices);
-        textureBuffer.position(0);
-        
-        byteBuffer = ByteBuffer.allocateDirect(index.length * 4); 
-        byteBuffer.order(ByteOrder.nativeOrder());
-        ShortBuffer indicesBuffer = byteBuffer.asShortBuffer();
-        indicesBuffer.put(index);
-        indicesBuffer.position(0);
-
-        
-        gl.glEnable(GL10.GL_TEXTURE_2D);
-        gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
-        gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
-        
-        int texturemap[] = new int[1];
-        gl.glGenTextures(1, texturemap, 0);
-        gl.glBindTexture(GL10.GL_TEXTURE_2D, texturemap[0]);
-        
-        gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_LINEAR);
-        gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER, GL10.GL_LINEAR);
-        gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_S, GL10.GL_CLAMP_TO_EDGE);
-        gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_T, GL10.GL_CLAMP_TO_EDGE);
-        
-        GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, bitmap, 0);
-        
-        //draw
-        gl.glFrontFace(GL10.GL_CW);
-        
-        gl.glVertexPointer(3, GL10.GL_FLOAT, 0, vertexBuffer);
-        gl.glTexCoordPointer(2, GL10.GL_FLOAT, 0, textureBuffer);
-        
-        gl.glDrawElements(GL10.GL_TRIANGLES, 6, GL10.GL_UNSIGNED_SHORT, indicesBuffer);
-        
-        gl.glDisableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
-        gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
-        gl.glDisable(GL10.GL_TEXTURE_2D);
-    }
+//    private void drawBitmap(Bitmap bitmap, int x, int y, int width, int height, float ratation, float rotX, float rotY)
+//    {
+//        float left=(x - dwidth / 2) / (dwidth / 2);
+//        float right=left + width / (dwidth / 2);
+//        float top=(dheight / 2 - y) / (dheight / 2);
+//        float bottom=top - height / (dheight / 2);
+//        
+//        float vertices[] = {
+//                left,  bottom, 0.0f,
+//                left,  top,    0.0f,
+//                right, bottom, 0.0f,
+//                right, top,    0.0f
+//        };
+//        
+//        float texturevertices[] = {
+//                0.0f, 1.0f,
+//                0.0f, 0.0f,
+//                1.0f, 1.0f,
+//                1.0f, 0.0f
+//        };
+//        
+//        short[] index = {
+//                0, 1, 2,
+//                2, 1, 3
+//        };
+//        
+//        ByteBuffer byteBuffer = ByteBuffer.allocateDirect(vertices.length * 4); 
+//        byteBuffer.order(ByteOrder.nativeOrder());
+//        FloatBuffer vertexBuffer = byteBuffer.asFloatBuffer();
+//        vertexBuffer.put(vertices);
+//        vertexBuffer.position(0);
+//        
+//        byteBuffer = ByteBuffer.allocateDirect(texturevertices.length * 4); 
+//        byteBuffer.order(ByteOrder.nativeOrder());
+//        FloatBuffer textureBuffer = byteBuffer.asFloatBuffer();
+//        textureBuffer.put(texturevertices);
+//        textureBuffer.position(0);
+//        
+//        byteBuffer = ByteBuffer.allocateDirect(index.length * 4); 
+//        byteBuffer.order(ByteOrder.nativeOrder());
+//        ShortBuffer indicesBuffer = byteBuffer.asShortBuffer();
+//        indicesBuffer.put(index);
+//        indicesBuffer.position(0);
+//
+//        
+//        gl.glEnable(GL10.GL_TEXTURE_2D);
+//        gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
+//        gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
+//        
+//        int texturemap[] = new int[1];
+//        gl.glGenTextures(1, texturemap, 0);
+//        gl.glBindTexture(GL10.GL_TEXTURE_2D, texturemap[0]);
+//        
+//        gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_LINEAR);
+//        gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER, GL10.GL_LINEAR);
+//        gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_S, GL10.GL_CLAMP_TO_EDGE);
+//        gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_T, GL10.GL_CLAMP_TO_EDGE);
+//        
+//        GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, bitmap, 0);
+//        
+//        //draw
+//        gl.glFrontFace(GL10.GL_CW);
+//        
+//        gl.glVertexPointer(3, GL10.GL_FLOAT, 0, vertexBuffer);
+//        gl.glTexCoordPointer(2, GL10.GL_FLOAT, 0, textureBuffer);
+//        
+//        gl.glDrawElements(GL10.GL_TRIANGLES, 6, GL10.GL_UNSIGNED_SHORT, indicesBuffer);
+//        
+//        gl.glDisableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
+//        gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
+//        gl.glDisable(GL10.GL_TEXTURE_2D);
+//    }
 }
