@@ -19,4 +19,27 @@ public class Rectangle
 	{
 		this(new Location(minx, miny), new Location(maxx, maxy));
 	}
+    
+    public Rectangle translatedTo(double x, double y)
+    {
+        return new Rectangle(min.getX() + x, min.getY() + y, max.getX() + x, max.getY() + y);
+    }
+    
+    public Rectangle translatedTo(Location l)
+    {
+        return new Rectangle(min.add(l), max.add(l));
+    }
+    
+    public boolean containsLocation(Location l)
+    {
+        if(l.getBlockX() < min.getBlockX() || l.getBlockX() > max.getBlockX() ||
+           l.getBlockY() < min.getBlockY() || l.getBlockY() > max.getBlockY())
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
 }

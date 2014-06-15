@@ -12,6 +12,7 @@ import lombok.Synchronized;
 import lombok.ToString;
 import sw.superwhateverjnr.Game;
 import sw.superwhateverjnr.block.Block;
+import sw.superwhateverjnr.block.Material;
 import sw.superwhateverjnr.util.Rectangle;
 import sw.superwhateverjnr.util.Vector;
 import sw.superwhateverjnr.world.Location;
@@ -97,7 +98,7 @@ public abstract class Entity
 	{
 		return jumpPower;
 	}
-	
+    
 	//-------------------------- triggering --------------------------
 	protected Location triggerCenter;
 	protected double triggerRadius;
@@ -111,6 +112,7 @@ public abstract class Entity
 	protected long ticksLived;
 	
 	//-------------------------- properties ------------------------------
+    @Getter
 	protected Rectangle hitBox;
 	protected Rectangle renderBox;
 	
@@ -199,6 +201,7 @@ public abstract class Entity
 	public void tick()
 	{
 		ticksLived++;
+        tickEnvironmentDamage();
 		tickGravity();
 		tickAnimation();
 	}
@@ -273,7 +276,37 @@ public abstract class Entity
 		health = 0;
 		world().getEntities().remove(this);
 	}
+    
+    public void takeDamage(DamageCause cause, double distance)
+    {
+        double damage = cause.getDamage(distance);
+        if(damage > health)
+        {
+            die();
+        }
+        else
+        {
+            health -= damage;
+            if(cause.knocksBack())
+            {
+                velocity.setX(1/0.1*(1+(distance*distance)));
+            }
+        }
+    }
 	
+    protected void tickEnvironmentDamage()
+    {
+        World w = Game.getInstance().getWorld();
+        if(w==null || !isInsideWorld(w))
+		{
+            return;
+        }
+        if(w.getBlockAt(location).getType() == Material.LAVA_FLOWING || w.getBlockAt(location).getType() == Material.LAVA_STANDING)
+        {
+            takeDamage(DamageCause.LAVA, 0);
+        }
+    }
+    
 	protected void tickGravity()
 	{
 		if(location==null || world()==null)

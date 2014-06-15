@@ -1,5 +1,6 @@
 package sw.superwhateverjnr.entity;
 
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import sw.superwhateverjnr.Game;
@@ -198,6 +199,21 @@ public class Player extends Entity
             }
     	}
     }
+    
+    protected void tickGravity()
+    {
+        super.tickGravity();
+        if(velocity.getY() < 0)
+        {
+            List<Entity> ents = Game.getInstance().getWorld().getEntitiesAt(location);
+            System.out.println("Stomping.");
+            for(int i = 0; i < ents.size(); i++)
+            {
+                ents.get(i).takeDamage(DamageCause.STOMPED_BY_PLAYER, 0);
+            }
+        }
+    }
+    
     private void checkTime()
     {
     	if(world().getTime() == world().getTimeElapsed())
