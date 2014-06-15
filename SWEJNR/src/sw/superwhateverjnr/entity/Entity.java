@@ -282,7 +282,8 @@ public abstract class Entity
         {
             try
             {
-                ef.create(EntityType.DROPPED_ITEM.getId(), getNewId(), l.getX(), l.getY(), Game.getInstance().getWorld(), t.toExtraData());
+                Game.getInstance().getWorld().getEntities().add(ef.create(EntityType.DROPPED_ITEM.getId(), getNewId(), l.getX(), 
+                                                                l.getY(), Game.getInstance().getWorld(), t.toExtraData()));
             }
             catch(Exception e)
             {
