@@ -16,8 +16,6 @@ public class LoadingScreen implements Runnable
 	
 	public LoadingScreen(Activity calling)
 	{
-		System.out.println("londing screen");
-		
 		this.calling = calling;
 		loading = new LoadingView(SWEJNR.getInstance().getApplicationContext());
 		calling.setContentView(loading);

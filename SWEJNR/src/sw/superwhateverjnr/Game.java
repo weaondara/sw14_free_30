@@ -1,10 +1,12 @@
 package sw.superwhateverjnr;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.PointF;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.os.Bundle;
 import android.support.v4.view.MotionEventCompat;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
@@ -15,6 +17,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
 import lombok.ToString;
+import sw.superwhateverjnr.activity.EndActivity;
 import sw.superwhateverjnr.activity.GameActivity;
 import sw.superwhateverjnr.entity.Player;
 import sw.superwhateverjnr.scheduling.Scheduler;
@@ -197,6 +200,12 @@ public class Game
             gameView.getRt().kill();
             gameView.close();
         }
+        
+        Intent i = new Intent(activity, EndActivity.class);
+        i.putExtra("won", won);
+        i.putExtra("points", points);
+        activity.startActivity(i);
+        
         instance=null;
     }
     
@@ -364,5 +373,10 @@ public class Game
             }
             minDisplayPoint.setY(y);
         }
+    }
+
+    private void EndActivity()
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

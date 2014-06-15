@@ -22,7 +22,7 @@ public class SWEJNR extends Application implements Runnable
 	
 	@Getter
 	private static SWEJNR instance;
-	
+
 	private Thread t;
 	
 	@Getter
