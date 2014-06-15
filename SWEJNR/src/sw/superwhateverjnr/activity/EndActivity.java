@@ -5,7 +5,6 @@ import android.os.Bundle;
 import lombok.Getter;
 import sw.superwhateverjnr.SWEJNR;
 import sw.superwhateverjnr.ui.EndView;
-import sw.superwhateverjnr.ui.LosingView;
 
 public class EndActivity extends Activity
 {
