@@ -23,10 +23,17 @@ public class Settings
 	private float controlMargin=-1;
 	
 	private int backgroundColor=-1;
+	
+	private boolean useGL = true;
     
     public Settings()
     {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(SWEJNR.getInstance());
+        
+    }
+    
+    public void load()
+    {
+    	SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(SWEJNR.getInstance());
         controlCircleRadiusOuter = Integer.valueOf(sp.getString("prefOuterButtonSize", "-1"));
         controlCircleRadiusInner = Integer.valueOf(sp.getString("prefInnerButtonSize", "-1"));
         controlArrowSize = Integer.valueOf(sp.getString("prefArrowSize", "-1"));
@@ -37,6 +44,7 @@ public class Settings
         controlCircleOpacityInner=ByteBuffer.allocate(4).putInt(Integer.decode(sp.getString("prefInnerOpacity", "-1"))).array()[3];
         controlArrowOpacity=ByteBuffer.allocate(4).putInt(Integer.decode(sp.getString("prefArrowOpacity", "-1"))).array()[3];
         backgroundColor=Integer.decode(sp.getString("prefBackgroundColour", "-1"));
+        useGL=!sp.getBoolean("prefSoftwareRendering", false);
     }
 	
 	public float getControlCircleRadiusOuter()
@@ -127,7 +135,10 @@ public class Settings
 		}
 		return backgroundColor;
 	}
-	
+	public boolean useGL()
+	{
+		return useGL;
+	}
 	
 	
 	public void setControlCircleRadiusOuter(float controlCircleRadiusOuter)
@@ -173,5 +184,9 @@ public class Settings
 	public void setBackgroundColor(int backgroundColor)
 	{
 		this.backgroundColor = backgroundColor;
+	}
+	public void useGL(boolean useGL)
+	{
+		this.useGL = useGL;
 	}
 }
