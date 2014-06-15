@@ -17,7 +17,7 @@ public enum Material
 	BEDROCK(7, StandardBlock.class),
 	WATER_FLOWING(8, LiquidBlock.class),
 	WATER_STANDING(9, LiquidBlock.class),
-	LAVA_FlOWING(10, LiquidBlock.class),
+	LAVA_FLOWING(10, LiquidBlock.class),
 	LAVA_STANDING(11, LiquidBlock.class),
 	SAND(12, StandardBlock.class),
 	GRAVEL(13, StandardBlock.class);
@@ -62,7 +62,7 @@ public enum Material
 		{
 			case WATER_FLOWING:
 			case WATER_STANDING:
-			case LAVA_FlOWING:
+			case LAVA_FLOWING:
 			case LAVA_STANDING:
 				return true;
 			default:
