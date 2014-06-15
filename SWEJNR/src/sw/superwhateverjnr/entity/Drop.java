@@ -48,7 +48,7 @@ public class Drop extends Entity
     
     private void getTaken()
     {
-        if(hitBox.intersects(Game.getInstance().getPlayer().getHitBox().translatedTo(Game.getInstance().getPlayer().getLocation())))
+        if(hitBox.translatedTo(location).intersects(Game.getInstance().getPlayer().getHitBox().translatedTo(Game.getInstance().getPlayer().getLocation())))
         {
             Game.getInstance().addPoints(points);
             die();
@@ -66,5 +66,6 @@ public class Drop extends Entity
     public void tick()
     {
         super.tick();
+        getTaken();
     }
 }
