@@ -787,13 +787,21 @@ public class GLRenderer extends RendererBase
 //            matrix.setRotate(angle, (right-left)/2, (right-left)/2);
 //            matrix.postTranslate(left, top);            
 //            canvas.drawBitmap(pt.getLeftArmRight(), matrix, paint);
+        	
+        	
             gltex=textures.get(PLAYER_LEFT_ARM_RIGHT);
-            gltex.position(left, top, right-left, bottom-top, dwidth, dheight);
-//            gltex.translate(gl, left+(right-left)/2, top+(right-left)/2, dwidth, dheight);
+//            gl.glMatrixMode(GL10.GL_TEXTURE);
+//            gl.glLoadIdentity();
+            gl.glPushMatrix();
+            gl.glMatrixMode(GL10.GL_TEXTURE);
+            gltex.translate(gl, left+(right-left)/2, top+(right-left)/2, dwidth, dheight);
+            gltex.position(gl, 0-(right-left)/2, -(right-left)/2, right-left, bottom-top, dwidth, dheight);
             gltex.rotate(gl, angle);
-            gltex.draw(gl);
+            gltex.draw1(gl);
             gltex.clearRotate(gl);
-//            gltex.clearTranslate(gl, dwidth, dheight);
+            gltex.clearTranslate(gl, dwidth, dheight);
+            gl.glPopMatrix();
+//            gl.glMatrixMode(GL10.GL_MODELVIEW);
         }
         else
         {
