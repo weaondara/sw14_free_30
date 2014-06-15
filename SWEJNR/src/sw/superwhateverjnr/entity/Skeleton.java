@@ -66,7 +66,7 @@ public class Skeleton extends Entity
 	@Override
 	protected void die()
 	{
-		
+		super.die();
 	}
 
 	@Override

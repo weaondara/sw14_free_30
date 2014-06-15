@@ -66,7 +66,7 @@ public class Zombie extends Entity
 	@Override
 	protected void die()
 	{
-		
+		super.die();
 	}
 	
 	@Override

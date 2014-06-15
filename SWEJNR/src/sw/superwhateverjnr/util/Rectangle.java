@@ -42,4 +42,15 @@ public class Rectangle
             return true;
         }
     }
+    public boolean intersects(Rectangle r)
+    {
+        if(r.getMax().getX() < min.getX() || r.getMin().getX() > min.getX() || r.getMax().getY() < min.getY() || r.getMin().getY() > max.getY())
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
 }
