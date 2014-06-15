@@ -143,10 +143,14 @@ public class GLRenderer extends RendererBase
     @Override
     protected void drawBackground()
     {
+    	gl.glDisable(GL10.GL_BLEND);
+    	
         glr.position(0, 0, dwidth, dheight, dwidth, dheight);
         glr.color(gl, (game.getSettings().getBackgroundColor() & 0x00FFFFFF) | 0xFF000000);
         glr.draw(gl);
         glr.clearColor(gl);
+        
+        gl.glEnable(GL10.GL_BLEND);
     }
     @Override
     protected void drawWorld()
@@ -188,6 +192,8 @@ public class GLRenderer extends RendererBase
     @Override
     protected void drawWorldGrid()
     {
+    	gl.glDisable(GL10.GL_BLEND);
+    	
         gll.color(gl, 0xFFFF0000);
         
         for(int x=xstart;x<xend+1;x++)
@@ -204,6 +210,8 @@ public class GLRenderer extends RendererBase
         }
         
         gll.clearColor(gl);
+        
+        gl.glEnable(GL10.GL_BLEND);
     }
     @Override
     protected void drawEntities()
@@ -657,12 +665,8 @@ public class GLRenderer extends RendererBase
         paint.setColor(fontcolor);
         paint.setTextSize(fontsize);
         
-        gl.glEnable(GL10.GL_BLEND);
-        
         drawFPS();
         drawTime();
-        
-        gl.glDisable(GL10.GL_BLEND);
     }
     
     private GLTex fpstex;
@@ -738,8 +742,6 @@ public class GLRenderer extends RendererBase
     @Override
     protected void drawControls0(boolean retry)
     {
-    	gl.glEnable(GL10.GL_BLEND);
-    	
         for(String key:cachedControlKeys)
         {
             PointF point=cachedControlsPostions.get(key);
@@ -764,8 +766,6 @@ public class GLRenderer extends RendererBase
             gltex.position(point.x, point.y, size, size, dwidth, dheight);
             gltex.draw(gl);
         }
-        
-        gl.glDisable(GL10.GL_BLEND);
     }
     @Override
     protected void redrawControls()
@@ -796,9 +796,10 @@ public class GLRenderer extends RendererBase
     @Override
     protected void drawEntityBoxes(Entity e)
     {
-        //render & hitbox
         if(SWEJNR.DEBUG)
         {
+        	gl.glDisable(GL10.GL_BLEND);
+        	
             //render box
             float x=(float) (leftoffset+(e.getLocation().getX()-x1)*game.getTextureSize());
             float y=(float) (topoffset+(y2-e.getLocation().getY())*game.getTextureSize());
@@ -857,6 +858,8 @@ public class GLRenderer extends RendererBase
 //                canvas.drawText(s, x, y, paint);
 //                y-=paint.descent()+paint.ascent();
 //            }
+            
+            gl.glEnable(GL10.GL_BLEND);
         }
     }
     
