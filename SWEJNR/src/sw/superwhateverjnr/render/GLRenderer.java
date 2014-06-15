@@ -563,10 +563,6 @@ public class GLRenderer extends RendererBase
     @Override
     protected void drawPlayer()
     {
-    	if(1!=2)
-    	{
-    		return;
-    	}
         Player p=game.getPlayer();
         Location l=p.getLocation();
         if(l==null)
@@ -597,6 +593,11 @@ public class GLRenderer extends RendererBase
         float playerheight=(float) (Math.abs(p.getHitBox().getMin().getY()-p.getHitBox().getMax().getY())*game.getTextureSize());
         
         float ytop=y-playerheight;
+        
+        if(1!=2)
+    	{
+    		return;
+    	}
         
         Matrix matrix = new Matrix();
         

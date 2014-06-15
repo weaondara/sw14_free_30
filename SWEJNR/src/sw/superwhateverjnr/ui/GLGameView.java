@@ -150,6 +150,37 @@ public class GLGameView extends GLSurfaceView implements SurfaceHolder.Callback,
 			bindable.add(gltex);
 		}
 		
+		GLTex gltex;
+		
+		PlayerTexture pt = (PlayerTexture) TextureMap.getTexture(EntityType.PLAYER);
+		gltex=new GLTex(EntityType.PLAYER.name()+GLRenderer.HEAD+GLRenderer.RIGHT, pt.getHeadRight());
+		bindable.add(gltex);
+		gltex=new GLTex(EntityType.PLAYER.name()+GLRenderer.HEAD+GLRenderer.LEFT, pt.getHeadLeft());
+		bindable.add(gltex);
+		
+		gltex=new GLTex(EntityType.PLAYER.name()+GLRenderer.BODY+GLRenderer.RIGHT, pt.getBodyRight());
+		bindable.add(gltex);
+		gltex=new GLTex(EntityType.PLAYER.name()+GLRenderer.BODY+GLRenderer.LEFT, pt.getBodyLeft());
+		bindable.add(gltex);
+		
+		gltex=new GLTex(EntityType.PLAYER.name()+GLRenderer.RIGHT+GLRenderer.ARM+GLRenderer.RIGHT, pt.getRightArmRight());
+		bindable.add(gltex);
+		gltex=new GLTex(EntityType.PLAYER.name()+GLRenderer.RIGHT+GLRenderer.ARM+GLRenderer.LEFT, pt.getRightArmLeft());
+		bindable.add(gltex);
+		gltex=new GLTex(EntityType.PLAYER.name()+GLRenderer.LEFT+GLRenderer.ARM+GLRenderer.RIGHT, pt.getLeftArmRight());
+		bindable.add(gltex);
+		gltex=new GLTex(EntityType.PLAYER.name()+GLRenderer.LEFT+GLRenderer.ARM+GLRenderer.LEFT, pt.getLeftArmLeft());
+		bindable.add(gltex);
+		
+		gltex=new GLTex(EntityType.PLAYER.name()+GLRenderer.RIGHT+GLRenderer.LEG+GLRenderer.RIGHT, pt.getRightLegRight());
+		bindable.add(gltex);
+		gltex=new GLTex(EntityType.PLAYER.name()+GLRenderer.RIGHT+GLRenderer.LEG+GLRenderer.LEFT, pt.getRightLegLeft());
+		bindable.add(gltex);
+		gltex=new GLTex(EntityType.PLAYER.name()+GLRenderer.LEFT+GLRenderer.LEG+GLRenderer.RIGHT, pt.getLeftLegRight());
+		bindable.add(gltex);
+		gltex=new GLTex(EntityType.PLAYER.name()+GLRenderer.LEFT+GLRenderer.LEG+GLRenderer.LEFT, pt.getLeftLegLeft());
+		bindable.add(gltex);
+		
 //		PlayerTexture pt = (PlayerTexture) TextureMap.getTexture(EntityType.PLAYER);
 //		GLTex gltex=new GLTex(e.getKey(), e.getValue().getOrgimage());
 //		
