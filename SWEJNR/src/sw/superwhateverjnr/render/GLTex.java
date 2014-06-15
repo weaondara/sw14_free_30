@@ -99,14 +99,14 @@ public class GLTex
     }
     public void delete(GL10 gl)
     {
-    	ByteBuffer byteBuffer = ByteBuffer.allocateDirect(4); 
+        ByteBuffer byteBuffer = ByteBuffer.allocateDirect(4); 
         byteBuffer.order(ByteOrder.nativeOrder());
         IntBuffer tex = byteBuffer.asIntBuffer();
         tex.put(new int[]{glTextureId});
         tex.position(0);
         
-    	gl.glDeleteTextures(1, tex);
-    	glTextureId = 0;
+        gl.glDeleteTextures(1, tex);
+        glTextureId = 0;
     }
     
     
@@ -118,19 +118,56 @@ public class GLTex
         float bottom=top - height / (dheight / 2);
         
         vertices = new float[]{
-                left,  bottom, 0.0f,
-                left,  top,    0.0f,
-                right, bottom, 0.0f,
-                right, top,    0.0f
+            left,  bottom, 0.0f,
+            left,  top,    0.0f,
+            right, bottom, 0.0f,
+            right, top,    0.0f
         };
         
         vertex.put(vertices);
         vertex.position(0);
     }
     
+    private float angle;
+    public void rotate(GL10 gl, float degrees)
+    {
+        angle=+degrees;
+        gl.glRotatef(angle, 0, 0, 1);
+    }
+    public void clearRotate(GL10 gl)
+    {
+        gl.glRotatef(-angle, 0, 0, 1);
+        angle=0;
+    }
+    
+    private float transx;
+    private float transy;
+    public void translate(GL10 gl, float x, float y, float dwidth, float dheight)
+    {
+    	transx=x;
+    	transy=y;
+    	
+    	float left=(x - dwidth / 2) / (dwidth / 2);
+    	float top=(dheight / 2 - y) / (dheight / 2);
+    	
+    	System.out.println(left+" "+top);
+    	
+    	gl.glTranslatef(left, top, 0);
+    }
+    public void clearTranslate(GL10 gl, float dwidth, float dheight)
+    {
+    	float left=(transx - dwidth / 2) / (dwidth / 2);
+    	float top=(dheight / 2 - transy) / (dheight / 2);
+    	
+    	gl.glTranslatef(-left, -top, 0);
+    	
+    	transx=0;
+    	transy=0;
+    }
+    
     public void draw(GL10 gl)
     {
-    	gl.glEnable(GL10.GL_TEXTURE_2D);
+        gl.glEnable(GL10.GL_TEXTURE_2D);
         gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
         gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
         
