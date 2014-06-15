@@ -51,6 +51,7 @@ public class Drop extends Entity
         if(hitBox.intersects(Game.getInstance().getPlayer().getHitBox().translatedTo(Game.getInstance().getPlayer().getLocation())))
         {
             Game.getInstance().addPoints(points);
+            die();
         }
     }
     
