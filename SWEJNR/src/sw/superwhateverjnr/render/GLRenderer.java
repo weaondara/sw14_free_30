@@ -152,22 +152,17 @@ public class GLRenderer extends RendererBase
     @Override
     protected void drawWorldGrid()
     {
-//        paint.setColor(0xFFFF0000);
-//        paint.setStrokeWidth(0);
-    	
     	gll.color(gl, 0xFFFF0000);
         
         for(int x=xstart;x<xend+1;x++)
         {
             float px=leftoffset+(x-x1)*game.getTextureSize();
-//            canvas.drawLine(px, 0, px, game.getDisplayHeight(), paint);
             gll.position(px, 0, 0, dheight, dwidth, dheight);
             gll.draw(gl);
         }
         for(int y=ystart;y<yend+1;y++)
         {
             float py=topoffset+(y2-1-y)*game.getTextureSize();
-//            canvas.drawLine(0, py, game.getDisplayWidth(), py, paint);
             gll.position(0, py, dwidth, 0, dwidth, dheight);
             gll.draw(gl);
         }
