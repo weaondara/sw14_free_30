@@ -57,15 +57,14 @@ public class GLGameView extends GLSurfaceView implements SurfaceHolder.Callback,
 		bindable=new ArrayList<GLTex>();
 		textures=new HashMap<Object, GLTex>();
 		
-		loadTextures();
 		
+		rt=new RenderThread(true);
+		renderer=(GLRenderer) rt.getRenderer();
+		
+		loadTextures();
 		
 		getHolder().addCallback(this);
 		setFocusable(true);
-		rt=new RenderThread(true);
-		renderer=(GLRenderer) rt.getRenderer();
-//		renderer.setDwidth(1920);
-//		renderer.setDheight(1080);
 		this.setOnTouchListener(this);
 		
 		this.setRenderer(this);

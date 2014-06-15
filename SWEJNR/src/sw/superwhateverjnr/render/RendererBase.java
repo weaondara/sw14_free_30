@@ -5,6 +5,8 @@ import java.util.Map;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import lombok.Getter;
+
 import sw.superwhateverjnr.Game;
 import sw.superwhateverjnr.SWEJNR;
 import sw.superwhateverjnr.entity.Creeper;
@@ -221,7 +223,6 @@ public abstract class RendererBase
 		path.lineTo(xoffset+6*size, yoffset+0*size);
 	}
 
-	
 	protected String[] cachedControlKeys=new String[]{"left", "right", "jump"};
 	protected Map<String,PointF> cachedControlsPostions=new HashMap<String, PointF>();
 	protected Map<String,Bitmap> cachedControlsBitmaps=new HashMap<String, Bitmap>();
