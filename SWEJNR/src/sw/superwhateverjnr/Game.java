@@ -201,11 +201,6 @@ public class Game
             gameView.close();
         }
         
-        Intent i = new Intent(activity, EndActivity.class);
-        i.putExtra("won", won);
-        i.putExtra("points", points);
-        activity.startActivity(i);
-        
         instance=null;
     }
     
@@ -256,6 +251,12 @@ public class Game
                 if(finished)
                 {
                     disable();
+                    
+                    Intent i = new Intent(activity, EndActivity.class);
+                    i.putExtra("won", won);
+                    i.putExtra("points", points);
+                    activity.startActivity(i);
+                    
                     close();
                     activity.finish();
                 }
@@ -373,10 +374,5 @@ public class Game
             }
             minDisplayPoint.setY(y);
         }
-    }
-
-    private void EndActivity()
-    {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
