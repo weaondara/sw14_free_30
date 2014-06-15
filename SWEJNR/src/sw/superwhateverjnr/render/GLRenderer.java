@@ -755,23 +755,13 @@ public class GLRenderer extends RendererBase
         
         float ytop=y-playerheight;
         
-//        Matrix matrix = new Matrix();
-//        
-//        PlayerTexture pt=(PlayerTexture) TextureMap.getTexture(EntityType.PLAYER);
-//        pt.scale(pt.getOrigWidth()/(16+1)*game.getTextureSize()/64);
-        
         //head
         float left=x-game.getTextureSize()*(headwidth/blocksize)/2;
         float right=x+game.getTextureSize()*(headwidth/blocksize)/2;
         float bottom=ytop+(headheight/blocksize)*game.getTextureSize();
         float top=ytop;
         
-//        matrix.setRotate(0, 0, 0);
-//        matrix.postTranslate(left, top);
-//        canvas.drawBitmap(p.isLookingRight() ? pt.getHeadRight() : pt.getHeadLeft(), matrix, paint);
-        GLTex gltex=textures.get(p.isLookingRight() ? PLAYER_HEAD_RIGHT : PLAYER_HEAD_LEFT);
-        gltex.position(left, top, right-left, bottom-top, dwidth, dheight);
-        gltex.draw(gl);
+        drawTex(p.isLookingRight() ? PLAYER_HEAD_RIGHT : PLAYER_HEAD_LEFT, left, top, right, bottom, 0, 0, 0);
 
         //body height
         left=x-game.getTextureSize()*(bodywidth/blocksize)/2;
@@ -784,72 +774,27 @@ public class GLRenderer extends RendererBase
         if(p.isLookingRight())
         {
             //left arm
-//            matrix.setRotate(angle, (right-left)/2, (right-left)/2);
-//            matrix.postTranslate(left, top);            
-//            canvas.drawBitmap(pt.getLeftArmRight(), matrix, paint);
-        	
-        	
-            gltex=textures.get(PLAYER_LEFT_ARM_RIGHT);
-//            gl.glMatrixMode(GL10.GL_TEXTURE);
-//            gl.glLoadIdentity();
-            gl.glPushMatrix();
-            gl.glMatrixMode(GL10.GL_TEXTURE);
-            gltex.translate(gl, left+(right-left)/2, top+(right-left)/2, dwidth, dheight);
-            gltex.position(gl, 0-(right-left)/2, -(right-left)/2, right-left, bottom-top, dwidth, dheight);
-            gltex.rotate(gl, angle);
-            gltex.draw1(gl);
-            gltex.clearRotate(gl);
-            gltex.clearTranslate(gl, dwidth, dheight);
-            gl.glPopMatrix();
-//            gl.glMatrixMode(GL10.GL_MODELVIEW);
+        	drawTex(PLAYER_LEFT_ARM_RIGHT, left, top, right, bottom, angle, (right-left)/2, (right-left)/2);
         }
         else
         {
             //right arm
-//            matrix.setRotate(-angle, (right-left)/2, (right-left)/2);
-//            matrix.postTranslate(left, top);
-//            canvas.drawBitmap(pt.getRightArmLeft(), matrix, paint);
-            gltex=textures.get(PLAYER_RIGHT_ARM_LEFT);
-            gltex.position(left, top, right-left, bottom-top, dwidth, dheight);
-            gltex.rotate(gl, -angle);
-            gltex.draw(gl);
-            gltex.clearRotate(gl);
+        	drawTex(PLAYER_RIGHT_ARM_LEFT, left, top, right, bottom, -angle, (right-left)/2, (right-left)/2);
         }
         
         //body
-//        matrix.setRotate(0, 0, 0);
-//        matrix.postTranslate(left, top);
-//        canvas.drawBitmap(p.isLookingRight() ? pt.getBodyRight() : pt.getBodyLeft(), matrix, paint);
-        gltex=textures.get(p.isLookingRight() ? PLAYER_BODY_RIGHT : PLAYER_BODY_LEFT);
-        gltex.position(left, top, right-left, bottom-top, dwidth, dheight);
-        gltex.draw(gl);
+        drawTex(p.isLookingRight() ? PLAYER_BODY_RIGHT : PLAYER_BODY_LEFT, left, top, right, bottom, 0, (right-left)/2, (right-left)/2);
         
         //arm
         if(p.isLookingRight())
         {
             //right arm
-//            matrix.setRotate(-angle, (right-left)/2, (right-left)/2);
-//            matrix.postTranslate(left, top);
-//            canvas.drawBitmap(pt.getRightArmRight(), matrix, paint);
-            gltex=textures.get(PLAYER_RIGHT_ARM_RIGHT);
-            gltex.position(left, top, right-left, bottom-top, dwidth, dheight);
-//            gltex.translate(gl, left+(right-left)/2, top+(right-left)/2, dwidth, dheight);
-            gltex.rotate(gl, -angle);
-            gltex.draw(gl);
-            gltex.clearRotate(gl);
-//            gltex.clearTranslate(gl, dwidth, dheight);
+        	drawTex(PLAYER_RIGHT_ARM_RIGHT, left, top, right, bottom, -angle, (right-left)/2, (right-left)/2);
         }
         else
         {
             //left arm
-//            matrix.setRotate(angle, (right-left)/2, (right-left)/2);
-//            matrix.postTranslate(left, top);
-//            canvas.drawBitmap(pt.getLeftArmLeft(), matrix, paint);
-            gltex=textures.get(PLAYER_LEFT_ARM_LEFT);
-            gltex.position(left, top, right-left, bottom-top, dwidth, dheight);
-            gltex.rotate(gl, angle);
-            gltex.draw(gl);
-            gltex.clearRotate(gl);
+            drawTex(PLAYER_LEFT_ARM_LEFT, left, top, right, bottom, angle, (right-left)/2, (right-left)/2);
         }
         
         //leg height
@@ -863,38 +808,18 @@ public class GLRenderer extends RendererBase
         if(p.isLookingRight())
         {
             //left leg
-//            matrix.setRotate(angle, (right-left)/2, 0);
-//            matrix.postTranslate(left, top);
-//            canvas.drawBitmap(pt.getLeftLegRight(), matrix, paint);
-            gltex=textures.get(PLAYER_LEFT_LEG_RIGHT);
-            gltex.position(left, top, right-left, bottom-top, dwidth, dheight);
-            gltex.draw(gl);
+            drawTex(PLAYER_LEFT_LEG_RIGHT, left, top, right, bottom, angle, (right-left)/2, 0);
             
             //right leg
-//            matrix.setRotate(-angle, (right-left)/2, 0);
-//            matrix.postTranslate(left, top);
-//            canvas.drawBitmap(pt.getRightLegRight(), matrix, paint);
-            gltex=textures.get(PLAYER_RIGHT_LEG_RIGHT);
-            gltex.position(left, top, right-left, bottom-top, dwidth, dheight);
-            gltex.draw(gl);
+            drawTex(PLAYER_RIGHT_LEG_RIGHT, left, top, right, bottom, -angle, (right-left)/2, 0);
         }
         else
         {
             //right leg
-//            matrix.setRotate(-angle, (right-left)/2, 0);
-//            matrix.postTranslate(left, top);
-//            canvas.drawBitmap(pt.getRightLegLeft(), matrix, paint);
-            gltex=textures.get(PLAYER_RIGHT_LEG_LEFT);
-            gltex.position(left, top, right-left, bottom-top, dwidth, dheight);
-            gltex.draw(gl);
+            drawTex(PLAYER_RIGHT_LEG_LEFT, left, top, right, bottom, -angle, (right-left)/2, 0);
             
             //left leg
-//            matrix.setRotate(angle, (right-left)/2, 0);
-//            matrix.postTranslate(left, top);
-//            canvas.drawBitmap(pt.getLeftLegLeft(), matrix, paint);
-            gltex=textures.get(PLAYER_LEFT_LEG_LEFT);
-            gltex.position(left, top, right-left, bottom-top, dwidth, dheight);
-            gltex.draw(gl);
+            drawTex(PLAYER_LEFT_LEG_LEFT, left, top, right, bottom, angle, (right-left)/2, 0);
         }
     
         
@@ -1144,5 +1069,19 @@ public class GLRenderer extends RendererBase
 //            gll.draw(gl);
 //        }
 //        gll.clearColor(gl);
+    }
+
+
+    private void drawTex(String tex, float left, float top, float right, float bottom, float angle, float xcorr, float ycorr)
+    {
+    	GLTex gltex=textures.get(tex);
+        gl.glMatrixMode(GL10.GL_MODELVIEW);
+        gl.glLoadIdentity();
+        gltex.position(dwidth/2-xcorr, dheight/2-ycorr, right-left, bottom-top, dwidth, dheight);
+        gltex.translate(gl, left+xcorr, top+ycorr, dwidth, dheight);
+        gltex.rotate(gl, angle);
+        gltex.draw(gl);
+        gltex.clearRotate(gl);
+        gltex.clearTranslate(gl, dwidth, dheight);
     }
 }

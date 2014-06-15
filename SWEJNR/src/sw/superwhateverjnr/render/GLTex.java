@@ -128,26 +128,6 @@ public class GLTex
         vertex.position(0);
     }
     
-    public void position(GL10 gl, float x, float y, float width, float height, float dwidth, float dheight)
-    {
-        float left=(x - dwidth / 2) / (dwidth / 2);
-        float right=left + width / (dwidth / 2);
-        float top=(dheight / 2 - y) / (dheight / 2);
-        float bottom=top - height / (dheight / 2);
-        
-        vertices = new float[]{
-            left,  bottom, 0.0f,
-            left,  top,    0.0f,
-            right, bottom, 0.0f,
-            right, top,    0.0f
-        };
-        
-        vertex.put(vertices);
-        vertex.position(0);
-        
-        gl.glVertexPointer(3, GL10.GL_FLOAT, 0, vertex);
-    }
-    
     private float angle;
     public void rotate(GL10 gl, float degrees)
     {
@@ -170,7 +150,7 @@ public class GLTex
     	float left=(x - dwidth / 2) / (dwidth / 2);
     	float top=(dheight / 2 - y) / (dheight / 2);
     	
-    	System.out.println(left+" "+top);
+//    	System.out.println(left+" "+top);
     	
     	gl.glTranslatef(left, top, 0);
     }
@@ -196,25 +176,6 @@ public class GLTex
         gl.glFrontFace(GL10.GL_CW);
         
         gl.glVertexPointer(3, GL10.GL_FLOAT, 0, vertex);
-        gl.glTexCoordPointer(2, GL10.GL_FLOAT, 0, textureVertex);
-        
-        gl.glDrawElements(GL10.GL_TRIANGLES, 6, GL10.GL_UNSIGNED_SHORT, indeces);
-        
-        gl.glDisableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
-        gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
-        gl.glDisable(GL10.GL_TEXTURE_2D);
-    }
-    public void draw1(GL10 gl)
-    {
-        gl.glEnable(GL10.GL_TEXTURE_2D);
-        gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
-        gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
-        
-        gl.glBindTexture(GL10.GL_TEXTURE_2D, glTextureId);
-        
-        gl.glFrontFace(GL10.GL_CW);
-        
-//        gl.glVertexPointer(3, GL10.GL_FLOAT, 0, vertex);
         gl.glTexCoordPointer(2, GL10.GL_FLOAT, 0, textureVertex);
         
         gl.glDrawElements(GL10.GL_TRIANGLES, 6, GL10.GL_UNSIGNED_SHORT, indeces);
