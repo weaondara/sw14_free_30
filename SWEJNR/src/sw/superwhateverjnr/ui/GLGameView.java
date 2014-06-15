@@ -17,6 +17,7 @@ import sw.superwhateverjnr.render.GLTex;
 import sw.superwhateverjnr.render.RenderThread;
 import sw.superwhateverjnr.texture.Texture;
 import sw.superwhateverjnr.texture.TextureMap;
+import sw.superwhateverjnr.texture.entity.CreeperTexture;
 import sw.superwhateverjnr.texture.entity.PlayerTexture;
 import sw.superwhateverjnr.texture.entity.SkeletonTexture;
 import sw.superwhateverjnr.texture.entity.ZombieTexture;
@@ -184,7 +185,7 @@ public class GLGameView extends GLSurfaceView implements SurfaceHolder.Callback,
 		gltex=new GLTex(GLRenderer.PLAYER_LEFT_LEG_LEFT, pt.getLeftLegLeft());
 		bindable.add(gltex);
 		
-		//player
+		//zombie
 		ZombieTexture zt = (ZombieTexture) TextureMap.getTexture(EntityType.ZOMBIE);
 		gltex=new GLTex(GLRenderer.ZOMBIE_HEAD_RIGHT, zt.getHeadRight());
 		bindable.add(gltex);
@@ -214,7 +215,7 @@ public class GLGameView extends GLSurfaceView implements SurfaceHolder.Callback,
 		gltex=new GLTex(GLRenderer.ZOMBIE_LEFT_LEG_LEFT, zt.getLeftLegLeft());
 		bindable.add(gltex);
 		
-		//player
+		//skeleton
 		SkeletonTexture st = (SkeletonTexture) TextureMap.getTexture(EntityType.SKELETON);
 		gltex=new GLTex(GLRenderer.SKELETON_HEAD_RIGHT, st.getHeadRight());
 		bindable.add(gltex);
@@ -242,6 +243,27 @@ public class GLGameView extends GLSurfaceView implements SurfaceHolder.Callback,
 		gltex=new GLTex(GLRenderer.SKELETON_LEFT_LEG_RIGHT, st.getLeftLegRight());
 		bindable.add(gltex);
 		gltex=new GLTex(GLRenderer.SKELETON_LEFT_LEG_LEFT, st.getLeftLegLeft());
+		bindable.add(gltex);
+		
+		//skeleton
+		CreeperTexture ct = (CreeperTexture) TextureMap.getTexture(EntityType.CREEPER);
+		gltex=new GLTex(GLRenderer.CREEPER_HEAD_RIGHT, ct.getHeadRight());
+		bindable.add(gltex);
+		gltex=new GLTex(GLRenderer.CREEPER_HEAD_LEFT, ct.getHeadLeft());
+		bindable.add(gltex);
+		
+		gltex=new GLTex(GLRenderer.CREEPER_BODY_RIGHT, ct.getBodyRight());
+		bindable.add(gltex);
+		gltex=new GLTex(GLRenderer.CREEPER_BODY_LEFT, ct.getBodyLeft());
+		bindable.add(gltex);
+		
+		gltex=new GLTex(GLRenderer.CREEPER_RIGHT_LEG_RIGHT, ct.getRightLegRight());
+		bindable.add(gltex);
+		gltex=new GLTex(GLRenderer.CREEPER_RIGHT_LEG_LEFT, ct.getRightLegLeft());
+		bindable.add(gltex);
+		gltex=new GLTex(GLRenderer.CREEPER_LEFT_LEG_RIGHT, ct.getLeftLegRight());
+		bindable.add(gltex);
+		gltex=new GLTex(GLRenderer.CREEPER_LEFT_LEG_LEFT, ct.getLeftLegLeft());
 		bindable.add(gltex);
 		
 		

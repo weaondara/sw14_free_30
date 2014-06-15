@@ -92,6 +92,18 @@ public class GLRenderer extends RendererBase
     public final static String SKELETON_LEFT_LEG_RIGHT=EntityType.SKELETON.name()+LEFT+LEG+RIGHT;
     public final static String SKELETON_LEFT_LEG_LEFT=EntityType.SKELETON.name()+LEFT+LEG+LEFT;
     
+    // ---------------------------------- creeper --------------------------------------
+    public final static String CREEPER_HEAD_RIGHT=EntityType.CREEPER.name()+HEAD+RIGHT;
+    public final static String CREEPER_HEAD_LEFT=EntityType.CREEPER.name()+HEAD+LEFT;
+    
+    public final static String CREEPER_BODY_RIGHT=EntityType.CREEPER.name()+BODY+RIGHT;
+    public final static String CREEPER_BODY_LEFT=EntityType.CREEPER.name()+BODY+LEFT;
+    
+    public final static String CREEPER_RIGHT_LEG_RIGHT=EntityType.CREEPER.name()+RIGHT+LEG+RIGHT;
+    public final static String CREEPER_RIGHT_LEG_LEFT=EntityType.CREEPER.name()+RIGHT+LEG+LEFT;
+    public final static String CREEPER_LEFT_LEG_RIGHT=EntityType.CREEPER.name()+LEFT+LEG+RIGHT;
+    public final static String CREEPER_LEFT_LEG_LEFT=EntityType.CREEPER.name()+LEFT+LEG+LEFT;
+    
     
     
     
@@ -270,6 +282,9 @@ public class GLRenderer extends RendererBase
 //        matrix.setRotate(0, 0, 0);
 //        matrix.postTranslate(left, top);
 //        canvas.drawBitmap(c.isLookingRight() ? pt.getHeadRight() : pt.getHeadLeft(), matrix, paint);
+        GLTex gltex=textures.get(c.isLookingRight() ? CREEPER_HEAD_RIGHT : CREEPER_HEAD_LEFT);
+        gltex.position(left, top, right-left, bottom-top, dwidth, dheight);
+        gltex.draw(gl);
 
         //body height
         left=x-game.getTextureSize()*(bodywidth/blocksize)/2;
@@ -282,7 +297,9 @@ public class GLRenderer extends RendererBase
 //        matrix.setRotate(0, 0, 0);
 //        matrix.postTranslate(left, top);
 //        canvas.drawBitmap(c.isLookingRight() ? pt.getBodyRight() : pt.getBodyLeft(), matrix, paint);
-        
+        gltex=textures.get(c.isLookingRight() ? CREEPER_BODY_RIGHT : CREEPER_BODY_LEFT);
+        gltex.position(left, top, right-left, bottom-top, dwidth, dheight);
+        gltex.draw(gl);
         
         //leg height
         left=x-game.getTextureSize()*(legwidth/blocksize)/2;
@@ -298,21 +315,33 @@ public class GLRenderer extends RendererBase
 //            matrix.setRotate(angle, 0, 0);
 //            matrix.postTranslate(right, top);
 //            canvas.drawBitmap(pt.getLeftLegRight(), matrix, paint);
+        	gltex=textures.get(CREEPER_LEFT_LEG_RIGHT);
+            gltex.position(right, top, right-left, bottom-top, dwidth, dheight);
+            gltex.draw(gl);
             
             //left back leg
 //            matrix.setRotate(-angle, right-left, 0);
 //            matrix.postTranslate(left-(right-left), top);
 //            canvas.drawBitmap(pt.getLeftLegRight(), matrix, paint);
+            gltex=textures.get(CREEPER_LEFT_LEG_RIGHT);
+            gltex.position(left-(right-left), top, right-left, bottom-top, dwidth, dheight);
+            gltex.draw(gl);
 
             //right front leg
 //            matrix.setRotate(-angle, 0, 0);
 //            matrix.postTranslate(right, top);
 //            canvas.drawBitmap(pt.getRightLegRight(), matrix, paint);
+            gltex=textures.get(CREEPER_RIGHT_LEG_RIGHT);
+            gltex.position(right, top, right-left, bottom-top, dwidth, dheight);
+            gltex.draw(gl);
             
             //right back leg
 //            matrix.setRotate(angle, right-left, 0);
 //            matrix.postTranslate(left-(right-left), top);
 //            canvas.drawBitmap(pt.getRightLegRight(), matrix, paint);
+            gltex=textures.get(CREEPER_RIGHT_LEG_RIGHT);
+            gltex.position(left-(right-left), top, right-left, bottom-top, dwidth, dheight);
+            gltex.draw(gl);
         }
         else
         {
@@ -320,21 +349,33 @@ public class GLRenderer extends RendererBase
 //            matrix.setRotate(-angle, 0, 0);
 //            matrix.postTranslate(right, top);
 //            canvas.drawBitmap(pt.getRightLegLeft(), matrix, paint);
+        	gltex=textures.get(CREEPER_RIGHT_LEG_LEFT);
+            gltex.position(right, top, right-left, bottom-top, dwidth, dheight);
+            gltex.draw(gl);
             
             //right back leg
 //            matrix.setRotate(angle, right-left, 0);
 //            matrix.postTranslate(left-(right-left), top);
 //            canvas.drawBitmap(pt.getRightLegLeft(), matrix, paint);
+            gltex=textures.get(CREEPER_RIGHT_LEG_LEFT);
+            gltex.position(left-(right-left), top, right-left, bottom-top, dwidth, dheight);
+            gltex.draw(gl);
             
             //left front leg
 //            matrix.setRotate(angle, 0, 0);
 //            matrix.postTranslate(right, top);
 //            canvas.drawBitmap(pt.getLeftLegLeft(), matrix, paint);
+            gltex=textures.get(CREEPER_LEFT_LEG_LEFT);
+            gltex.position(right, top, right-left, bottom-top, dwidth, dheight);
+            gltex.draw(gl);
             
             //left back leg
 //            matrix.setRotate(-angle, right-left, 0);
 //            matrix.postTranslate(left-(right-left), top);
 //            canvas.drawBitmap(pt.getLeftLegLeft(), matrix, paint);
+            gltex=textures.get(CREEPER_LEFT_LEG_LEFT);
+            gltex.position(left-(right-left), top, right-left, bottom-top, dwidth, dheight);
+            gltex.draw(gl);
         }
     }
     @Override
