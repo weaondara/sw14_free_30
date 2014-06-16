@@ -11,12 +11,9 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceGroup;
 import android.preference.PreferenceManager;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.List;
 
 import sw.superwhateverjnr.Game;
 import sw.superwhateverjnr.R;
