@@ -9,7 +9,6 @@ import java.io.InputStream;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import sw.superwhateverjnr.entity.EntityType;
-import sw.superwhateverjnr.settings.Settings;
 import sw.superwhateverjnr.texture.PackedTextureLoader;
 import sw.superwhateverjnr.texture.Texture;
 import sw.superwhateverjnr.texture.TextureLoader;
