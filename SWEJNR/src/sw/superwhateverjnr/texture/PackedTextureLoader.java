@@ -89,6 +89,7 @@ public class PackedTextureLoader implements TextureLoader
 		Bitmap bm=BitmapFactory.decodeStream(is);
 		if(bm==null)
 		{
+			System.out.println("bitmap null");
 			return null;
 		}
 		
@@ -150,6 +151,7 @@ public class PackedTextureLoader implements TextureLoader
 		Bitmap bm=BitmapFactory.decodeStream(is);
 		if(bm==null)
 		{
+			System.out.println("bitmap null");
 			return null;
 		}
 		

@@ -86,7 +86,7 @@ public class TextureMap
     public static Texture getTexture(IdAndSubId ref)
     {
         Texture tex=blocks.get(ref);
-        if(tex!=null && ref.getSubid()>-1)
+        if(tex==null && ref.getSubid()>-1)
         {
             tex=blocks.get(new IdAndSubId(ref.getId(),-1));
             if(tex==null)
@@ -99,7 +99,7 @@ public class TextureMap
     public static Texture getTexture(EntityType ref)
     {
         Texture tex=entities.get(ref);
-        if(tex!=null && ref!=EntityType.UNKNOWN)
+        if(tex==null && ref!=EntityType.UNKNOWN)
         {
             tex=entities.get(EntityType.UNKNOWN.getId());
         }
@@ -107,8 +107,8 @@ public class TextureMap
     }
     public static Texture getTexture(Integer ref)
     {
-        Texture tex=entities.get(ref);
-        if(tex!=null && ref>255)
+        Texture tex=items.get(ref);
+        if(tex==null && ref>255)
         {
         	tex=items.get(errorid);
         }
