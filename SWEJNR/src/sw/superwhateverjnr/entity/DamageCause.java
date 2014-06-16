@@ -20,7 +20,7 @@ public enum DamageCause
                 return 9999;
             case TOUCHED_BY_ZOMBIE:
             case TOUCHED_BY_SKELETON:
-                return 5;
+                return 0.5;
             default:
                 return 0;
         }
