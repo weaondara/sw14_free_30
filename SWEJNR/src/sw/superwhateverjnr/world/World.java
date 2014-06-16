@@ -154,4 +154,9 @@ public class World
             damageTaking.get(i).takeDamage(DamageCause.EXPLOSION, distances.get(i));
         }
     }
+    
+    public long getTimeRemaining()
+    {
+    	return time-timeElapsed;
+    }
 }
