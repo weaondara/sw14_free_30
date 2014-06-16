@@ -73,9 +73,7 @@ public class Skeleton extends HostileEntity
 	public void tick()
 	{
 		super.tick();
-		trigger();
 		// randomJump();
-		tickMove();
 	}
 	
 	private long ticks;

@@ -82,16 +82,16 @@ public class Creeper extends HostileEntity
 	public void tick()
 	{
 		super.tick();
-		stopIfTooHigh();
-		trigger();
-		seePlayer();
-		
-		randomJump(false);
-		randomWalk(true);
-		jumpIfWall();
-		setLastPosition();
-		setLookingSide();
-		tickMove();
+//		stopIfTooHigh();
+//		trigger();
+//		seePlayer();
+//		
+//		randomJump(false);
+//		randomWalk(true);
+//		jumpIfWall();
+//		setLastPosition();
+//		setLookingSide();
+//		tickMove();
 	}
 	@SneakyThrows
 	protected void trigger()
