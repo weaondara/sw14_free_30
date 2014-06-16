@@ -80,6 +80,7 @@ public abstract class HostileEntity extends Entity
 		super(id, type, location, extraData);
         lastDirections = new Direction[3];
         movement = MovementType.RANDOM;
+        direction = Direction.LEFT;
 	}
     
     public void tick()
@@ -95,10 +96,9 @@ public abstract class HostileEntity extends Entity
     protected void seePlayer()
     {
     	Player p = Game.getInstance().getPlayer();
-        double distance =  p.getLocation().distance(location);
-        if(distance < getTriggerRadius())
+        if(p.getLocation().distance(location) < getTriggerRadius())
         {
-            seesPlayer = p.getHitBox().translatedTo(p.getLocation()).visibleFrom(new Location(location.getX(),location.getY()+getEyeHeight()));
+            seesPlayer = p.getHitBox().translatedTo(p.getLocation()).visibleFrom(location.add(0, getEyeHeight()));
         }
         else
         {
