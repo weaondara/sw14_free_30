@@ -2,6 +2,7 @@ package sw.superwhateverjnr.entity;
 
 import java.util.Map;
 import java.util.Random;
+
 import sw.superwhateverjnr.Game;
 import sw.superwhateverjnr.block.Block;
 import sw.superwhateverjnr.util.Rectangle;
@@ -119,30 +120,30 @@ public class Zombie extends HostileEntity
     @Override
     public double getRunningMin()
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return runningMin;
     }
 
     @Override
     public double getRunningMax()
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return runningMax;
     }
 
     @Override
     public double getJumpPower()
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return jumpPower;
     }
 
     @Override
     public double getRunPower()
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return runPower;
     }
 
     @Override
     public double getTriggerRadius()
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return triggerRadius;
     }
 }

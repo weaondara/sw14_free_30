@@ -472,33 +472,33 @@ public class Creeper extends HostileEntity
 		return super.getDebugInfo()+"\nisindistance="+isindistance+"\nisbehindblock"+isbehindblocks+"\ncountdown="+MathHelper.roundNumber(triggerexplosiontime[0], 3)+"\nisgoing="+isgoinghorizontal+"\nisgoingright="+isgoingright+"\nisradnomgoing="+israndomgoing+"\nisradnomgoingright="+israndomgoingright;
 	}
 
-    @Override
+	@Override
     public double getRunningMin()
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return runningMin;
     }
 
     @Override
     public double getRunningMax()
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return runningMax;
     }
 
     @Override
     public double getJumpPower()
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return jumpPower;
     }
 
     @Override
     public double getRunPower()
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return runPower;
     }
 
     @Override
     public double getTriggerRadius()
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return triggerRadius;
     }
 }
