@@ -76,6 +76,10 @@ public class Creeper extends HostileEntity
 	@Override
 	protected void die()
 	{
+		if(lastDamageCause!=DamageCause.EXPLOSION)
+		{
+			dropGunPowder();
+		}
 		super.die();
 	}
 	@Override
@@ -500,5 +504,11 @@ public class Creeper extends HostileEntity
     public double getTriggerRadius()
     {
         return triggerRadius;
+    }
+    
+    private void dropGunPowder()
+    {
+        int amount = new Random().nextInt(2);
+        super.dropItem(location.add(new Location(0.5, 0)), Drop.DropType.GUNPOWDER, amount);
     }
 }

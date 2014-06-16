@@ -1,6 +1,7 @@
 package sw.superwhateverjnr.entity;
 
 import java.util.Map;
+import java.util.Random;
 
 import sw.superwhateverjnr.Game;
 import sw.superwhateverjnr.block.Block;
@@ -66,6 +67,7 @@ public class Skeleton extends HostileEntity
 	@Override
 	protected void die()
 	{
+		dropBones();
 		super.die();
 	}
 
@@ -138,5 +140,11 @@ public class Skeleton extends HostileEntity
     public double getTriggerRadius()
     {
         return triggerRadius;
+    }
+    
+    private void dropBones()
+    {
+        int amount = new Random().nextInt(2);
+        super.dropItem(location.add(new Location(0.5, 0)), Drop.DropType.BONES, amount);
     }
 }
