@@ -203,18 +203,46 @@ public class Player extends Entity
     protected void tickGravity()
     {
         super.tickGravity();
+        
         if(velocity.getY() < 0)
         {
-            List<Entity> ents = Game.getInstance().getWorld().getEntitiesAt(location);
-            for(int i = 0; i < ents.size(); i++)
-            {
-                Entity e = ents.get(i);
-                if(e.type != EntityType.DROPPED_ITEM && hitBox.translatedTo(location).intersects(e.getHitBox().translatedTo(e.getLocation())))
-                {
-                    e.takeDamage(DamageCause.STOMPED_BY_PLAYER, 0);
+        	Rectangle rp = hitBox.translatedTo(location);
+        	List<Entity> entities=Game.getInstance().getWorld().getEntities();
+        	for(int i = 0; i < entities.size(); i++)
+        	{
+        		Entity e=entities.get(i);
+        		if(e.type == EntityType.DROPPED_ITEM)
+        		{
+        			continue;
+        		}
+        		
+        		Rectangle re = e.getHitBox().translatedTo(e.getLocation());
+        		
+        		Rectangle intersect = rp.intersect(re);
+        		if(intersect == null || intersect.noArea())
+        		{
+        			continue;
+        		}
+        		
+        		Location l = intersect.getMax().substract(intersect.getMin());
+        		if(Math.abs(l.getX()) > Math.abs(l.getY()))
+				{
+        			System.out.println(l);
+        			e.takeDamage(DamageCause.STOMPED_BY_PLAYER, 0);
                     velocity.setY(jumpPower/4);
-                }
-            }
+				}
+        	}
+        	
+//            List<Entity> ents = Game.getInstance().getWorld().getEntitiesAt(location);
+//            for(int i = 0; i < ents.size(); i++)
+//            {
+//                Entity e = ents.get(i);
+//                if(e.type != EntityType.DROPPED_ITEM && hitBox.translatedTo(location).intersects(e.getHitBox().translatedTo(e.getLocation())))
+//                {
+//                    e.takeDamage(DamageCause.STOMPED_BY_PLAYER, 0);
+//                    velocity.setY(jumpPower/4);
+//                }
+//            }
         }
     }
     

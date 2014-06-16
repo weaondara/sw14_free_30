@@ -58,4 +58,33 @@ public class Rectangle
     {
         return min.visibleFrom(viewPoint) || max.visibleFrom(viewPoint);
     }
+
+	public Rectangle intersect(Rectangle r)
+	{
+		double x1 = Math.max(min.getX(), r.min.getX());
+		double x2 = Math.min(max.getX(), r.max.getX());
+		double y1 = Math.max(min.getY(), r.min.getY());
+		double y2 = Math.min(max.getY(), r.max.getY());
+		if(x1 < x2 && y1 < y2)
+		{
+			return new Rectangle(x1, y1, x2, y2);
+		}
+		
+		return null;
+	}
+
+	public boolean noArea()
+	{
+		return width() < 0 && height() < 0;
+	}
+	
+	public double width()
+	{
+		return max.getX()-min.getX();
+	}
+	
+	public double height()
+	{
+		return max.getY()-min.getY();
+	}
 }
