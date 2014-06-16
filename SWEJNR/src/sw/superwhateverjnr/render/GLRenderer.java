@@ -14,11 +14,13 @@ import sw.superwhateverjnr.SWEJNR;
 import sw.superwhateverjnr.block.Block;
 import sw.superwhateverjnr.block.Material;
 import sw.superwhateverjnr.entity.Creeper;
+import sw.superwhateverjnr.entity.Drop;
 import sw.superwhateverjnr.entity.Entity;
 import sw.superwhateverjnr.entity.EntityType;
 import sw.superwhateverjnr.entity.Player;
 import sw.superwhateverjnr.entity.Skeleton;
 import sw.superwhateverjnr.entity.Zombie;
+import sw.superwhateverjnr.texture.ItemTexture;
 import sw.superwhateverjnr.texture.TextureMap;
 import sw.superwhateverjnr.texture.entity.SkeletonTexture;
 import sw.superwhateverjnr.texture.entity.ZombieTexture;
@@ -235,6 +237,9 @@ public class GLRenderer extends RendererBase
                     case SKELETON:
                         drawSkeleton((Skeleton) e);
                         break;
+                    case DROPPED_ITEM:
+						drawItem((Drop) e);
+						break;
                     default:
                         break;
                 }
@@ -550,6 +555,45 @@ public class GLRenderer extends RendererBase
             drawTex(SKELETON_LEFT_LEG_LEFT, left, top, right, bottom, angle, (right-left)/2, 0);
         }
     }
+    @Override
+	protected void drawItem(Drop c)
+	{
+		Location l=c.getLocation();
+		if(l==null)
+		{
+			return;
+		}
+		
+		float itemwidth=8;
+		float itemheight=8;
+		
+		float blocksize=16;
+
+		blocksize*=1/(c.getHitBox().getMax().getY()-c.getHitBox().getMin().getY());
+		
+		
+		paint.setStyle(Style.FILL);
+		paint.setColor(0xFF000000);
+
+		float x=(float) (leftoffset+(l.getX()-x1)*game.getTextureSize());
+		float y=(float) (topoffset+(y2-l.getY())*game.getTextureSize());
+
+		float playerwidh=(float) (Math.abs(c.getHitBox().getMin().getX()-c.getHitBox().getMax().getX())*game.getTextureSize());
+		float playerheight=(float) (Math.abs(c.getHitBox().getMin().getY()-c.getHitBox().getMax().getY())*game.getTextureSize());
+		
+		float ytop=y-playerheight;
+		
+		ItemTexture pt=(ItemTexture) TextureMap.getTexture(c.getDropType().getId());
+		pt.scale(game.getTextureSize()/64*itemwidth/blocksize);
+		
+		//head
+		float left=x-game.getTextureSize()*(itemwidth/blocksize)/2;
+		float right=x+game.getTextureSize()*(itemwidth/blocksize)/2;
+		float bottom=ytop+(itemheight/blocksize)*game.getTextureSize();
+		float top=ytop;
+		
+		drawTex(c.getDropType().getId(), left, top, right, bottom, 0, 0, 0);
+	}
     @Override
     protected void drawPlayer()
     {
@@ -901,12 +945,12 @@ public class GLRenderer extends RendererBase
     }
 
 
-    private void drawTex(String tex, float left, float top, float right, float bottom, float angle, float xcorr, float ycorr)
+    private void drawTex(Object tex, float left, float top, float right, float bottom, float angle, float xcorr, float ycorr)
     {
     	drawTex(tex, left, top, right, bottom, angle, xcorr, ycorr, xcorr, ycorr);
     }
     
-    private void drawTex(String tex, float left, float top, float right, float bottom, float angle, float txcorr, float tycorr, float pxcorr, float pycorr)
+    private void drawTex(Object tex, float left, float top, float right, float bottom, float angle, float txcorr, float tycorr, float pxcorr, float pycorr)
     {
         GLTex gltex=textures.get(tex);
         gl.glMatrixMode(GL10.GL_MODELVIEW);

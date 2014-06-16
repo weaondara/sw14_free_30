@@ -19,7 +19,7 @@ public class Drop extends Entity
     @RequiredArgsConstructor
     public enum DropType
     {
-        ROTTEN_FLESH(267),
+        ROTTEN_FLESH(367),
         BONES(352),
         GUNPOWDER(289);
         
