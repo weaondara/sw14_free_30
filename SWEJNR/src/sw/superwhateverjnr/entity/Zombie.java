@@ -1,5 +1,6 @@
 package sw.superwhateverjnr.entity;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -114,7 +115,12 @@ public class Zombie extends HostileEntity
     @Override
     protected void attack()
     {
-        return;
+    	Game g=Game.getInstance();
+    	Player p=g.getPlayer();
+		if(hitBox.translatedTo(location).intersects(p.getHitBox().translatedTo(p.getLocation())))
+		{
+			p.takeDamage(DamageCause.TOUCHED_BY_ZOMBIE, 0);
+		}
     }
 
     @Override
