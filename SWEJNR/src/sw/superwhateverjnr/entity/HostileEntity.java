@@ -1,6 +1,7 @@
 package sw.superwhateverjnr.entity;
 
 import java.util.Map;
+import java.util.Random;
 import sw.superwhateverjnr.Game;
 import sw.superwhateverjnr.block.Block;
 import sw.superwhateverjnr.block.Material;
@@ -9,11 +10,46 @@ import sw.superwhateverjnr.world.Location;
 
 public abstract class HostileEntity extends Entity
 {
-
     protected enum Direction
     {
         LEFT,
         RIGHT;
+        
+        public Direction opposite()
+        {
+            switch(this)
+            {
+                case LEFT:
+                    return RIGHT;
+                case RIGHT:
+                    return LEFT;
+                default:
+                    return null;
+            }
+        }
+        public static Direction fromBool(Boolean right)
+        {
+            if(right)
+            {
+                return RIGHT;
+            }
+            else
+            {
+                return LEFT;
+            }
+        }
+        public boolean toBool()
+        {
+            switch(this)
+            {
+                case LEFT:
+                    return true;
+                case RIGHT:
+                    return false;
+                default:
+                    return false;
+            }
+        }
     }
     
     protected enum MovementType
@@ -76,8 +112,9 @@ public abstract class HostileEntity extends Entity
         {
             movement = MovementType.FOLLOW;
         } 
-        evaluateDirection();
         stopIfTooHigh();
+        jumpIfWall();
+        evaluateDirection();
     }
        
     protected void evaluateDirection()
@@ -95,9 +132,20 @@ public abstract class HostileEntity extends Entity
                 }
                 break;
             case RANDOM:
+                if(lastDirections[0] == null || lastDirections[0] != lastDirections[1] || lastDirections[0] != lastDirections[2])
+                {
+                    direction = Direction.fromBool(new Random().nextBoolean());
+                }
+                else
+                {
+                    direction = lastDirections[0].opposite();
+                }
                 break;
             case STAY:
-                break;
+                for(int i = 0; i < lastDirections.length; i++)
+                {
+                    lastDirections[i] = null;
+                }
         }
     }
     protected void reevaluateMovement()
