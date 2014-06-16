@@ -103,9 +103,9 @@ public enum Material
             case AIR:
             case WATER_FLOWING:
             case WATER_STANDING:
-                return false;
-            default:
                 return true;
+            default:
+                return false;
         }
     }
 
