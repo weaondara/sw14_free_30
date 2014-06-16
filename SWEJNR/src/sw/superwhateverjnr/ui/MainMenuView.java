@@ -82,23 +82,23 @@ public class MainMenuView extends BackgroundView implements View.OnTouchListener
         float currentheight=displayHeight*55/100;
         
         buttons=new ArrayList<MainMenuButton>();
-        buttons.add(new MainMenuButton(NEW_GAME,"New Game",xleft, (int) currentheight, width, (int) height, Align.LEFT));
+        buttons.add(new MainMenuButton(NEW_GAME,"New Game",xleft, (int) currentheight, width, (int) height, Align.LEFT, false));
         
         currentheight+=height+ymargin;
-        buttons.add(new MainMenuButton(CONTINUE_GAME,"Continue Game",xleft, (int) currentheight, width, (int) height, Align.LEFT));
+        buttons.add(new MainMenuButton(CONTINUE_GAME,"Continue Game",xleft, (int) currentheight, width, (int) height, Align.LEFT, false));
         
         currentheight+=height+ymargin;
-        buttons.add(new MainMenuButton(RANDOM_GAME,"Random Game",xleft, (int) currentheight, width, (int) height, Align.LEFT));
+        buttons.add(new MainMenuButton(RANDOM_GAME,"Random Game",xleft, (int) currentheight, width, (int) height, Align.LEFT, true));
         
         
         currentheight=displayHeight*(55+(BUTTON_HEIGHT+BUTTON_MARGIN)/2)/100;
-        buttons.add(new MainMenuButton(SETTINGS,"Settings",xright, (int) currentheight, width, (int) height, Align.RIGHT));
+        buttons.add(new MainMenuButton(SETTINGS,"Settings",xright, (int) currentheight, width, (int) height, Align.RIGHT, true));
 
         currentheight+=height+ymargin;
-        buttons.add(new MainMenuButton(CREDITS,"Credits",xright, (int) currentheight, width, (int) height, Align.RIGHT));
+        buttons.add(new MainMenuButton(CREDITS,"Credits",xright, (int) currentheight, width, (int) height, Align.RIGHT, true));
 
         currentheight+=height+ymargin;
-        buttons.add(new MainMenuButton(QUIT_GAME,"Quit Game",xright, (int) currentheight, width, (int) height, Align.RIGHT));
+        buttons.add(new MainMenuButton(QUIT_GAME,"Quit Game",xright, (int) currentheight, width, (int) height, Align.RIGHT, true));
     }
     
     private Paint paint=new Paint();
@@ -113,6 +113,11 @@ public class MainMenuView extends BackgroundView implements View.OnTouchListener
     	
     	for(MainMenuButton b:buttons)
     	{
+    		if(!b.isVisible())
+    		{
+    			continue;
+    		}
+    		
     		paint.setColor(b.isPressed() ? PRESSED_TEXT_COLOR : TEXT_COLOR);
     		
     		if(SWEJNR.DEBUG)
@@ -155,7 +160,7 @@ public class MainMenuView extends BackgroundView implements View.OnTouchListener
 		boolean done = false;
 		for(MainMenuButton b:buttons)
 		{
-	    	if(b.isInside(x, y))
+	    	if(b.isVisible() && b.isInside(x, y))
 	    	{
 	    		if(action==MotionEvent.ACTION_DOWN)
 	    		{
@@ -207,6 +212,8 @@ public class MainMenuView extends BackgroundView implements View.OnTouchListener
         private int x, y, width, height;
     	@NonNull
         private Align align;
+    	@NonNull
+        private boolean visible;
     	@Setter
         private boolean pressed;
         
