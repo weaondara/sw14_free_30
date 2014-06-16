@@ -711,6 +711,8 @@ public class GLRenderer extends RendererBase
         
         drawFPS();
         drawTime();
+        drawPoints();
+        drawHealth();
     }
     
     private GLTex fpstex;
@@ -779,6 +781,72 @@ public class GLRenderer extends RendererBase
         
         timetex.position(dwidth-timetex.getBitmap().getWidth()-5, 5, timetex.getBitmap().getWidth(), timetex.getBitmap().getHeight(), dwidth, dheight);
         timetex.draw(gl);
+    }
+    private GLTex pointstex;
+    private String oldpoints;
+    @SneakyThrows
+    private void drawPoints()
+    {
+        String time="Points: "+game.getPoints();
+        if(oldpoints == null || !time.equalsIgnoreCase(oldpoints))
+        {
+            Rect r=new Rect();
+            paint.getTextBounds(time, 0, time.length(), r);
+            
+            Bitmap bm=Bitmap.createBitmap(r.width()+10, r.height()+10, Bitmap.Config.ARGB_8888);
+            Canvas cv=new Canvas(bm);
+            cv.drawText(time, 0+5, r.height()+5, paint);
+            
+            if(oldpoints == null)
+            {
+                pointstex=new GLTex(null, bm);
+            }
+            else
+            {
+                pointstex.delete(gl);
+                pointstex.getBitmap().recycle();
+                pointstex.setBitmap(bm);
+            }
+            
+            pointstex.upload(gl);
+            oldpoints=time;
+        }
+        
+        pointstex.position(dwidth-pointstex.getBitmap().getWidth()-5, (pointstex.getBitmap().getHeight()+10)+5, pointstex.getBitmap().getWidth(), pointstex.getBitmap().getHeight(), dwidth, dheight);
+        pointstex.draw(gl);
+    }
+    private GLTex healthtex;
+    private String oldhealth;
+    @SneakyThrows
+    private void drawHealth()
+    {
+        String lealth="Health: "+Math.round(game.getPlayer().getHealth()*10)/10;
+        if(oldhealth == null || !lealth.equalsIgnoreCase(oldhealth))
+        {
+            Rect r=new Rect();
+            paint.getTextBounds(lealth, 0, lealth.length(), r);
+            
+            Bitmap bm=Bitmap.createBitmap(r.width()+10, r.height()+10, Bitmap.Config.ARGB_8888);
+            Canvas cv=new Canvas(bm);
+            cv.drawText(lealth, 0+5, r.height()+5, paint);
+            
+            if(oldhealth == null)
+            {
+            	healthtex=new GLTex(null, bm);
+            }
+            else
+            {
+            	healthtex.delete(gl);
+            	healthtex.getBitmap().recycle();
+            	healthtex.setBitmap(bm);
+            }
+            
+            healthtex.upload(gl);
+            oldhealth=lealth;
+        }
+        
+        healthtex.position(dwidth-healthtex.getBitmap().getWidth()-5, (pointstex.getBitmap().getHeight()+10)*2+5, healthtex.getBitmap().getWidth(), healthtex.getBitmap().getHeight(), dwidth, dheight);
+        healthtex.draw(gl);
     }
     
     

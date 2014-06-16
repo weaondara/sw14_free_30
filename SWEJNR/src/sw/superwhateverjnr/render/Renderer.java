@@ -691,6 +691,12 @@ public class Renderer extends RendererBase
 		
 		paint.setTextAlign(Align.RIGHT);
 		canvas.drawText("Time: "+(world.getTime()-world.getTimeElapsed())/100, canvas.getWidth() - 10, 10+textheight, paint);
+		
+		paint.setTextAlign(Align.RIGHT);
+		canvas.drawText("Points: "+game.getPoints(), canvas.getWidth() - 10, (10+textheight)*2, paint);
+		
+		paint.setTextAlign(Align.RIGHT);
+		canvas.drawText("Health: "+Math.round(game.getPlayer().getHealth()*10)/10, canvas.getWidth() - 10, (10+textheight)*3, paint);
 	}
 	@Override
 	protected void drawControls0(boolean retry)
