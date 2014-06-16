@@ -2,9 +2,8 @@ package sw.superwhateverjnr.entity;
 
 import java.util.HashMap;
 import java.util.Map;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import sw.superwhateverjnr.Game;
 import sw.superwhateverjnr.world.Location;
 
@@ -16,14 +15,13 @@ public class Drop extends Entity
     private DropType dropType;
     
     @Getter
-    @RequiredArgsConstructor
+    @AllArgsConstructor
     public enum DropType
     {
-        ROTTEN_FLESH(367),
-        BONES(352),
-        GUNPOWDER(289);
+        ROTTEN_FLESH(367, 75),
+        BONES(352, 100),
+        GUNPOWDER(289, 250);
         
-        @NonNull
         private int id;
         private int points;
         
