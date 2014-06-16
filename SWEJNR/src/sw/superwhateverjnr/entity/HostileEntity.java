@@ -61,15 +61,20 @@ public abstract class HostileEntity extends Entity
             double distance =  Math.sqrt(Math.pow(playerx - x, 2.0) + Math.pow(playery - y, 2.0));
             if(distance < triggerDistance)
             {
-                seesPlayer = p.getHitBox().translatedTo(p.getLocation()).visibleFrom(getEyeHeight());
+                seesPlayer = p.getHitBox().translatedTo(p.getLocation()).visibleFrom(new Location(location.getX()+getEyeHeight(),location.getY()));
             }
         }
     }
     
     protected void calculateMovement()
     {
-        return;
+        stopIfLava();
     }
+    
+	protected void stopIfLava()
+	{
+		//stop instantly!!!
+	}
     
     protected void move()
     {
