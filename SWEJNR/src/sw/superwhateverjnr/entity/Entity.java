@@ -298,6 +298,7 @@ public abstract class Entity
         double damage = cause.getDamage(distance);
         if(damage > health)
         {
+        	lastDamageCause = cause;
             die();
         }
         else
