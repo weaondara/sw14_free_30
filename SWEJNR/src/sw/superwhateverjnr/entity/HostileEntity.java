@@ -163,7 +163,7 @@ public abstract class HostileEntity extends Entity
         double addx = direction == Direction.LEFT ? -0.5 : 0.5;
         for(int i = 0; i < viewDepth; i++)
         {
-            if(Game.getInstance().getWorld().getBlockAt(location.add(addx, -i)).getType().isSolid())
+            if(!Game.getInstance().getWorld().getBlockAt(location.add(addx, -i)).getType().isSolid())
             {
                 movement = MovementType.STAY;
                 break;
