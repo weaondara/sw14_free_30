@@ -84,7 +84,6 @@ public class Creeper extends HostileEntity
 		super.tick();
 		stopIfLava();
 		stopIfTooHigh();
-		// swimIfWater();
 		trigger();
 		seePlayer();
 		
@@ -355,10 +354,6 @@ public class Creeper extends HostileEntity
 			}
 		}
 	}
-	protected void stopIfLava()
-	{
-		//stop instantly!!!
-	}
 	protected void stopIfTooHigh()
 	{
 		double monsterx = getLocation().getX();
@@ -472,19 +467,7 @@ public class Creeper extends HostileEntity
 		{
 			lookingRight = false;
 		}
-	}
-	/*protected void swimIfWater()
-	{
-		if (isindistance)
-		{
-			//swim to catch player
-		}
-		else
-		{
-			//swim away from player
-		}
-	}*/
-	
+	}	
 	private void tickMove()
 	{
 		if(location==null || world()==null)
