@@ -76,7 +76,7 @@ public class Creeper extends HostileEntity
 	@Override
 	protected void die()
 	{
-		if(lastDamageCause!=DamageCause.EXPLOSION)
+		if(lastDamageCause!=null)
 		{
 			dropGunPowder();
 		}
