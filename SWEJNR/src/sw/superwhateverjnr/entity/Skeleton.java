@@ -208,7 +208,7 @@ public class Skeleton extends HostileEntity
         }
 
         location.setX(x);
-        super.tick();
+        super.tickMove();
 	}
 
     @Override
