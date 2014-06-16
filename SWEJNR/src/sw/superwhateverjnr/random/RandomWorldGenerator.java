@@ -111,7 +111,7 @@ public class RandomWorldGenerator
 
         Location spawn = new Location(0.5, spawnHeight + 1);
         
-        long time = (long)(width*1.5);
+        long time = (long)(width*1.5*100);
 
         World w = WorldLoader.createWorld(name, width, height, spawn, null, blocks, new ArrayList<Entity>(), time);
         String[] music = SWEJNR.getInstance().getAssets().list("music");
