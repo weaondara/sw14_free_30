@@ -115,6 +115,10 @@ public class SWEJNR extends Application implements Runnable
 		TextureMap.loadTexture(EntityType.CREEPER,textureLoader);
 		TextureMap.loadTexture(EntityType.ZOMBIE,textureLoader);
 		TextureMap.loadTexture(EntityType.SKELETON,textureLoader);
+
+		TextureMap.loadTexture(367,textureLoader);
+		TextureMap.loadTexture(289,textureLoader);
+		TextureMap.loadTexture(352,textureLoader);
 	}
 
 	@Override

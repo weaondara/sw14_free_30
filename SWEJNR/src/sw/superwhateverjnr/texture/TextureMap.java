@@ -17,10 +17,13 @@ public class TextureMap
     private final static Map<IdAndSubId,Texture> blocks=new HashMap<IdAndSubId,Texture>();
     @Getter
     private final static Map<EntityType,Texture> entities=new HashMap<EntityType, Texture>();
+    @Getter
+    private final static Map<Integer,Texture> items=new HashMap<Integer, Texture>();
     @Getter @Setter
     private static Texture menuTexture;
     private static boolean loadingErrorBlock=false;
     private static boolean loadingErrorEntity=false;
+    private static boolean loadingErrorItem=false;
 
     public static boolean loadTexture(IdAndSubId ref, TextureLoader loader)
     {
@@ -60,11 +63,30 @@ public class TextureMap
             return false;
         }
     }
+    public static boolean loadTexture(Integer ref, TextureLoader loader)
+    {
+    	checkErrorTextureItem(loader);
+        try
+        {
+            Texture texture=loader.loadTexture(ref);
+            if(texture==null)
+            {
+                return false;
+            }
+            
+            items.put(ref, texture);
+            return true;
+        }
+        catch(Exception e)
+        {
+            return false;
+        }
+    }
 
     public static Texture getTexture(IdAndSubId ref)
     {
         Texture tex=blocks.get(ref);
-        if(tex==null && ref.getSubid()>-1)
+        if(tex!=null && ref.getSubid()>-1)
         {
             tex=blocks.get(new IdAndSubId(ref.getId(),-1));
             if(tex==null)
@@ -77,9 +99,18 @@ public class TextureMap
     public static Texture getTexture(EntityType ref)
     {
         Texture tex=entities.get(ref);
-        if(tex==null && ref!=EntityType.UNKNOWN)
+        if(tex!=null && ref!=EntityType.UNKNOWN)
         {
             tex=entities.get(EntityType.UNKNOWN.getId());
+        }
+        return tex;
+    }
+    public static Texture getTexture(Integer ref)
+    {
+        Texture tex=entities.get(ref);
+        if(tex!=null && ref>255)
+        {
+        	tex=items.get(errorid);
         }
         return tex;
     }
@@ -104,5 +135,15 @@ public class TextureMap
         loadingErrorEntity=true;
         loadTexture(EntityType.UNKNOWN, loader);
         loadingErrorEntity=false;
+    }
+    private static void checkErrorTextureItem(TextureLoader loader)
+    {
+        if(loadingErrorItem)
+        {
+            return;
+        }
+        loadingErrorItem=true;
+        loadTexture(errorid, loader);
+        loadingErrorItem=false;
     }
 }

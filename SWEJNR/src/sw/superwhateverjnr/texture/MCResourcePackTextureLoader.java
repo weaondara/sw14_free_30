@@ -16,4 +16,10 @@ public class MCResourcePackTextureLoader implements TextureLoader
 	{
 		return null;
 	}
+	
+	@Override
+	public ItemTexture loadTexture(Integer ref) throws Exception
+	{
+		return null;
+	}
 }
