@@ -21,6 +21,7 @@ public abstract class HostileEntity extends Entity
     }
         
     protected Direction[] lastDirections;
+    protected Direction direction;
     protected MovementType movement;
     protected boolean seesPlayer = false;
     protected double triggerDistance;
@@ -47,34 +48,62 @@ public abstract class HostileEntity extends Entity
     
     protected void seePlayer()
     {
-        if(seesPlayer)
+        Player p = Game.getInstance().getPlayer();
+        double distance =  p.getLocation().distance(location);
+        if(distance < triggerDistance)
         {
-            return;
-        }
-        else
-        {
-            Player p = Game.getInstance().getPlayer();
-            double playerx = p.getLocation().getX();
-            double playery = p.getLocation().getY();
-            double x = location.getX();
-            double y = location.getY();
-            double distance =  Math.sqrt(Math.pow(playerx - x, 2.0) + Math.pow(playery - y, 2.0));
-            if(distance < triggerDistance)
-            {
-                seesPlayer = p.getHitBox().translatedTo(p.getLocation()).visibleFrom(new Location(location.getX()+getEyeHeight(),location.getY()));
-            }
+            seesPlayer = p.getHitBox().translatedTo(p.getLocation()).visibleFrom(new Location(location.getX()+getEyeHeight(),location.getY()));
         }
     }
     
     protected void calculateMovement()
     {
-        stopIfLava();
+        if(seesPlayer)
+        {
+            movement = MovementType.FOLLOW;
+        }
+        stopIfTooHigh();
+        switch(movement)
+        {
+            case FOLLOW:
+                if(Game.getInstance().getPlayer().getLocation().getX() < location.getX())
+                {
+                    direction = Direction.LEFT;
+                }
+                else
+                {
+                    direction = Direction.RIGHT;
+                }
+                break;
+            case RANDOM:
+                break;
+            case STAY:
+                break;
+        }
     }
-    
-	protected void stopIfLava()
-	{
-		//stop instantly!!!
-	}
+        
+    protected void stopIfTooHigh()
+    {
+        int viewDepth = Math.min(location.getY(), 4);
+        double addx;
+        switch(direction)
+        {
+            case LEFT:
+                addx = -0.5;
+                break;
+            case RIGHT:
+                addx = 0.5;
+                break;
+        }        
+        for(int i = 0; i < viewDepth; i++)
+        {
+            if(Game.getInstance().getWorld().getBlockAt(location.add(addx, -i)).getType().isSolid())
+            {
+                movement = MovementType.STAY;
+                break;
+            }
+        }
+    }
     
     protected void move()
     {
