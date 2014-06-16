@@ -252,6 +252,11 @@ public class Game
                 {
                     disable();
                     
+                    if(won)
+                    {
+                    	points+=world.getTimeRemaining();
+                    }
+                    
                     Intent i = new Intent(activity, EndActivity.class);
                     i.putExtra("won", won);
                     i.putExtra("points", points);
