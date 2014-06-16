@@ -43,9 +43,9 @@ public abstract class HostileEntity extends Entity
             switch(this)
             {
                 case LEFT:
-                    return true;
-                case RIGHT:
                     return false;
+                case RIGHT:
+                    return true;
                 default:
                     return false;
             }
