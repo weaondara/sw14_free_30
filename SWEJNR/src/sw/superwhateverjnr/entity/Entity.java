@@ -510,4 +510,8 @@ public abstract class Entity
 	{
 		return "Type: "+type.name()+"\n"+location+"\n"+velocity+"\nhealth: "+health+"\ntickslived: "+ticksLived+"\nlookingright: "+lookingRight;
 	}
+    public double getEyeHeight()
+	{
+		return (hitBox.getMax().getY() - hitBox.getMin().getY()) * 0.8;
+	}
 }

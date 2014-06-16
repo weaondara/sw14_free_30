@@ -53,4 +53,9 @@ public class Rectangle
             return true;
         }
     }
+    
+    public boolean visibleFrom(Location viewPoint)
+    {
+        return min.visibleFrom(viewPoint) || max.visibleFrom(viewPoint);
+    }
 }

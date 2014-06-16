@@ -7,7 +7,7 @@ import sw.superwhateverjnr.block.Block;
 import sw.superwhateverjnr.util.Rectangle;
 import sw.superwhateverjnr.world.Location;
 
-public class Zombie extends Entity
+public class Zombie extends HostileEntity
 {
 	//-------------------------- animation ------------------------------
 	protected static final double radiant = 2 * Math.PI / 180;
@@ -215,4 +215,10 @@ public class Zombie extends Entity
 		
 		location.setX(x);
 	}
+
+    @Override
+    protected void attack()
+    {
+        return;
+    }
 }

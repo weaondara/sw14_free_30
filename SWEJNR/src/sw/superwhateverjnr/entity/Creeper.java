@@ -2,17 +2,18 @@ package sw.superwhateverjnr.entity;
 
 import java.util.Map;
 import java.util.Random;
-
 import lombok.SneakyThrows;
 import sw.superwhateverjnr.Game;
 import sw.superwhateverjnr.block.Block;
 import sw.superwhateverjnr.block.BlockFactory;
 import sw.superwhateverjnr.block.Material;
+import sw.superwhateverjnr.util.MathHelper;
+//import static sw.superwhateverjnr.util.MathHelper.isInTolerance;
 import sw.superwhateverjnr.util.Rectangle;
 import sw.superwhateverjnr.world.Location;
 import sw.superwhateverjnr.world.World;
 
-public class Creeper extends Entity
+public class Creeper extends HostileEntity
 {
 	private final static int MAXCOUNTERWALK = 3;
 	
@@ -86,7 +87,7 @@ public class Creeper extends Entity
 		// swimIfWater();
 		trigger();
 		seePlayer();
-		triggerExplosion();
+		
 		randomJump(false);
 		randomWalk(true);
 		jumpIfWall();
@@ -102,7 +103,7 @@ public class Creeper extends Entity
 		double monsterx = getLocation().getX();
 		double monstery = getLocation().getY();
 		//System.out.println("monsterx_playerx="+absoluteDifference(monsterx, playerx)+"  monster_prev="+absoluteDifference(monsterx, monsterprevx));
-		if (isInTolerance(monsterx, playerx, 0.8) && isInTolerance(playerprevx, playerx, 0.01))
+		if (MathHelper.isInTolerance(monsterx, playerx, 0.8) && MathHelper.isInTolerance(playerprevx, playerx, 0.01))
 		{
 			ismonsterstayingstill = true;
 		}
@@ -178,60 +179,8 @@ public class Creeper extends Entity
 			istriggeredonce = false;
 		}
 	}
-	protected void seePlayer()
-	{
-		if (isindistance)
-		{
-			double playerx = player.getLocation().getX();
-			double playery = player.getLocation().getY();
-			double monsterx = getLocation().getX();
-			double monstery = getLocation().getY();
-			
-			if ((playery >= 0) && (playerx >= 1) && (playerx <= game.getWorld().getWidth() - 1) && (monstery >= 0) && (monsterx >= 1) && (monsterx <= game.getWorld().getWidth() - 1))
-			{
-				boolean ismonsterlookingplayer1 = false;
-				boolean ismonsterlookingplayer2 = false;
-				double monsterlocationx = 0.0;
-				double monsterlocationy = monstery + getEyeHeight(this);
-				double playerlocationx1 = playerx;
-				double playerlocationy1 = playery;
-				double playerlocationx2 = playerx;
-				double playerlocationy2 = playery + getEyeHeight(player);
-				
-				if (isgoingright && (monsterx < playerx))
-				{
-					monsterlocationx = monsterx + 0.3;
-					ismonsterlookingplayer1 = !isInLineAnotherBlock(new Location(monsterlocationx, monsterlocationy), new Location(playerlocationx1, playerlocationy1), Material.AIR);
-					ismonsterlookingplayer2 = !isInLineAnotherBlock(new Location(monsterlocationx, monsterlocationy), new Location(playerlocationx2, playerlocationy2), Material.AIR);
-					//System.out.println("Monster going RIGHT, looking="+(ismonsterlookingplayer1||ismonsterlookingplayer2));
-				}
-				else if (!isgoingright && (monsterx > playerx))
-				{
-					monsterlocationx = monsterx - 0.3;
-					ismonsterlookingplayer1 = !isInLineAnotherBlock(new Location(monsterlocationx, monsterlocationy), new Location(playerlocationx1, playerlocationy1), Material.AIR);
-					ismonsterlookingplayer2 = !isInLineAnotherBlock(new Location(monsterlocationx, monsterlocationy), new Location(playerlocationx2, playerlocationy2), Material.AIR);
-					//System.out.println("Monster going  LEFT, looking="+(ismonsterlookingplayer1||ismonsterlookingplayer2));
-				}
-				//System.out.println(isInLineAnotherBlock(new Location(13,13.5), new Location(25,13.5), Material.AIR));
-				//System.out.println("monsterxmin="+getHitBox().getMin().getX()+"  monsterx"+getLocation().getX()+"  monsterxmax"+getHitBox().getMax().getX());
-				if (ismonsterlookingplayer1 || ismonsterlookingplayer2)
-				{
-					isbehindblocks = false;
-				}
-				else
-				{
-					isbehindblocks = true;
-					isindistance = false;
-					//setMovingright(false);
-					//setMovingleft(false);
-					isgoinghorizontal = false;
-					//System.out.println("FALSEEE!!!!");
-				}
-			}
-		}
-	}
 	@SneakyThrows
-	protected void triggerExplosion()
+	protected void attack()
 	{
 		if (!istriggerexplosion && (location.distance(player.location) <= triggerradiusexplosion) && !isbehindblocks)
 		{
@@ -276,7 +225,7 @@ public class Creeper extends Entity
 				israndomjump = true;
 				israndomjumpcompleted = false;
 				randomtimejump[0] = 0.0;
-				randomtimejump[1] = roundNumber(random.nextDouble() * 3 + 2.0, 3);
+				randomtimejump[1] = MathHelper.roundNumber(random.nextDouble() * 3 + 2.0, 3);
 			}
 			long now=System.currentTimeMillis();
 			randomtimejump[0] += (double)(Game.TICK_INTERVAL) / 1000.0;
@@ -333,7 +282,7 @@ public class Creeper extends Entity
 				//setMovingright(false);
 				//setMovingleft(false);
 				randomtimewalk[0] = 0.0;
-				randomtimewalk[1] = roundNumber(random.nextDouble() * 2 + 1.5, 3);
+				randomtimewalk[1] = MathHelper.roundNumber(random.nextDouble() * 2 + 1.5, 3);
 				israndomgoingright = random.nextBoolean();
 				israndomgoing = !israndomgoing;
 				if (israndomgoing && israndomgoingright)
@@ -391,8 +340,8 @@ public class Creeper extends Entity
 				boolean isgoinglefttrue = !isgoingright && isgoinghorizontal;
 				boolean israndomgoingrighttrue = israndomgoingright && israndomgoing;
 				boolean israndomgoinglefttrue = !israndomgoingright && israndomgoing;
-				boolean isplayerpropertiesrighttrue = !player.isOnGround() || (!istoohighright && (absoluteDifference(playerx, monsterx) > 0.5));
-				boolean isplayerpropertieslefttrue  = !player.isOnGround() || ( !istoohighleft && (absoluteDifference(playerx, monsterx) > 0.5));
+				boolean isplayerpropertiesrighttrue = !player.isOnGround() || (!istoohighright && (MathHelper.absoluteDifference(playerx, monsterx) > 0.5));
+				boolean isplayerpropertieslefttrue  = !player.isOnGround() || ( !istoohighleft && (MathHelper.absoluteDifference(playerx, monsterx) > 0.5));
 				boolean ismaterialxp1true = (materialxp1y0 != materialx0y0) && (materialxp1yp1 == materialx0y0);
 				boolean ismaterialxm1true = (materialxm1y0 != materialx0y0) && (materialxm1yp1 == materialx0y0);
 				
@@ -585,7 +534,7 @@ public class Creeper extends Entity
 			vx*=(1-d);
 		}
 
-		getVelocity().setX(vx);
+		velocity.setX(vx);
 		
 		float multiplier=0.01F;
 		float playerwidth=(float) (Math.abs(bounds.getMin().getX()-bounds.getMax().getX()));
@@ -640,54 +589,9 @@ public class Creeper extends Entity
 		catch(Exception e){}
 			
 		location.setX(x);
-	}
-	private double roundNumber(double number, int digits)
-	{
-		return (double)((int)(number * (double)Math.pow(10.0, (double)digits))) / (double)Math.pow(10.0, (double)digits);
-	}
-	private double absoluteDifference(double number1, double number2)
-	{
-		return Math.abs(Math.abs(number1) - Math.abs(number2));
-	}
-	private boolean isInTolerance(double number1, double number2, double delta)
-	{
-		return (Math.abs(number1 - number2) <= delta);
-	}
-	private double getEyeHeight(Entity entity)
-	{
-		return (entity.getHitBox().getMax().getY() - getHitBox().getMin().getY()) * 0.8;
-	}
-	private boolean isInLineAnotherBlock(Location point1, Location point2, Material material)
-	{
-		boolean isinlineanotherblock = false;
-		int iterations = 1000;
-		int loop = 0;
-		double x1 = point1.getX();
-		double y1 = point1.getY();
-		double x2 = point2.getX();
-		double y2 = point2.getY();
-		double dx = (x2 - x1) / (double)iterations;
-		double dy = (y2 - y1) / (double)iterations;
-		int x = (int)x1;
-		int y = (int)y1;
-		while (loop <= iterations)
-		{
-			if ((x != (int)(x1 + dx * (double)loop)) || (y != (int)(y1 + dy * (double)loop)))
-			{
-				x = (int)(x1 + dx * (double)loop);
-				y = (int)(y1 + dy * (double)loop);
-				if (game.getWorld().getBlockAt(new Location(x, y)).getType() != material)
-				{
-					isinlineanotherblock = !isinlineanotherblock;
-					break;
-				}
-			}
-			loop++;
-		}
-		return isinlineanotherblock;
-	}
+    }
 	public String getDebugInfo()
 	{
-		return super.getDebugInfo()+"\nisindistance="+isindistance+"\nisbehindblock"+isbehindblocks+"\ncountdown="+roundNumber(triggerexplosiontime[0], 3)+"\nisgoing="+isgoinghorizontal+"\nisgoingright="+isgoingright+"\nisradnomgoing="+israndomgoing+"\nisradnomgoingright="+israndomgoingright;
+		return super.getDebugInfo()+"\nisindistance="+isindistance+"\nisbehindblock"+isbehindblocks+"\ncountdown="+MathHelper.roundNumber(triggerexplosiontime[0], 3)+"\nisgoing="+isgoinghorizontal+"\nisgoingright="+isgoingright+"\nisradnomgoing="+israndomgoing+"\nisradnomgoingright="+israndomgoingright;
 	}
 }

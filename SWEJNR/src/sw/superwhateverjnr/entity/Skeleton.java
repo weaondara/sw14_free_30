@@ -7,7 +7,7 @@ import sw.superwhateverjnr.block.Block;
 import sw.superwhateverjnr.util.Rectangle;
 import sw.superwhateverjnr.world.Location;
 
-public class Skeleton extends Entity
+public class Skeleton extends HostileEntity
 {
 	//-------------------------- animation ------------------------------
 	protected static final double radiant = 2 * Math.PI / 180;
@@ -208,4 +208,10 @@ public class Skeleton extends Entity
 		
 		location.setX(x);
 	}
+
+    @Override
+    protected void attack()
+    {
+        return;
+    }
 }

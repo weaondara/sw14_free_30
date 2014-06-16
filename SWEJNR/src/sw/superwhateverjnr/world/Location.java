@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import sw.superwhateverjnr.Game;
 
 @Getter
 @Setter
@@ -51,4 +52,34 @@ public class Location implements Cloneable
 	{
 		return x >= 0 && y >= 0 && x < w.getWidth() && y < w.getHeight();
 	}
+    
+    public boolean visibleFrom(Location viewPoint)
+    {
+        World w = Game.getInstance().getWorld();
+        int iterations = 100;
+        int thisx = this.getBlockX();
+        int thisy = this.getBlockY();
+        int lastx = thisx;
+        int lasty = thisy;
+        int viewx = viewPoint.getBlockX();
+        int viewy = viewPoint.getBlockY();
+        double dx = (viewx - thisx)/(double)iterations;
+        double dy = (viewy - thisy)/(double)iterations;
+        
+        for(int i=0; i<iterations; i++)
+        {
+            thisx = thisx + (int)(i*dx);
+            thisy = thisy + (int)(i*dy);
+            if(thisx != lastx || thisy != lasty)
+            {
+                lastx = thisx;
+                lasty = thisy;
+                if(!w.getBlockAt(thisx, thisy).getType().translucent())
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 }
