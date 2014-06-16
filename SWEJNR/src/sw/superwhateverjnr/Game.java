@@ -200,6 +200,7 @@ public class Game
             gameView.getRt().kill();
             gameView.close();
         }
+        scheduler.close();
         
         instance=null;
     }
