@@ -19,12 +19,37 @@ public class Creeper extends HostileEntity
 	
 	private Player player;
 	private Game game;
-	private BlockFactory blockfactory;
 	
 	private final static double runningMin = 0.75;
 	private final static double runningMax = 2.25;
 	private final static double runPower = 0.0015;
 	private final static double jumpPower = 7.0;
+	
+	@Override
+    public double getRunningMin()
+    {
+        return runningMin;
+    }
+
+    @Override
+    public double getRunningMax()
+    {
+        return runningMax;
+    }
+
+    @Override
+    public double getJumpPower()
+    {
+        return jumpPower;
+    }
+
+    @Override
+    public double getRunPower()
+    {
+        return runPower;
+    }
+	
+	
 	private final static double radius = 6.0;
 	private final static double triggerradiusexplosion = 2.0;
 	private double distance = 0.0;
@@ -70,7 +95,6 @@ public class Creeper extends HostileEntity
 		super(EntityType.CREEPER, location, extraData);
 		player=Game.getInstance().getPlayer();
 		game=Game.getInstance();
-		blockfactory = BlockFactory.getInstance();
 		triggerRadius = radius;
 	}
 	@Override
@@ -476,36 +500,6 @@ public class Creeper extends HostileEntity
 		return super.getDebugInfo()+"\nisindistance="+isindistance+"\nisbehindblock"+isbehindblocks+"\ncountdown="+MathHelper.roundNumber(triggerexplosiontime[0], 3)+"\nisgoing="+isgoinghorizontal+"\nisgoingright="+isgoingright+"\nisradnomgoing="+israndomgoing+"\nisradnomgoingright="+israndomgoingright;
 	}
 
-	@Override
-    public double getRunningMin()
-    {
-        return runningMin;
-    }
-
-    @Override
-    public double getRunningMax()
-    {
-        return runningMax;
-    }
-
-    @Override
-    public double getJumpPower()
-    {
-        return jumpPower;
-    }
-
-    @Override
-    public double getRunPower()
-    {
-        return runPower;
-    }
-
-    @Override
-    public double getTriggerRadius()
-    {
-        return triggerRadius;
-    }
-    
     private void dropGunPowder()
     {
         int amount = new Random().nextInt(2);

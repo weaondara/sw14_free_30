@@ -141,12 +141,6 @@ public class Skeleton extends HostileEntity
         return runPower;
     }
 
-    @Override
-    public double getTriggerRadius()
-    {
-        return triggerRadius;
-    }
-    
     private void dropBones()
     {
         int amount = new Random().nextInt(2);

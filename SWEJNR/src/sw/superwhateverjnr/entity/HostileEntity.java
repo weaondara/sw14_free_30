@@ -69,7 +69,6 @@ public abstract class HostileEntity extends Entity
     public abstract double getRunningMax();
     public abstract double getJumpPower();
     public abstract double getRunPower();
-    public abstract double getTriggerRadius();
     
 	public HostileEntity(EntityType type, Location location, Map<String, Object> extraData)
 	{
@@ -96,7 +95,7 @@ public abstract class HostileEntity extends Entity
     protected void seePlayer()
     {
     	Player p = Game.getInstance().getPlayer();
-        if(p.getLocation().distance(location) < getTriggerRadius())
+        if(p.getLocation().distance(location) < triggerRadius)
         {
             seesPlayer = p.getHitBox().translatedTo(p.getLocation()).visibleFrom(location.add(0, getEyeHeight()));
         }

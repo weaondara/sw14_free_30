@@ -146,10 +146,4 @@ public class Zombie extends HostileEntity
     {
         return runPower;
     }
-
-    @Override
-    public double getTriggerRadius()
-    {
-        return triggerRadius;
-    }
 }
