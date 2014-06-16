@@ -112,7 +112,7 @@ public class Zombie extends HostileEntity
 		}
 	}
 	*/
-	private void tickMove()
+	protected void tickMove()
 	{
 		if(location==null || world()==null)
 		{
@@ -199,22 +199,26 @@ public class Zombie extends HostileEntity
 		
 		try
 		{
-		Location l3=new Location(x+playerwidth/2,location.getY());
-		Location l4=new Location(x+playerwidth/2,location.getY()+1);
-		Block b3=world().getBlockAt(l3);
-		Block b4=world().getBlockAt(l4);
-		if(b3.getType().isSolid() || b4.getType().isSolid())
-		{
-			if(velocity.getX()>0)
-			{
-				x=Math.floor(x+playerwidth/2)-playerwidth/2;
-				velocity.setX(0);
-			}
-		}
-	}catch(Exception e){}
-		
-		location.setX(x);
-	}
+            Location l3=new Location(x+playerwidth/2,location.getY());
+            Location l4=new Location(x+playerwidth/2,location.getY()+1);
+            Block b3=world().getBlockAt(l3);
+            Block b4=world().getBlockAt(l4);
+            if(b3.getType().isSolid() || b4.getType().isSolid())
+            {
+                if(velocity.getX()>0)
+                {
+                    x=Math.floor(x+playerwidth/2)-playerwidth/2;
+                    velocity.setX(0);
+                }
+            }
+        }
+        catch(Exception e)
+        {
+        }
+
+        location.setX(x);
+        super.tickMove();
+    }
 
     @Override
     protected void attack()

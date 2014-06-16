@@ -313,7 +313,7 @@ public class Creeper extends HostileEntity
 		{
 			israndomgoing = false;
 		}
-//	}
+    }
 //	protected void jumpIfWall()
 //	{
 //		if (isgoinghorizontal || israndomgoing)

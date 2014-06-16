@@ -57,6 +57,10 @@ public abstract class HostileEntity extends Entity
         {
             seesPlayer = p.getHitBox().translatedTo(p.getLocation()).visibleFrom(new Location(location.getX()+getEyeHeight(),location.getY()));
         }
+        else
+        {
+            seesPlayer = false;
+        }
     }
     
     protected void calculateMovement()
