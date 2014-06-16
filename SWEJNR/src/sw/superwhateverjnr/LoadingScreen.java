@@ -34,7 +34,7 @@ public class LoadingScreen implements Runnable
 			
 			if(loadstatus != null)
 			{
-				loading.post(new Runnable()
+				calling.runOnUiThread(new Runnable()
 				{
 					@Override
 					public void run()
@@ -48,7 +48,7 @@ public class LoadingScreen implements Runnable
 			Thread.sleep(10);
 		}
 		
-		loading.post(new Runnable()
+		calling.runOnUiThread(new Runnable()
 		{
 			@Override
 			public void run()
