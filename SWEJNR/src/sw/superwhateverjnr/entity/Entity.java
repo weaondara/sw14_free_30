@@ -109,6 +109,7 @@ public abstract class Entity
 	protected Map<String, Object> extraData;
 	
 	protected long ticksLived;
+    protected DamageCause lastDamageCause;
 	
 	//-------------------------- properties ------------------------------
     @Getter
@@ -306,6 +307,7 @@ public abstract class Entity
             {
                 velocity.setX(1/0.1*(1+(distance*distance)));
             }
+            lastDamageCause = cause;
         }
     }
 	
