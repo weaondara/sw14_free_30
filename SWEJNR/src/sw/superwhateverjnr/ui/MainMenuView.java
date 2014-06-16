@@ -82,23 +82,41 @@ public class MainMenuView extends BackgroundView implements View.OnTouchListener
         float currentheight=displayHeight*55/100;
         
         buttons=new ArrayList<MainMenuButton>();
-        buttons.add(new MainMenuButton(NEW_GAME,"New Game",xleft, (int) currentheight, width, (int) height, Align.LEFT, SWEJNR.DEBUG));
-        
-        currentheight+=height+ymargin;
-        buttons.add(new MainMenuButton(CONTINUE_GAME,"Continue Game",xleft, (int) currentheight, width, (int) height, Align.LEFT, SWEJNR.DEBUG));
-        
-        currentheight+=height+ymargin;
-        buttons.add(new MainMenuButton(RANDOM_GAME,"Random Game",xleft, (int) currentheight, width, (int) height, Align.LEFT, true));
-        
-        
-        currentheight=displayHeight*(55+(BUTTON_HEIGHT+BUTTON_MARGIN)/2)/100;
-        buttons.add(new MainMenuButton(SETTINGS,"Settings",xright, (int) currentheight, width, (int) height, Align.RIGHT, true));
-
-        currentheight+=height+ymargin;
-        buttons.add(new MainMenuButton(CREDITS,"Credits",xright, (int) currentheight, width, (int) height, Align.RIGHT, true));
-
-        currentheight+=height+ymargin;
-        buttons.add(new MainMenuButton(QUIT_GAME,"Quit Game",xright, (int) currentheight, width, (int) height, Align.RIGHT, true));
+        if(SWEJNR.DEBUG)
+        {
+	        buttons.add(new MainMenuButton(NEW_GAME,"New Game",xleft, (int) currentheight, width, (int) height, Align.LEFT, SWEJNR.DEBUG));
+	        
+	        currentheight+=height+ymargin;
+	        buttons.add(new MainMenuButton(CONTINUE_GAME,"Continue Game",xleft, (int) currentheight, width, (int) height, Align.LEFT, SWEJNR.DEBUG));
+	        
+	        currentheight+=height+ymargin;
+	        buttons.add(new MainMenuButton(RANDOM_GAME,"Random Game",xleft, (int) currentheight, width, (int) height, Align.LEFT, true));
+	        
+	        
+	        currentheight=displayHeight*(55+(BUTTON_HEIGHT+BUTTON_MARGIN)/2)/100;
+	        buttons.add(new MainMenuButton(SETTINGS,"Settings",xright, (int) currentheight, width, (int) height, Align.RIGHT, true));
+	
+	        currentheight+=height+ymargin;
+	        buttons.add(new MainMenuButton(CREDITS,"Credits",xright, (int) currentheight, width, (int) height, Align.RIGHT, true));
+	
+	        currentheight+=height+ymargin;
+	        buttons.add(new MainMenuButton(QUIT_GAME,"Quit Game",xright, (int) currentheight, width, (int) height, Align.RIGHT, true));
+        }
+        else
+        {
+	        currentheight+=height+ymargin;
+	        buttons.add(new MainMenuButton(RANDOM_GAME,"New Game",xleft, (int) currentheight, width, (int) height, Align.LEFT, true));
+	        
+	        currentheight+=height+ymargin;
+	        buttons.add(new MainMenuButton(SETTINGS,"Settings",xleft, (int) currentheight, width, (int) height, Align.LEFT, true));
+	
+	        currentheight=displayHeight*(55+(BUTTON_HEIGHT+BUTTON_MARGIN)/2)/100;
+	        currentheight+=height+ymargin;
+	        buttons.add(new MainMenuButton(CREDITS,"Credits",xright, (int) currentheight, width, (int) height, Align.RIGHT, true));
+	
+	        currentheight+=height+ymargin;
+	        buttons.add(new MainMenuButton(QUIT_GAME,"Quit Game",xright, (int) currentheight, width, (int) height, Align.RIGHT, true));
+        }
     }
     
     private Paint paint=new Paint();
