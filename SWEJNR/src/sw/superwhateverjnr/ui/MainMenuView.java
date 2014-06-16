@@ -82,10 +82,10 @@ public class MainMenuView extends BackgroundView implements View.OnTouchListener
         float currentheight=displayHeight*55/100;
         
         buttons=new ArrayList<MainMenuButton>();
-        buttons.add(new MainMenuButton(NEW_GAME,"New Game",xleft, (int) currentheight, width, (int) height, Align.LEFT, false));
+        buttons.add(new MainMenuButton(NEW_GAME,"New Game",xleft, (int) currentheight, width, (int) height, Align.LEFT, SWEJNR.DEBUG));
         
         currentheight+=height+ymargin;
-        buttons.add(new MainMenuButton(CONTINUE_GAME,"Continue Game",xleft, (int) currentheight, width, (int) height, Align.LEFT, false));
+        buttons.add(new MainMenuButton(CONTINUE_GAME,"Continue Game",xleft, (int) currentheight, width, (int) height, Align.LEFT, SWEJNR.DEBUG));
         
         currentheight+=height+ymargin;
         buttons.add(new MainMenuButton(RANDOM_GAME,"Random Game",xleft, (int) currentheight, width, (int) height, Align.LEFT, true));
