@@ -7,11 +7,13 @@ import sw.superwhateverjnr.SWEJNR;
 import sw.superwhateverjnr.block.Block;
 import sw.superwhateverjnr.block.Material;
 import sw.superwhateverjnr.entity.Creeper;
+import sw.superwhateverjnr.entity.Drop;
 import sw.superwhateverjnr.entity.Entity;
 import sw.superwhateverjnr.entity.EntityType;
 import sw.superwhateverjnr.entity.Player;
 import sw.superwhateverjnr.entity.Skeleton;
 import sw.superwhateverjnr.entity.Zombie;
+import sw.superwhateverjnr.texture.ItemTexture;
 import sw.superwhateverjnr.texture.Texture;
 import sw.superwhateverjnr.texture.TextureMap;
 import sw.superwhateverjnr.texture.entity.CreeperTexture;
@@ -104,6 +106,9 @@ public class Renderer extends RendererBase
 						break;
 					case SKELETON:
 						drawSkeleton((Skeleton) e);
+						break;
+					case DROPPED_ITEM:
+						drawItem((Drop) e);
 						break;
 					default:
 						break;
@@ -493,6 +498,49 @@ public class Renderer extends RendererBase
 			matrix.postTranslate(left, top);
 			canvas.drawBitmap(pt.getLeftLegLeft(), matrix, paint);
 		}
+	}
+	@Override
+	protected void drawItem(Drop c)
+	{
+		Location l=c.getLocation();
+		if(l==null)
+		{
+			return;
+		}
+		
+		float itemwidth=8;
+		float itemheight=8;
+		
+		float blocksize=16;
+
+		blocksize*=1/(c.getHitBox().getMax().getY()-c.getHitBox().getMin().getY());
+		
+		
+		paint.setStyle(Style.FILL);
+		paint.setColor(0xFF000000);
+
+		float x=(float) (leftoffset+(l.getX()-x1)*game.getTextureSize());
+		float y=(float) (topoffset+(y2-l.getY())*game.getTextureSize());
+
+		float playerwidh=(float) (Math.abs(c.getHitBox().getMin().getX()-c.getHitBox().getMax().getX())*game.getTextureSize());
+		float playerheight=(float) (Math.abs(c.getHitBox().getMin().getY()-c.getHitBox().getMax().getY())*game.getTextureSize());
+		
+		float ytop=y-playerheight;
+		
+		Matrix matrix = new Matrix();
+		
+		ItemTexture pt=(ItemTexture) TextureMap.getTexture(c.getDropType().getId());
+		pt.scale(game.getTextureSize()/64*itemwidth/blocksize);
+		
+		//head
+		float left=x-game.getTextureSize()*(itemwidth/blocksize)/2;
+		float right=x+game.getTextureSize()*(itemwidth/blocksize)/2;
+		float bottom=ytop+(itemheight/blocksize)*game.getTextureSize();
+		float top=ytop;
+		
+		matrix.setRotate(0, 0, 0);
+		matrix.postTranslate(left, top);
+		canvas.drawBitmap(pt.getImage(), matrix, paint);
 	}
 	@Override
 	protected void drawPlayer()

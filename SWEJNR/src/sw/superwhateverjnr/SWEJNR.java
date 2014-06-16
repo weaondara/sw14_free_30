@@ -9,7 +9,6 @@ import java.io.InputStream;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import sw.superwhateverjnr.entity.EntityType;
-import sw.superwhateverjnr.settings.Settings;
 import sw.superwhateverjnr.texture.PackedTextureLoader;
 import sw.superwhateverjnr.texture.Texture;
 import sw.superwhateverjnr.texture.TextureLoader;
@@ -115,6 +114,10 @@ public class SWEJNR extends Application implements Runnable
 		TextureMap.loadTexture(EntityType.CREEPER,textureLoader);
 		TextureMap.loadTexture(EntityType.ZOMBIE,textureLoader);
 		TextureMap.loadTexture(EntityType.SKELETON,textureLoader);
+
+		TextureMap.loadTexture(367,textureLoader);
+		TextureMap.loadTexture(289,textureLoader);
+		TextureMap.loadTexture(352,textureLoader);
 	}
 
 	@Override

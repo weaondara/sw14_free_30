@@ -10,16 +10,18 @@ import sw.superwhateverjnr.world.Location;
 
 public class Drop extends Entity
 {
+	@Getter
     private int points;
-    DropType droptype;
+	@Getter
+    private DropType dropType;
     
     @Getter
     @RequiredArgsConstructor
     public enum DropType
     {
-        ROTTEN_FLESH(0),
-        BONES(1),
-        GUNPOWDER(2);
+        ROTTEN_FLESH(367),
+        BONES(352),
+        GUNPOWDER(289);
         
         @NonNull
         private int id;
@@ -38,7 +40,7 @@ public class Drop extends Entity
     {
         super(type, location, extraData);
         points = (Integer)extraData.get("points");
-        droptype = (DropType)extraData.get("type");
+        dropType = (DropType)extraData.get("type");
     }
     
     protected void die()

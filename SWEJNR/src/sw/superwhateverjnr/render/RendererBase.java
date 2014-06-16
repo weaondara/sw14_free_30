@@ -10,6 +10,7 @@ import lombok.Getter;
 import sw.superwhateverjnr.Game;
 import sw.superwhateverjnr.SWEJNR;
 import sw.superwhateverjnr.entity.Creeper;
+import sw.superwhateverjnr.entity.Drop;
 import sw.superwhateverjnr.entity.Entity;
 import sw.superwhateverjnr.entity.Skeleton;
 import sw.superwhateverjnr.entity.Zombie;
@@ -166,6 +167,7 @@ public abstract class RendererBase
 	protected abstract void drawCreeper(Creeper c);
 	protected abstract void drawZombie(Zombie c);
 	protected abstract void drawSkeleton(Skeleton c);
+	protected abstract void drawItem(Drop c);
 	protected abstract void drawPlayer();
 	protected abstract void drawInfo();
 	protected void drawControls()

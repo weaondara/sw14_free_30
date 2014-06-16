@@ -136,6 +136,9 @@ public class GLGameView extends GLSurfaceView implements SurfaceHolder.Callback,
 
         gl.glOrthof(0, 0, width, height, -1F, 1);
         gl.glLoadIdentity();
+        
+        gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+		gl.glEnable(GL10.GL_BLEND);
 	}
 	@Override
 	public void onSurfaceCreated(GL10 gl, EGLConfig config)

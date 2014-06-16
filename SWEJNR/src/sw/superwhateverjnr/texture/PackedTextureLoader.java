@@ -22,6 +22,7 @@ public class PackedTextureLoader implements TextureLoader
 {
 	private static Map<IdAndSubId, String> idpathmapblock;
 	private static Map<EntityType, String> idpathmapentity;
+	private static Map<Integer, String> idpathmapitem;
 	static
 	{
 		idpathmapblock=new HashMap<IdAndSubId, String>();
@@ -67,6 +68,11 @@ public class PackedTextureLoader implements TextureLoader
 		idpathmapentity.put(EntityType.CREEPER, "textures/entity/creeper.png");
 		idpathmapentity.put(EntityType.ZOMBIE, "textures/entity/zombie.png");
 		idpathmapentity.put(EntityType.SKELETON, "textures/entity/skeleton.png");
+
+		idpathmapitem=new HashMap<Integer, String>();
+		idpathmapitem.put(367, "textures/items/rotten_flesh.png");
+		idpathmapitem.put(289, "textures/items/gunpowder.png");
+		idpathmapitem.put(352, "textures/items/bone.png");
 	}
 	@Override
 	public BlockTexture loadTexture(IdAndSubId ref) throws IOException
@@ -83,6 +89,7 @@ public class PackedTextureLoader implements TextureLoader
 		Bitmap bm=BitmapFactory.decodeStream(is);
 		if(bm==null)
 		{
+			System.out.println("bitmap null");
 			return null;
 		}
 		
@@ -127,6 +134,28 @@ public class PackedTextureLoader implements TextureLoader
 				tex=new EntityTexture(ref, bm.getWidth(),bm.getHeight(), bm);
 				break;
 		}
+		return tex;
+	}
+	@Override
+	public ItemTexture loadTexture(Integer ref) throws IOException
+	{
+		Preconditions.checkNotNull(ref);
+		
+		String file=idpathmapitem.get(ref);
+		if(file==null)
+		{
+			file="dummy/textures/error.png";
+		}
+		
+		InputStream is=SWEJNR.getInstance().getResources().getAssets().open(file);
+		Bitmap bm=BitmapFactory.decodeStream(is);
+		if(bm==null)
+		{
+			System.out.println("bitmap null");
+			return null;
+		}
+		
+		ItemTexture tex=new ItemTexture(ref, bm.getWidth(),bm.getHeight(), bm);
 		return tex;
 	}
 }
