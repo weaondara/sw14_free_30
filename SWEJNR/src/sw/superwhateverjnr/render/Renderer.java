@@ -508,8 +508,8 @@ public class Renderer extends RendererBase
 			return;
 		}
 		
-		float itemwidth=8;
-		float itemheight=8;
+		float itemwidth=12;
+		float itemheight=12;
 		
 		float blocksize=16;
 
