@@ -82,7 +82,6 @@ public class Creeper extends HostileEntity
 	public void tick()
 	{
 		super.tick();
-		stopIfLava();
 		stopIfTooHigh();
 		trigger();
 		seePlayer();
@@ -314,46 +313,46 @@ public class Creeper extends HostileEntity
 		{
 			israndomgoing = false;
 		}
-	}
-	protected void jumpIfWall()
-	{
-		if (isgoinghorizontal || israndomgoing)
-		{
-			double playerx = player.getLocation().getX();
-			double playery = player.getLocation().getY();
-			double monsterx = getLocation().getX();
-			double monstery = getLocation().getY();
-			double addx = 0.6;
-			double addy = 0.0;
-			
-			//System.out.println("playerx="+roundNumber(playerx,3)+"   playery="+roundNumber(playery,3)+"   monsterx="+roundNumber(monsterx,3)+"   monstery="+roundNumber(monstery,3)+"   addx="+addx+"   addy="+addy);
-			if ((monsterx >= 1) && (monsterx <= game.getWorld().getWidth() - 1) && (monstery >= 0))
-			{
-				Material materialx0y0 = game.getWorld().getBlockAt(new Location(monsterx, monstery + addy)).getType();
-				Material materialxp1y0 = game.getWorld().getBlockAt(new Location(monsterx + addx, monstery + addy)).getType();
-				Material materialxp1yp1 = game.getWorld().getBlockAt(new Location(monsterx + addx, monstery + 1.0)).getType();
-				Material materialxm1y0 = game.getWorld().getBlockAt(new Location(monsterx - addx, monstery + addy)).getType();
-				Material materialxm1yp1 = game.getWorld().getBlockAt(new Location(monsterx - addx, monstery + 1.0)).getType();
-				
-				boolean isgoingrighttrue = isgoingright && isgoinghorizontal;
-				boolean isgoinglefttrue = !isgoingright && isgoinghorizontal;
-				boolean israndomgoingrighttrue = israndomgoingright && israndomgoing;
-				boolean israndomgoinglefttrue = !israndomgoingright && israndomgoing;
-				boolean isplayerpropertiesrighttrue = !player.isOnGround() || (!istoohighright && (MathHelper.absoluteDifference(playerx, monsterx) > 0.5));
-				boolean isplayerpropertieslefttrue  = !player.isOnGround() || ( !istoohighleft && (MathHelper.absoluteDifference(playerx, monsterx) > 0.5));
-				boolean ismaterialxp1true = (materialxp1y0 != materialx0y0) && (materialxp1yp1 == materialx0y0);
-				boolean ismaterialxm1true = (materialxm1y0 != materialx0y0) && (materialxm1yp1 == materialx0y0);
-				
-				boolean statement1 = ((isgoingrighttrue && isplayerpropertiesrighttrue) || israndomgoingrighttrue) && ismaterialxp1true;
-				boolean statement2 = (( isgoinglefttrue &&  isplayerpropertieslefttrue) ||  israndomgoinglefttrue) && ismaterialxm1true;
-				
-				if (statement1 || statement2)
-				{
-					jump();
-				}
-			}
-		}
-	}
+//	}
+//	protected void jumpIfWall()
+//	{
+//		if (isgoinghorizontal || israndomgoing)
+//		{
+//			double playerx = player.getLocation().getX();
+//			double playery = player.getLocation().getY();
+//			double monsterx = getLocation().getX();
+//			double monstery = getLocation().getY();
+//			double addx = 0.6;
+//			double addy = 0.0;
+//			
+//			//System.out.println("playerx="+roundNumber(playerx,3)+"   playery="+roundNumber(playery,3)+"   monsterx="+roundNumber(monsterx,3)+"   monstery="+roundNumber(monstery,3)+"   addx="+addx+"   addy="+addy);
+//			if ((monsterx >= 1) && (monsterx <= game.getWorld().getWidth() - 1) && (monstery >= 0))
+//			{
+//				Material materialx0y0 = game.getWorld().getBlockAt(new Location(monsterx, monstery + addy)).getType();
+//				Material materialxp1y0 = game.getWorld().getBlockAt(new Location(monsterx + addx, monstery + addy)).getType();
+//				Material materialxp1yp1 = game.getWorld().getBlockAt(new Location(monsterx + addx, monstery + 1.0)).getType();
+//				Material materialxm1y0 = game.getWorld().getBlockAt(new Location(monsterx - addx, monstery + addy)).getType();
+//				Material materialxm1yp1 = game.getWorld().getBlockAt(new Location(monsterx - addx, monstery + 1.0)).getType();
+//				
+//				boolean isgoingrighttrue = isgoingright && isgoinghorizontal;
+//				boolean isgoinglefttrue = !isgoingright && isgoinghorizontal;
+//				boolean israndomgoingrighttrue = israndomgoingright && israndomgoing;
+//				boolean israndomgoinglefttrue = !israndomgoingright && israndomgoing;
+//				boolean isplayerpropertiesrighttrue = !player.isOnGround() || (!istoohighright && (MathHelper.absoluteDifference(playerx, monsterx) > 0.5));
+//				boolean isplayerpropertieslefttrue  = !player.isOnGround() || ( !istoohighleft && (MathHelper.absoluteDifference(playerx, monsterx) > 0.5));
+//				boolean ismaterialxp1true = (materialxp1y0 != materialx0y0) && (materialxp1yp1 == materialx0y0);
+//				boolean ismaterialxm1true = (materialxm1y0 != materialx0y0) && (materialxm1yp1 == materialx0y0);
+//				
+//				boolean statement1 = ((isgoingrighttrue && isplayerpropertiesrighttrue) || israndomgoingrighttrue) && ismaterialxp1true;
+//				boolean statement2 = (( isgoinglefttrue &&  isplayerpropertieslefttrue) ||  israndomgoinglefttrue) && ismaterialxm1true;
+//				
+//				if (statement1 || statement2)
+//				{
+//					jump();
+//				}
+//			}
+//		}
+//	}
 	protected void stopIfTooHigh()
 	{
 		double monsterx = getLocation().getX();
@@ -468,7 +467,7 @@ public class Creeper extends HostileEntity
 			lookingRight = false;
 		}
 	}	
-	private void tickMove()
+	protected void tickMove()
 	{
 		if(location==null || world()==null)
 		{
@@ -572,6 +571,7 @@ public class Creeper extends HostileEntity
 		catch(Exception e){}
 			
 		location.setX(x);
+        super.tickMove();
     }
 	public String getDebugInfo()
 	{

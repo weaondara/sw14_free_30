@@ -2,6 +2,7 @@ package sw.superwhateverjnr.entity;
 
 import java.util.Map;
 import sw.superwhateverjnr.Game;
+import sw.superwhateverjnr.block.Material;
 import sw.superwhateverjnr.world.Location;
 
 public abstract class HostileEntity extends Entity
@@ -25,6 +26,7 @@ public abstract class HostileEntity extends Entity
     protected MovementType movement;
     protected boolean seesPlayer = false;
     protected double triggerDistance;
+    protected boolean jumps;
     
 	public HostileEntity(EntityType type, Location location, Map<String, Object> extraData)
 	{
@@ -42,8 +44,9 @@ public abstract class HostileEntity extends Entity
         super.tick();
         seePlayer();
         calculateMovement();
-        move();
+        tickMove();
         attack();
+        reevaluateMovement();
     }
     
     protected void seePlayer()
@@ -61,8 +64,13 @@ public abstract class HostileEntity extends Entity
         if(seesPlayer)
         {
             movement = MovementType.FOLLOW;
-        }
+        } 
+        evaluateDirection();
         stopIfTooHigh();
+    }
+       
+    protected void evaluateDirection()
+    {
         switch(movement)
         {
             case FOLLOW:
@@ -81,20 +89,19 @@ public abstract class HostileEntity extends Entity
                 break;
         }
     }
-        
+    protected void reevaluateMovement()
+    {
+        if(movement == MovementType.STAY)
+        {
+            movement = MovementType.RANDOM;
+        }
+        jumps = false;
+    }
+    
     protected void stopIfTooHigh()
     {
-        int viewDepth = Math.min(location.getY(), 4);
-        double addx;
-        switch(direction)
-        {
-            case LEFT:
-                addx = -0.5;
-                break;
-            case RIGHT:
-                addx = 0.5;
-                break;
-        }        
+        int viewDepth = Math.min(location.getBlockY(), 4);
+        double addx = direction == Direction.LEFT ? -0.5 : 0.5;
         for(int i = 0; i < viewDepth; i++)
         {
             if(Game.getInstance().getWorld().getBlockAt(location.add(addx, -i)).getType().isSolid())
@@ -105,9 +112,19 @@ public abstract class HostileEntity extends Entity
         }
     }
     
-    protected void move()
+    protected void jumpIfWall()
     {
-        return;
+        double addx = direction == Direction.LEFT ? -0.5 : 0.5;
+        jumps = Game.getInstance().getWorld().getBlockAt(location.add(addx, 0)).getType().isSolid() && 
+                Game.getInstance().getWorld().getBlockAt(location.add(addx, 1)).getType() == Material.AIR;
+    }
+    
+    protected void tickMove()
+    {
+        if(jumps)
+        {
+            jump();
+        }
     }
     protected abstract void attack();
 }
