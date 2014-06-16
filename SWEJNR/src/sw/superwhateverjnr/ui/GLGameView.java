@@ -161,6 +161,12 @@ public class GLGameView extends GLSurfaceView implements SurfaceHolder.Callback,
 			bindable.add(gltex);
 		}
 		
+		for(Entry<Integer, Texture> e:TextureMap.getItems().entrySet())
+		{
+			GLTex gltex=new GLTex(e.getKey(), e.getValue().getOrgimage());
+			bindable.add(gltex);
+		}
+		
 		GLTex gltex;
 		
 		//player
