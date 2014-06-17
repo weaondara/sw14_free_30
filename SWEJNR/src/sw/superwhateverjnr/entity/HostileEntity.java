@@ -7,6 +7,7 @@ import sw.superwhateverjnr.block.Block;
 import sw.superwhateverjnr.block.Material;
 import sw.superwhateverjnr.util.Rectangle;
 import sw.superwhateverjnr.world.Location;
+import sw.superwhateverjnr.world.World;
 
 public abstract class HostileEntity extends Entity
 {
@@ -181,7 +182,8 @@ public abstract class HostileEntity extends Entity
         double addx = direction == Direction.LEFT ? -0.75 : 0.75;
         for(int i = 1; i <= viewDepth; i++)
         {
-            if(Game.getInstance().getWorld().getBlockAt(location.add(addx, -i)).getType().isSolid())
+        	Location l=location.add(addx, -i);
+            if(l.isInsideWorld(Game.getInstance().getWorld()) && Game.getInstance().getWorld().getBlockAt(l).getType().isSolid())
             {
                 stop = false;
             }
@@ -194,9 +196,10 @@ public abstract class HostileEntity extends Entity
     
     protected void jumpIfWall()
     {
+    	World w=Game.getInstance().getWorld();
         double addx = direction == Direction.LEFT ? -0.5 : 0.5;
-        jumps = Game.getInstance().getWorld().getBlockAt(location.add(addx, 0)).getType().isSolid() && 
-                Game.getInstance().getWorld().getBlockAt(location.add(addx, 1)).getType() == Material.AIR;
+        jumps = location.add(addx, 0).isInsideWorld(w) && w.getBlockAt(location.add(addx, 0)).getType().isSolid() && 
+        		location.add(addx, 1).isInsideWorld(w) && w.getBlockAt(location.add(addx, 1)).getType() == Material.AIR;
     }
     
     protected void tickMove()
