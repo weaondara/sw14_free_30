@@ -59,7 +59,8 @@ public abstract class HostileEntity extends Entity
         FOLLOW;
     }
         
-    protected int lastRandomWalkDuration = 0;
+    protected int randomWalkDuration = 0;
+    protected int stayDuration = 0;
     protected Direction direction;
     protected MovementType movement;
     protected boolean seesPlayer = false;
@@ -110,9 +111,9 @@ public abstract class HostileEntity extends Entity
         {
             movement = MovementType.FOLLOW;
         }
-        else
+        else if(movement == MovementType.FOLLOW)
         {
-        	movement = MovementType.RANDOM;
+            movement = MovementType.STAY;
         }
         stopIfTooHigh();
         jumpIfWall();
@@ -134,29 +135,37 @@ public abstract class HostileEntity extends Entity
                 }
                 break;
             case RANDOM:
-                if(lastRandomWalkDuration==0)
+                if(randomWalkDuration==0)
                 {
                     Random r = new Random();
                     direction = Direction.fromBool(r.nextBoolean());
-                    lastRandomWalkDuration = r.nextInt(80) + 20;
+                    randomWalkDuration = r.nextInt(80) + 20;
                 }
                 else
                 {
-                    lastRandomWalkDuration--;
+                    randomWalkDuration--;
                 }
                 break;
             case STAY:
-                for(int i = 0; i < lastDirections.length; i++)
+                if(stayDuration == 0)
                 {
-                    lastDirections[i] = null;
+                    stayDuration = new Random().nextInt(80)+20;
+                }
+                else
+                {
+                    stayDuration--;
                 }
         }
     }
     protected void reevaluateMovement()
     {
-        if(movement == MovementType.STAY)
+        if(movement == MovementType.STAY && stayDuration == 0)
         {
             movement = MovementType.RANDOM;
+        }
+        else if(movement == MovementType.RANDOM && randomWalkDuration == 0)
+        {
+            movement = MovementType.STAY;
         }
         jumps = false;
     }
