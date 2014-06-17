@@ -57,24 +57,25 @@ public class Location implements Cloneable
     {
         World w = Game.getInstance().getWorld();
         int iterations = 100;
-        int thisx = this.getBlockX();
-        int thisy = this.getBlockY();
-        int lastx = thisx;
-        int lasty = thisy;
-        int viewx = viewPoint.getBlockX();
-        int viewy = viewPoint.getBlockY();
+        double thisx = this.getX();
+        double thisy = this.getY();
+        double lastx = thisx;
+        double lasty = thisy;
+        double viewx = viewPoint.getX();
+        double viewy = viewPoint.getY();
         double dx = (viewx - thisx)/(double)iterations;
         double dy = (viewy - thisy)/(double)iterations;
         
         for(int i=0; i<iterations; i++)
         {
-            thisx = thisx + (int)(i*dx);
-            thisy = thisy + (int)(i*dy);
-            if(thisx != lastx || thisy != lasty)
+            thisx += dx;
+            thisy += dy;
+            if((int)thisx != (int)lastx || (int)thisy != (int)lasty)
             {
                 lastx = thisx;
                 lasty = thisy;
-                if(!w.getBlockAt(thisx, thisy).getType().translucent())
+                Location l=new Location(thisx, thisy);
+                if(!l.isInsideWorld(w) || !w.getBlockAt(l).getType().translucent())
                 {
                     return false;
                 }
