@@ -101,6 +101,6 @@
        android:summary="Use software rendering instead of OpenGL"
        android:key="prefSoftwareRendering"
        android:persistent="true"
-       android:defaultValue="false"/>
+       android:defaultValue="true"/>
   </PreferenceCategory>
 </PreferenceScreen>
