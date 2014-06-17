@@ -59,7 +59,7 @@ public abstract class HostileEntity extends Entity
         FOLLOW;
     }
         
-    protected Direction[] lastDirections;
+    protected int lastRandomWalkDuration = 0;
     protected Direction direction;
     protected MovementType movement;
     protected boolean seesPlayer = false;
@@ -77,7 +77,6 @@ public abstract class HostileEntity extends Entity
 	public HostileEntity(int id, EntityType type, Location location, Map<String, Object> extraData)
 	{
 		super(id, type, location, extraData);
-        lastDirections = new Direction[3];
         movement = MovementType.RANDOM;
         direction = Direction.LEFT;
 	}
@@ -135,13 +134,15 @@ public abstract class HostileEntity extends Entity
                 }
                 break;
             case RANDOM:
-                if(lastDirections[0] == null || lastDirections[0] != lastDirections[1] || lastDirections[0] != lastDirections[2])
+                if(lastRandomWalkDuration==0)
                 {
-                    direction = Direction.fromBool(new Random().nextBoolean());
+                    Random r = new Random();
+                    direction = Direction.fromBool(r.nextBoolean());
+                    lastRandomWalkDuration = r.nextInt(80) + 20;
                 }
                 else
                 {
-                    direction = lastDirections[0].opposite();
+                    lastRandomWalkDuration--;
                 }
                 break;
             case STAY:
