@@ -17,7 +17,7 @@ import sw.superwhateverjnr.util.IdAndSubId;
 
 public class SWEJNR extends Application implements Runnable
 {
-	public final static boolean DEBUG = true;
+	public final static boolean DEBUG = false;
 	
 	@Getter
 	private static SWEJNR instance;
