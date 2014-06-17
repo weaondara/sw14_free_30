@@ -83,7 +83,7 @@ public class Creeper extends HostileEntity
 	@SneakyThrows
 	protected void attack()
 	{
-		if (!istriggerexplosion && (location.distance(player.location) <= triggerradiusexplosion) && !isbehindblocks)
+		if (!istriggerexplosion && (location.distance(player.location) <= triggerradiusexplosion) && seesPlayer)
 		{
 			istriggertimer = true;
 			long now=System.currentTimeMillis();
@@ -109,7 +109,7 @@ public class Creeper extends HostileEntity
     
 	public String getDebugInfo()
 	{
-		return super.getDebugInfo()+"\nisindistance="+isindistance+"\nisbehindblock"+isbehindblocks+"\ncountdown="+MathHelper.roundNumber(triggerexplosiontime[0], 3)+"\nisgoing="+isgoinghorizontal+"\nisgoingright="+isgoingright+"\nisradnomgoing="+israndomgoing+"\nisradnomgoingright="+israndomgoingright;
+		return super.getDebugInfo()+"\ncountdown="+MathHelper.roundNumber(triggerexplosiontime[0], 3);
 	}
 
     private void dropGunPowder()
