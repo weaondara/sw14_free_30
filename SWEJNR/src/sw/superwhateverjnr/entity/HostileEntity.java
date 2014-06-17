@@ -121,6 +121,7 @@ public abstract class HostileEntity extends Entity
         evaluateDirection();
         stopIfTooHigh();
         jumpIfWall();
+        lookingRight = direction.toBool();
     }
        
     protected void evaluateDirection()
@@ -177,7 +178,7 @@ public abstract class HostileEntity extends Entity
     {
         int viewDepth = Math.min(location.getBlockY(), 4);
         boolean stop = true;
-        double addx = direction == Direction.LEFT ? -1 : 1;
+        double addx = direction == Direction.LEFT ? -0.75 : 0.75;
         for(int i = 1; i <= viewDepth; i++)
         {
             if(Game.getInstance().getWorld().getBlockAt(location.add(addx, -i)).getType().isSolid())

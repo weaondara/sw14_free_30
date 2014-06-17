@@ -8,7 +8,6 @@ import sw.superwhateverjnr.block.Block;
 import sw.superwhateverjnr.block.BlockFactory;
 import sw.superwhateverjnr.block.Material;
 import sw.superwhateverjnr.util.MathHelper;
-//import static sw.superwhateverjnr.util.MathHelper.isInTolerance;
 import sw.superwhateverjnr.util.Rectangle;
 import sw.superwhateverjnr.world.Location;
 import sw.superwhateverjnr.world.World;
@@ -52,37 +51,7 @@ public class Creeper extends HostileEntity
 	
 	private final static double radius = 6.0;
 	private final static double triggerradiusexplosion = 2.0;
-	private double distance = 0.0;
-	
-	private double playerprevx = 0.0;
-	private double playerprevy = 0.0;
-	private double monsterprevx = 0.0;
-	private double monsterprevy = 0.0;
-	
-	private boolean isbehindblocks = false;
-	private boolean isindistance = false;
-	private boolean istriggeredonce = false;
-	private boolean islavainfront = false;
-	private boolean istoohighleft = false;
-	private boolean istoohighright = false;
-	
-	private boolean ismonsterstayingstill = false;
-
-	private boolean isgoingright = false;
-	private boolean isgoinghorizontal = false;
-	private boolean isgoingup = false;
-	private boolean isgoingvertical = false;
-	
-	private double[] randomtimewalk = {0.0, 0.0};
-	private int counterright = 0;
-	private int counterleft = 0;
-	private boolean israndomgoing = false;
-	private boolean israndomgoingright = false;
-	
-	private double[] randomtimejump = {0.0, 0.0};
-	private boolean israndomjump = false;
-	private boolean israndomjumpcompleted = false;
-	
+    
 	private double[] triggerexplosiontime = {0.0, 2.0};
 	private boolean istriggertimer = false;
 	private boolean istriggerexplosion = false;
@@ -122,12 +91,10 @@ public class Creeper extends HostileEntity
 			if (lasttriggerinttime < (int)triggerexplosiontime[0])
 			{
 				lasttriggerinttime = (int)triggerexplosiontime[0];
-				//System.out.println("Countdown = "+((int)triggerexplosiontime[1]-lasttriggerinttime));
 			}
 			if (triggerexplosiontime[0] > triggerexplosiontime[1])
 			{
 				istriggerexplosion = !istriggerexplosion;
-				//System.out.println("BOOOOOOOOOOOOOOMMMMMMMMMMMMMMMM!!!!");
 				game.getWorld().createExplosion(location, 4, 2);
 				die();
 			}
@@ -139,17 +106,7 @@ public class Creeper extends HostileEntity
 			lasttriggerinttime = 0;
 		}
 	}
-	protected void setLookingSide()
-	{
-		if (israndomgoingright && israndomgoing || isgoingright && isgoinghorizontal)
-		{
-			lookingRight = true;
-		}
-		else if (!israndomgoingright && israndomgoing || !isgoingright && isgoinghorizontal)
-		{
-			lookingRight = false;
-		}
-	}
+    
 	public String getDebugInfo()
 	{
 		return super.getDebugInfo()+"\nisindistance="+isindistance+"\nisbehindblock"+isbehindblocks+"\ncountdown="+MathHelper.roundNumber(triggerexplosiontime[0], 3)+"\nisgoing="+isgoinghorizontal+"\nisgoingright="+isgoingright+"\nisradnomgoing="+israndomgoing+"\nisradnomgoingright="+israndomgoingright;
