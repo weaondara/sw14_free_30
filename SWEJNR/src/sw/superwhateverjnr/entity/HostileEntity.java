@@ -176,11 +176,12 @@ public abstract class HostileEntity extends Entity
     protected void stopIfTooHigh()
     {
         int viewDepth = Math.min(location.getBlockY(), 4);
-        double addx = direction == Direction.LEFT ? -0.5 : 0.5;
-        for(int i = 0; i < viewDepth; i++)
+        double addx = direction == Direction.LEFT ? -1 : 1;
+        for(int i = 1; i <= viewDepth; i++)
         {
             if(!Game.getInstance().getWorld().getBlockAt(location.add(addx, -i)).getType().isSolid())
             {
+            	System.out.println("stay");
                 movement = MovementType.STAY;
                 break;
             }
