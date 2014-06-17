@@ -59,6 +59,9 @@ public abstract class HostileEntity extends Entity
         FOLLOW;
     }
         
+    public static final int MOVE_DURATION_MIN = 60;
+    public static final int MOVE_DURATION_DELTA = 140;
+    
     protected int randomWalkDuration = 0;
     protected int stayDuration = 0;
     protected Direction direction;
@@ -115,9 +118,9 @@ public abstract class HostileEntity extends Entity
         {
             movement = MovementType.STAY;
         }
+        evaluateDirection();
         stopIfTooHigh();
         jumpIfWall();
-        evaluateDirection();
     }
        
     protected void evaluateDirection()
@@ -139,7 +142,7 @@ public abstract class HostileEntity extends Entity
                 {
                     Random r = new Random();
                     direction = Direction.fromBool(r.nextBoolean());
-                    randomWalkDuration = r.nextInt(80) + 20;
+                    randomWalkDuration = r.nextInt(MOVE_DURATION_DELTA) + MOVE_DURATION_MIN;
                 }
                 else
                 {
@@ -149,7 +152,7 @@ public abstract class HostileEntity extends Entity
             case STAY:
                 if(stayDuration == 0)
                 {
-                    stayDuration = new Random().nextInt(80)+20;
+                    stayDuration = new Random().nextInt(MOVE_DURATION_DELTA)+MOVE_DURATION_MIN;
                 }
                 else
                 {
