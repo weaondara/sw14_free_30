@@ -9,7 +9,7 @@ import sw.superwhateverjnr.ui.EndView;
 public class EndActivity extends Activity
 {
     @Getter
-    private EndActivity instance;
+    private static EndActivity instance;
             
     public EndActivity()
     {
